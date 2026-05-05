@@ -34,31 +34,40 @@
 
     <AppLoading v-if="loading" center message="Loading dashboard..." />
 
-    <div v-else class="dashboard-grid dashboard-grid-4">
-      <StatCard
-        label="Projects"
-        :value="stats.projects"
-        helper="Applications being tested"
+    <template v-else>
+      <AppCard
+        v-if="agentKeyMissing"
+        title="Agent API key required"
+        description="Runs are protected by agent authentication. Save an agent key in Settings to load recent runs."
+        class="dashboard-agent-key-warning"
       />
 
-      <StatCard
-        label="Agents"
-        :value="stats.agents"
-        helper="Local runtimes connected"
-      />
+      <div class="dashboard-grid dashboard-grid-4">
+        <StatCard
+          label="Projects"
+          :value="stats.projects"
+          helper="Applications being tested"
+        />
 
-      <StatCard
-        label="Runs"
-        :value="stats.runs"
-        helper="Reliability sessions"
-      />
+        <StatCard
+          label="Agents"
+          :value="stats.agents"
+          helper="Local runtimes connected"
+        />
 
-      <StatCard
-        label="Reports"
-        :value="stats.reports"
-        helper="Submitted run reports"
-      />
-    </div>
+        <StatCard
+          label="Runs"
+          :value="stats.runs"
+          helper="Reliability sessions"
+        />
+
+        <StatCard
+          label="Reports"
+          :value="stats.reports"
+          helper="Submitted run reports"
+        />
+      </div>
+    </template>
 
     <div class="dashboard-home-grid">
       <AppCard title="Recent runs" description="Latest reliability test sessions.">
@@ -153,6 +162,9 @@ import { useReports } from '../../features/reports/useReports'
 import { useRuns } from '../../features/runs/useRuns'
 import DashboardLayout from '../../layouts/DashboardLayout.vue'
 import { formatDateTime } from '../../utils/formatDate'
+import { storageGet } from '../../utils/storage'
+
+const AGENT_KEY_STORAGE = 'last_agent_api_key'
 
 const {
   total: projectsTotal,
@@ -191,6 +203,10 @@ const stats = reactive({
   reports: 0,
 })
 
+const agentKeyMissing = computed(() => {
+  return !storageGet(AGENT_KEY_STORAGE, '').trim()
+})
+
 const loading = computed(() => {
   return (
     projectsLoading.value ||
@@ -201,6 +217,19 @@ const loading = computed(() => {
 })
 
 const error = computed(() => {
+  /*
+   * Ignore runsError when no local agent key is saved.
+   * Runs are protected by x-agent-api-key, but the dashboard home should
+   * still load projects, agents and reports.
+   */
+  if (agentKeyMissing.value) {
+    return (
+      projectsError.value ||
+      agentsError.value ||
+      reportsError.value
+    )
+  }
+
   return (
     projectsError.value ||
     agentsError.value ||
@@ -218,16 +247,31 @@ const recentReports = computed(() => {
 })
 
 async function loadDashboard() {
+  const agentApiKey = storageGet(AGENT_KEY_STORAGE, '').trim()
+
   await Promise.all([
     loadProjects({ limit: 5, offset: 0 }),
     loadAgents({ limit: 5, offset: 0 }),
-    loadRuns({ limit: 5, offset: 0 }),
     loadReports({ limit: 5, offset: 0 }),
   ])
 
+  if (agentApiKey) {
+    try {
+      await loadRuns({
+        limit: 5,
+        offset: 0,
+        agentApiKey,
+      })
+    } catch {
+      /*
+       * Keep the dashboard usable even if the saved agent key is invalid.
+       */
+    }
+  }
+
   stats.projects = projectsTotal.value
   stats.agents = agentsTotal.value
-  stats.runs = runsTotal.value
+  stats.runs = agentApiKey ? runsTotal.value : 0
   stats.reports = reportsTotal.value
 }
 
@@ -235,7 +279,6 @@ onMounted(() => {
   loadDashboard()
 })
 </script>
-
 <style scoped>
 .dashboard-home-action,
 .dashboard-card-link {
@@ -295,6 +338,10 @@ onMounted(() => {
 
 .dashboard-home-error {
   margin-top: 20px;
+}
+
+.dashboard-agent-key-warning {
+  margin-bottom: 22px;
 }
 
 @media (max-width: 980px) {
