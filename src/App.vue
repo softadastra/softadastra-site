@@ -1,7 +1,20 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+<!--
+ *
+ *  @file App.vue
+ *  @author Gaspard Kirira
+ *
+ *  Copyright 2026, Softadastra.
+ *  All rights reserved.
+ *  https://github.com/softadastra/softadastra-site
+ *
+ *  Softadastra Site
+ *
+-->
 
 <template>
-  <HelloWorld />
+  <AppShell />
 </template>
+
+<script setup>
+import AppShell from './app/AppShell.vue'
+</script>

@@ -1,5 +1,14 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+/**
+ *
+ *  @file main.js
+ *  @author Gaspard Kirira
+ *
+ *  Copyright 2026, Softadastra.
+ *  All rights reserved.
+ *  https://github.com/softadastra/softadastra-site
+ *
+ *  Softadastra Site
+ *
+ */
 
-createApp(App).mount('#app')
+import "./app/bootstrap";
