@@ -118,6 +118,13 @@
       </form>
     </AppCard>
 
+    <AppCard
+      v-if="runsLoadSkipped"
+      title="Agent API key required"
+      description="Runs are protected by agent authentication. Paste an agent key in the create run form or save one in Settings to load runs."
+      class="runs-agent-key-warning"
+    />
+
     <AppLoading v-if="loading" center message="Loading runs..." />
 
     <AppEmptyState
@@ -253,6 +260,7 @@ const {
 
 const showCreateForm = ref(false)
 const formError = ref('')
+const runsLoadSkipped = ref(false)
 
 const form = reactive({
   projectId: '',
@@ -263,8 +271,12 @@ const form = reactive({
   scenario: 'unstable_network',
 })
 
+const hasAgentApiKey = computed(() => {
+  return form.agentApiKey.trim().length > 0
+})
+
 const loading = computed(() => {
-  return runsLoading.value || agentsLoading.value || projectsLoading.value
+  return projectsLoading.value || agentsLoading.value || runsLoading.value
 })
 
 const creating = computed(() => {
@@ -272,6 +284,10 @@ const creating = computed(() => {
 })
 
 const error = computed(() => {
+  if (!hasAgentApiKey.value || runsLoadSkipped.value) {
+    return agentsError.value || projectsError.value
+  }
+
   return runsError.value || agentsError.value || projectsError.value
 })
 
@@ -296,6 +312,8 @@ function agentName(agentId) {
 }
 
 async function loadRunsPage() {
+  runsLoadSkipped.value = false
+
   await Promise.all([
     loadProjects({
       limit: 100,
@@ -307,6 +325,11 @@ async function loadRunsPage() {
     }),
   ])
 
+  if (!hasAgentApiKey.value) {
+    runsLoadSkipped.value = true
+    return
+  }
+
   try {
     await loadRuns({
       limit: 100,
@@ -314,10 +337,7 @@ async function loadRunsPage() {
       agentApiKey: form.agentApiKey.trim(),
     })
   } catch {
-    /*
-     * Runs are protected by agent auth.
-     * The page can still show projects and agents before an API key is provided.
-     */
+    runsLoadSkipped.value = true
   }
 }
 
@@ -407,5 +427,9 @@ onMounted(() => {
 
 .runs-error {
   margin-top: 18px;
+}
+
+.runs-agent-key-warning {
+  margin-bottom: 22px;
 }
 </style>
