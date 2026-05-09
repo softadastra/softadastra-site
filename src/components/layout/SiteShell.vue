@@ -18,6 +18,8 @@ import SiteHeader from "./SiteHeader.vue";
 <style scoped>
 .site-shell {
   min-height: 100vh;
+  background: var(--sd-bg);
+  color: var(--sd-text);
 }
 
 .site-shell__main {

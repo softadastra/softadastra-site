@@ -1,52 +1,134 @@
 <template>
   <section class="company-section sd-section">
-    <div class="company-section__inner sd-container">
-      <div class="company-section__content">
-        <SectionHeading
-          eyebrow="Company model"
-          title="Open stack first. Commercial products around it."
-          text="Softadastra Company maintains the foundations as open source while building commercial services around reliability, cloud infrastructure, builds, observability, and enterprise support."
-        />
+    <div class="sd-section__inner">
+      <div class="company-section__grid">
+        <div class="company-section__content sd-reveal">
+          <SectionHeading
+            eyebrow="Company Model"
+            title="Open stack first. Commercial products around it."
+            text="Softadastra Company maintains open source infrastructure under the MIT license. Adoption drives the ecosystem. Commercial products provide cloud, observability, and enterprise tooling on top."
+          />
+        </div>
 
-        <div class="company-section__points">
-          <div
-            v-for="point in points"
-            :key="point.title"
-            class="company-section__point"
-          >
-            <span>{{ point.number }}</span>
+        <div class="company-section__flow sd-reveal sd-reveal-d2">
+          <div class="company-section__step">
+            <div class="company-section__num">
+              1
+            </div>
 
-            <div>
-              <h3>{{ point.title }}</h3>
-              <p>{{ point.text }}</p>
+            <div class="company-section__body">
+              <strong>Softadastra Company</strong>
+              <span>Maintains the stack</span>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="company-section__model">
-        <div class="company-section__model-card company-section__model-card--top">
-          <span>Softadastra Company</span>
-          <strong>Maintains the ecosystem</strong>
-        </div>
-
-        <div class="company-section__model-arrow" />
-
-        <div class="company-section__model-grid">
-          <div
-            v-for="item in modelItems"
-            :key="item"
-            class="company-section__model-card"
-          >
-            {{ item }}
+          <div class="company-section__arrow">
+            <svg
+              viewBox="0 0 24 40"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 0v34M7 29l5 5 5-5"
+                stroke="rgba(174,185,255,0.25)"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </div>
-        </div>
 
-        <div class="company-section__model-arrow" />
+          <div class="company-section__step">
+            <div class="company-section__num">
+              2
+            </div>
 
-        <div class="company-section__model-card company-section__model-card--bottom">
-          <span>MIT License</span>
-          <strong>Adoption, ecosystem, and commercial services</strong>
+            <div class="company-section__body">
+              <strong>Vix · Softadastra · Kordex · Cnerium · PulseGrid</strong>
+              <span>Open source stack</span>
+            </div>
+          </div>
+
+          <div class="company-section__arrow">
+            <svg
+              viewBox="0 0 24 40"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 0v34M7 29l5 5 5-5"
+                stroke="rgba(174,185,255,0.25)"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div class="company-section__step">
+            <div class="company-section__num company-section__num--green">
+              MIT
+            </div>
+
+            <div class="company-section__body">
+              <strong>MIT License</strong>
+              <span>Free to use, fork, and extend</span>
+            </div>
+          </div>
+
+          <div class="company-section__arrow">
+            <svg
+              viewBox="0 0 24 40"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 0v34M7 29l5 5 5-5"
+                stroke="rgba(174,185,255,0.25)"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div class="company-section__step">
+            <div class="company-section__num">
+              4
+            </div>
+
+            <div class="company-section__body">
+              <strong>Developer Adoption</strong>
+              <span>Ecosystem growth</span>
+            </div>
+          </div>
+
+          <div class="company-section__arrow">
+            <svg
+              viewBox="0 0 24 40"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 0v34M7 29l5 5 5-5"
+                stroke="rgba(174,185,255,0.25)"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div class="company-section__step company-section__step--end">
+            <div class="company-section__num company-section__num--accent">
+              5
+            </div>
+
+            <div class="company-section__body">
+              <strong>Commercial Products &amp; Services</strong>
+              <span>Cloud · Docs · Builds · Enterprise</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -55,169 +137,119 @@
 
 <script setup>
 import SectionHeading from "../ui/SectionHeading.vue";
-
-const points = [
-  {
-    number: "01",
-    title: "Clear ownership",
-    text: "Vix, Softadastra, Kordex, Cnerium, and future projects stay connected under one company and one technical direction.",
-  },
-  {
-    number: "02",
-    title: "Low adoption friction",
-    text: "The core stack stays open and permissive, so developers and companies can integrate it without heavy legal or platform friction.",
-  },
-  {
-    number: "03",
-    title: "Commercial focus",
-    text: "Business products are built around the stack without confusing the main website with a single SaaS dashboard.",
-  },
-];
-
-const modelItems = [
-  "Vix",
-  "Softadastra",
-  "Kordex",
-  "Cnerium",
-  "PulseGrid",
-  "Softadastra Cloud",
-];
 </script>
 
 <style scoped>
-.company-section {
-  background:
-    radial-gradient(circle at right, rgba(34, 197, 94, 0.1), transparent 30rem),
-    rgba(255, 255, 255, 0.018);
+.company-section__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+  gap: 72px;
+  align-items: start;
 }
 
-.company-section__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+.company-section__flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.company-section__step {
+  display: flex;
   align-items: center;
-  gap: 58px;
-}
-
-.company-section__points {
-  display: grid;
-  gap: 18px;
-  margin-top: 38px;
-}
-
-.company-section__point {
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 18px;
-  padding: 20px;
+  gap: 16px;
+  padding: 15px 22px;
   border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-lg);
-  background: rgba(7, 11, 20, 0.42);
+  border-radius: var(--sd-radius-md);
+  background: var(--sd-bg-card);
+  transition: background var(--sd-transition);
 }
 
-.company-section__point span {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  border: 1px solid rgba(56, 189, 248, 0.32);
-  border-radius: 14px;
-  background: rgba(56, 189, 248, 0.08);
-  color: var(--sd-primary);
-  font-size: 0.82rem;
-  font-weight: 900;
+.company-section__step:hover {
+  background: var(--sd-accent-bg-soft);
 }
 
-.company-section__point h3 {
-  margin: 0;
-  color: var(--sd-text);
-  font-size: 1.08rem;
-  letter-spacing: -0.025em;
+.company-section__step--end {
+  border-color: var(--sd-border-highlight);
+  background: var(--sd-accent-bg-soft);
 }
 
-.company-section__point p {
-  margin: 8px 0 0;
+.company-section__num {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--sd-radius-sm);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--sd-text-muted);
-  font-size: 0.95rem;
+  font-family: var(--sd-font-mono);
+  font-size: 13px;
+  font-weight: 750;
 }
 
-.company-section__model {
-  padding: 24px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-xl);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
-    rgba(7, 11, 20, 0.72);
-  box-shadow: var(--sd-shadow-card);
+.company-section__num--green {
+  background: var(--sd-green-bg);
+  color: var(--sd-green);
 }
 
-.company-section__model-card {
-  padding: 18px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-lg);
-  background: rgba(255, 255, 255, 0.045);
-  color: var(--sd-text-soft);
-  font-weight: 800;
-  text-align: center;
+.company-section__num--accent {
+  background: var(--sd-accent-bg);
+  color: var(--sd-accent);
 }
 
-.company-section__model-card span {
+.company-section__body strong {
   display: block;
-  color: var(--sd-primary);
-  font-size: 0.78rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.company-section__model-card strong {
-  display: block;
-  margin-top: 8px;
   color: var(--sd-text);
-  font-size: 1.24rem;
-  line-height: 1.28;
-  letter-spacing: -0.035em;
+  font-size: 14.5px;
+  font-weight: 680;
+  line-height: 1.4;
 }
 
-.company-section__model-card--top {
-  border-color: rgba(56, 189, 248, 0.34);
-  background: rgba(56, 189, 248, 0.08);
+.company-section__body span {
+  display: block;
+  color: var(--sd-text-muted);
+  font-size: 13px;
 }
 
-.company-section__model-card--bottom {
-  border-color: rgba(34, 197, 94, 0.3);
-  background: rgba(34, 197, 94, 0.07);
+.company-section__arrow {
+  display: flex;
+  width: 36px;
+  height: 32px;
+  justify-content: center;
+  margin-left: 22px;
 }
 
-.company-section__model-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+.company-section__arrow svg {
+  width: 18px;
+  height: 32px;
 }
 
-.company-section__model-arrow {
-  width: 1px;
-  height: 34px;
-  margin: 12px auto;
-  background: linear-gradient(180deg, transparent, var(--sd-border), transparent);
-}
-
-@media (max-width: 980px) {
-  .company-section__inner {
+@media (max-width: 960px) {
+  .company-section__grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
 }
 
-@media (max-width: 620px) {
-  .company-section__point {
-    grid-template-columns: 1fr;
+@media (max-width: 640px) {
+  .company-section__step {
+    align-items: flex-start;
+    padding: 15px 18px;
   }
 
-  .company-section__model {
-    padding: 18px;
+  .company-section__body strong {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .company-section__step {
+    flex-direction: column;
   }
 
-  .company-section__model-grid {
-    grid-template-columns: 1fr;
+  .company-section__arrow {
+    margin-left: 18px;
   }
 }
 </style>

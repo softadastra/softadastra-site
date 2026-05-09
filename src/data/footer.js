@@ -2,32 +2,53 @@ import { links } from "./links";
 
 export const footerGroups = [
   {
-    title: "Company",
+    title: "Open Source",
     links: [
       {
-        label: "Home",
-        href: links.main,
+        label: "Vix",
+        href: links.vixDocs,
       },
       {
-        label: "Business",
-        href: links.business,
+        label: "Softadastra",
+        href: links.softadastraDocs,
       },
       {
-        label: "Blog",
-        href: links.blog,
+        label: "Kordex",
+        href: links.kordexDocs,
+      },
+      {
+        label: "Cnerium",
+        href: links.cneriumDocs,
+      },
+      {
+        label: "PulseGrid",
+        href: links.pulsegridDocs,
       },
     ],
   },
   {
-    title: "Developers",
+    title: "Products",
     links: [
       {
-        label: "Docs",
+        label: "Softadastra Cloud",
+        href: links.business,
+      },
+      {
+        label: "Documentation",
         href: links.docs,
       },
       {
-        label: "Builds",
+        label: "Builds & Releases",
         href: links.builds,
+      },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      {
+        label: "Blog",
+        href: links.blog,
       },
       {
         label: "GitHub",
@@ -35,26 +56,10 @@ export const footerGroups = [
       },
     ],
   },
-  {
-    title: "Stack",
-    links: [
-      {
-        label: "Vix",
-        href: links.vix,
-      },
-      {
-        label: "Vix Docs",
-        href: links.vixDocs,
-      },
-      {
-        label: "Cnerium",
-        href: links.cnerium,
-      },
-    ],
-  },
 ];
 
 export const footerMeta = {
-  copyright: `© ${new Date().getFullYear()} Softadastra. All rights reserved.`,
-  license: "Released under the MIT License.",
+  brand: "Softadastra",
+  tagline: "Reliable local-first infrastructure.",
+  copyright: `© ${new Date().getFullYear()} Softadastra Company. All rights reserved.`,
 };

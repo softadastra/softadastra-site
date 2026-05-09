@@ -1,7 +1,13 @@
+/* ==========================================================================
+   Reset and base layout
+   ========================================================================== */
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -9,20 +15,19 @@ html {
   background: var(--sd-bg);
   color: var(--sd-text);
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
-  margin: 0;
-  font-family: var(--sd-font);
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 34rem),
-    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32rem),
-    var(--sd-bg);
+  overflow-x: hidden;
+  background: var(--sd-bg);
   color: var(--sd-text);
+  font-family: var(--sd-font);
   line-height: 1.6;
-  text-rendering: optimizeLegibility;
 }
 
 body.no-scroll {
@@ -37,6 +42,7 @@ select {
 }
 
 button {
+  border: 0;
   cursor: pointer;
 }
 
@@ -55,26 +61,75 @@ svg {
   min-height: 100vh;
 }
 
+/* ==========================================================================
+   Global layout helpers
+   ========================================================================== */
+
 .sd-page {
   min-height: 100vh;
 }
 
 .sd-container {
-  width: min(100% - 40px, var(--sd-container));
+  width: min(100% - 48px, var(--sd-container));
   margin-inline: auto;
 }
 
 .sd-section {
-  padding: 96px 0;
+  position: relative;
+  padding: 100px 0;
+  border-top: 1px solid var(--sd-border);
 }
 
-.sd-section-sm {
-  padding: 64px 0;
+.sd-section__inner {
+  width: min(100% - 48px, var(--sd-container));
+  margin-inline: auto;
+}
+
+.sd-section__header {
+  margin-bottom: 52px;
+}
+
+.sd-section__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 16px;
+  color: var(--sd-accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sd-section__label-line {
+  width: 20px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--sd-accent);
+  opacity: 0.5;
+}
+
+.sd-section__title {
+  max-width: 600px;
+  margin: 0 0 14px;
+  color: var(--sd-text);
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 780;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.sd-section__desc {
+  max-width: 540px;
+  margin: 0;
+  color: var(--sd-text-muted);
+  font-size: 16.5px;
+  line-height: 1.68;
 }
 
 .sd-grid {
   display: grid;
-  gap: 24px;
+  gap: 18px;
 }
 
 .sd-grid-2 {
@@ -101,9 +156,109 @@ svg {
   color: var(--sd-text-muted);
 }
 
-.sd-gradient-text {
-  background: linear-gradient(135deg, var(--sd-text), var(--sd-primary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.sd-soft {
+  color: var(--sd-text-soft);
+}
+
+.sd-mono {
+  font-family: var(--sd-font-mono);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes sd-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sd-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sd-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes sd-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes sd-grid-scroll {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(64px, 64px);
+  }
+}
+
+.sd-anim-up {
+  animation: sd-fade-up 0.7s var(--sd-ease-out) both;
+}
+
+.sd-anim-in {
+  animation: sd-fade-in 1s var(--sd-ease-out) both;
+}
+
+/* ==========================================================================
+   Scroll reveal
+   ========================================================================== */
+
+.sd-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.65s var(--sd-ease-out),
+    transform 0.65s var(--sd-ease-out);
+}
+
+.sd-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sd-reveal-d1 {
+  transition-delay: 0.08s;
+}
+
+.sd-reveal-d2 {
+  transition-delay: 0.16s;
+}
+
+.sd-reveal-d3 {
+  transition-delay: 0.24s;
+}
+
+.sd-reveal-d4 {
+  transition-delay: 0.32s;
 }

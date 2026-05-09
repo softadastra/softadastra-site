@@ -2,14 +2,6 @@ import { links } from "./links";
 
 export const navigation = [
   {
-    label: "Ecosystem",
-    to: "/ecosystem",
-  },
-  {
-    label: "Company",
-    to: "/company",
-  },
-  {
     label: "Docs",
     href: links.docs,
   },
@@ -17,17 +9,28 @@ export const navigation = [
     label: "Blog",
     href: links.blog,
   },
+  {
+    label: "Builds",
+    href: links.builds,
+  },
+  {
+    label: "Cloud",
+    href: links.business,
+  },
+];
+
+export const mobileNavigation = [
+  ...navigation,
+  {
+    label: "GitHub",
+    href: links.github,
+  },
 ];
 
 export const headerActions = [
   {
-    label: "Business",
+    label: "Start with Cloud",
     href: links.business,
-    variant: "secondary",
-  },
-  {
-    label: "Get started",
-    href: links.docs,
     variant: "primary",
   },
 ];

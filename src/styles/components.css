@@ -1,83 +1,275 @@
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
 .sd-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 44px;
-  padding: 0 18px;
+  padding: 12px 24px;
   border: 1px solid transparent;
-  border-radius: 999px;
-  font-weight: 700;
+  border-radius: var(--sd-radius-sm);
+  font-family: var(--sd-font);
+  font-size: 14.5px;
+  font-weight: 620;
   line-height: 1;
+  cursor: pointer;
   transition:
-    transform var(--sd-transition),
-    border-color var(--sd-transition),
-    background var(--sd-transition),
-    color var(--sd-transition);
+    transform var(--sd-transition-fast),
+    border-color var(--sd-transition-fast),
+    background var(--sd-transition-fast),
+    color var(--sd-transition-fast),
+    box-shadow var(--sd-transition-fast);
 }
 
 .sd-button:hover {
   transform: translateY(-1px);
 }
 
+.sd-button svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
 .sd-button-primary {
-  background: var(--sd-text);
-  color: var(--sd-bg);
+  background: var(--sd-accent);
+  color: #0a0f16;
+}
+
+.sd-button-primary:hover {
+  background: var(--sd-accent-strong);
+  box-shadow: var(--sd-shadow-accent);
 }
 
 .sd-button-secondary {
   border-color: var(--sd-border);
-  background: var(--sd-surface);
-  color: var(--sd-text);
+  background: transparent;
+  color: var(--sd-text-soft);
 }
 
 .sd-button-secondary:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  background: var(--sd-surface-strong);
+  border-color: var(--sd-border-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--sd-text);
 }
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
 
 .sd-badge {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  padding: 7px 11px;
-  border: 1px solid var(--sd-border);
-  border-radius: 999px;
-  background: var(--sd-surface);
-  color: var(--sd-text-soft);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  gap: 8px;
+  padding: 5px 14px 5px 10px;
+  border: 1px solid rgba(174, 185, 255, 0.12);
+  border-radius: var(--sd-radius-full);
+  background: var(--sd-accent-bg);
+  color: var(--sd-accent);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
+
+.sd-badge::before {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: var(--sd-radius-full);
+  background: var(--sd-green);
+  animation: sd-pulse 2.5s ease-in-out infinite;
+  content: "";
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
 
 .sd-card {
   border: 1px solid var(--sd-border);
   border-radius: var(--sd-radius-lg);
-  background: linear-gradient(180deg, var(--sd-surface), rgba(255, 255, 255, 0.035));
-  box-shadow: var(--sd-shadow-card);
+  background: var(--sd-bg-card);
 }
 
+.sd-card-raised {
+  border-color: var(--sd-border);
+  background: var(--sd-bg-raised);
+}
+
+.sd-card-hover {
+  transition:
+    transform var(--sd-transition),
+    border-color var(--sd-transition),
+    background var(--sd-transition);
+}
+
+.sd-card-hover:hover {
+  border-color: var(--sd-border-highlight);
+  background: var(--sd-accent-bg-soft);
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   Section heading
+   ========================================================================== */
+
 .sd-section-heading {
-  max-width: 760px;
+  max-width: 600px;
 }
 
 .sd-section-heading__eyebrow {
-  margin: 0 0 12px;
-  color: var(--sd-primary);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 16px;
+  color: var(--sd-accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
+.sd-section-heading__eyebrow::before {
+  width: 20px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--sd-accent);
+  opacity: 0.5;
+  content: "";
+}
+
 .sd-section-heading__title {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.055em;
+  max-width: 600px;
+  margin: 0 0 14px;
+  color: var(--sd-text);
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 780;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 }
 
 .sd-section-heading__text {
-  margin: 18px 0 0;
+  max-width: 540px;
+  margin: 0;
   color: var(--sd-text-muted);
-  font-size: 1.05rem;
+  font-size: 16.5px;
+  line-height: 1.68;
+}
+
+/* ==========================================================================
+   Small metadata badges
+   ========================================================================== */
+
+.sd-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--sd-text-muted);
+  font-family: var(--sd-font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.sd-meta-badge-active {
+  background: var(--sd-green-bg);
+  color: var(--sd-green);
+}
+
+/* ==========================================================================
+   Shared links
+   ========================================================================== */
+
+.sd-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sd-accent);
+  font-size: 13.5px;
+  font-weight: 620;
+  transition:
+    color var(--sd-transition-fast),
+    gap var(--sd-transition);
+}
+
+.sd-text-link:hover {
+  gap: 8px;
+  color: var(--sd-accent-strong);
+}
+
+.sd-text-link-muted {
+  color: var(--sd-text-muted);
+}
+
+.sd-text-link-muted:hover {
+  color: var(--sd-text-soft);
+}
+
+/* ==========================================================================
+   Stack accent helpers
+   ========================================================================== */
+
+.sd-stack-icon {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.sd-stack-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sd-stack-vix {
+  color: var(--sd-vix);
+}
+
+.sd-stack-vix-bg {
+  background: var(--sd-vix-bg);
+}
+
+.sd-stack-softadastra {
+  color: var(--sd-softadastra);
+}
+
+.sd-stack-softadastra-bg {
+  background: var(--sd-softadastra-bg);
+}
+
+.sd-stack-kordex {
+  color: var(--sd-kordex);
+}
+
+.sd-stack-kordex-bg {
+  background: var(--sd-kordex-bg);
+}
+
+.sd-stack-cnerium {
+  color: var(--sd-cnerium);
+}
+
+.sd-stack-cnerium-bg {
+  background: var(--sd-cnerium-bg);
+}
+
+.sd-stack-pulsegrid {
+  color: var(--sd-pulsegrid);
+}
+
+.sd-stack-pulsegrid-bg {
+  background: var(--sd-pulsegrid-bg);
 }

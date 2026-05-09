@@ -1,35 +1,95 @@
+/* ==========================================================================
+   Softadastra Design Tokens
+   ========================================================================== */
+
 :root {
-  --sd-bg: #070b14;
-  --sd-bg-soft: #0b1220;
-  --sd-bg-muted: #111827;
+  /* Base colors */
+  --sd-bg: #0c1015;
+  --sd-bg-raised: #111920;
+  --sd-bg-soft: #0f151d;
+  --sd-bg-muted: #151d26;
+  --sd-bg-card: rgba(255, 255, 255, 0.022);
 
-  --sd-surface: rgba(255, 255, 255, 0.06);
-  --sd-surface-strong: rgba(255, 255, 255, 0.1);
-  --sd-border: rgba(255, 255, 255, 0.12);
+  /* Borders */
+  --sd-border: rgba(255, 255, 255, 0.065);
+  --sd-border-strong: rgba(255, 255, 255, 0.12);
+  --sd-border-highlight: rgba(174, 185, 255, 0.22);
 
-  --sd-text: #f8fafc;
-  --sd-text-muted: #94a3b8;
-  --sd-text-soft: #cbd5e1;
+  /* Text */
+  --sd-text: rgba(255, 255, 255, 0.93);
+  --sd-text-soft: rgba(190, 214, 240, 0.72);
+  --sd-text-muted: rgba(190, 214, 240, 0.48);
+  --sd-text-dim: rgba(190, 214, 240, 0.36);
 
-  --sd-primary: #38bdf8;
-  --sd-primary-strong: #0ea5e9;
-  --sd-accent: #22c55e;
-  --sd-warning: #f59e0b;
+  /* Accent */
+  --sd-accent: #aeb9ff;
+  --sd-accent-strong: #c8d0ff;
+  --sd-accent-bg: rgba(174, 185, 255, 0.07);
+  --sd-accent-bg-soft: rgba(174, 185, 255, 0.04);
 
-  --sd-radius-sm: 10px;
-  --sd-radius-md: 16px;
-  --sd-radius-lg: 24px;
-  --sd-radius-xl: 32px;
+  /* Semantic colors */
+  --sd-green: #6ee7b7;
+  --sd-green-bg: rgba(110, 231, 183, 0.09);
 
-  --sd-shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.28);
-  --sd-shadow-card: 0 20px 70px rgba(0, 0, 0, 0.32);
+  --sd-yellow: #fbbf24;
+  --sd-yellow-bg: rgba(251, 191, 36, 0.09);
 
-  --sd-container: 1180px;
-  --sd-header-height: 76px;
+  --sd-pink: #f472b6;
+  --sd-pink-bg: rgba(244, 114, 182, 0.09);
 
+  --sd-cyan: #67e8f9;
+  --sd-cyan-bg: rgba(103, 232, 249, 0.09);
+
+  --sd-blue: #8b9aff;
+  --sd-blue-bg: rgba(139, 154, 255, 0.1);
+
+  /* Stack aliases */
+  --sd-vix: var(--sd-blue);
+  --sd-vix-bg: var(--sd-blue-bg);
+
+  --sd-softadastra: var(--sd-green);
+  --sd-softadastra-bg: var(--sd-green-bg);
+
+  --sd-kordex: var(--sd-yellow);
+  --sd-kordex-bg: var(--sd-yellow-bg);
+
+  --sd-cnerium: var(--sd-pink);
+  --sd-cnerium-bg: var(--sd-pink-bg);
+
+  --sd-pulsegrid: var(--sd-cyan);
+  --sd-pulsegrid-bg: var(--sd-cyan-bg);
+
+  /* Radius */
+  --sd-radius-xs: 6px;
+  --sd-radius-sm: 8px;
+  --sd-radius-md: 12px;
+  --sd-radius-lg: 16px;
+  --sd-radius-xl: 24px;
+  --sd-radius-full: 999px;
+
+  /* Layout */
+  --sd-container: 1280px;
+  --sd-header-height: 60px;
+
+  /* Typography */
   --sd-font:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+    "DM Sans", Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  --sd-transition: 180ms ease;
+  --sd-font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* Effects */
+  --sd-shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.22);
+  --sd-shadow-card: 0 24px 90px rgba(0, 0, 0, 0.28);
+  --sd-shadow-accent: 0 8px 28px rgba(174, 185, 255, 0.16);
+
+  /* Transitions */
+  --sd-transition-fast: 150ms ease;
+  --sd-transition: 200ms ease;
+  --sd-transition-slow: 300ms ease;
+
+  /* Animation easing */
+  --sd-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
