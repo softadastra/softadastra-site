@@ -5,7 +5,6 @@
       <EcosystemMap />
       <StackGrid />
       <ProductGrid />
-      <CompanySection />
       <CtaSection />
     </div>
   </SiteShell>
@@ -20,7 +19,6 @@ import HeroSection from "../components/home/HeroSection.vue";
 import EcosystemMap from "../components/home/EcosystemMap.vue";
 import StackGrid from "../components/home/StackGrid.vue";
 import ProductGrid from "../components/home/ProductGrid.vue";
-import CompanySection from "../components/home/CompanySection.vue";
 import CtaSection from "../components/home/CtaSection.vue";
 
 let revealObserver = null;
