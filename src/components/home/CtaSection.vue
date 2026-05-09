@@ -12,7 +12,7 @@
 
       <p class="cta-section__desc">
         Read the documentation to understand the architecture, then reach for the
-        commercial layer when your project needs cloud services.
+        business layer when your project needs cloud services.
       </p>
 
       <div class="cta-section__actions">
@@ -57,7 +57,8 @@ import BaseButton from "../ui/BaseButton.vue";
   height: 400px;
   background: radial-gradient(
     ellipse at center,
-    rgba(174, 185, 255, 0.06) 0%,
+    rgba(174, 185, 255, 0.08) 0%,
+    rgba(110, 231, 183, 0.035) 38%,
     transparent 70%
   );
   pointer-events: none;
@@ -66,9 +67,31 @@ import BaseButton from "../ui/BaseButton.vue";
 
 .cta-section__inner {
   position: relative;
-  max-width: 640px;
+  max-width: 680px;
   margin-inline: auto;
   padding: 0 24px;
+}
+
+.cta-section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: var(--sd-accent);
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cta-section__eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--sd-green);
+  box-shadow: 0 0 18px rgba(110, 231, 183, 0.45);
+  content: "";
 }
 
 .cta-section__title {
@@ -106,6 +129,10 @@ import BaseButton from "../ui/BaseButton.vue";
 
   .cta-section__title {
     letter-spacing: -0.035em;
+  }
+
+  .cta-section__desc {
+    font-size: 16px;
   }
 }
 </style>
