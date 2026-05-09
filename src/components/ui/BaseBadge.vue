@@ -1,5 +1,7 @@
 <template>
-  <RouterView />
+  <span class="sd-badge">
+    <slot />
+  </span>
 </template>
 
 <script setup>
