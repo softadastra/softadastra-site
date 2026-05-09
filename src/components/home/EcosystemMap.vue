@@ -1,33 +1,44 @@
 <template>
   <section class="ecosystem-map sd-section">
-    <div class="sd-container">
-      <div class="ecosystem-map__header">
+    <div class="sd-section__inner">
+      <div class="sd-section__header sd-reveal">
         <SectionHeading
           eyebrow="Ecosystem"
-          title="One company, one stack, multiple layers."
-          text="Softadastra.com acts as the central hub. Each stack has a clear role, so new products can be added without making the ecosystem feel scattered."
+          title="One company. Five layers. One architecture."
+          text="Every layer builds on the one below. From the C++ foundation to cloud operations, the stack is designed to be adopted incrementally."
         />
       </div>
 
-      <div class="ecosystem-map__diagram">
-        <div class="ecosystem-map__center">
-          <span>Softadastra</span>
-          <strong>Company</strong>
-        </div>
-
-        <div class="ecosystem-map__items">
-          <article
-            v-for="stack in stacks"
-            :key="stack.id"
-            class="ecosystem-map__item"
+      <div class="ecosystem-map__stack">
+        <div
+          v-for="(layer, index) in ecosystemLayers"
+          :key="layer.id"
+          :class="[
+            'ecosystem-map__layer',
+            'sd-reveal',
+            `sd-reveal-d${Math.min(index + 1, 4)}`,
+          ]"
+        >
+          <RouterLink
+            :to="`/stacks/${layer.stackId}`"
+            class="ecosystem-map__bar"
           >
-            <div>
-              <span>{{ stack.layer }}</span>
-              <strong>{{ stack.name }}</strong>
-            </div>
+            <span class="ecosystem-map__bar-label">
+              {{ layer.label }}
+            </span>
 
-            <p>{{ stack.label }}</p>
-          </article>
+            <span class="ecosystem-map__bar-arrow">
+              →
+            </span>
+
+            <span class="ecosystem-map__bar-name">
+              {{ layer.name }}
+            </span>
+          </RouterLink>
+
+          <p class="ecosystem-map__tagline">
+            {{ layer.tagline }}
+          </p>
         </div>
       </div>
     </div>
@@ -35,120 +46,99 @@
 </template>
 
 <script setup>
-import { stacks } from "../../data/stacks";
+import { ecosystemLayers } from "../../data/stacks";
 
 import SectionHeading from "../ui/SectionHeading.vue";
 </script>
 
 <style scoped>
-.ecosystem-map {
-  position: relative;
-}
-
-.ecosystem-map__header {
+.ecosystem-map__stack {
   display: flex;
-  justify-content: center;
-  text-align: center;
+  max-width: 820px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.ecosystem-map__header :deep(.sd-section-heading) {
-  margin-inline: auto;
+.ecosystem-map__layer {
+  cursor: default;
 }
 
-.ecosystem-map__diagram {
-  position: relative;
+.ecosystem-map__bar {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 160px 24px minmax(0, 1fr);
   align-items: center;
-  gap: 36px;
-  margin-top: 54px;
-  padding: 28px;
+  gap: 12px;
+  padding: 16px 24px;
   border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-xl);
-  background:
-    radial-gradient(circle at left, rgba(56, 189, 248, 0.12), transparent 28rem),
-    var(--sd-surface);
-  box-shadow: var(--sd-shadow-card);
+  border-radius: var(--sd-radius-md);
+  background: var(--sd-bg-card);
+  transition:
+    transform var(--sd-transition),
+    border-color var(--sd-transition),
+    background var(--sd-transition);
 }
 
-.ecosystem-map__center {
-  display: grid;
-  min-height: 220px;
-  place-items: center;
-  border: 1px solid rgba(56, 189, 248, 0.36);
-  border-radius: var(--sd-radius-xl);
-  background: rgba(56, 189, 248, 0.08);
-  text-align: center;
+.ecosystem-map__layer:hover .ecosystem-map__bar {
+  border-color: var(--sd-border-highlight);
+  background: var(--sd-accent-bg-soft);
+  transform: translateX(6px);
 }
 
-.ecosystem-map__center span {
+.ecosystem-map__bar-label {
   color: var(--sd-text-muted);
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.ecosystem-map__center strong {
-  display: block;
-  margin-top: 4px;
-  color: var(--sd-text);
-  font-size: 2rem;
-  letter-spacing: -0.055em;
-}
-
-.ecosystem-map__items {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.ecosystem-map__item {
-  padding: 20px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-lg);
-  background: rgba(7, 11, 20, 0.44);
-}
-
-.ecosystem-map__item span {
-  color: var(--sd-primary);
-  font-size: 0.76rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.ecosystem-map__item strong {
-  display: block;
-  margin-top: 6px;
-  color: var(--sd-text);
-  font-size: 1.22rem;
-  letter-spacing: -0.035em;
-}
-
-.ecosystem-map__item p {
-  margin: 12px 0 0;
+.ecosystem-map__bar-arrow {
   color: var(--sd-text-muted);
-  font-size: 0.94rem;
+  font-family: var(--sd-font-mono);
+  font-size: 15px;
 }
 
-@media (max-width: 980px) {
-  .ecosystem-map__diagram {
-    grid-template-columns: 1fr;
+.ecosystem-map__bar-name {
+  min-width: 0;
+  color: var(--sd-text);
+  font-size: 16.5px;
+  font-weight: 720;
+}
+
+.ecosystem-map__tagline {
+  margin: 4px 0 6px 24px;
+  color: var(--sd-text-muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .ecosystem-map__bar {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px 16px;
   }
 
-  .ecosystem-map__center {
-    min-height: 180px;
+  .ecosystem-map__bar-label {
+    font-size: 10.5px;
+  }
+
+  .ecosystem-map__tagline {
+    margin-left: 16px;
   }
 }
 
-@media (max-width: 680px) {
-  .ecosystem-map__diagram {
-    padding: 18px;
+@media (max-width: 420px) {
+  .ecosystem-map__bar {
+    grid-template-columns: 1fr auto;
   }
 
-  .ecosystem-map__items {
-    grid-template-columns: 1fr;
+  .ecosystem-map__bar-label {
+    grid-column: 1 / -1;
+  }
+
+  .ecosystem-map__bar-arrow {
+    order: 3;
   }
 }
 </style>

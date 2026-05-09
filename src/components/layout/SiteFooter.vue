@@ -1,28 +1,26 @@
 <template>
   <footer class="site-footer">
-    <div class="site-footer__inner sd-container">
+    <div class="site-footer__inner">
       <div class="site-footer__brand">
         <RouterLink
           to="/"
-          class="site-footer__logo"
+          class="site-footer__brand-name"
         >
-          <span class="site-footer__mark">S</span>
-          <span>Softadastra</span>
+          {{ footerMeta.brand }}
         </RouterLink>
 
-        <p>
-          Reliable local-first infrastructure for applications that must keep
-          working when the network fails.
+        <p class="site-footer__tagline">
+          {{ footerMeta.tagline }}
         </p>
       </div>
 
-      <div class="site-footer__groups">
+      <div class="site-footer__cols">
         <div
           v-for="group in footerGroups"
           :key="group.title"
-          class="site-footer__group"
+          class="site-footer__col"
         >
-          <h3>{{ group.title }}</h3>
+          <h4>{{ group.title }}</h4>
 
           <a
             v-for="item in group.links"
@@ -35,9 +33,8 @@
       </div>
     </div>
 
-    <div class="site-footer__bottom sd-container">
-      <span>{{ footerMeta.copyright }}</span>
-      <span>{{ footerMeta.license }}</span>
+    <div class="site-footer__bottom">
+      {{ footerMeta.copyright }}
     </div>
   </footer>
 </template>
@@ -49,96 +46,94 @@ import { footerGroups, footerMeta } from "../../data/footer";
 <style scoped>
 .site-footer {
   border-top: 1px solid var(--sd-border);
-  background: rgba(7, 11, 20, 0.72);
+  padding: 60px 0 0;
 }
 
 .site-footer__inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr);
-  gap: 64px;
-  padding: 64px 0 42px;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 48px;
+  width: min(100% - 48px, var(--sd-container));
+  margin-inline: auto;
+  padding: 0 0 48px;
 }
 
-.site-footer__brand {
-  max-width: 420px;
-}
-
-.site-footer__logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+.site-footer__brand-name {
   color: var(--sd-text);
-  font-weight: 900;
-  letter-spacing: -0.04em;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
 }
 
-.site-footer__mark {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 12px;
-  background: var(--sd-surface);
-}
-
-.site-footer__brand p {
-  margin: 18px 0 0;
+.site-footer__tagline {
+  margin-top: 10px;
   color: var(--sd-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.site-footer__groups {
+.site-footer__cols {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
 
-.site-footer__group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.site-footer__col h4 {
+  margin-bottom: 16px;
+  color: var(--sd-text-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
-.site-footer__group h3 {
-  margin: 0 0 8px;
-  color: var(--sd-text);
-  font-size: 0.92rem;
-}
-
-.site-footer__group a {
+.site-footer__col a {
+  display: block;
+  padding: 4px 0;
   color: var(--sd-text-muted);
-  font-size: 0.94rem;
-  transition: color var(--sd-transition);
+  font-size: 14px;
+  transition: color var(--sd-transition-fast);
 }
 
-.site-footer__group a:hover {
-  color: var(--sd-text);
+.site-footer__col a:hover {
+  color: var(--sd-accent);
 }
 
 .site-footer__bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 22px 0 32px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  width: min(100% - 48px, var(--sd-container));
+  margin-inline: auto;
+  padding: 18px 0;
+  border-top: 1px solid var(--sd-border);
   color: var(--sd-text-muted);
-  font-size: 0.9rem;
+  font-size: 13px;
 }
 
 @media (max-width: 860px) {
   .site-footer__inner {
     grid-template-columns: 1fr;
-    gap: 38px;
+    width: min(100% - 40px, var(--sd-container));
   }
 
-  .site-footer__groups {
+  .site-footer__cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-footer__bottom {
+    width: min(100% - 40px, var(--sd-container));
+  }
+}
+
+@media (max-width: 520px) {
+  .site-footer__inner {
+    width: min(100% - 28px, var(--sd-container));
+  }
+
+  .site-footer__cols {
     grid-template-columns: 1fr;
   }
 
   .site-footer__bottom {
-    align-items: flex-start;
-    flex-direction: column;
+    width: min(100% - 28px, var(--sd-container));
   }
 }
 </style>

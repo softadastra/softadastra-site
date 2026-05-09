@@ -1,14 +1,26 @@
 <template>
-  <article class="sd-card base-card">
+  <article :class="cardClass">
     <slot />
   </article>
 </template>
 
 <script setup>
-</script>
+import { computed } from "vue";
 
-<style scoped>
-.base-card {
-  padding: 24px;
-}
-</style>
+const props = defineProps({
+  hover: {
+    type: Boolean,
+    default: false,
+  },
+  raised: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const cardClass = computed(() => [
+  "sd-card",
+  props.hover ? "sd-card-hover" : "",
+  props.raised ? "sd-card-raised" : "",
+]);
+</script>

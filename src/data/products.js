@@ -4,35 +4,38 @@ export const products = [
   {
     id: "softadastra-cloud",
     name: "Softadastra Cloud",
+    category: "SaaS",
     label: "Commercial SaaS",
     tagline:
       "Reliability observability for applications that must not lose data.",
     description:
       "Softadastra Cloud helps teams test, observe, and improve application reliability under network failures, timeouts, retries, crashes, and offline conditions.",
-    status: "In development",
-    category: "SaaS",
+    status: "in development",
     href: links.business,
+    icon: "cloud",
   },
   {
     id: "softadastra-docs",
     name: "Softadastra Docs",
+    category: "Open",
     label: "Developer documentation",
-    tagline: "Technical documentation for the Softadastra ecosystem.",
+    tagline: "Technical documentation for the entire Softadastra ecosystem.",
     description:
-      "The documentation portal explains the engine, SDKs, CLI, concepts, modules, architecture, and local-first reliability model behind Softadastra.",
-    status: "Live",
-    category: "Documentation",
+      "Softadastra Docs explains the engine, SDKs, CLI, modules, architecture, and local-first reliability model behind the Softadastra stack.",
+    status: "live",
     href: links.docs,
+    icon: "docs",
   },
   {
     id: "softadastra-builds",
     name: "Softadastra Builds",
+    category: "Platform",
     label: "Builds and releases",
-    tagline: "A home for releases, SDKs, binaries, and build artifacts.",
+    tagline: "Builds, binaries, SDK packages, and releases.",
     description:
-      "Softadastra Builds is planned as the distribution point for official binaries, SDK packages, installers, release artifacts, and nightly builds.",
-    status: "Planned",
-    category: "Distribution",
+      "Softadastra Builds is the distribution point for official binaries, SDK packages, installers, release artifacts, and future nightly builds.",
+    status: "planned",
     href: links.builds,
+    icon: "package",
   },
 ];

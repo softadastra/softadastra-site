@@ -1,12 +1,29 @@
 <template>
   <component
     :is="tagName"
-    :href="isLink ? href : undefined"
+    :href="isExternalLink ? href : undefined"
     :to="isRouterLink ? to : undefined"
     :type="isButton ? type : undefined"
+    :target="isExternalLink && external ? '_blank' : undefined"
+    :rel="isExternalLink && external ? 'noopener noreferrer' : undefined"
     :class="buttonClass"
   >
     <slot />
+
+    <svg
+      v-if="arrow"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
   </component>
 </template>
 
@@ -33,18 +50,26 @@ const props = defineProps({
       return ["primary", "secondary"].includes(value);
     },
   },
+  arrow: {
+    type: Boolean,
+    default: false,
+  },
+  external: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const isLink = computed(() => props.href.length > 0);
+const isExternalLink = computed(() => props.href.length > 0);
 const isRouterLink = computed(() => props.to.length > 0);
-const isButton = computed(() => !isLink.value && !isRouterLink.value);
+const isButton = computed(() => !isExternalLink.value && !isRouterLink.value);
 
 const tagName = computed(() => {
   if (isRouterLink.value) {
     return "RouterLink";
   }
 
-  if (isLink.value) {
+  if (isExternalLink.value) {
     return "a";
   }
 

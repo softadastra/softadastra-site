@@ -1,28 +1,30 @@
 <template>
-  <section class="cta-section sd-section-sm">
-    <div class="cta-section__inner sd-container">
-      <div class="cta-section__content">
-        <BaseBadge>
-          Build with the stack
-        </BaseBadge>
+  <section class="cta-section">
+    <div
+      class="cta-section__glow"
+      aria-hidden="true"
+    />
 
-        <h2>
-          Start with the docs, then explore the business layer when you need cloud services.
-        </h2>
+    <div class="cta-section__inner sd-reveal">
+      <h2 class="cta-section__title">
+        Start with the docs, explore the cloud when you need it.
+      </h2>
 
-        <p>
-          Softadastra.com stays the ecosystem hub. Documentation, business SaaS,
-          builds, and engineering articles live on focused subdomains.
-        </p>
-      </div>
+      <p class="cta-section__desc">
+        Read the documentation to understand the architecture, then reach for the
+        commercial layer when your project needs cloud services.
+      </p>
 
       <div class="cta-section__actions">
-        <BaseButton href="https://docs.softadastra.com">
+        <BaseButton
+          :href="links.docs"
+          arrow
+        >
           Read the docs
         </BaseButton>
 
         <BaseButton
-          href="https://business.softadastra.com"
+          :href="links.business"
           variant="secondary"
         >
           Open Business
@@ -33,72 +35,77 @@
 </template>
 
 <script setup>
-import BaseBadge from "../ui/BaseBadge.vue";
+import { links } from "../../data/links";
+
 import BaseButton from "../ui/BaseButton.vue";
 </script>
 
 <style scoped>
 .cta-section {
-  padding-bottom: 110px;
+  position: relative;
+  overflow: hidden;
+  padding: 120px 0;
+  border-top: 1px solid var(--sd-border);
+  text-align: center;
+}
+
+.cta-section__glow {
+  position: absolute;
+  bottom: -140px;
+  left: 50%;
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(174, 185, 255, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .cta-section__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) auto;
-  align-items: center;
-  gap: 32px;
-  padding: 38px;
-  border: 1px solid rgba(56, 189, 248, 0.24);
-  border-radius: var(--sd-radius-xl);
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 24rem),
-    radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.12), transparent 24rem),
-    var(--sd-surface);
-  box-shadow: var(--sd-shadow-card);
+  position: relative;
+  max-width: 640px;
+  margin-inline: auto;
+  padding: 0 24px;
 }
 
-.cta-section__content h2 {
-  max-width: 800px;
-  margin: 20px 0 0;
+.cta-section__title {
+  margin: 0 0 18px;
   color: var(--sd-text);
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.06em;
+  font-size: clamp(30px, 3.8vw, 48px);
+  font-weight: 780;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
 }
 
-.cta-section__content p {
-  max-width: 720px;
-  margin: 18px 0 0;
-  color: var(--sd-text-muted);
-  font-size: 1.04rem;
+.cta-section__desc {
+  margin: 0 0 36px;
+  color: var(--sd-text-soft);
+  font-size: 17px;
+  line-height: 1.68;
 }
 
 .cta-section__actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 640px) {
   .cta-section {
-    padding-bottom: 72px;
+    padding: 72px 0;
   }
 
   .cta-section__inner {
-    grid-template-columns: 1fr;
+    padding: 0 16px;
   }
 
-  .cta-section__actions {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 620px) {
-  .cta-section__inner {
-    padding: 24px;
-    border-radius: var(--sd-radius-lg);
+  .cta-section__title {
+    letter-spacing: -0.035em;
   }
 }
 </style>

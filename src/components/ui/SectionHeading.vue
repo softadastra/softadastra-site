@@ -8,7 +8,9 @@
     </p>
 
     <h2 class="sd-section-heading__title">
-      {{ title }}
+      <slot name="title">
+        {{ title }}
+      </slot>
     </h2>
 
     <p
@@ -17,6 +19,8 @@
     >
       {{ text }}
     </p>
+
+    <slot />
   </div>
 </template>
 
