@@ -9,42 +9,243 @@
 
     <meta
       name="description"
-      content="Softadastra builds reliable local-first infrastructure for applications that must keep working when the network fails."
+      content="Softadastra helps applications keep working when networks fail with durable writes, sync engines, local-first infrastructure, runtimes, registries, and cloud reliability products."
     />
 
     <meta
       name="keywords"
-      content="Softadastra, Vix, Kordex, Cnerium, PulseGrid, local-first, offline-first, reliability, runtime, sync, WAL"
+      content="Softadastra, Vix, Kordex, Cnerium, PulseGrid, Converdict, local-first, offline-first, reliable infrastructure, sync engine, WAL, outbox, durable writes, runtime, registry, cloud reliability"
     />
 
     <meta name="author" content="Softadastra" />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b2b22" />
 
-    <meta property="og:title" content="Softadastra | Reliable local-first infrastructure" />
-    <meta
-      property="og:description"
-      content="Reliable local-first infrastructure for runtimes, sync engines, developer tools, and cloud products."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://softadastra.com" />
-    <meta property="og:image" content="/og-image.png" />
+    <link rel="canonical" href="https://softadastra.com/" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Softadastra | Reliable local-first infrastructure" />
-    <meta
-      name="twitter:description"
-      content="Infrastructure for applications that keep working when the network fails."
-    />
-    <meta name="twitter:image" content="/og-image.png" />
-
+    <!-- Favicons & PWA -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/logo.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-    <meta name="theme-color" content="#0b1220" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="Softadastra" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Softadastra | Reliable local-first infrastructure"
+    />
+    <meta
+      property="og:description"
+      content="Build apps that keep working offline. Softadastra provides durable writes, sync engines, local-first infrastructure, runtimes, registries, and cloud reliability products for real-world networks."
+    />
+    <meta property="og:url" content="https://softadastra.com/" />
+    <meta property="og:image" content="https://softadastra.com/og-image.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://softadastra.com/og-image.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Softadastra, reliable local-first infrastructure for applications that must keep working when the network fails."
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Softadastra | Reliable local-first infrastructure"
+    />
+    <meta
+      name="twitter:description"
+      content="Build applications that keep working offline with durable writes, sync engines, local-first infrastructure, runtimes, registries, and cloud reliability products."
+    />
+    <meta name="twitter:image" content="https://softadastra.com/og-image.png" />
+    <meta name="twitter:site" content="@softadastra" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Softadastra",
+        "url": "https://softadastra.com/",
+        "logo": "https://softadastra.com/logo.svg",
+        "description": "Softadastra builds reliable local-first infrastructure for applications that must keep working when the network fails.",
+        "sameAs": [
+          "https://github.com/softadastra",
+          "https://x.com/softadastra"
+        ]
+      }
+    </script>
+
+    <style>
+      :root {
+        --sa-bg: #0b2b22;
+        --sa-dot: #d57a2a;
+      }
+
+      #app-loading {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: var(--sa-bg);
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 160ms ease, visibility 0ms linear 160ms;
+        visibility: visible;
+      }
+
+      #app-loading.is-hiding {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .sa-dots {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .sa-dots span {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        background: var(--sa-dot);
+        opacity: 0.25;
+        transform: translateY(0);
+        animation: saDot 1.2s ease-in-out infinite;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      }
+
+      .sa-dots span:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+
+      .sa-dots span:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      @keyframes saDot {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.25;
+        }
+
+        40% {
+          transform: translateY(-10px);
+          opacity: 0.95;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .sa-dots span {
+          animation: none;
+          opacity: 0.6;
+        }
+      }
+    </style>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-KG8G9436");
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "673314845542446");
+      fbq("track", "PageView");
+    </script>
+    <!-- End Meta Pixel Code -->
   </head>
 
   <body>
+    <!-- Meta Pixel noscript -->
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=673314845542446&ev=PageView&noscript=1"
+        alt=""
+      />
+    </noscript>
+
+    <!-- Google Tag Manager noscript -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-KG8G9436"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+
+    <div id="app-loading" aria-label="Loading">
+      <div class="sa-dots" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
     <div id="app"></div>
 
     <script type="module" src="/src/main.js"></script>
+    <script>
+      window.addEventListener("load", function () {
+        const loader = document.getElementById("app-loading");
+
+        if (!loader) {
+          return;
+        }
+
+        loader.classList.add("is-hiding");
+
+        window.setTimeout(function () {
+          loader.remove();
+        }, 220);
+      });
+    </script>
   </body>
 </html>
