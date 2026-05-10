@@ -15,6 +15,19 @@ export const products = [
     icon: "cloud",
   },
   {
+    id: "softadastra-converdict",
+    name: "Softadastra Converdict",
+    category: "SaaS",
+    label: "Reliability verdicts",
+    tagline:
+      "Clear verdicts on whether your application stays correct under failure.",
+    description:
+      "Softadastra Converdict turns reliability tests into simple, explainable verdicts by detecting data loss risks, duplicate operations, failed retries, broken recovery flows, and unsafe behavior under unstable network conditions.",
+    status: "planned",
+    href: links.business,
+    icon: "shield",
+  },
+  {
     id: "softadastra-docs",
     name: "Softadastra Docs",
     category: "Open",

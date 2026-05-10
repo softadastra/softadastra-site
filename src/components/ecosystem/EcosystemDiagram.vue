@@ -1,381 +1,599 @@
 <template>
   <section class="ecosystem-diagram">
-    <div class="ecosystem-diagram__glow" aria-hidden="true" />
-
-    <div class="ecosystem-diagram__main">
-      <div class="ecosystem-diagram__node ecosystem-diagram__node--company">
-        <span class="ecosystem-diagram__label">
-          Company
+    <div class="ecosystem-diagram__inner">
+      <div class="ecosystem-diagram__head">
+        <span class="ecosystem-diagram__eyebrow">
+          Architecture
         </span>
 
-        <strong>Softadastra</strong>
+        <h3>
+          One company. One ecosystem. Multiple layers.
+        </h3>
 
         <p>
-          The company hub that maintains the open stack and connects it to
-          commercial products.
+          Softadastra connects runtimes, sync infrastructure, frameworks,
+          registries, and cloud products into one coherent platform.
         </p>
       </div>
 
-      <div class="ecosystem-diagram__connector">
-        <span />
-      </div>
-
-      <div class="ecosystem-diagram__layers">
-        <div
-          v-for="stack in stacks"
-          :key="stack.id"
-          :class="[
-            'ecosystem-diagram__node',
-            'ecosystem-diagram__node--stack',
-            `ecosystem-diagram__node--${stack.color}`,
-          ]"
-        >
-          <div
-            :class="[
-              'ecosystem-diagram__icon',
-              `ecosystem-diagram__icon--${stack.color}`,
-            ]"
-            aria-hidden="true"
-          >
-            <svg
-              v-if="stack.icon === 'layers'"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-
-            <svg
-              v-else-if="stack.icon === 'shield'"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-
-            <svg
-              v-else-if="stack.icon === 'runtime'"
-              viewBox="0 0 24 24"
-            >
-              <rect
-                x="3"
-                y="3"
-                width="18"
-                height="18"
-                rx="3"
-              />
-              <path d="M8 16V8l8 4-8 4z" />
-            </svg>
-
-            <svg
-              v-else-if="stack.icon === 'framework'"
-              viewBox="0 0 24 24"
-            >
-              <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
-            </svg>
-
-            <svg
-              v-else
-              viewBox="0 0 24 24"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="3"
-              />
-              <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-              <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
-              <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83" />
-            </svg>
-          </div>
-
-          <span class="ecosystem-diagram__label">
-            {{ stack.layer }}
+      <div class="ecosystem-diagram__map">
+        <div class="ecosystem-diagram__center">
+          <span class="ecosystem-diagram__logo">
+           <img
+  src="/logos/softadastra.svg"
+  alt=""
+  aria-hidden="true"
+/>
           </span>
 
-          <strong>{{ stack.name }}</strong>
-
-          <p>{{ stack.role }}</p>
+          <span class="ecosystem-diagram__center-copy">
+            <strong>Softadastra</strong>
+            <small>Company</small>
+          </span>
         </div>
-      </div>
 
-      <div class="ecosystem-diagram__connector">
-        <span />
-      </div>
+        <div
+          class="ecosystem-diagram__rail"
+          aria-hidden="true"
+        />
 
-      <div class="ecosystem-diagram__node ecosystem-diagram__node--business">
-        <span class="ecosystem-diagram__label">
-          Business layer
-        </span>
+        <div class="ecosystem-diagram__layers">
+          <RouterLink
+            v-for="(stack, index) in visibleStacks"
+            :key="stack.id"
+            :to="`/stacks/${stack.id}`"
+            :class="[
+              'ecosystem-diagram__layer',
+              `ecosystem-diagram__layer--${stack.color}`,
+            ]"
+            :style="{ '--layer-index': index }"
+          >
+           <span
+  class="ecosystem-diagram__marker"
+  :class="`ecosystem-diagram__marker--${stack.color}`"
+  aria-hidden="true"
+>
+  <img
+    :src="getStackLogo(stack)"
+    :alt="`${stack.name} logo`"
+  />
+</span>
 
-        <strong>Softadastra Cloud</strong>
+            <span class="ecosystem-diagram__layer-body">
+              <span class="ecosystem-diagram__layer-meta">
+                {{ stack.layer }}
+              </span>
 
-        <p>
-          Commercial SaaS, observability, builds, managed services, and
-          enterprise support around the open foundation.
-        </p>
+              <strong>{{ stack.name }}</strong>
+
+              <small>{{ stack.role }}</small>
+            </span>
+          </RouterLink>
+        </div>
+
+        <div class="ecosystem-diagram__business">
+          <div class="ecosystem-diagram__business-line" />
+
+          <a
+            :href="links.business"
+            class="ecosystem-diagram__business-item"
+          >
+            <span>Commercial layer</span>
+            <strong>Softadastra Cloud</strong>
+            <small>Reliability SaaS, verdicts, builds, and enterprise support.</small>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { stacks } from "../../data/stacks";
-</script>
+import { computed } from "vue";
 
+import { links } from "../../data/links";
+import { stacks } from "../../data/stacks";
+
+const logoMap = {
+  vix: "/logos/vix.svg",
+  softadastra: "/logos/softadastra.svg",
+  kordex: "/logos/kordex.svg",
+  cnerium: "/logos/cnerium.svg",
+  pulsegrid: "/logos/pulsegrid.svg",
+  registry: "/logos/vix-registry.svg",
+  converdict: "/logos/converdict.svg",
+};
+
+const visibleStacks = computed(() => {
+  return stacks;
+});
+
+function getStackLogo(stack) {
+  return logoMap[stack.id] || logoMap[stack.color] || logoMap.softadastra;
+}
+</script>
 <style scoped>
 .ecosystem-diagram {
   position: relative;
   overflow: hidden;
-  padding: 30px;
   border: 1px solid var(--sd-border);
-  border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
-    #0d1319;
-  box-shadow:
-    0 26px 90px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-}
-
-.ecosystem-diagram__glow {
-  position: absolute;
-  top: -180px;
-  left: 50%;
-  width: 720px;
-  height: 360px;
-  border-radius: 999px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(174, 185, 255, 0.12),
-    rgba(110, 231, 183, 0.04),
-    transparent 70%
+  border-radius: 28px;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 43, 34, 1),
+    rgba(11, 43, 34, 0.72)
   );
-  filter: blur(60px);
-  pointer-events: none;
-  transform: translateX(-50%);
 }
 
-.ecosystem-diagram__main {
+.ecosystem-diagram__inner {
   position: relative;
-  z-index: 1;
   display: grid;
-  gap: 18px;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(36px, 5vw, 78px);
+  align-items: center;
+  padding: clamp(28px, 4vw, 46px);
 }
 
-.ecosystem-diagram__node {
-  position: relative;
-  overflow: hidden;
-  padding: 22px;
-  border: 1px solid var(--sd-border);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
-    rgba(12, 16, 21, 0.72);
-  text-align: center;
-  transition:
-    transform 220ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 220ms ease;
+.ecosystem-diagram__head {
+  max-width: 480px;
 }
 
-.ecosystem-diagram__node::before {
-  position: absolute;
-  top: -90px;
-  right: -90px;
-  width: 200px;
-  height: 200px;
+.ecosystem-diagram__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  padding: 0 11px;
+  border: 1px solid rgba(213, 122, 42, 0.24);
   border-radius: 999px;
-  background: rgba(174, 185, 255, 0.08);
-  filter: blur(44px);
-  opacity: 0;
-  pointer-events: none;
-  content: "";
-  transition: opacity 220ms ease;
-}
-
-.ecosystem-diagram__node:hover {
-  border-color: rgba(174, 185, 255, 0.24);
-  background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.065), rgba(255, 255, 255, 0.018)),
-    rgba(12, 16, 21, 0.78);
-  box-shadow:
-    0 18px 56px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-  transform: translateY(-3px);
-}
-
-.ecosystem-diagram__node:hover::before {
-  opacity: 1;
-}
-
-.ecosystem-diagram__node--company {
-  border-color: rgba(174, 185, 255, 0.18);
-  background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.08), rgba(255, 255, 255, 0.016)),
-    rgba(12, 16, 21, 0.82);
-}
-
-.ecosystem-diagram__node--business {
-  border-color: rgba(110, 231, 183, 0.18);
-  background:
-    linear-gradient(180deg, rgba(110, 231, 183, 0.07), rgba(255, 255, 255, 0.016)),
-    rgba(12, 16, 21, 0.82);
-}
-
-.ecosystem-diagram__node--business::before {
-  background: rgba(110, 231, 183, 0.1);
-}
-
-.ecosystem-diagram__layers {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.ecosystem-diagram__node--stack {
-  display: grid;
-  justify-items: center;
-  padding: 20px 14px;
-}
-
-.ecosystem-diagram__icon {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  margin-bottom: 14px;
-  border-radius: 13px;
-}
-
-.ecosystem-diagram__icon svg {
-  width: 21px;
-  height: 21px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.65;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.ecosystem-diagram__icon--vix {
-  background: var(--sd-vix-bg);
-  color: var(--sd-vix);
-}
-
-.ecosystem-diagram__icon--softadastra {
-  background: var(--sd-softadastra-bg);
-  color: var(--sd-softadastra);
-}
-
-.ecosystem-diagram__icon--kordex {
-  background: var(--sd-kordex-bg);
-  color: var(--sd-kordex);
-}
-
-.ecosystem-diagram__icon--cnerium {
-  background: var(--sd-cnerium-bg);
-  color: var(--sd-cnerium);
-}
-
-.ecosystem-diagram__icon--pulsegrid {
-  background: var(--sd-pulsegrid-bg);
-  color: var(--sd-pulsegrid);
-}
-
-.ecosystem-diagram__label {
-  display: block;
-  color: var(--sd-accent);
+  background: rgba(213, 122, 42, 0.1);
+  color: var(--sd-orange-strong);
   font-family: var(--sd-font-mono);
   font-size: 10.5px;
-  font-weight: 800;
-  line-height: 1.2;
+  font-weight: 850;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.ecosystem-diagram__node strong {
-  display: block;
-  margin-top: 8px;
+.ecosystem-diagram__head h3 {
+  max-width: 440px;
+  margin: 18px 0 0;
   color: var(--sd-text);
-  font-size: 22px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.045em;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 860;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
 }
 
-.ecosystem-diagram__node p {
-  max-width: 560px;
-  margin: 10px auto 0;
-  color: var(--sd-text-muted);
-  font-size: 14px;
-  line-height: 1.55;
+.ecosystem-diagram__head p {
+  max-width: 440px;
+  margin: 18px 0 0;
+  color: var(--sd-text-soft);
+  font-size: 15.5px;
+  line-height: 1.7;
 }
 
-.ecosystem-diagram__node--stack strong {
-  font-size: 17px;
+.ecosystem-diagram__map {
+  position: relative;
+  min-height: 520px;
 }
 
-.ecosystem-diagram__node--stack p {
-  max-width: 180px;
-  font-size: 12.5px;
-  line-height: 1.42;
+.ecosystem-diagram__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 16px 13px 13px;
+  border: 1px solid rgba(213, 122, 42, 0.28);
+  border-radius: 999px;
+  background: rgba(15, 55, 45, 0.92);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  transform: translate(-50%, -50%);
 }
 
-.ecosystem-diagram__connector {
-  display: grid;
-  height: 34px;
-  place-items: center;
+.ecosystem-diagram__logo {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--sd-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.ecosystem-diagram__connector span {
-  display: block;
-  width: 1px;
+.ecosystem-diagram__logo img {
+  width: 100%;
   height: 100%;
+  object-fit: contain;
+}
+
+.ecosystem-diagram__center-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.ecosystem-diagram__center-copy strong {
+  color: var(--sd-text);
+  font-size: 16px;
+  font-weight: 820;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.ecosystem-diagram__center-copy small {
+  color: var(--sd-orange-strong);
+  font-family: var(--sd-font-mono);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ecosystem-diagram__rail {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(213, 122, 42, 0.38),
+    rgba(255, 255, 255, 0.18),
+    rgba(213, 122, 42, 0.38),
+    transparent
+  );
+  transform: translateY(-50%);
+}
+
+.ecosystem-diagram__rail::before,
+.ecosystem-diagram__rail::after {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 360px;
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(174, 185, 255, 0.24),
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  content: "";
+  transform: translateY(-50%);
+}
+
+.ecosystem-diagram__rail::before {
+  left: 28%;
+}
+
+.ecosystem-diagram__rail::after {
+  right: 28%;
+}
+
+.ecosystem-diagram__layers {
+  position: absolute;
+  inset: 0;
+}
+
+.ecosystem-diagram__layer {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  width: min(230px, 44%);
+  align-items: start;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.ecosystem-diagram__layer:hover {
+  transform: translateY(-3px);
+}
+
+.ecosystem-diagram__layer:nth-child(1) {
+  top: 4%;
+  left: 4%;
+}
+
+.ecosystem-diagram__layer:nth-child(2) {
+  top: 4%;
+  right: 4%;
+}
+
+.ecosystem-diagram__layer:nth-child(3) {
+  top: 38%;
+  left: 0;
+}
+
+.ecosystem-diagram__layer:nth-child(4) {
+  top: 38%;
+  right: 0;
+}
+
+.ecosystem-diagram__layer:nth-child(5) {
+  bottom: 5%;
+  left: 7%;
+}
+
+.ecosystem-diagram__layer:nth-child(6) {
+  right: 7%;
+  bottom: 5%;
+}
+
+.ecosystem-diagram__marker {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 0;
+  border: 1px solid var(--sd-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+}
+
+.ecosystem-diagram__marker img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ecosystem-diagram__marker--vix {
+  color: var(--sd-vix);
+}
+
+.ecosystem-diagram__marker--softadastra {
+  color: var(--sd-softadastra);
+}
+
+.ecosystem-diagram__marker--kordex {
+  color: var(--sd-kordex);
+}
+
+.ecosystem-diagram__marker--cnerium {
+  color: var(--sd-cnerium);
+}
+
+.ecosystem-diagram__marker--pulsegrid {
+  color: var(--sd-pulsegrid);
+}
+
+.ecosystem-diagram__marker--converdict {
+  color: var(--sd-converdict);
+}
+
+.ecosystem-diagram__layer-body {
+  display: grid;
+  gap: 5px;
+}
+
+.ecosystem-diagram__layer-meta {
+  color: var(--sd-text-dim);
+  font-family: var(--sd-font-mono);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ecosystem-diagram__layer strong {
+  color: var(--sd-text);
+  font-size: 18px;
+  font-weight: 820;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  transition: color 180ms ease;
+}
+
+.ecosystem-diagram__layer small {
+  max-width: 210px;
+  color: var(--sd-text-muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.ecosystem-diagram__layer:hover strong {
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-diagram__business {
+  position: absolute;
+  right: 50%;
+  bottom: -2px;
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  transform: translateX(-50%);
+}
+
+.ecosystem-diagram__business-line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(
+    180deg,
+    rgba(213, 122, 42, 0.42),
     transparent
   );
 }
 
-@media (max-width: 1080px) {
-  .ecosystem-diagram__layers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ecosystem-diagram__node--stack p {
-    max-width: 280px;
-  }
+.ecosystem-diagram__business-item {
+  display: grid;
+  width: min(360px, 90vw);
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid rgba(213, 122, 42, 0.22);
+  border-radius: 18px;
+  background: rgba(15, 55, 45, 0.92);
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
-@media (max-width: 620px) {
-  .ecosystem-diagram {
-    padding: 20px;
-    border-radius: 20px;
-  }
+.ecosystem-diagram__business-item:hover {
+  border-color: rgba(213, 122, 42, 0.36);
+  transform: translateY(-2px);
+}
 
-  .ecosystem-diagram__layers {
+.ecosystem-diagram__business-item span {
+  color: var(--sd-orange-strong);
+  font-family: var(--sd-font-mono);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ecosystem-diagram__business-item strong {
+  color: var(--sd-text);
+  font-size: 16px;
+  font-weight: 820;
+  letter-spacing: -0.025em;
+}
+
+.ecosystem-diagram__business-item small {
+  color: var(--sd-text-muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.ecosystem-diagram__logo,
+.ecosystem-diagram__marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: 1px solid var(--sd-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+  flex: 0 0 auto;
+}
+
+.ecosystem-diagram__logo {
+  width: 46px;
+  height: 46px;
+}
+
+.ecosystem-diagram__marker {
+  width: 42px;
+  height: 42px;
+  margin-top: 0;
+}
+
+.ecosystem-diagram__logo img,
+.ecosystem-diagram__marker img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  transform: none;
+  filter: none;
+  opacity: 1;
+  image-rendering: auto;
+}
+@media (max-width: 1120px) {
+  .ecosystem-diagram__inner {
     grid-template-columns: 1fr;
   }
 
-  .ecosystem-diagram__node {
-    padding: 20px;
+  .ecosystem-diagram__head {
+    max-width: 720px;
   }
 
-  .ecosystem-diagram__node--stack {
-    justify-items: start;
+  .ecosystem-diagram__head h3,
+  .ecosystem-diagram__head p {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 760px) {
+  .ecosystem-diagram__inner {
+    padding: 24px;
+  }
+
+  .ecosystem-diagram__map {
+    display: grid;
+    min-height: auto;
+    gap: 18px;
+  }
+
+  .ecosystem-diagram__center,
+  .ecosystem-diagram__business,
+  .ecosystem-diagram__layer {
+    position: relative;
+    inset: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    transform: none;
+  }
+
+  .ecosystem-diagram__center {
+    justify-content: flex-start;
+    border-radius: 20px;
+  }
+
+  .ecosystem-diagram__rail,
+  .ecosystem-diagram__business-line {
+    display: none;
+  }
+
+  .ecosystem-diagram__layers {
+    position: relative;
+    display: grid;
+    gap: 14px;
+  }
+
+.ecosystem-diagram__layer {
+  grid-template-columns: 38px minmax(0, 1fr);
+  padding: 0;
+}
+
+  .ecosystem-diagram__business {
+    justify-items: stretch;
+  }
+
+  .ecosystem-diagram__business-item {
+    width: 100%;
     text-align: left;
   }
 
-  .ecosystem-diagram__node--stack p {
-    max-width: none;
-  }
-
-  .ecosystem-diagram__node strong {
-    font-size: 20px;
-  }
+.ecosystem-diagram__marker {
+  width: 40px;
+  height: 40px;
 }
+
+.ecosystem-diagram__marker img {
+  width: 28px;
+  height: 28px;
+  max-width: 28px;
+  max-height: 28px;
+}
+.ecosystem-diagram__layer {
+  grid-template-columns: 42px minmax(0, 1fr);
+}
+}
+
 </style>

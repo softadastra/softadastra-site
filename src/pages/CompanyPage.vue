@@ -2,20 +2,24 @@
   <SiteShell>
     <section class="company-page">
       <div class="company-page__hero sd-container">
+        <span class="company-page__eyebrow">
+          Softadastra Company
+        </span>
+
         <h1>
           The company behind reliable local-first infrastructure.
         </h1>
 
         <p>
-          Softadastra maintains open runtimes, sync engines, frameworks, and
-          developer tools while building commercial products around reliability,
+          Softadastra maintains open runtimes, sync engines, frameworks,
+          developer tools, and commercial products built around reliability,
           observability, cloud infrastructure, and enterprise services.
         </p>
 
         <div class="company-page__hero-meta">
           <span>Open foundations</span>
           <span>MIT licensed stack</span>
-          <span>Commercial services around it</span>
+          <span>Commercial products</span>
         </div>
       </div>
 
@@ -27,38 +31,48 @@
             </span>
 
             <h2>
-              Open foundations, commercial services around them.
+              Open foundations with focused commercial products.
             </h2>
 
             <p>
-              The core stack is designed to stay open and easy to adopt. The
-              business layer lives around the ecosystem through Softadastra
-              Cloud, managed services, builds, support, and reliability tooling.
+              The core stack stays open and easy to adopt. The business layer
+              adds reliability products, managed services, builds, support, and
+              enterprise tooling around that foundation.
             </p>
           </div>
 
           <div class="company-page__flow">
-            <div class="company-page__flow-item company-page__flow-item--main">
-              <strong>Softadastra Company</strong>
-              <span>Maintains the ecosystem</span>
-            </div>
+            <div class="company-page__flow-main">
+              <span class="company-page__flow-logo">
+                <img
+                  src="/logo.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </span>
 
-            <div class="company-page__flow-line" />
+              <div>
+                <strong>Softadastra Company</strong>
+                <span>Maintains the ecosystem</span>
+              </div>
+            </div>
 
             <div class="company-page__flow-grid">
-              <div>Vix</div>
-              <div>Softadastra</div>
-              <div>Kordex</div>
-              <div>Cnerium</div>
-              <div>PulseGrid</div>
-              <div>Softadastra Cloud</div>
-            </div>
+              <div
+                v-for="item in ecosystemItems"
+                :key="item.name"
+                class="company-page__flow-item"
+              >
+                <span class="company-page__flow-item-logo">
+                  <img
+                    :src="item.logo"
+                    :alt="`${item.name} logo`"
+                  />
+                </span>
 
-            <div class="company-page__flow-line" />
-
-            <div class="company-page__flow-item company-page__flow-item--accent">
-              <strong>MIT License</strong>
-              <span>Adoption, ecosystem, and business products</span>
+                <strong>{{ item.name }}</strong>
+                <small>{{ item.role }}</small>
+              </div>
             </div>
           </div>
         </div>
@@ -69,7 +83,7 @@
           <SectionHeading
             eyebrow="Structure"
             title="A simple structure that can grow over time."
-            text="Softadastra.com is the company and ecosystem hub. Specialized subdomains handle docs, business, builds, and engineering content."
+            text="Softadastra.com is the company and ecosystem hub. Specialized subdomains handle docs, business, builds, registry, and engineering content."
           />
         </div>
 
@@ -79,8 +93,6 @@
             :key="section.title"
             class="company-page__section-card"
           >
-            <div class="company-page__section-glow" aria-hidden="true" />
-
             <span class="company-page__section-label">
               {{ section.label }}
             </span>
@@ -121,9 +133,45 @@
 import { links } from "../data/links";
 
 import SiteShell from "../components/layout/SiteShell.vue";
-
-import BaseBadge from "../components/ui/BaseBadge.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
+
+const ecosystemItems = [
+  {
+    name: "Vix",
+    role: "C++ runtime",
+    logo: "/logos/vix.svg",
+  },
+  {
+    name: "Softadastra",
+    role: "Sync engine",
+    logo: "/logos/softadastra.svg",
+  },
+  {
+    name: "Kordex",
+    role: "JS runtime",
+    logo: "/logos/kordex.svg",
+  },
+  {
+    name: "Cnerium",
+    role: "Web framework",
+    logo: "/logos/cnerium.svg",
+  },
+  {
+    name: "PulseGrid",
+    role: "Operations",
+    logo: "/logos/pulsegrid.svg",
+  },
+  {
+    name: "Registry",
+    role: "Packages",
+    logo: "/logos/vix-registry.svg",
+  },
+  {
+    name: "Converdict",
+    role: "Reliability verdicts",
+    logo: "/logos/converdict.svg",
+  },
+];
 
 const sections = [
   {
@@ -151,6 +199,12 @@ const sections = [
     href: links.builds,
   },
   {
+    label: "Registry",
+    title: "registry.vixcpp.com",
+    text: "The package registry for Vix modules, official packages, reusable libraries, and ecosystem distribution.",
+    href: links.vixRegistry,
+  },
+  {
     label: "Engineering",
     title: "blog.softadastra.com",
     text: "Engineering articles about reliability, runtimes, WAL, sync, local-first systems, and infrastructure design.",
@@ -163,48 +217,17 @@ const sections = [
 .company-page {
   position: relative;
   overflow: hidden;
-  padding-bottom: 104px;
-  background: var(--sd-bg);
-}
-
-.company-page::before {
-  position: absolute;
-  top: -260px;
-  left: 50%;
-  width: 980px;
-  height: 520px;
-  border-radius: 999px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(174, 185, 255, 0.12) 0%,
-    rgba(110, 231, 183, 0.035) 42%,
-    transparent 72%
+  padding-bottom: 96px;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 43, 34, 1),
+    rgba(11, 43, 34, 0.72)
   );
-  filter: blur(72px);
-  pointer-events: none;
-  content: "";
-  transform: translateX(-50%);
 }
 
+.company-page::before,
 .company-page::after {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-  content: "";
+  display: none;
 }
 
 .company-page__hero,
@@ -215,30 +238,43 @@ const sections = [
 }
 
 .company-page__hero {
-  padding: 104px 0 58px;
+  padding: 96px 0 54px;
   text-align: center;
 }
 
-.company-page__hero :deep(.sd-badge) {
-  margin-inline: auto;
+.company-page__eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 11px;
+  border: 1px solid rgba(213, 122, 42, 0.26);
+  border-radius: 999px;
+  background: rgba(213, 122, 42, 0.08);
+  color: var(--sd-orange-strong);
+  font-family: var(--sd-font-mono);
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .company-page__hero h1 {
-  max-width: 980px;
-  margin: 26px auto 0;
+  max-width: 960px;
+  margin: 24px auto 0;
   color: var(--sd-text);
-  font-size: clamp(3.2rem, 7vw, 6.4rem);
+  font-size: clamp(3rem, 6.7vw, 6rem);
   font-weight: 850;
-  line-height: 0.92;
-  letter-spacing: -0.085em;
+  line-height: 0.94;
+  letter-spacing: -0.08em;
 }
 
 .company-page__hero p {
-  max-width: 780px;
-  margin: 28px auto 0;
+  max-width: 760px;
+  margin: 26px auto 0;
   color: var(--sd-text-soft);
-  font-size: clamp(1.05rem, 2vw, 1.22rem);
-  line-height: 1.72;
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  line-height: 1.7;
 }
 
 .company-page__hero-meta {
@@ -246,7 +282,7 @@ const sections = [
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 34px;
+  margin-top: 32px;
 }
 
 .company-page__hero-meta span {
@@ -256,7 +292,7 @@ const sections = [
   padding: 0 12px;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.028);
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
   font-size: 11px;
@@ -270,162 +306,137 @@ const sections = [
 }
 
 .company-page__model-card {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
-  gap: 56px;
+  grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
+  gap: clamp(36px, 5vw, 72px);
   align-items: center;
-  overflow: hidden;
-  padding: 42px;
+  padding: clamp(28px, 4vw, 42px);
   border: 1px solid var(--sd-border);
   border-radius: 26px;
-  background:
-    radial-gradient(circle at top right, rgba(174, 185, 255, 0.1), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
-    #0d1319;
-  box-shadow:
-    0 26px 90px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-}
-
-.company-page__model-card::before {
-  position: absolute;
-  right: -160px;
-  bottom: -160px;
-  width: 420px;
-  height: 420px;
-  border-radius: 999px;
-  background: radial-gradient(
-    circle at center,
-    rgba(110, 231, 183, 0.08),
-    transparent 68%
-  );
-  filter: blur(56px);
-  pointer-events: none;
-  content: "";
-}
-
-.company-page__model-copy,
-.company-page__flow {
-  position: relative;
-  z-index: 1;
-}
-
-.company-page__eyebrow {
-  display: inline-flex;
-  width: fit-content;
-  color: var(--sd-accent);
-  font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.028);
 }
 
 .company-page__model-copy h2 {
   max-width: 720px;
   margin: 18px 0 0;
   color: var(--sd-text);
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 820;
+  font-size: clamp(2.1rem, 4.6vw, 3.8rem);
+  font-weight: 830;
   line-height: 1.02;
   letter-spacing: -0.065em;
 }
 
 .company-page__model-copy p {
-  max-width: 680px;
-  margin: 20px 0 0;
+  max-width: 660px;
+  margin: 18px 0 0;
   color: var(--sd-text-muted);
-  font-size: 1.02rem;
+  font-size: 1rem;
   line-height: 1.7;
 }
 
 .company-page__flow {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+}
+
+.company-page__flow-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(213, 122, 42, 0.24);
+  border-radius: 20px;
+  background: rgba(213, 122, 42, 0.07);
+}
+
+.company-page__flow-logo {
+  display: flex;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--sd-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.company-page__flow-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.company-page__flow-main strong {
+  display: block;
+  color: var(--sd-text);
+  font-size: 1.05rem;
+  font-weight: 820;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.company-page__flow-main span:not(.company-page__flow-logo) {
+  display: block;
+  margin-top: 4px;
+  color: var(--sd-text-muted);
+  font-size: 0.9rem;
+}
+
+.company-page__flow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .company-page__flow-item {
-  padding: 20px;
-  border: 1px solid rgba(174, 185, 255, 0.18);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.08), rgba(255, 255, 255, 0.016)),
-    rgba(12, 16, 21, 0.82);
-  text-align: center;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid var(--sd-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.026);
+}
+
+.company-page__flow-item-logo {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border-radius: 999px;
+}
+
+.company-page__flow-item-logo img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .company-page__flow-item strong {
   display: block;
   color: var(--sd-text);
-  font-size: 1.22rem;
+  font-size: 0.92rem;
   font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
 
-.company-page__flow-item span {
+.company-page__flow-item small {
   display: block;
-  margin-top: 7px;
+  margin-top: 3px;
   color: var(--sd-text-muted);
-  font-size: 0.94rem;
-}
-
-.company-page__flow-item--accent {
-  border-color: rgba(110, 231, 183, 0.2);
-  background:
-    linear-gradient(180deg, rgba(110, 231, 183, 0.075), rgba(255, 255, 255, 0.016)),
-    rgba(12, 16, 21, 0.82);
-}
-
-.company-page__flow-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.company-page__flow-grid div {
-  display: grid;
-  min-height: 58px;
-  place-items: center;
-  padding: 14px;
-  border: 1px solid var(--sd-border);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
-    rgba(12, 16, 21, 0.72);
-  color: var(--sd-text-soft);
-  font-size: 14px;
-  font-weight: 780;
-  text-align: center;
-  transition:
-    border-color 180ms ease,
-    background 180ms ease,
-    transform 220ms ease;
-}
-
-.company-page__flow-grid div:hover {
-  border-color: rgba(174, 185, 255, 0.24);
-  background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.065), rgba(255, 255, 255, 0.018)),
-    rgba(12, 16, 21, 0.78);
-  transform: translateY(-2px);
-}
-
-.company-page__flow-line {
-  width: 1px;
-  height: 34px;
-  margin: 0 auto;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(174, 185, 255, 0.24),
-    transparent
-  );
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 .company-page__sections {
-  padding-top: 104px;
+  padding-top: 88px;
 }
 
 .company-page__section-top {
@@ -435,108 +446,71 @@ const sections = [
 .company-page__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 42px;
+  gap: 14px;
+  margin-top: 34px;
 }
 
 .company-page__section-card {
-  position: relative;
   display: flex;
-  min-height: 100%;
   flex-direction: column;
-  overflow: hidden;
-  padding: 26px;
+  min-height: 100%;
+  padding: 18px;
   border: 1px solid var(--sd-border);
   border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
-    #0d1319;
+  background: rgba(255, 255, 255, 0.028);
   transition:
-    transform 240ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 240ms ease;
+    border-color var(--sd-transition-fast),
+    background var(--sd-transition-fast),
+    transform var(--sd-transition-fast);
 }
 
 .company-page__section-card:hover {
-  border-color: rgba(174, 185, 255, 0.24);
-  background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.065), rgba(255, 255, 255, 0.018)),
-    #0f161d;
-  box-shadow:
-    0 22px 70px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-  transform: translateY(-4px);
-}
-
-.company-page__section-glow {
-  position: absolute;
-  top: -90px;
-  right: -90px;
-  width: 220px;
-  height: 220px;
-  border-radius: 999px;
-  background: rgba(174, 185, 255, 0.08);
-  filter: blur(42px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 240ms ease;
-}
-
-.company-page__section-card:hover .company-page__section-glow {
-  opacity: 1;
+  border-color: rgba(213, 122, 42, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
 }
 
 .company-page__section-label {
-  position: relative;
-  z-index: 1;
   display: inline-flex;
   width: fit-content;
-  margin-bottom: 18px;
-  color: var(--sd-accent);
+  margin-bottom: 14px;
+  color: var(--sd-orange-strong);
   font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10px;
+  font-weight: 850;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .company-page__section-card h3 {
-  position: relative;
-  z-index: 1;
   margin: 0;
   color: var(--sd-text);
-  font-size: 23px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.045em;
+  font-size: 20px;
+  font-weight: 830;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
 }
 
 .company-page__section-card p {
-  position: relative;
-  z-index: 1;
   flex: 1;
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   color: var(--sd-text-muted);
-  font-size: 14px;
-  line-height: 1.62;
+  font-size: 13.5px;
+  line-height: 1.56;
 }
 
 .company-page__section-link {
-  position: relative;
-  z-index: 1;
   display: inline-flex;
   width: fit-content;
   align-items: center;
   gap: 6px;
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid var(--sd-border);
-  color: var(--sd-accent);
-  font-size: 13.5px;
-  font-weight: 720;
+  margin-top: 18px;
+  color: var(--sd-orange-strong);
+  font-size: 13px;
+  font-weight: 760;
+  text-decoration: none;
   transition:
-    gap var(--sd-transition),
+    gap var(--sd-transition-fast),
     color var(--sd-transition-fast);
 }
 
@@ -579,7 +553,7 @@ const sections = [
   }
 
   .company-page__model-card {
-    padding: 26px;
+    padding: 24px;
     border-radius: 22px;
   }
 
@@ -589,7 +563,7 @@ const sections = [
   }
 
   .company-page__sections {
-    padding-top: 76px;
+    padding-top: 72px;
   }
 }
 
@@ -604,11 +578,11 @@ const sections = [
   }
 
   .company-page__model-card {
-    padding: 22px;
+    padding: 20px;
   }
 
   .company-page__section-card {
-    padding: 24px;
+    padding: 16px;
   }
 }
 </style>

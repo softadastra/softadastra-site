@@ -75,6 +75,11 @@ export const navigationGroups = [
         href: links.vixDocs,
       },
       {
+        label: "Vix Registry",
+        description: "Discover official Vix packages and modules.",
+        href: links.vixRegistry,
+      },
+      {
         label: "Builds",
         description: "Download official packages and artifacts.",
         href: links.builds,
@@ -94,6 +99,11 @@ export const navigationGroups = [
         description:
           "Learn about WAL, sync, replay, and offline-first systems.",
         href: links.docs,
+      },
+      {
+        label: "Vix Registry",
+        description: "Browse reusable Vix packages for applications.",
+        href: links.vixRegistry,
       },
       {
         label: "Releases",

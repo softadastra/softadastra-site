@@ -77,13 +77,23 @@
                   class="site-header__dropdown-item"
                   @click="closeDropdown"
                 >
-                  <span class="site-header__dropdown-title">
-                    {{ item.label }}
-                  </span>
+                 <span class="site-header__dropdown-logo">
+  <img
+    :src="getDropdownLogo(item)"
+    :alt="`${item.label} logo`"
+    @error="handleDropdownLogoError"
+  />
+</span>
 
-                  <span class="site-header__dropdown-desc">
-                    {{ item.description }}
-                  </span>
+<span class="site-header__dropdown-copy">
+  <span class="site-header__dropdown-title">
+    {{ item.label }}
+  </span>
+
+  <span class="site-header__dropdown-desc">
+    {{ item.description }}
+  </span>
+</span>
                 </component>
               </div>
             </div>
@@ -209,6 +219,42 @@ import {
 
 import BaseButton from "../ui/BaseButton.vue";
 import MobileMenu from "./MobileMenu.vue";
+
+const dropdownLogoMap = {
+  Ecosystem: "/logos/softadastra.svg",
+  Vix: "/logos/vix.svg",
+  "Vix Docs": "/logos/vix.svg",
+  "Vix Registry": "/logos/vix-registry.svg",
+  Registry: "/logos/vix-registry.svg",
+
+  Softadastra: "/logos/softadastra.svg",
+  "Softadastra Cloud": "/logos/softadastra.svg",
+  "Softadastra Docs": "/logos/softadastra.svg",
+  "Softadastra Builds": "/logos/softadastra.svg",
+  Builds: "/logos/softadastra.svg",
+
+  Kordex: "/logos/kordex.svg",
+  Cnerium: "/logos/cnerium.svg",
+  PulseGrid: "/logos/pulsegrid.svg",
+  Converdict: "/logos/converdict.svg",
+
+  Documentation: "/logos/softadastra.svg",
+  GitHub: "/logos/softadastra.svg",
+  Blog: "/logos/softadastra.svg",
+  "Reliability guides": "/logos/softadastra.svg",
+  Releases: "/logos/softadastra.svg",
+  Company: "/logos/softadastra.svg",
+  "Open source model": "/logos/softadastra.svg",
+  Business: "/logos/softadastra.svg",
+};
+
+function getDropdownLogo(item) {
+  return dropdownLogoMap[item.label] || "/logos/softadastra.svg";
+}
+
+function handleDropdownLogoError(event) {
+  event.target.src = "/logos/softadastra.svg";
+}
 
 const route = useRoute();
 
@@ -432,10 +478,12 @@ onUnmounted(() => {
 .site-header__dropdown-item {
   position: relative;
   display: grid;
-  gap: 4px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
   min-width: 0;
+  align-items: center;
   padding: 10px 11px;
-  border-radius: 10px;
+  border-radius: 12px;
   transition:
     background 150ms ease,
     transform 150ms ease;
@@ -444,6 +492,31 @@ onUnmounted(() => {
 .site-header__dropdown-item:hover {
   background: rgba(174, 185, 255, 0.08);
   transform: translateX(2px);
+}
+
+.site-header__dropdown-logo {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--sd-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.site-header__dropdown-logo img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.site-header__dropdown-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
 }
 
 .site-header__dropdown-title {
@@ -455,12 +528,11 @@ onUnmounted(() => {
 }
 
 .site-header__dropdown-desc {
-  max-width: 220px;
+  max-width: 230px;
   color: var(--sd-text-muted);
   font-size: 12px;
   line-height: 1.35;
 }
-
 .site-header__right {
   display: flex;
   align-items: center;
@@ -620,5 +692,168 @@ onUnmounted(() => {
   .site-header__inner {
     width: min(100% - 28px, var(--sd-container));
   }
+}
+/* ==========================================================================
+   SiteHeader override
+   Softadastra green + orange identity
+   ========================================================================== */
+
+.site-header {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(11, 43, 34, 0.98),
+      rgba(11, 43, 34, 0.9)
+    ) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(18px);
+}
+
+.site-header__brand {
+  color: var(--sd-text);
+}
+
+.site-header__logo {
+  border-radius: 999px;
+}
+
+.site-header__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.site-header__group-button {
+  color: var(--sd-text-soft);
+}
+
+.site-header__group-button svg {
+  color: var(--sd-text-muted);
+}
+
+.site-header__group-button:hover,
+.site-header__group-button[aria-expanded="true"] {
+  background: rgba(213, 122, 42, 0.1);
+  color: var(--sd-text);
+}
+
+.site-header__group-button[aria-expanded="true"] svg {
+  color: var(--sd-orange-strong);
+}
+
+.site-header__dropdown-panel {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(
+      420px 180px at 20% 0%,
+      rgba(213, 122, 42, 0.13),
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(15, 55, 45, 0.98),
+      rgba(11, 43, 34, 0.98)
+    ) !important;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.site-header__dropdown-panel::before {
+  border-top-color: rgba(255, 255, 255, 0.1);
+  border-left-color: rgba(255, 255, 255, 0.1);
+  background: #0f372d !important;
+}
+
+.site-header__dropdown-item:hover {
+  background: rgba(213, 122, 42, 0.12);
+  transform: translateX(2px);
+}
+
+.site-header__dropdown-title {
+  color: var(--sd-text);
+}
+
+.site-header__dropdown-desc {
+  color: var(--sd-text-muted);
+}
+
+.site-header__github {
+  color: var(--sd-text-soft);
+}
+
+.site-header__github svg {
+  color: var(--sd-text-muted);
+}
+
+.site-header__github:hover {
+  background: rgba(213, 122, 42, 0.1);
+  color: var(--sd-text);
+}
+
+.site-header__github:hover svg {
+  color: var(--sd-orange-strong);
+}
+
+.site-header__right :deep(.sd-button-primary) {
+  background: linear-gradient(
+    180deg,
+    var(--sd-orange-strong),
+    var(--sd-orange)
+  ) !important;
+  color: #151515 !important;
+  border-color: transparent !important;
+  box-shadow: 0 12px 34px rgba(213, 122, 42, 0.22);
+}
+
+.site-header__right :deep(.sd-button-primary:hover) {
+  box-shadow: 0 16px 42px rgba(213, 122, 42, 0.28);
+}
+
+.site-header__right :deep(.sd-button-secondary) {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: var(--sd-text-soft) !important;
+}
+
+.site-header__right :deep(.sd-button-secondary:hover) {
+  border-color: rgba(213, 122, 42, 0.28) !important;
+  background: rgba(213, 122, 42, 0.1) !important;
+  color: var(--sd-text) !important;
+}
+
+.site-header__mobile-button {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--sd-text-soft);
+}
+
+.site-header__mobile-button:hover,
+.site-header__mobile-button[aria-expanded="true"] {
+  border-color: rgba(213, 122, 42, 0.3);
+  background: rgba(213, 122, 42, 0.12);
+  color: var(--sd-orange-strong);
+}
+/* Force opaque dropdown background */
+.site-header__dropdown-panel {
+  background: #0f372d !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.site-header__dropdown-panel::before {
+  background: #0f372d !important;
+  border-top-color: rgba(255, 255, 255, 0.12) !important;
+  border-left-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.site-header__dropdown-item {
+  background: transparent;
+}
+
+.site-header__dropdown-item:hover {
+  background: rgba(213, 122, 42, 0.14) !important;
 }
 </style>
