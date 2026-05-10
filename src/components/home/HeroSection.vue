@@ -23,13 +23,11 @@
     <div class="hero-section__inner">
       <div class="hero-section__content">
         <h1 class="hero-section__title">
-          The reliability layer for applications that must keep working.
+          Build apps that keep working offline.
         </h1>
 
         <p class="hero-section__desc">
-          Softadastra maintains an open infrastructure stack for local-first
-          software, durable writes, sync engines, runtimes, and cloud products
-          designed for real-world network failures.
+          Softadastra maintains an open infrastructure stack for local-first software, durable writes, sync engines, runtimes, and cloud products designed for real-world network failures.
         </p>
 
         <div class="hero-section__actions">
@@ -175,7 +173,7 @@ const heroStacks = computed(() => {
 .hero-section {
   position: relative;
   overflow: hidden;
-  padding: 104px 0 88px;
+  padding: 72px 0 64px;
   border-bottom: 1px solid var(--sd-border);
 }
 
@@ -870,6 +868,17 @@ const heroStacks = computed(() => {
 
   .hero-section__node-copy strong {
     font-size: 12.5px;
+  }
+}
+@media (max-width: 1080px) {
+  .hero-section {
+    padding: 56px 0 52px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 38px 0 36px;
   }
 }
 </style>
