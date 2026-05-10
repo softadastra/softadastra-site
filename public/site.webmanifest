@@ -2,13 +2,13 @@
   "id": "/",
   "name": "Softadastra",
   "short_name": "Softadastra",
-  "description": "Softadastra is an offline-first, local-first web runtime built around a robust sync engine (WAL/outbox), secure P2P transport, and edge nodes. Cloud optional.",
+  "description": "Softadastra helps applications keep working when networks fail with durable writes, sync engines, local-first infrastructure, runtimes, registries, and cloud reliability products.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0b0f14",
-  "theme_color": "#ff9900",
+  "background_color": "#0b2b22",
+  "theme_color": "#0b2b22",
   "icons": [
     {
       "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png",
