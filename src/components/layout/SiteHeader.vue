@@ -124,42 +124,66 @@
         </BaseButton>
       </div>
 
-      <button
-        class="site-header__mobile-button"
-        type="button"
-        :aria-expanded="menuOpen"
-        aria-controls="mobile-menu"
-        aria-label="Toggle navigation menu"
-        @click="toggleMenu"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <line
-            x1="4"
-            y1="7"
-            x2="20"
-            y2="7"
-          />
-          <line
-            x1="4"
-            y1="12"
-            x2="20"
-            y2="12"
-          />
-          <line
-            x1="4"
-            y1="17"
-            x2="20"
-            y2="17"
-          />
-        </svg>
-      </button>
+     <button
+  class="site-header__mobile-button"
+  type="button"
+  :aria-expanded="menuOpen"
+  aria-controls="mobile-menu"
+  :aria-label="menuOpen ? 'Close navigation menu' : 'Open navigation menu'"
+  @click="toggleMenu"
+>
+  <svg
+    v-if="!menuOpen"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <line
+      x1="4"
+      y1="7"
+      x2="20"
+      y2="7"
+    />
+    <line
+      x1="4"
+      y1="12"
+      x2="20"
+      y2="12"
+    />
+    <line
+      x1="4"
+      y1="17"
+      x2="20"
+      y2="17"
+    />
+  </svg>
+
+  <svg
+    v-else
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <line
+      x1="6"
+      y1="6"
+      x2="18"
+      y2="18"
+    />
+    <line
+      x1="18"
+      y1="6"
+      x2="6"
+      y2="18"
+    />
+  </svg>
+</button>
     </div>
 
     <MobileMenu
@@ -517,6 +541,39 @@ onUnmounted(() => {
   transform: translateX(-50%) translateY(0) scale(1);
 }
 
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 9998;
+  border-bottom: 1px solid var(--sd-border);
+  background: #0c1015;
+}
+.site-header__mobile-button {
+  display: none;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sd-text-soft);
+  transition:
+    background var(--sd-transition-fast),
+    border-color var(--sd-transition-fast),
+    color var(--sd-transition-fast);
+}
+
+.site-header__mobile-button:hover {
+  border-color: var(--sd-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--sd-text);
+}
+
+.site-header__mobile-button svg {
+  width: 23px;
+  height: 23px;
+}
 @media (max-width: 1180px) {
   .site-header__inner {
     gap: 16px;
