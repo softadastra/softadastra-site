@@ -82,6 +82,23 @@ export const stacks = [
     githubHref: links.pulsegridGithub,
     icon: "network",
   },
+  {
+    id: "converdict",
+    name: "Converdict",
+    role: "Reliability Verdicts",
+    layer: "Product Intelligence",
+    tagline:
+      "Clear verdicts on whether an application stays correct under failure.",
+    description:
+      "Converdict analyzes reliability test results and turns them into simple, explainable verdicts. It helps detect data loss risks, duplicate operations, unsafe retries, broken recovery flows, and convergence problems under unstable network conditions.",
+    status: "planned",
+    license: "Commercial",
+    color: "converdict",
+    href: links.business,
+    docsHref: links.docs,
+    githubHref: links.github,
+    icon: "verdict",
+  },
 ];
 
 export const ecosystemLayers = [
@@ -120,5 +137,13 @@ export const ecosystemLayers = [
     name: "PulseGrid",
     stackId: "pulsegrid",
     tagline: "Deployment and reliability infrastructure for resilient systems.",
+  },
+  {
+    id: "product-intelligence",
+    label: "Product Intelligence",
+    name: "Converdict",
+    stackId: "converdict",
+    tagline:
+      "Clear verdicts on whether an application stays correct under failure.",
   },
 ];

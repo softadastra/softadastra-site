@@ -51,6 +51,10 @@ export const footerGroups = [
         href: links.business,
       },
       {
+        label: "Converdict",
+        href: links.business,
+      },
+      {
         label: "Softadastra Docs",
         href: links.docs,
       },
@@ -74,6 +78,10 @@ export const footerGroups = [
       {
         label: "Vix Docs",
         href: links.vixDocs,
+      },
+      {
+        label: "Vix Registry",
+        href: links.vixRegistry,
       },
       {
         label: "GitHub",
@@ -105,6 +113,10 @@ export const footerGroups = [
         href: links.docs,
       },
       {
+        label: "Vix Registry",
+        href: links.vixRegistry,
+      },
+      {
         label: "Open source",
         href: links.github,
       },
@@ -119,6 +131,10 @@ export const footerGroups = [
       },
       {
         label: "Cloud",
+        href: links.business,
+      },
+      {
+        label: "Converdict",
         href: links.business,
       },
       {

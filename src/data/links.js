@@ -11,6 +11,7 @@ export const links = {
 
   vix: "https://vixcpp.com",
   vixDocs: "https://docs.vixcpp.com",
+  vixRegistry: "https://registry.vixcpp.com",
 
   softadastraDocs: "https://docs.softadastra.com",
   kordexDocs: "https://docs.softadastra.com/kordex",
@@ -18,9 +19,13 @@ export const links = {
   cneriumDocs: "https://docs.softadastra.com/cnerium",
   pulsegridDocs: "https://docs.softadastra.com/pulsegrid",
 
+  converdict: "https://business.softadastra.com/converdict",
+  converdictDocs: "https://docs.softadastra.com/converdict",
+
   vixGithub: "https://github.com/vixcpp/vix",
   softadastraGithub: "https://github.com/softadastra/softadastra",
   kordexGithub: "https://github.com/softadastra/kordex",
   cneriumGithub: "https://github.com/cnerium/cnerium",
   pulsegridGithub: "https://github.com/softadastra/pulsegrid",
+  converdictGithub: "https://github.com/softadastra/converdict",
 };

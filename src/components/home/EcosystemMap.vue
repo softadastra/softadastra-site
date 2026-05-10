@@ -5,7 +5,7 @@
         <div class="ecosystem-map__copy sd-reveal">
           <SectionHeading
             eyebrow="Ecosystem"
-            title="One company. Five layers. One architecture."
+            title="One company. Six layers. One architecture."
             text="Every layer builds on the one below. From the C++ foundation to cloud operations, the stack is designed to be adopted incrementally."
           />
         </div>
@@ -128,9 +128,9 @@ import SectionHeading from "../ui/SectionHeading.vue";
   width: 100%;
   max-width: 560px;
   grid-template-columns: 230px 280px;
-  grid-template-rows: repeat(5, 104px);
+  grid-template-rows: repeat(6, 86px);
   column-gap: 34px;
-  row-gap: 18px;
+  row-gap: 10px;
   align-items: center;
   justify-content: end;
   justify-self: end;
@@ -141,6 +141,16 @@ import SectionHeading from "../ui/SectionHeading.vue";
   text-decoration: none;
 }
 
+.ecosystem-map__plate--6 {
+  grid-column: 1;
+  grid-row: 6;
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange-strong),
+    var(--sd-orange),
+    var(--sd-orange-dark)
+  );
+}
 .ecosystem-map__plate {
   position: relative;
   display: block;
@@ -202,7 +212,16 @@ import SectionHeading from "../ui/SectionHeading.vue";
   grid-row: 5;
   background: #4252ad;
 }
-
+.ecosystem-map__plate--6 {
+  grid-column: 1;
+  grid-row: 6;
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange-strong),
+    var(--sd-orange),
+    var(--sd-orange-dark)
+  );
+}
 .ecosystem-map__content {
   display: grid;
   grid-template-columns: 24px minmax(0, 1fr);
@@ -343,7 +362,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 @media (max-width: 720px) {
   .ecosystem-map__system {
     grid-template-columns: 120px minmax(0, 1fr);
-    grid-template-rows: repeat(5, 112px);
+    grid-template-rows: repeat(6, 96px);
     column-gap: 20px;
     row-gap: 14px;
     justify-self: start;
@@ -373,7 +392,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 @media (max-width: 420px) {
   .ecosystem-map__system {
     grid-template-columns: 92px minmax(0, 1fr);
-    grid-template-rows: repeat(5, 124px);
+   grid-template-rows: repeat(6, 104px);
     column-gap: 14px;
   }
 
@@ -396,5 +415,65 @@ import SectionHeading from "../ui/SectionHeading.vue";
     width: 20px;
     height: 20px;
   }
+}
+.ecosystem-map__plate--1 {
+  grid-column: 1;
+  grid-row: 1;
+  background: linear-gradient(
+    135deg,
+    var(--sd-blue),
+    #6f86e8
+  );
+}
+
+.ecosystem-map__plate--2 {
+  grid-column: 1;
+  grid-row: 2;
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange-strong),
+    var(--sd-orange)
+  );
+}
+
+.ecosystem-map__plate--3 {
+  grid-column: 1;
+  grid-row: 3;
+  background: linear-gradient(
+    135deg,
+    var(--sd-yellow),
+    #c98b22
+  );
+}
+
+.ecosystem-map__plate--4 {
+  grid-column: 1;
+  grid-row: 4;
+  background: linear-gradient(
+    135deg,
+    var(--sd-pink),
+    #b44f86
+  );
+}
+
+.ecosystem-map__plate--5 {
+  grid-column: 1;
+  grid-row: 5;
+  background: linear-gradient(
+    135deg,
+    var(--sd-cyan),
+    #2996a5
+  );
+}
+
+.ecosystem-map__plate--6 {
+  grid-column: 1;
+  grid-row: 6;
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange-strong),
+    var(--sd-orange),
+    var(--sd-orange-dark)
+  );
 }
 </style>

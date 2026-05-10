@@ -23,53 +23,6 @@
         <EcosystemDiagram />
       </div>
 
-      <div class="ecosystem-page__layers sd-container">
-        <div class="ecosystem-page__section-top">
-          <SectionHeading
-            eyebrow="Architecture"
-            title="The stack is organized by layers."
-            text="This structure keeps the company website simple today while making it easy to add future stacks and products later."
-          />
-        </div>
-
-        <div class="ecosystem-page__layer-list">
-          <EcosystemLayer
-            number="01"
-            layer="Foundation"
-            title="Vix"
-            text="The C++ runtime foundation that provides low-level runtime, networking, async, process, CLI, and system primitives."
-          />
-
-          <EcosystemLayer
-            number="02"
-            layer="Reliability"
-            title="Softadastra"
-            text="The local-first reliability engine that provides WAL-based durability, replay, sync, storage, and convergence guarantees."
-          />
-
-          <EcosystemLayer
-            number="03"
-            layer="Application runtime"
-            title="Kordex"
-            text="The JavaScript and TypeScript runtime layer for reliable local-first applications, built on Vix and Softadastra."
-          />
-
-          <EcosystemLayer
-            number="04"
-            layer="Framework"
-            title="Cnerium"
-            text="The web framework layer for building clean, production-ready applications on top of the Vix runtime foundation."
-          />
-
-          <EcosystemLayer
-            number="05"
-            layer="Business"
-            title="Softadastra Cloud"
-            text="The commercial SaaS and business layer for reliability observability, managed services, reports, and enterprise use cases."
-          />
-        </div>
-      </div>
-
       <div class="ecosystem-page__stacks sd-container">
         <div class="ecosystem-page__section-top">
           <SectionHeading
@@ -95,12 +48,9 @@
 import { stacks } from "../data/stacks";
 
 import SiteShell from "../components/layout/SiteShell.vue";
-
-import BaseBadge from "../components/ui/BaseBadge.vue";
 import SectionHeading from "../components/ui/SectionHeading.vue";
 
 import EcosystemDiagram from "../components/ecosystem/EcosystemDiagram.vue";
-import EcosystemLayer from "../components/ecosystem/EcosystemLayer.vue";
 import StackCard from "../components/ecosystem/StackCard.vue";
 </script>
 
@@ -109,47 +59,16 @@ import StackCard from "../components/ecosystem/StackCard.vue";
   position: relative;
   overflow: hidden;
   padding-bottom: 104px;
-  background: var(--sd-bg);
-}
-
-.ecosystem-page::before {
-  position: absolute;
-  top: -260px;
-  left: 50%;
-  width: 980px;
-  height: 520px;
-  border-radius: 999px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(174, 185, 255, 0.12) 0%,
-    rgba(110, 231, 183, 0.035) 42%,
-    transparent 72%
+  background: linear-gradient(
+    90deg,
+    rgba(11, 43, 34, 1),
+    rgba(11, 43, 34, 0.72)
   );
-  filter: blur(72px);
-  pointer-events: none;
-  content: "";
-  transform: translateX(-50%);
 }
 
+.ecosystem-page::before,
 .ecosystem-page::after {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-  content: "";
+  display: none;
 }
 
 .ecosystem-page__hero,
@@ -165,13 +84,9 @@ import StackCard from "../components/ecosystem/StackCard.vue";
   text-align: center;
 }
 
-.ecosystem-page__hero :deep(.sd-badge) {
-  margin-inline: auto;
-}
-
 .ecosystem-page__hero h1 {
   max-width: 980px;
-  margin: 26px auto 0;
+  margin: 0 auto;
   color: var(--sd-text);
   font-size: clamp(3.2rem, 7vw, 6.4rem);
   font-weight: 850;
@@ -216,37 +131,105 @@ import StackCard from "../components/ecosystem/StackCard.vue";
 }
 
 .ecosystem-page__layers {
-  padding-top: 104px;
+  padding-top: 88px;
 }
 
 .ecosystem-page__section-top {
   max-width: 780px;
 }
 
-.ecosystem-page__layer-list {
+.ecosystem-page__layer-grid {
   display: grid;
-  gap: 16px;
-  margin-top: 42px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.ecosystem-page__layer-card {
+  padding: 16px;
+  border: 1px solid var(--sd-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.028);
+  transition:
+    border-color var(--sd-transition-fast),
+    background var(--sd-transition-fast),
+    transform var(--sd-transition-fast);
+}
+
+.ecosystem-page__layer-card:hover {
+  border-color: rgba(213, 122, 42, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+.ecosystem-page__layer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ecosystem-page__layer-number {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(213, 122, 42, 0.28);
+  border-radius: 999px;
+  background: rgba(213, 122, 42, 0.08);
+  color: var(--sd-orange-strong);
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.ecosystem-page__layer-label {
+  color: var(--sd-text-muted);
+  font-family: var(--sd-font-mono);
+  font-size: 9.5px;
+  font-weight: 820;
+  letter-spacing: 0.07em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.ecosystem-page__layer-card h3 {
+  margin: 0;
+  color: var(--sd-text);
+  font-size: 18px;
+  font-weight: 820;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.ecosystem-page__layer-card p {
+  margin: 8px 0 0;
+  color: var(--sd-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .ecosystem-page__stacks {
-  padding-top: 104px;
+  padding-top: 88px;
 }
 
 .ecosystem-page__stack-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 42px;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 34px;
 }
 
 @media (max-width: 1080px) {
   .ecosystem-page__stack-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .ecosystem-page {
     padding-bottom: 72px;
   }
@@ -265,9 +248,10 @@ import StackCard from "../components/ecosystem/StackCard.vue";
 
   .ecosystem-page__layers,
   .ecosystem-page__stacks {
-    padding-top: 76px;
+    padding-top: 72px;
   }
 
+  .ecosystem-page__layer-grid,
   .ecosystem-page__stack-grid {
     grid-template-columns: 1fr;
   }
