@@ -15,85 +15,57 @@ export const footerSocialLinks = [
 
 export const footerGroups = [
   {
-    title: "Platform",
+    title: "Product",
     links: [
       {
-        label: "Ecosystem",
-        href: links.main,
+        label: "Converdict",
+        href: links.converdict,
       },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
       {
-        label: "Vix",
-        href: links.vixDocs,
+        label: "PulseGrid",
+        href: links.pulsegrid,
       },
+    ],
+  },
+  {
+    title: "Open Source",
+    links: [
       {
-        label: "Softadastra",
-        href: links.softadastraDocs,
-      },
-      {
-        label: "Kordex",
-        href: links.kordexDocs,
+        label: "Vix Runtime",
+        href: links.vix,
       },
       {
         label: "Cnerium",
-        href: links.cneriumDocs,
+        href: links.cnerium,
       },
       {
-        label: "PulseGrid",
-        href: links.pulsegridDocs,
-      },
-    ],
-  },
-  {
-    title: "Products",
-    links: [
-      {
-        label: "Softadastra Cloud",
-        href: links.business,
+        label: "Kordex",
+        href: links.kordex,
       },
       {
-        label: "Converdict",
-        href: links.business,
+        label: "Vix Agent",
+        href: links.vixAgent,
       },
       {
-        label: "Softadastra Docs",
-        href: links.docs,
+        label: "Vix Game",
+        href: links.vixGame,
       },
       {
-        label: "Softadastra Builds",
-        href: links.builds,
+        label: "Ivi.hpp",
+        href: links.ivi,
       },
       {
-        label: "Business",
-        href: links.business,
-      },
-    ],
-  },
-  {
-    title: "Developers",
-    links: [
-      {
-        label: "Documentation",
-        href: links.docs,
+        label: "Rix",
+        href: links.rix,
       },
       {
-        label: "Vix Docs",
-        href: links.vixDocs,
-      },
-      {
-        label: "Vix Registry",
-        href: links.vixRegistry,
-      },
-      {
-        label: "GitHub",
-        href: links.github,
-      },
-      {
-        label: "Builds",
-        href: links.builds,
-      },
-      {
-        label: "Releases",
-        href: links.builds,
+        label: "Communities",
+        href: links.communities,
       },
     ],
   },
@@ -101,24 +73,32 @@ export const footerGroups = [
     title: "Resources",
     links: [
       {
-        label: "Blog",
-        href: links.blog,
+        label: "Softadastra Docs",
+        href: links.softadastraDocs,
       },
       {
-        label: "Engineering articles",
-        href: links.blog,
+        label: "Vix Docs",
+        href: links.vixDocs,
       },
       {
-        label: "Reliability guides",
-        href: links.docs,
+        label: "Cnerium Docs",
+        href: links.cneriumDocs,
+      },
+      {
+        label: "Kordex Docs",
+        href: links.kordexDocs,
+      },
+      {
+        label: "Engineering Blog",
+        href: links.blog,
       },
       {
         label: "Vix Registry",
         href: links.vixRegistry,
       },
       {
-        label: "Open source",
-        href: links.github,
+        label: "Builds",
+        href: links.builds,
       },
     ],
   },
@@ -127,27 +107,23 @@ export const footerGroups = [
     links: [
       {
         label: "Company",
-        href: links.main,
+        href: `${links.main}/company`,
       },
       {
-        label: "Cloud",
-        href: links.business,
+        label: "Ecosystem",
+        href: `${links.main}/ecosystem`,
       },
       {
-        label: "Converdict",
-        href: links.business,
-      },
-      {
-        label: "Docs",
-        href: links.docs,
-      },
-      {
-        label: "Blog",
-        href: links.blog,
+        label: "Open Source Model",
+        href: `${links.main}/ecosystem`,
       },
       {
         label: "GitHub",
         href: links.github,
+      },
+      {
+        label: "X",
+        href: links.x,
       },
     ],
   },

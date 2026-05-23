@@ -27,10 +27,7 @@
             />
 
             <span class="ecosystem-map__content">
-              <span
-                class="ecosystem-map__icon"
-                aria-hidden="true"
-              >
+              <span class="ecosystem-map__icon" aria-hidden="true">
                 <svg
                   v-if="layer.stackId === 'vix'"
                   viewBox="0 0 24 24"
@@ -54,13 +51,7 @@
                   viewBox="0 0 24 24"
                   fill="none"
                 >
-                  <rect
-                    x="3"
-                    y="3"
-                    width="18"
-                    height="18"
-                    rx="3"
-                  />
+                  <rect x="3" y="3" width="18" height="18" rx="3" />
                   <path d="M8 16V8l8 4-8 4z" />
                 </svg>
 
@@ -72,16 +63,8 @@
                   <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
                 </svg>
 
-                <svg
-                  v-else
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
-                  />
+                <svg v-else viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="3" />
                   <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
                   <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
                   <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83" />
@@ -116,9 +99,17 @@ import SectionHeading from "../ui/SectionHeading.vue";
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(520px, 560px);
   gap: clamp(56px, 7vw, 118px);
-  align-items: center;
+  align-items: start;
 }
 
+.ecosystem-map__copy {
+  min-width: 0;
+  padding-top: clamp(10px, 1.4vw, 18px);
+}
+
+.ecosystem-map__system {
+  align-self: start;
+}
 .ecosystem-map__copy {
   min-width: 0;
 }
@@ -128,12 +119,16 @@ import SectionHeading from "../ui/SectionHeading.vue";
   width: 100%;
   max-width: 560px;
   grid-template-columns: 230px 280px;
-  grid-template-rows: repeat(6, 86px);
+  grid-auto-rows: 78px;
   column-gap: 34px;
-  row-gap: 10px;
+  row-gap: 8px;
   align-items: center;
   justify-content: end;
   justify-self: end;
+  align-self: start;
+}
+.ecosystem-map.sd-section {
+  padding-block: clamp(72px, 8vw, 110px);
 }
 .ecosystem-map__row {
   display: contents;
@@ -162,10 +157,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
   box-shadow:
     0 16px 22px rgba(0, 0, 0, 0.24),
     inset 0 -13px 0 rgba(0, 0, 0, 0.16);
-  transform:
-    rotateX(62deg)
-    rotateZ(45deg)
-    scaleY(0.52);
+  transform: rotateX(62deg) rotateZ(45deg) scaleY(0.52);
   transform-origin: center;
   transition:
     filter var(--sd-transition),
@@ -309,11 +301,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 
 .ecosystem-map__row:hover .ecosystem-map__plate {
   filter: brightness(1.08);
-  transform:
-    rotateX(62deg)
-    rotateZ(45deg)
-    scaleY(0.52)
-    translateY(-3px);
+  transform: rotateX(62deg) rotateZ(45deg) scaleY(0.52) translateY(-3px);
 }
 
 .ecosystem-map__row:hover .ecosystem-map__body strong,
@@ -349,6 +337,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
   font-size: 14px;
   line-height: 1.48;
 }
+
 @media (max-width: 1100px) {
   .ecosystem-map__grid {
     grid-template-columns: 1fr;
@@ -362,7 +351,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 @media (max-width: 720px) {
   .ecosystem-map__system {
     grid-template-columns: 120px minmax(0, 1fr);
-    grid-template-rows: repeat(6, 96px);
+    grid-auto-rows: 88px;
     column-gap: 20px;
     row-gap: 14px;
     justify-self: start;
@@ -392,7 +381,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 @media (max-width: 420px) {
   .ecosystem-map__system {
     grid-template-columns: 92px minmax(0, 1fr);
-   grid-template-rows: repeat(6, 104px);
+    grid-auto-rows: 92px;
     column-gap: 14px;
   }
 
@@ -419,11 +408,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 .ecosystem-map__plate--1 {
   grid-column: 1;
   grid-row: 1;
-  background: linear-gradient(
-    135deg,
-    var(--sd-blue),
-    #6f86e8
-  );
+  background: linear-gradient(135deg, var(--sd-blue), #6f86e8);
 }
 
 .ecosystem-map__plate--2 {
@@ -439,31 +424,19 @@ import SectionHeading from "../ui/SectionHeading.vue";
 .ecosystem-map__plate--3 {
   grid-column: 1;
   grid-row: 3;
-  background: linear-gradient(
-    135deg,
-    var(--sd-yellow),
-    #c98b22
-  );
+  background: linear-gradient(135deg, var(--sd-yellow), #c98b22);
 }
 
 .ecosystem-map__plate--4 {
   grid-column: 1;
   grid-row: 4;
-  background: linear-gradient(
-    135deg,
-    var(--sd-pink),
-    #b44f86
-  );
+  background: linear-gradient(135deg, var(--sd-pink), #b44f86);
 }
 
 .ecosystem-map__plate--5 {
   grid-column: 1;
   grid-row: 5;
-  background: linear-gradient(
-    135deg,
-    var(--sd-cyan),
-    #2996a5
-  );
+  background: linear-gradient(135deg, var(--sd-cyan), #2996a5);
 }
 
 .ecosystem-map__plate--6 {
