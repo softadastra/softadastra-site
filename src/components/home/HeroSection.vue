@@ -377,13 +377,9 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { links } from "../../data/links";
 
 // ─── Props / data ───────────────────────────────────────
-const links = {
-  docs: "/docs",
-  business: "/cloud",
-};
-
 const phases = [
   { id: "online", label: "Online" },
   { id: "offline", label: "Offline" },
