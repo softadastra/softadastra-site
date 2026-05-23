@@ -37,15 +37,15 @@ export const stacks = [
   {
     id: "kordex",
     name: "Kordex",
-    role: "Application Runtime",
+    role: "JavaScript Runtime",
     layer: "Application Runtime",
     tagline: "A JavaScript runtime for reliable local-first applications.",
     description:
-      "Kordex is the JavaScript and TypeScript runtime layer built on Vix and Softadastra, giving developers reliable local-first APIs with durable writes, replay, and sync built in.",
+      "Kordex is the JavaScript and TypeScript runtime layer built on Vix and Softadastra. It gives developers reliable local-first APIs with durable writes, replay, and sync built in.",
     status: "planned",
     license: "MIT",
     color: "kordex",
-    href: "#",
+    href: links.kordex,
     docsHref: links.kordexDocs,
     githubHref: links.kordexGithub,
     icon: "runtime",
@@ -53,11 +53,11 @@ export const stacks = [
   {
     id: "cnerium",
     name: "Cnerium",
-    role: "Framework",
-    layer: "Framework",
-    tagline: "A fast, minimalist web framework for Vix.",
+    role: "Backend Reliability Framework",
+    layer: "Backend Framework",
+    tagline: "A reliability-first backend framework for durable APIs.",
     description:
-      "Cnerium gives developers a clean application layer for building web services on top of Vix, with routing, middleware, request handling, and production-oriented structure.",
+      "Cnerium helps developers build backend APIs that remain correct under retries, crashes, timeouts, and unstable networks. It focuses on idempotency, request durability, request journaling, safe retries, audit logs, replay protection, and Softadastra integration.",
     status: "active",
     license: "MIT",
     color: "cnerium",
@@ -65,39 +65,6 @@ export const stacks = [
     docsHref: links.cneriumDocs,
     githubHref: links.cneriumGithub,
     icon: "framework",
-  },
-  {
-    id: "pulsegrid",
-    name: "PulseGrid",
-    role: "Cloud / Operations",
-    layer: "Cloud and Operations",
-    tagline: "Deployment and reliability infrastructure for resilient systems.",
-    description:
-      "PulseGrid focuses on deployment, runtime operations, reliability infrastructure, and the production environment around Softadastra-powered applications.",
-    status: "planned",
-    license: "MIT",
-    color: "pulsegrid",
-    href: "#",
-    docsHref: links.pulsegridDocs,
-    githubHref: links.pulsegridGithub,
-    icon: "network",
-  },
-  {
-    id: "converdict",
-    name: "Converdict",
-    role: "Reliability Verdicts",
-    layer: "Product Intelligence",
-    tagline:
-      "Clear verdicts on whether an application stays correct under failure.",
-    description:
-      "Converdict analyzes reliability test results and turns them into simple, explainable verdicts. It helps detect data loss risks, duplicate operations, unsafe retries, broken recovery flows, and convergence problems under unstable network conditions.",
-    status: "planned",
-    license: "Commercial",
-    color: "converdict",
-    href: links.business,
-    docsHref: links.docs,
-    githubHref: links.github,
-    icon: "verdict",
   },
 ];
 
@@ -125,25 +92,10 @@ export const ecosystemLayers = [
     tagline: "A JavaScript runtime for reliable local-first applications.",
   },
   {
-    id: "framework",
-    label: "Framework",
+    id: "backend-framework",
+    label: "Backend Framework",
     name: "Cnerium",
     stackId: "cnerium",
-    tagline: "A fast, minimalist web framework for Vix.",
-  },
-  {
-    id: "cloud-ops",
-    label: "Cloud & Ops",
-    name: "PulseGrid",
-    stackId: "pulsegrid",
-    tagline: "Deployment and reliability infrastructure for resilient systems.",
-  },
-  {
-    id: "product-intelligence",
-    label: "Product Intelligence",
-    name: "Converdict",
-    stackId: "converdict",
-    tagline:
-      "Clear verdicts on whether an application stays correct under failure.",
+    tagline: "A reliability-first backend framework for durable APIs.",
   },
 ];
