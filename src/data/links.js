@@ -27,12 +27,12 @@ export const links = {
   cneriumDocs: "https://docs.cnerium.com",
   cneriumGithub: "https://github.com/softadastra/cnerium",
 
-  pulsegrid: "https://business.softadastra.com/pulsegrid",
-  pulsegridDocs: "https://docs.softadastra.com/pulsegrid",
-  pulsegridGithub: "https://github.com/softadastra/pulsegrid",
+  pulsegrid: "https://business.softadastra.com/",
+  pulsegridDocs: "https://docs.softadastra.com/",
+  pulsegridGithub: "https://github.com/softadastra/",
 
-  converdict: "https://business.softadastra.com/converdict",
-  converdictDocs: "https://docs.softadastra.com/converdict",
+  converdict: "https://business.softadastra.com/",
+  converdictDocs: "https://docs.softadastra.com/",
   converdictGithub: "https://github.com/softadastra/converdict",
 
   ivi: "https://github.com/softadastra/ivi",
