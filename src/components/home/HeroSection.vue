@@ -719,11 +719,12 @@ onBeforeUnmount(() => {
 }
 
 .hero__btn--primary {
-  background: var(--c-green);
+  background: linear-gradient(
+    180deg,
+    var(--sd-orange-strong, #d57a2a),
+    var(--sd-orange, #c06a22)
+  );
   color: #061009;
-  box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.3),
-    0 8px 24px rgba(74, 222, 128, 0.18);
 }
 .hero__btn--primary:hover {
   box-shadow:

@@ -1,200 +1,149 @@
 <template>
   <SiteShell>
-    <section
-      :class="[
-        'stack-page',
-        `stack-page--${currentStack.color || 'default'}`,
-      ]"
-    >
-      <div class="stack-page__bg-grid" aria-hidden="true" />
-      <div class="stack-page__glow" aria-hidden="true" />
-
-      <div class="stack-page__hero sd-container">
-        <BaseBadge>
-          {{ currentStack.layer }}
-        </BaseBadge>
-
-        <h1>
-          {{ currentStack.name }}
-        </h1>
-
-        <p>
-          {{ currentStack.tagline }}
-        </p>
-
-        <div class="stack-page__hero-meta">
-          <span>{{ currentStack.role }}</span>
-          <span>{{ currentStack.license }}</span>
-          <span>{{ currentStack.status }}</span>
-        </div>
-      </div>
-
-      <div class="stack-page__content sd-container">
-        <article class="stack-page__main-card">
-          <div class="stack-page__card-glow" aria-hidden="true" />
-
-          <div class="stack-page__card-top">
-            <div
-              :class="[
-                'stack-page__icon',
-                `stack-page__icon--${currentStack.color || 'default'}`,
-              ]"
-              aria-hidden="true"
-            >
-              <svg
-                v-if="currentStack.icon === 'layers'"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
-
-              <svg
-                v-else-if="currentStack.icon === 'shield'"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-
-              <svg
-                v-else-if="currentStack.icon === 'runtime'"
-                viewBox="0 0 24 24"
-              >
-                <rect
-                  x="3"
-                  y="3"
-                  width="18"
-                  height="18"
-                  rx="3"
-                />
-                <path d="M8 16V8l8 4-8 4z" />
-              </svg>
-
-              <svg
-                v-else-if="currentStack.icon === 'framework'"
-                viewBox="0 0 24 24"
-              >
-                <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
-              </svg>
-
-              <svg
-                v-else
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                />
-                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-                <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
-                <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83" />
-              </svg>
-            </div>
-
-            <div class="stack-page__badges">
-              <span>{{ currentStack.license }}</span>
-              <span>{{ currentStack.status }}</span>
-            </div>
-          </div>
-
-          <div class="stack-page__card-body">
-            <span class="stack-page__eyebrow">
-              {{ currentStack.role }}
-            </span>
-
-            <h2>
-              {{ currentStack.name }} inside the Softadastra ecosystem.
-            </h2>
-
-            <p>
-              {{ currentStack.description }}
-            </p>
-          </div>
+    <article class="stack-page">
+      <header class="stack-page__hero">
+        <div class="sd-container stack-page__hero-inner">
+          <RouterLink to="/stacks" class="stack-page__back">
+            Back to stacks
+          </RouterLink>
 
           <div class="stack-page__meta">
-            <span>Layer: {{ currentStack.layer }}</span>
-            <span>Role: {{ currentStack.role }}</span>
-            <span>License: {{ currentStack.license }}</span>
-            <span>Status: {{ currentStack.status }}</span>
+            <span>{{ currentStack.layer }}</span>
+            <span>{{ currentStack.status }}</span>
+            <span>{{ currentStack.license }}</span>
           </div>
+
+          <h1>{{ currentStack.name }}</h1>
+
+          <p class="stack-page__tagline">
+            {{ currentStack.tagline }}
+          </p>
+
+          <p class="stack-page__description">
+            {{ currentStack.description }}
+          </p>
 
           <div class="stack-page__actions">
-            <BaseButton
+            <a
               v-if="currentStack.docsHref && currentStack.docsHref !== '#'"
               :href="currentStack.docsHref"
-              arrow
+              class="stack-page__button stack-page__button--primary"
             >
-              Read docs
-            </BaseButton>
+              Read the docs
+            </a>
 
-            <BaseButton
-              v-if="currentStack.href && currentStack.href !== '#'"
-              :href="currentStack.href"
-              variant="secondary"
-            >
-              Visit project
-            </BaseButton>
-
-            <BaseButton
+            <a
               v-if="currentStack.githubHref && currentStack.githubHref !== '#'"
               :href="currentStack.githubHref"
-              variant="secondary"
+              class="stack-page__button"
             >
               GitHub
-            </BaseButton>
+            </a>
+
+            <a
+              v-if="currentStack.href && currentStack.href !== '#'"
+              :href="currentStack.href"
+              class="stack-page__button"
+            >
+              Website
+            </a>
           </div>
-        </article>
+        </div>
+      </header>
 
-        <aside class="stack-page__side">
-          <div class="stack-page__side-card">
-            <SectionHeading
-              eyebrow="Role"
-              title="A clear layer in the platform."
-              text="Every stack maintained by Softadastra has a defined position. This keeps the ecosystem easy to understand as new projects are added."
-            />
+      <main class="stack-page__content sd-container">
+        <section
+          v-if="currentStack.highlights?.length"
+          class="stack-page__section"
+        >
+          <p class="stack-page__eyebrow">Overview</p>
+          <h2>What you should know first</h2>
 
-            <div class="stack-page__relations">
-              <RouterLink
-                v-for="stack in relatedStacks"
-                :key="stack.id"
-                :to="`/stacks/${stack.id}`"
-                class="stack-page__relation"
-              >
-                <span>{{ stack.layer }}</span>
-                <strong>{{ stack.name }}</strong>
-              </RouterLink>
+          <ul class="stack-page__cards">
+            <li
+              v-for="item in currentStack.highlights.slice(0, 3)"
+              :key="item"
+              class="stack-page__card"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </section>
+
+        <section
+          v-if="currentStack.features?.length"
+          class="stack-page__section"
+        >
+          <p class="stack-page__eyebrow">Capabilities</p>
+          <h2>What it helps you build</h2>
+
+          <div class="stack-page__features">
+            <div
+              v-for="feature in currentStack.features.slice(0, 4)"
+              :key="feature.label"
+              class="stack-page__feature"
+            >
+              <h3>{{ feature.label }}</h3>
+              <p>{{ feature.detail }}</p>
             </div>
           </div>
+        </section>
 
-          <div class="stack-page__side-card stack-page__side-card--compact">
-            <span class="stack-page__side-label">
-              Ecosystem rule
-            </span>
+        <section v-if="currentStack.quickstart" class="stack-page__section">
+          <p class="stack-page__eyebrow">Start</p>
+          <h2>Try it quickly</h2>
 
-            <p>
-              One stack can evolve independently, but every stack must keep the
-              Softadastra architecture coherent.
-            </p>
+          <pre
+            class="stack-page__code"
+          ><code>{{ currentStack.quickstart }}</code></pre>
+        </section>
+
+        <section class="stack-page__section stack-page__section--next">
+          <p class="stack-page__eyebrow">Next step</p>
+          <h2>Go deeper when you are ready</h2>
+
+          <p>
+            This page gives a simple introduction to {{ currentStack.name }}.
+            For architecture details, internals, commands, modules, and advanced
+            usage, continue with the documentation.
+          </p>
+
+          <a
+            v-if="currentStack.docsHref && currentStack.docsHref !== '#'"
+            :href="currentStack.docsHref"
+            class="stack-page__text-link"
+          >
+            Open documentation
+          </a>
+        </section>
+
+        <section v-if="relatedStacks.length" class="stack-page__section">
+          <p class="stack-page__eyebrow">Ecosystem</p>
+          <h2>Other parts of the stack</h2>
+
+          <div class="stack-page__related">
+            <RouterLink
+              v-for="stack in relatedStacks"
+              :key="stack.id"
+              :to="`/stacks/${stack.id}`"
+              class="stack-page__related-card"
+            >
+              <span>{{ stack.layer }}</span>
+              <strong>{{ stack.name }}</strong>
+              <p>{{ stack.tagline }}</p>
+            </RouterLink>
           </div>
-        </aside>
-      </div>
-    </section>
+        </section>
+      </main>
+    </article>
   </SiteShell>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-
 import { stacks } from "../data/stacks";
-
 import SiteShell from "../components/layout/SiteShell.vue";
-
-import BaseBadge from "../components/ui/BaseBadge.vue";
-import BaseButton from "../components/ui/BaseButton.vue";
-import SectionHeading from "../components/ui/SectionHeading.vue";
 
 const route = useRoute();
 
@@ -203,16 +152,15 @@ const currentStack = computed(() => {
     stacks.find((stack) => stack.id === route.params.id) || {
       id: "unknown",
       name: "Stack not found",
-      role: "Unknown role",
-      label: "Unknown stack",
-      tagline: "This stack does not exist in the current Softadastra ecosystem.",
+      role: "Unknown",
+      layer: "Unknown",
+      tagline:
+        "This stack does not exist in the current Softadastra ecosystem.",
       description:
-        "The requested stack could not be found. Go back to the ecosystem page to see the maintained projects.",
+        "The requested stack could not be found. Go back to the ecosystem page.",
       status: "Unknown",
       license: "Unknown",
-      layer: "Unknown",
       color: "default",
-      icon: "network",
       href: "#",
       docsHref: "#",
       githubHref: "#",
@@ -227,431 +175,328 @@ const relatedStacks = computed(() => {
 
 <style scoped>
 .stack-page {
-  position: relative;
-  overflow: hidden;
-  padding-bottom: 104px;
+  min-height: 100vh;
   background: var(--sd-bg);
-}
-
-.stack-page__bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 55% at 50% 0%,
-    black 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.stack-page__glow {
-  position: absolute;
-  top: -260px;
-  left: 50%;
-  width: 980px;
-  height: 520px;
-  border-radius: 999px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(174, 185, 255, 0.12) 0%,
-    rgba(110, 231, 183, 0.035) 42%,
-    transparent 72%
-  );
-  filter: blur(72px);
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-.stack-page__hero,
-.stack-page__content {
-  position: relative;
-  z-index: 1;
+  color: var(--sd-text);
 }
 
 .stack-page__hero {
-  padding: 104px 0 58px;
-  text-align: center;
+  border-bottom: 1px solid var(--sd-border);
+  padding: 72px 0 56px;
 }
 
-.stack-page__hero :deep(.sd-badge) {
-  margin-inline: auto;
-}
-
-.stack-page__hero h1 {
-  max-width: 900px;
-  margin: 26px auto 0;
-  color: var(--sd-text);
-  font-size: clamp(3.4rem, 8vw, 6.8rem);
-  font-weight: 860;
-  line-height: 0.9;
-  letter-spacing: -0.09em;
-}
-
-.stack-page__hero p {
-  max-width: 760px;
-  margin: 28px auto 0;
-  color: var(--sd-text-soft);
-  font-size: clamp(1.05rem, 2vw, 1.22rem);
-  line-height: 1.72;
-}
-
-.stack-page__hero-meta {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 34px;
-}
-
-.stack-page__hero-meta span {
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  padding: 0 12px;
-  border: 1px solid var(--sd-border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.025);
-  color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 760;
-  letter-spacing: 0.035em;
-  text-transform: uppercase;
-}
-
-.stack-page__content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(330px, 0.82fr);
-  gap: 28px;
-  align-items: start;
-}
-
-.stack-page__main-card,
-.stack-page__side-card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--sd-border);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
-    #0d1319;
-  box-shadow:
-    0 26px 90px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-}
-
-.stack-page__main-card {
-  padding: 34px;
-  border-radius: 26px;
-}
-
-.stack-page__card-glow {
-  position: absolute;
-  top: -120px;
-  right: -120px;
-  width: 320px;
-  height: 320px;
-  border-radius: 999px;
-  background: rgba(174, 185, 255, 0.1);
-  filter: blur(58px);
-  pointer-events: none;
-}
-
-.stack-page--softadastra .stack-page__card-glow {
-  background: rgba(110, 231, 183, 0.1);
-}
-
-.stack-page--kordex .stack-page__card-glow {
-  background: rgba(251, 191, 36, 0.1);
-}
-
-.stack-page--cnerium .stack-page__card-glow {
-  background: rgba(244, 114, 182, 0.1);
-}
-
-.stack-page--pulsegrid .stack-page__card-glow {
-  background: rgba(103, 232, 249, 0.1);
-}
-
-.stack-page__card-top {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-.stack-page__icon {
-  display: grid;
-  width: 58px;
-  height: 58px;
-  place-items: center;
-  border-radius: 18px;
-  background: var(--sd-accent-bg);
-  color: var(--sd-accent);
-}
-
-.stack-page__icon svg {
-  width: 28px;
-  height: 28px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.65;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.stack-page__icon--vix {
-  background: var(--sd-vix-bg);
-  color: var(--sd-vix);
-}
-
-.stack-page__icon--softadastra {
-  background: var(--sd-softadastra-bg);
-  color: var(--sd-softadastra);
-}
-
-.stack-page__icon--kordex {
-  background: var(--sd-kordex-bg);
-  color: var(--sd-kordex);
-}
-
-.stack-page__icon--cnerium {
-  background: var(--sd-cnerium-bg);
-  color: var(--sd-cnerium);
-}
-
-.stack-page__icon--pulsegrid {
-  background: var(--sd-pulsegrid-bg);
-  color: var(--sd-pulsegrid);
-}
-
-.stack-page__badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.stack-page__badges span {
-  display: inline-flex;
-  min-height: 24px;
-  align-items: center;
-  padding: 0 9px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 10.5px;
-  font-weight: 760;
-  letter-spacing: 0.035em;
-  text-transform: uppercase;
-}
-
-.stack-page__card-body {
-  position: relative;
-  z-index: 1;
-  margin-top: 42px;
-}
-
-.stack-page__eyebrow {
-  display: inline-flex;
-  width: fit-content;
-  margin-bottom: 18px;
-  color: var(--sd-accent);
-  font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 820;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.stack-page__main-card h2 {
+.stack-page__hero-inner {
   max-width: 820px;
-  margin: 0;
-  color: var(--sd-text);
-  font-size: clamp(2.2rem, 4.8vw, 4.1rem);
-  font-weight: 840;
-  line-height: 1.02;
-  letter-spacing: -0.07em;
 }
 
-.stack-page__main-card p {
-  max-width: 780px;
-  margin: 22px 0 0;
+.stack-page__back {
+  display: inline-flex;
+  margin-bottom: 28px;
   color: var(--sd-text-muted);
-  font-size: 1.02rem;
-  line-height: 1.72;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.stack-page__back:hover {
+  color: var(--sd-text);
 }
 
 .stack-page__meta {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 34px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .stack-page__meta span {
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  padding: 0 12px;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.025);
+  padding: 6px 10px;
   color: var(--sd-text-muted);
-  font-size: 13px;
-  font-weight: 720;
+  font-family: var(--sd-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stack-page__hero h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--sd-text);
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 850;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.stack-page__tagline {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: var(--sd-text);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 650;
+  line-height: 1.45;
+  letter-spacing: -0.025em;
+}
+
+.stack-page__description {
+  max-width: 700px;
+  margin: 18px 0 0;
+  color: var(--sd-text-soft);
+  font-size: 1rem;
+  line-height: 1.75;
 }
 
 .stack-page__actions {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 38px;
-  padding-top: 26px;
-  border-top: 1px solid var(--sd-border);
-}
-
-.stack-page__side {
-  display: grid;
-  gap: 18px;
-}
-
-.stack-page__side-card {
-  padding: 28px;
-  border-radius: 24px;
-}
-
-.stack-page__side-card :deep(.sd-section-heading__title) {
-  font-size: clamp(1.8rem, 3vw, 2.55rem);
-}
-
-.stack-page__relations {
-  display: grid;
   gap: 10px;
   margin-top: 30px;
 }
 
-.stack-page__relation {
-  display: grid;
-  gap: 4px;
-  padding: 14px;
-  border: 1px solid var(--sd-border);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.022);
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease;
-}
-
-.stack-page__relation:hover {
-  border-color: rgba(174, 185, 255, 0.24);
-  background: rgba(174, 185, 255, 0.06);
-  transform: translateX(3px);
-}
-
-.stack-page__relation span {
-  color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 10.5px;
-  font-weight: 760;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.stack-page__relation strong {
-  color: var(--sd-text);
-  font-size: 14.5px;
-  font-weight: 760;
-}
-
-.stack-page__side-card--compact {
-  padding: 24px;
-}
-
-.stack-page__side-label {
+.stack-page__button {
   display: inline-flex;
-  width: fit-content;
-  margin-bottom: 12px;
-  color: var(--sd-accent);
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid var(--sd-border);
+  border-radius: 10px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--sd-text-soft);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.stack-page__button:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--sd-text);
+  transform: translateY(-1px);
+}
+
+.stack-page__button--primary {
+  border-color: rgba(47, 212, 156, 0.35);
+  background: rgba(47, 212, 156, 0.1);
+  color: var(--sd-green, #2fd49c);
+}
+
+.stack-page__button--primary:hover {
+  border-color: rgba(47, 212, 156, 0.55);
+  background: rgba(47, 212, 156, 0.15);
+  color: var(--sd-green, #2fd49c);
+}
+
+.stack-page__content {
+  max-width: 820px;
+  padding-top: 64px;
+  padding-bottom: 110px;
+}
+
+.stack-page__section {
+  margin-bottom: 64px;
+}
+
+.stack-page__section:last-child {
+  margin-bottom: 0;
+}
+
+.stack-page__eyebrow {
+  margin: 0 0 10px;
+  color: var(--sd-green, #2fd49c);
   font-family: var(--sd-font-mono);
-  font-size: 10.5px;
-  font-weight: 820;
+  font-size: 0.72rem;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.stack-page__side-card--compact p {
-  margin: 0;
-  color: var(--sd-text-muted);
-  font-size: 14px;
-  line-height: 1.62;
+.stack-page__section h2 {
+  max-width: 620px;
+  margin: 0 0 24px;
+  color: var(--sd-text);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 780;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
 }
 
-@media (max-width: 980px) {
-  .stack-page__content {
-    grid-template-columns: 1fr;
-  }
+.stack-page__section p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--sd-text-soft);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
 
-  .stack-page__side {
-    grid-template-columns: 1fr;
-  }
+.stack-page__cards {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack-page__card {
+  border: 1px solid var(--sd-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--sd-text-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.stack-page__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stack-page__feature {
+  border: 1px solid var(--sd-border);
+  border-radius: 14px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stack-page__feature h3 {
+  margin: 0 0 8px;
+  color: var(--sd-text);
+  font-size: 1rem;
+  font-weight: 720;
+  letter-spacing: -0.015em;
+}
+
+.stack-page__feature p {
+  color: var(--sd-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.stack-page__code {
+  margin: 0;
+  border: 1px solid var(--sd-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: rgba(0, 0, 0, 0.25);
+  overflow-x: auto;
+}
+
+.stack-page__code code {
+  color: var(--sd-green, #2fd49c);
+  font-family: var(--sd-font-mono);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  white-space: pre;
+}
+
+.stack-page__section--next {
+  border: 1px solid rgba(47, 212, 156, 0.2);
+  border-radius: 18px;
+  padding: 28px;
+  background: rgba(47, 212, 156, 0.055);
+}
+
+.stack-page__text-link {
+  display: inline-flex;
+  margin-top: 18px;
+  color: var(--sd-green, #2fd49c);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.stack-page__text-link:hover {
+  text-decoration: underline;
+}
+
+.stack-page__related {
+  display: grid;
+  gap: 12px;
+}
+
+.stack-page__related-card {
+  display: block;
+  border: 1px solid var(--sd-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.stack-page__related-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.stack-page__related-card span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--sd-text-muted);
+  font-family: var(--sd-font-mono);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stack-page__related-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--sd-text);
+  font-size: 1rem;
+  font-weight: 720;
+}
+
+.stack-page__related-card p {
+  color: var(--sd-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 @media (max-width: 720px) {
-  .stack-page {
-    padding-bottom: 72px;
-  }
-
   .stack-page__hero {
-    padding: 76px 0 46px;
+    padding: 52px 0 42px;
   }
 
-  .stack-page__hero h1 {
-    letter-spacing: -0.065em;
+  .stack-page__content {
+    padding-top: 48px;
+    padding-bottom: 80px;
   }
 
-  .stack-page__main-card {
-    padding: 26px;
-    border-radius: 22px;
+  .stack-page__features {
+    grid-template-columns: 1fr;
   }
 
-  .stack-page__side-card {
-    padding: 24px;
-    border-radius: 22px;
-  }
-
-  .stack-page__card-top {
-    flex-direction: column;
-  }
-
-  .stack-page__badges {
-    justify-content: flex-start;
+  .stack-page__section {
+    margin-bottom: 52px;
   }
 }
 
-@media (max-width: 420px) {
-  .stack-page__hero h1 {
-    font-size: clamp(2.8rem, 15vw, 4rem);
+@media (max-width: 480px) {
+  .stack-page__actions {
+    flex-direction: column;
   }
 
-  .stack-page__main-card,
-  .stack-page__side-card {
+  .stack-page__button {
+    width: 100%;
+  }
+
+  .stack-page__section--next {
     padding: 22px;
   }
 }
