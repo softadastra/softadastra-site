@@ -70,9 +70,11 @@
         </ul>
 
         <div class="sdk-code__actions">
-          <RouterLink
+          <a
             class="sdk-code__btn sdk-code__btn--primary"
             href="https://docs.softadastra.com/sdk-cpp/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             SDK C++
             <svg
@@ -90,14 +92,16 @@
                 stroke-linejoin="round"
               />
             </svg>
-          </RouterLink>
+          </a>
 
-          <RouterLink
+          <a
             class="sdk-code__btn sdk-code__btn--secondary"
             href="https://docs.softadastra.com/sdk-js"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             SDK JS
-          </RouterLink>
+          </a>
         </div>
       </div>
 
