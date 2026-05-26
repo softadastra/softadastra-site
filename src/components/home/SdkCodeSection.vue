@@ -72,7 +72,7 @@
         <div class="sdk-code__actions">
           <RouterLink
             class="sdk-code__btn sdk-code__btn--primary"
-            to="https://docs.softadastra.com/sdk-cpp/"
+            href="https://docs.softadastra.com/sdk-cpp/"
           >
             SDK C++
             <svg
@@ -94,7 +94,7 @@
 
           <RouterLink
             class="sdk-code__btn sdk-code__btn--secondary"
-            to="https://docs.softadastra.com/sdk-js"
+            href="https://docs.softadastra.com/sdk-js"
           >
             SDK JS
           </RouterLink>
