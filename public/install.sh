@@ -4,7 +4,9 @@ set -eu
 MINISIGN_PUBKEY="RWSiKJY4A6jQ1h4w2n442ECiigZh0sSiY2JazwsBqKNAyUVN+WhtDACj"
 
 SOFTADASTRA_REPO="${SOFTADASTRA_REPO:-softadastra/softadastra}"
+SOFTADASTRA_SDK_REPO="${SOFTADASTRA_SDK_REPO:-softadastra/sdk}"
 SOFTADASTRA_VERSION="${SOFTADASTRA_VERSION:-latest}"
+SOFTADASTRA_SDK_VERSION="${SOFTADASTRA_SDK_VERSION:-$SOFTADASTRA_VERSION}"
 
 # all, cli, sdk
 SOFTADASTRA_INSTALL_KIND="${SOFTADASTRA_INSTALL_KIND:-all}"
@@ -21,14 +23,12 @@ if [ -t 2 ] && [ "${NO_COLOR:-}" = "" ]; then
   C_RED="$(printf '\033[31m')"
   C_GREEN="$(printf '\033[32m')"
   C_YELLOW="$(printf '\033[33m')"
-  C_CYAN="$(printf '\033[36m')"
 else
   C_RESET=""
   C_BOLD=""
   C_RED=""
   C_GREEN=""
   C_YELLOW=""
-  C_CYAN=""
 fi
 
 die() {
@@ -84,8 +84,10 @@ Usage:
   install.sh --all          Install CLI + SDK
 
 Environment:
-  SOFTADASTRA_VERSION       Release version, for example v0.3.0. Default: latest
-  SOFTADASTRA_REPO          GitHub repo. Default: softadastra/softadastra
+  SOFTADASTRA_VERSION       Softadastra CLI release version. Example: v0.3.0. Default: latest
+  SOFTADASTRA_SDK_VERSION   Softadastra C++ SDK release version. Default: SOFTADASTRA_VERSION
+  SOFTADASTRA_REPO          CLI GitHub repo. Default: softadastra/softadastra
+  SOFTADASTRA_SDK_REPO      SDK GitHub repo. Default: softadastra/sdk
   SOFTADASTRA_INSTALL_KIND  all, cli, or sdk. Default: all
   SOFTADASTRA_HOME          Install root. Default: \$HOME/.softadastra
   SOFTADASTRA_BIN_DIR       CLI bin dir. Default: \$HOME/.local/bin
@@ -156,17 +158,20 @@ detect_platform() {
 }
 
 resolve_version() {
-  if [ "$SOFTADASTRA_VERSION" = "latest" ]; then
+  repo="$1"
+  version="$2"
+
+  if [ "$version" = "latest" ]; then
     have curl || die "curl is required to resolve latest, or set SOFTADASTRA_VERSION=vX.Y.Z"
 
-    final="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$SOFTADASTRA_REPO/releases/latest")"
+    final="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/$repo/releases/latest")"
     tag="${final##*/}"
 
-    [ -n "$tag" ] || die "could not resolve latest version"
+    [ -n "$tag" ] || die "could not resolve latest version for $repo"
 
     printf "%s" "$tag"
   else
-    printf "%s" "$SOFTADASTRA_VERSION"
+    printf "%s" "$version"
   fi
 }
 
@@ -208,12 +213,13 @@ verify_signature() {
 }
 
 download_and_verify_asset() {
-  asset="$1"
+  base_url="$1"
+  asset="$2"
 
   archive="$TMP_DIR/$asset"
   sha_file="$TMP_DIR/$asset.sha256"
   sig_file="$TMP_DIR/$asset.minisig"
-  url="$BASE_URL/$asset"
+  url="$base_url/$asset"
 
   info "downloading $asset"
 
@@ -262,7 +268,7 @@ update_shell_profile() {
 }
 
 install_cli() {
-  archive="$(download_and_verify_asset "$CLI_ASSET")"
+  archive="$(download_and_verify_asset "$CLI_BASE_URL" "$CLI_ASSET")"
   extract_dir="$TMP_DIR/cli"
 
   rm -rf "$extract_dir"
@@ -284,15 +290,15 @@ install_cli() {
 }
 
 install_sdk() {
-  archive="$(download_and_verify_asset "$SDK_ASSET")"
+  archive="$(download_and_verify_asset "$SDK_BASE_URL" "$SDK_ASSET")"
 
   rm -rf "$SOFTADASTRA_SDK_DIR"
   mkdir -p "$SOFTADASTRA_SDK_DIR"
 
   tar -xzf "$archive" -C "$SOFTADASTRA_SDK_DIR"
 
-  [ -d "$SOFTADASTRA_SDK_DIR/include/softadastra" ] || die "SDK archive is missing include/softadastra"
-  [ -f "$SOFTADASTRA_SDK_DIR/lib/cmake/softadastra/softadastraConfig.cmake" ] || die "SDK archive is missing softadastraConfig.cmake"
+  [ -d "$SOFTADASTRA_SDK_DIR/include/softadastra/sdk" ] || die "SDK archive is missing include/softadastra/sdk"
+  [ -f "$SOFTADASTRA_SDK_DIR/lib/cmake/sdk-cpp/sdk-cppConfig.cmake" ] || die "SDK archive is missing sdk-cppConfig.cmake"
 }
 
 detect_platform
@@ -303,8 +309,11 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-TAG="$(resolve_version)"
-BASE_URL="https://github.com/${SOFTADASTRA_REPO}/releases/download/${TAG}"
+CLI_TAG="$(resolve_version "$SOFTADASTRA_REPO" "$SOFTADASTRA_VERSION")"
+SDK_TAG="$(resolve_version "$SOFTADASTRA_SDK_REPO" "$SOFTADASTRA_SDK_VERSION")"
+
+CLI_BASE_URL="https://github.com/${SOFTADASTRA_REPO}/releases/download/${CLI_TAG}"
+SDK_BASE_URL="https://github.com/${SOFTADASTRA_SDK_REPO}/releases/download/${SDK_TAG}"
 
 CLI_ASSET="softadastra-${OS}-${ARCH}.tar.gz"
 SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
@@ -312,7 +321,7 @@ SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
 mkdir -p "$SOFTADASTRA_HOME" "$SOFTADASTRA_BIN_DIR"
 
 printf "%s%sSoftadastra installer%s\n" "$C_BOLD" "$C_GREEN" "$C_RESET" >&2
-info "version=$TAG target=${OS}-${ARCH} kind=$SOFTADASTRA_INSTALL_KIND"
+info "cli=$CLI_TAG sdk=$SDK_TAG target=${OS}-${ARCH} kind=$SOFTADASTRA_INSTALL_KIND"
 
 case "$SOFTADASTRA_INSTALL_KIND" in
   all)
@@ -352,4 +361,3 @@ case ":$PATH:" in
 esac
 
 printf "%sDone.%s\n\n" "$C_BOLD$C_GREEN" "$C_RESET" >&2
-

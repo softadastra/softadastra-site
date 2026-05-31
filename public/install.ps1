@@ -4,7 +4,9 @@
 #
 # Optional:
 #   $env:SOFTADASTRA_VERSION="v0.3.0"
+#   $env:SOFTADASTRA_SDK_VERSION="v0.3.0"
 #   $env:SOFTADASTRA_REPO="softadastra/softadastra"
+#   $env:SOFTADASTRA_SDK_REPO="softadastra/sdk"
 #   $env:SOFTADASTRA_INSTALL_KIND="all" # all, cli, sdk
 #   $env:SOFTADASTRA_HOME="$env:LOCALAPPDATA\Softadastra"
 #   $env:SOFTADASTRA_BIN_DIR="$env:LOCALAPPDATA\Softadastra\bin"
@@ -16,7 +18,7 @@ $ProgressPreference = "SilentlyContinue"
 $MinisignPubkey = "RWSiKJY4A6jQ1h4w2n442ECiigZh0sSiY2JazwsBqKNAyUVN+WhtDACj"
 
 function Info($msg) {
-    Write-Host "› softadastra: $msg" -ForegroundColor Cyan
+    Write-Host "› softadastra: $msg"
 }
 
 function Ok($msg) {
@@ -38,13 +40,13 @@ function Resolve-LatestTag([string]$Repo) {
         $resp = Invoke-RestMethod -Uri $api -Headers @{ "User-Agent" = "softadastra-installer" }
 
         if (-not $resp.tag_name) {
-            Die "could not resolve latest tag. Set SOFTADASTRA_VERSION=vX.Y.Z"
+            Die "could not resolve latest tag for $Repo. Set SOFTADASTRA_VERSION=vX.Y.Z"
         }
 
         return $resp.tag_name
     }
     catch {
-        Die "could not resolve latest tag. Set SOFTADASTRA_VERSION=vX.Y.Z"
+        Die "could not resolve latest tag for $Repo. Set SOFTADASTRA_VERSION=vX.Y.Z"
     }
 }
 
@@ -116,8 +118,7 @@ function Download-And-VerifyAsset(
         Verify-Signature -ArchivePath $archive -SigPath $sig
     }
     catch {
-        # Signature is optional when minisign is not installed or older releases do not have minisig.
-        # SHA256 remains required.
+        # Signature is optional. SHA256 remains required.
     }
 
     return $archive
@@ -186,21 +187,52 @@ function Install-Sdk([string]$ArchivePath, [string]$SdkDir) {
 
     Expand-Archive -LiteralPath $ArchivePath -DestinationPath $SdkDir -Force
 
-    $includeDir = Join-Path $SdkDir "include\softadastra"
-    $configFile = Join-Path $SdkDir "lib\cmake\softadastra\softadastraConfig.cmake"
+    $includeDir = Join-Path $SdkDir "include\softadastra\sdk"
+    $configFile = Join-Path $SdkDir "lib\cmake\sdk-cpp\sdk-cppConfig.cmake"
 
     if (!(Test-Path $includeDir)) {
-        Die "SDK archive is missing include\softadastra"
+        Die "SDK archive is missing include\softadastra\sdk"
     }
 
     if (!(Test-Path $configFile)) {
-        Die "SDK archive is missing softadastraConfig.cmake"
+        Die "SDK archive is missing sdk-cppConfig.cmake"
     }
 }
 
-$Repo = if ($env:SOFTADASTRA_REPO) { $env:SOFTADASTRA_REPO } else { "softadastra/softadastra" }
-$Version = if ($env:SOFTADASTRA_VERSION) { $env:SOFTADASTRA_VERSION } else { "latest" }
-$InstallKind = if ($env:SOFTADASTRA_INSTALL_KIND) { $env:SOFTADASTRA_INSTALL_KIND } else { "all" }
+$Repo = if ($env:SOFTADASTRA_REPO) {
+    $env:SOFTADASTRA_REPO
+}
+else {
+    "softadastra/softadastra"
+}
+
+$SdkRepo = if ($env:SOFTADASTRA_SDK_REPO) {
+    $env:SOFTADASTRA_SDK_REPO
+}
+else {
+    "softadastra/sdk"
+}
+
+$Version = if ($env:SOFTADASTRA_VERSION) {
+    $env:SOFTADASTRA_VERSION
+}
+else {
+    "latest"
+}
+
+$SdkVersion = if ($env:SOFTADASTRA_SDK_VERSION) {
+    $env:SOFTADASTRA_SDK_VERSION
+}
+else {
+    $Version
+}
+
+$InstallKind = if ($env:SOFTADASTRA_INSTALL_KIND) {
+    $env:SOFTADASTRA_INSTALL_KIND
+}
+else {
+    "all"
+}
 
 $HomeDir = if ($env:SOFTADASTRA_HOME) {
     $env:SOFTADASTRA_HOME
@@ -240,24 +272,32 @@ $Arch = switch -Regex ($archRaw) {
     default { Die "unsupported architecture: $archRaw" }
 }
 
-$Tag = if ($Version -eq "latest") {
+$CliTag = if ($Version -eq "latest") {
     Resolve-LatestTag -Repo $Repo
 }
 else {
     $Version
 }
 
+$SdkTag = if ($SdkVersion -eq "latest") {
+    Resolve-LatestTag -Repo $SdkRepo
+}
+else {
+    $SdkVersion
+}
+
 $Os = "windows"
-$BaseUrl = "https://github.com/$Repo/releases/download/$Tag"
+
+$CliBaseUrl = "https://github.com/$Repo/releases/download/$CliTag"
+$SdkBaseUrl = "https://github.com/$SdkRepo/releases/download/$SdkTag"
 
 $CliAsset = "softadastra-$Os-$Arch.zip"
 $SdkAsset = "softadastra-sdk-$Os-$Arch.zip"
 
 $TmpDir = Join-Path ([System.IO.Path]::GetTempPath()) ("softadastra-" + [System.Guid]::NewGuid().ToString("N"))
 
-Write-Host ""
-Write-Host "Softadastra installer" -ForegroundColor Cyan
-Info "version=$Tag target=$Os-$Arch kind=$InstallKind"
+Write-Host "Softadastra installer" -ForegroundColor Green
+Info "cli=$CliTag sdk=$SdkTag target=$Os-$Arch kind=$InstallKind"
 
 try {
     New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
@@ -267,12 +307,12 @@ try {
     $exe = Join-Path $BinDir "softadastra.exe"
 
     if ($InstallKind -eq "all" -or $InstallKind -eq "cli") {
-        $cliArchive = Download-And-VerifyAsset -BaseUrl $BaseUrl -Asset $CliAsset -TmpDir $TmpDir
+        $cliArchive = Download-And-VerifyAsset -BaseUrl $CliBaseUrl -Asset $CliAsset -TmpDir $TmpDir
         $exe = Install-Cli -ArchivePath $cliArchive -BinDir $BinDir
     }
 
     if ($InstallKind -eq "all" -or $InstallKind -eq "sdk") {
-        $sdkArchive = Download-And-VerifyAsset -BaseUrl $BaseUrl -Asset $SdkAsset -TmpDir $TmpDir
+        $sdkArchive = Download-And-VerifyAsset -BaseUrl $SdkBaseUrl -Asset $SdkAsset -TmpDir $TmpDir
         Install-Sdk -ArchivePath $sdkArchive -SdkDir $SdkDir
     }
 
@@ -311,4 +351,3 @@ try {
 finally {
     Remove-Item -LiteralPath $TmpDir -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
 }
-
