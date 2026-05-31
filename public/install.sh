@@ -37,7 +37,7 @@ die() {
 }
 
 info() {
-  printf "%s›%s softadastra: %s\n" "$C_CYAN" "$C_RESET" "$*" >&2
+  printf "› softadastra: %s\n" "$*" >&2
 }
 
 ok() {
@@ -311,7 +311,7 @@ SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
 
 mkdir -p "$SOFTADASTRA_HOME" "$SOFTADASTRA_BIN_DIR"
 
-printf "\n%sSoftadastra installer%s\n" "$C_BOLD" "$C_RESET" >&2
+printf "%sSoftadastra installer%s\n" "$C_BOLD" "$C_RESET" >&2
 info "version=$TAG target=${OS}-${ARCH} kind=$SOFTADASTRA_INSTALL_KIND"
 
 case "$SOFTADASTRA_INSTALL_KIND" in
