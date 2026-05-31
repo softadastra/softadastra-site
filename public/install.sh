@@ -311,7 +311,7 @@ SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
 
 mkdir -p "$SOFTADASTRA_HOME" "$SOFTADASTRA_BIN_DIR"
 
-printf "%sSoftadastra installer%s\n" "$C_BOLD" "$C_RESET" >&2
+printf "%s%sSoftadastra installer%s\n" "$C_BOLD" "$C_GREEN" "$C_RESET" >&2
 info "version=$TAG target=${OS}-${ARCH} kind=$SOFTADASTRA_INSTALL_KIND"
 
 case "$SOFTADASTRA_INSTALL_KIND" in
