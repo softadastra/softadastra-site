@@ -1,198 +1,110 @@
-param(
-    [string]$Version = $env:SOFTADASTRA_VERSION,
-    [string]$Repo = $(if ($env:SOFTADASTRA_REPO) { $env:SOFTADASTRA_REPO } else { "softadastra/softadastra" }),
-    [string]$InstallKind = $(if ($env:SOFTADASTRA_INSTALL_KIND) { $env:SOFTADASTRA_INSTALL_KIND } else { "all" }),
-    [string]$HomeDir = $(if ($env:SOFTADASTRA_HOME) { $env:SOFTADASTRA_HOME } else { "$env:USERPROFILE\.softadastra" }),
-    [string]$BinDir = $(if ($env:SOFTADASTRA_BIN_DIR) { $env:SOFTADASTRA_BIN_DIR } else { "$env:USERPROFILE\.softadastra\bin" }),
-    [string]$SdkDir = $(if ($env:SOFTADASTRA_SDK_DIR) { $env:SOFTADASTRA_SDK_DIR } else { "$env:USERPROFILE\.softadastra\sdk" }),
-    [switch]$CliOnly,
-    [switch]$SdkOnly,
-    [switch]$All,
-    [switch]$Help
-)
+# Softadastra installer (Windows PowerShell)
+# Usage:
+#   irm https://softadastra.com/install.ps1 | iex
+#
+# Optional:
+#   $env:SOFTADASTRA_VERSION="v0.3.0"
+#   $env:SOFTADASTRA_REPO="softadastra/softadastra"
+#   $env:SOFTADASTRA_INSTALL_KIND="all" # all, cli, sdk
+#   $env:SOFTADASTRA_HOME="$env:LOCALAPPDATA\Softadastra"
+#   $env:SOFTADASTRA_BIN_DIR="$env:LOCALAPPDATA\Softadastra\bin"
+#   $env:SOFTADASTRA_SDK_DIR="$env:LOCALAPPDATA\Softadastra\sdk"
 
-Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 
 $MinisignPubkey = "RWSiKJY4A6jQ1h4w2n442ECiigZh0sSiY2JazwsBqKNAyUVN+WhtDACj"
-$BinName = "softadastra.exe"
 
-function Write-Info {
-    param([string]$Message)
-    Write-Host "softadastra install: $Message"
+function Info($msg) {
+    Write-Host "› softadastra: $msg" -ForegroundColor Cyan
 }
 
-function Write-Ok {
-    param([string]$Message)
-    Write-Host "softadastra install: $Message"
+function Ok($msg) {
+    Write-Host "✔ softadastra: $msg" -ForegroundColor Green
 }
 
-function Write-Warn {
-    param([string]$Message)
-    Write-Warning "softadastra install: $Message"
+function Warn($msg) {
+    Write-Host "! softadastra: $msg" -ForegroundColor Yellow
 }
 
-function Fail {
-    param([string]$Message)
-    Write-Error "softadastra install: $Message"
-    exit 1
+function Die($msg) {
+    throw "✖ softadastra: $msg"
 }
 
-function Show-Help {
-    Write-Host "Softadastra installer"
-    Write-Host ""
-    Write-Host "Usage:"
-    Write-Host "  install.ps1              Install CLI + SDK"
-    Write-Host "  install.ps1 -CliOnly     Install CLI only"
-    Write-Host "  install.ps1 -SdkOnly     Install SDK only"
-    Write-Host "  install.ps1 -All         Install CLI + SDK"
-    Write-Host ""
-    Write-Host "Options:"
-    Write-Host "  -Version <tag>           Release version, for example v0.3.0. Default: latest"
-    Write-Host "  -Repo <owner/repo>       GitHub repo. Default: softadastra/softadastra"
-    Write-Host "  -InstallKind <kind>      all, cli, or sdk. Default: all"
-    Write-Host "  -HomeDir <path>          Install root. Default: %USERPROFILE%\.softadastra"
-    Write-Host "  -BinDir <path>           CLI bin directory. Default: %USERPROFILE%\.softadastra\bin"
-    Write-Host "  -SdkDir <path>           SDK directory. Default: %USERPROFILE%\.softadastra\sdk"
-    Write-Host ""
-    Write-Host "Environment:"
-    Write-Host "  SOFTADASTRA_VERSION"
-    Write-Host "  SOFTADASTRA_REPO"
-    Write-Host "  SOFTADASTRA_INSTALL_KIND"
-    Write-Host "  SOFTADASTRA_HOME"
-    Write-Host "  SOFTADASTRA_BIN_DIR"
-    Write-Host "  SOFTADASTRA_SDK_DIR"
-    Write-Host ""
-    Write-Host "Examples:"
-    Write-Host "  irm https://softadastra.com/install.ps1 | iex"
-    Write-Host "  `$env:SOFTADASTRA_VERSION='v0.3.0'; irm https://softadastra.com/install.ps1 | iex"
-    Write-Host "  `$env:SOFTADASTRA_INSTALL_KIND='cli'; irm https://softadastra.com/install.ps1 | iex"
-}
+function Resolve-LatestTag([string]$Repo) {
+    $api = "https://api.github.com/repos/$Repo/releases/latest"
 
-function Resolve-Version {
-    param(
-        [string]$Repo,
-        [string]$Version
-    )
+    try {
+        $resp = Invoke-RestMethod -Uri $api -Headers @{ "User-Agent" = "softadastra-installer" }
 
-    if ([string]::IsNullOrWhiteSpace($Version) -or $Version -eq "latest") {
-        $url = "https://github.com/$Repo/releases/latest"
-
-        try {
-            $response = Invoke-WebRequest -Uri $url -UseBasicParsing
-            $finalUrl = $null
-
-            if ($response.BaseResponse.ResponseUri) {
-                $finalUrl = $response.BaseResponse.ResponseUri.AbsoluteUri
-            }
-            elseif ($response.BaseResponse.RequestMessage.RequestUri) {
-                $finalUrl = $response.BaseResponse.RequestMessage.RequestUri.AbsoluteUri
-            }
-
-            if ([string]::IsNullOrWhiteSpace($finalUrl)) {
-                Fail "could not resolve latest version"
-            }
-
-            return ($finalUrl.TrimEnd("/") -split "/")[-1]
+        if (-not $resp.tag_name) {
+            Die "could not resolve latest tag. Set SOFTADASTRA_VERSION=vX.Y.Z"
         }
-        catch {
-            Fail "could not resolve latest version from $url"
-        }
+
+        return $resp.tag_name
     }
-
-    return $Version
+    catch {
+        Die "could not resolve latest tag. Set SOFTADASTRA_VERSION=vX.Y.Z"
+    }
 }
 
-function Get-AssetUrl {
-    param(
-        [string]$Repo,
-        [string]$Tag,
-        [string]$Asset
-    )
-
-    return "https://github.com/$Repo/releases/download/$Tag/$Asset"
-}
-
-function Download-File {
-    param(
-        [string]$Url,
-        [string]$Output
-    )
-
-    Write-Info "downloading $Url"
+function Download-File([string]$Url, [string]$Output) {
     Invoke-WebRequest -Uri $Url -OutFile $Output -UseBasicParsing
 }
 
-function Verify-Checksum {
-    param(
-        [string]$ArchivePath,
-        [string]$ShaPath
-    )
-
+function Verify-Checksum([string]$ArchivePath, [string]$ShaPath) {
     if (!(Test-Path $ShaPath)) {
-        Fail "sha256 file not found: $ShaPath"
+        Die "sha256 file not found"
     }
 
-    $shaContent = Get-Content $ShaPath -Raw
+    $content = Get-Content -LiteralPath $ShaPath -Raw
     $expected = $null
 
-    if ($shaContent -match "([a-fA-F0-9]{64})") {
+    if ($content -match "([a-fA-F0-9]{64})") {
         $expected = $Matches[1].ToLowerInvariant()
     }
 
     if ([string]::IsNullOrWhiteSpace($expected)) {
-        Fail "invalid sha256 file: $ShaPath"
+        Die "invalid sha256 file"
     }
 
-    $actual = (Get-FileHash -Algorithm SHA256 -Path $ArchivePath).Hash.ToLowerInvariant()
+    $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $ArchivePath).Hash.ToLowerInvariant()
 
     if ($expected -ne $actual) {
-        Fail "sha256 mismatch for $ArchivePath"
+        Die "sha256 mismatch"
     }
-
-    Write-Ok "sha256 ok"
 }
 
-function Verify-Signature {
-    param(
-        [string]$ArchivePath,
-        [string]$SignaturePath
-    )
-
-    if (!(Test-Path $SignaturePath)) {
-        Write-Warn "minisig not found: $SignaturePath"
+function Verify-Signature([string]$ArchivePath, [string]$SigPath) {
+    if (!(Test-Path $SigPath)) {
         return
     }
 
     $minisign = Get-Command minisign -ErrorAction SilentlyContinue
 
     if ($null -eq $minisign) {
-        Write-Warn "minisig is published but minisign is not installed"
-        Write-Warn "continuing because checksum verification already succeeded"
         return
     }
 
     & minisign -Vm $ArchivePath -P $MinisignPubkey | Out-Null
 
     if ($LASTEXITCODE -ne 0) {
-        Fail "minisign verification failed for $ArchivePath"
+        Die "signature verification failed"
     }
-
-    Write-Ok "minisign ok"
 }
 
-function Download-And-VerifyAsset {
-    param(
-        [string]$Asset,
-        [string]$BaseUrl,
-        [string]$TmpDir
-    )
-
+function Download-And-VerifyAsset(
+    [string]$BaseUrl,
+    [string]$Asset,
+    [string]$TmpDir
+) {
     $archive = Join-Path $TmpDir $Asset
     $sha = Join-Path $TmpDir "$Asset.sha256"
     $sig = Join-Path $TmpDir "$Asset.minisig"
 
     $url = "$BaseUrl/$Asset"
+
+    Info "downloading $Asset"
 
     Download-File -Url $url -Output $archive
     Download-File -Url "$url.sha256" -Output $sha
@@ -201,216 +113,202 @@ function Download-And-VerifyAsset {
 
     try {
         Download-File -Url "$url.minisig" -Output $sig
-        Verify-Signature -ArchivePath $archive -SignaturePath $sig
+        Verify-Signature -ArchivePath $archive -SigPath $sig
     }
     catch {
-        Write-Warn "minisig could not be downloaded or verified"
+        # Signature is optional when minisign is not installed or older releases do not have minisig.
+        # SHA256 remains required.
     }
 
     return $archive
 }
 
-function Add-ToUserPath {
-    param([string]$PathToAdd)
+function Add-ToUserPath([string]$PathToAdd) {
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 
-    $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")
-
-    if ([string]::IsNullOrWhiteSpace($currentPath)) {
+    if ([string]::IsNullOrWhiteSpace($userPath)) {
         [Environment]::SetEnvironmentVariable("Path", $PathToAdd, "User")
-        Write-Info "PATH updated for current user"
-        return
+        return $true
     }
 
-    $parts = $currentPath -split ";"
+    $segments = $userPath -split ";" |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_ -ne "" }
 
-    foreach ($part in $parts) {
-        if ($part.TrimEnd("\") -ieq $PathToAdd.TrimEnd("\")) {
-            Write-Info "PATH already contains $PathToAdd"
-            return
+    foreach ($segment in $segments) {
+        if ([string]::Equals(
+            $segment.TrimEnd("\"),
+            $PathToAdd.TrimEnd("\"),
+            [System.StringComparison]::OrdinalIgnoreCase
+        )) {
+            return $false
         }
     }
 
-    $newPath = "$currentPath;$PathToAdd"
+    $newPath = ($segments + $PathToAdd) -join ";"
     [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
-    Write-Info "PATH updated for current user"
+
+    return $true
 }
 
-function Set-SoftadastraHome {
-    param([string]$Value)
-
-    [Environment]::SetEnvironmentVariable("SOFTADASTRA_HOME", $Value, "User")
-    Write-Info "SOFTADASTRA_HOME set for current user"
-}
-
-function Install-Cli {
-    param(
-        [string]$ArchivePath,
-        [string]$BinDir
-    )
-
-    $tmpExtract = Join-Path ([System.IO.Path]::GetTempPath()) ("softadastra-cli-" + [System.Guid]::NewGuid().ToString("N"))
+function Install-Cli([string]$ArchivePath, [string]$BinDir) {
+    $extractDir = Join-Path ([System.IO.Path]::GetTempPath()) ("softadastra-cli-" + [System.Guid]::NewGuid().ToString("N"))
 
     try {
-        New-Item -ItemType Directory -Force -Path $tmpExtract | Out-Null
-        Expand-Archive -Path $ArchivePath -DestinationPath $tmpExtract -Force
-
-        $candidate1 = Join-Path $tmpExtract "bin\softadastra.exe"
-        $candidate2 = Join-Path $tmpExtract "softadastra.exe"
-        $destination = Join-Path $BinDir "softadastra.exe"
-
+        New-Item -ItemType Directory -Force -Path $extractDir | Out-Null
         New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
 
-        if (Test-Path $candidate1) {
-            Copy-Item $candidate1 $destination -Force
-        }
-        elseif (Test-Path $candidate2) {
-            Copy-Item $candidate2 $destination -Force
-        }
-        else {
-            Get-ChildItem -Recurse $tmpExtract | Select-Object FullName
-            Fail "softadastra.exe not found in CLI archive"
+        Expand-Archive -LiteralPath $ArchivePath -DestinationPath $extractDir -Force
+
+        $candidate = Get-ChildItem -LiteralPath $extractDir -Recurse -File -Filter "softadastra.exe" |
+            Select-Object -First 1
+
+        if (-not $candidate) {
+            Die "softadastra.exe not found in CLI archive"
         }
 
-        Write-Ok "CLI installed: $destination"
+        $destination = Join-Path $BinDir "softadastra.exe"
+        Copy-Item -LiteralPath $candidate.FullName -Destination $destination -Force
+
+        return $destination
     }
     finally {
-        if (Test-Path $tmpExtract) {
-            Remove-Item -Recurse -Force $tmpExtract
-        }
+        Remove-Item -LiteralPath $extractDir -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
     }
 }
 
-function Install-Sdk {
-    param(
-        [string]$ArchivePath,
-        [string]$SdkDir
-    )
-
+function Install-Sdk([string]$ArchivePath, [string]$SdkDir) {
     if (Test-Path $SdkDir) {
         Remove-Item -Recurse -Force $SdkDir
     }
 
     New-Item -ItemType Directory -Force -Path $SdkDir | Out-Null
 
-    Expand-Archive -Path $ArchivePath -DestinationPath $SdkDir -Force
+    Expand-Archive -LiteralPath $ArchivePath -DestinationPath $SdkDir -Force
 
     $includeDir = Join-Path $SdkDir "include\softadastra"
     $configFile = Join-Path $SdkDir "lib\cmake\softadastra\softadastraConfig.cmake"
 
     if (!(Test-Path $includeDir)) {
-        Fail "SDK archive is missing include\softadastra"
+        Die "SDK archive is missing include\softadastra"
     }
 
     if (!(Test-Path $configFile)) {
-        Fail "SDK archive is missing softadastraConfig.cmake"
+        Die "SDK archive is missing softadastraConfig.cmake"
     }
-
-    Write-Ok "SDK installed: $SdkDir"
 }
 
-if ($Help) {
-    Show-Help
-    exit 0
+$Repo = if ($env:SOFTADASTRA_REPO) { $env:SOFTADASTRA_REPO } else { "softadastra/softadastra" }
+$Version = if ($env:SOFTADASTRA_VERSION) { $env:SOFTADASTRA_VERSION } else { "latest" }
+$InstallKind = if ($env:SOFTADASTRA_INSTALL_KIND) { $env:SOFTADASTRA_INSTALL_KIND } else { "all" }
+
+$HomeDir = if ($env:SOFTADASTRA_HOME) {
+    $env:SOFTADASTRA_HOME
+}
+else {
+    Join-Path $env:LOCALAPPDATA "Softadastra"
 }
 
-if ([string]::IsNullOrWhiteSpace($Version)) {
-    $Version = "latest"
+$BinDir = if ($env:SOFTADASTRA_BIN_DIR) {
+    $env:SOFTADASTRA_BIN_DIR
+}
+else {
+    Join-Path $HomeDir "bin"
 }
 
-if ($CliOnly) {
-    $InstallKind = "cli"
+$SdkDir = if ($env:SOFTADASTRA_SDK_DIR) {
+    $env:SOFTADASTRA_SDK_DIR
+}
+else {
+    Join-Path $HomeDir "sdk"
 }
 
-if ($SdkOnly) {
-    $InstallKind = "sdk"
-}
-
-if ($All) {
-    $InstallKind = "all"
-}
-
-switch ($InstallKind) {
+switch ($InstallKind.ToLowerInvariant()) {
     "all" {}
     "cli" {}
     "sdk" {}
     default {
-        Fail "unsupported InstallKind '$InstallKind'. Expected all, cli, or sdk"
+        Die "unsupported SOFTADASTRA_INSTALL_KIND: $InstallKind"
     }
 }
 
-$os = "windows"
-$arch = "x86_64"
+$archRaw = $env:PROCESSOR_ARCHITECTURE
 
-if ($env:PROCESSOR_ARCHITECTURE -match "ARM64") {
-    Fail "windows-aarch64 is not supported yet"
+$Arch = switch -Regex ($archRaw) {
+    "AMD64" { "x86_64"; break }
+    "^ARM" { Die "windows-aarch64 is not supported yet" }
+    default { Die "unsupported architecture: $archRaw" }
 }
 
-$tag = Resolve-Version -Repo $Repo -Version $Version
-$baseUrl = "https://github.com/$Repo/releases/download/$tag"
+$Tag = if ($Version -eq "latest") {
+    Resolve-LatestTag -Repo $Repo
+}
+else {
+    $Version
+}
 
-$cliAsset = "softadastra-$os-$arch.zip"
-$sdkAsset = "softadastra-sdk-$os-$arch.zip"
+$Os = "windows"
+$BaseUrl = "https://github.com/$Repo/releases/download/$Tag"
 
-$tmpDir = Join-Path ([System.IO.Path]::GetTempPath()) ("softadastra-" + [System.Guid]::NewGuid().ToString("N"))
+$CliAsset = "softadastra-$Os-$Arch.zip"
+$SdkAsset = "softadastra-sdk-$Os-$Arch.zip"
+
+$TmpDir = Join-Path ([System.IO.Path]::GetTempPath()) ("softadastra-" + [System.Guid]::NewGuid().ToString("N"))
+
+Write-Host ""
+Write-Host "Softadastra installer" -ForegroundColor Cyan
+Info "version=$Tag target=$Os-$Arch kind=$InstallKind"
 
 try {
-    New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $TmpDir | Out-Null
     New-Item -ItemType Directory -Force -Path $HomeDir | Out-Null
     New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
 
-    Write-Info "repo: $Repo"
-    Write-Info "version: $tag"
-    Write-Info "kind: $InstallKind"
-    Write-Info "target: $os-$arch"
-    Write-Info "install root: $HomeDir"
-    Write-Info "bin dir: $BinDir"
-    Write-Info "sdk dir: $SdkDir"
+    $exe = Join-Path $BinDir "softadastra.exe"
 
     if ($InstallKind -eq "all" -or $InstallKind -eq "cli") {
-        $cliArchive = Download-And-VerifyAsset -Asset $cliAsset -BaseUrl $baseUrl -TmpDir $tmpDir
-        Install-Cli -ArchivePath $cliArchive -BinDir $BinDir
+        $cliArchive = Download-And-VerifyAsset -BaseUrl $BaseUrl -Asset $CliAsset -TmpDir $TmpDir
+        $exe = Install-Cli -ArchivePath $cliArchive -BinDir $BinDir
     }
 
     if ($InstallKind -eq "all" -or $InstallKind -eq "sdk") {
-        $sdkArchive = Download-And-VerifyAsset -Asset $sdkAsset -BaseUrl $baseUrl -TmpDir $tmpDir
+        $sdkArchive = Download-And-VerifyAsset -BaseUrl $BaseUrl -Asset $SdkAsset -TmpDir $TmpDir
         Install-Sdk -ArchivePath $sdkArchive -SdkDir $SdkDir
     }
 
-    Set-SoftadastraHome -Value $HomeDir
-    Add-ToUserPath -PathToAdd $BinDir
+    [Environment]::SetEnvironmentVariable("SOFTADASTRA_HOME", $HomeDir, "User")
+    $pathChanged = Add-ToUserPath -PathToAdd $BinDir
 
     if ($InstallKind -eq "all" -or $InstallKind -eq "cli") {
-        $softadastraExe = Join-Path $BinDir "softadastra.exe"
+        try {
+            $versionOutput = & $exe version 2>$null
 
-        if (Test-Path $softadastraExe) {
-            try {
-                $versionOutput = & $softadastraExe version
-                Write-Ok "installed: $versionOutput"
+            if ($versionOutput) {
+                Ok "$versionOutput"
             }
-            catch {
-                Write-Warn "installed, but running 'softadastra version' failed"
+            else {
+                Warn "installed, but 'softadastra version' returned no output"
             }
+        }
+        catch {
+            Warn "installed, but running 'softadastra version' failed"
         }
     }
 
-    Write-Host ""
-    Write-Host "Done."
-    Write-Host "Version: $tag"
-    Write-Host "Kind:    $InstallKind"
-
-    if ($InstallKind -eq "all" -or $InstallKind -eq "cli") {
-        Write-Host "CLI:     $(Join-Path $BinDir "softadastra.exe")"
-    }
-
     if ($InstallKind -eq "all" -or $InstallKind -eq "sdk") {
-        Write-Host "SDK:     $SdkDir"
+        Ok "SDK installed: $SdkDir"
     }
 
-    Write-Host ""
-    Write-Host "A new terminal may be required before 'softadastra' is available in PATH."
+    if ($pathChanged) {
+        Warn "open a new terminal if 'softadastra' is not found"
+    }
+    else {
+        Ok "ready"
+    }
+
+    Write-Host "Done." -ForegroundColor Green
 }
 finally {
-    if (Test-Path $tmpDir) {
-        Remove-Item -Recurse -Force $tmpDir
-    }
+    Remove-Item -LiteralPath $TmpDir -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
 }
+

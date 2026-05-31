@@ -1,22 +1,16 @@
 #!/usr/bin/env sh
-
 set -eu
 
-# Minisign public key.
-# This is public and safe to embed in the installer.
 MINISIGN_PUBKEY="RWSiKJY4A6jQ1h4w2n442ECiigZh0sSiY2JazwsBqKNAyUVN+WhtDACj"
 
 SOFTADASTRA_REPO="${SOFTADASTRA_REPO:-softadastra/softadastra}"
 SOFTADASTRA_VERSION="${SOFTADASTRA_VERSION:-latest}"
 
-# Install kind:
-#   all = CLI + SDK
-#   cli = CLI only
-#   sdk = SDK only
+# all, cli, sdk
 SOFTADASTRA_INSTALL_KIND="${SOFTADASTRA_INSTALL_KIND:-all}"
 
 SOFTADASTRA_HOME="${SOFTADASTRA_HOME:-$HOME/.softadastra}"
-SOFTADASTRA_BIN_DIR="${SOFTADASTRA_BIN_DIR:-$SOFTADASTRA_HOME/bin}"
+SOFTADASTRA_BIN_DIR="${SOFTADASTRA_BIN_DIR:-$HOME/.local/bin}"
 SOFTADASTRA_SDK_DIR="${SOFTADASTRA_SDK_DIR:-$SOFTADASTRA_HOME/sdk}"
 
 BIN_NAME="softadastra"
@@ -24,47 +18,34 @@ BIN_NAME="softadastra"
 if [ -t 2 ] && [ "${NO_COLOR:-}" = "" ]; then
   C_RESET="$(printf '\033[0m')"
   C_BOLD="$(printf '\033[1m')"
-  C_DIM="$(printf '\033[2m')"
   C_RED="$(printf '\033[31m')"
   C_GREEN="$(printf '\033[32m')"
   C_YELLOW="$(printf '\033[33m')"
-  C_BLUE="$(printf '\033[34m')"
   C_CYAN="$(printf '\033[36m')"
 else
   C_RESET=""
   C_BOLD=""
-  C_DIM=""
   C_RED=""
   C_GREEN=""
   C_YELLOW=""
-  C_BLUE=""
   C_CYAN=""
 fi
 
 die() {
-  printf "%s✖%s softadastra install: %s\n" "$C_RED" "$C_RESET" "$*" >&2
+  printf "%s✖%s softadastra: %s\n" "$C_RED" "$C_RESET" "$*" >&2
   exit 1
 }
 
 info() {
-  printf "%s›%s softadastra install: %s\n" "$C_CYAN" "$C_RESET" "$*" >&2
+  printf "%s›%s softadastra: %s\n" "$C_CYAN" "$C_RESET" "$*" >&2
 }
 
 ok() {
-  printf "%s✔%s softadastra install: %s\n" "$C_GREEN" "$C_RESET" "$*" >&2
+  printf "%s✔%s softadastra: %s\n" "$C_GREEN" "$C_RESET" "$*" >&2
 }
 
 warn() {
-  printf "%s!%s softadastra install: %s\n" "$C_YELLOW" "$C_RESET" "$*" >&2
-}
-
-step() {
-  printf "\n%s==>%s %s\n" "$C_BOLD$C_BLUE" "$C_RESET" "$*" >&2
-}
-
-banner() {
-  printf "\n%sSoftadastra installer%s\n" "$C_BOLD" "$C_RESET" >&2
-  printf "%sReliable local-first infrastructure installer%s\n" "$C_DIM" "$C_RESET" >&2
+  printf "%s!%s softadastra: %s\n" "$C_YELLOW" "$C_RESET" "$*" >&2
 }
 
 have() {
@@ -80,12 +61,12 @@ fetch() {
   out="$2"
 
   if have curl; then
-    curl -fsSL "$url" -o "$out"
+    curl -fsSL "$url" -o "$out" >/dev/null 2>&1
     return
   fi
 
   if have wget; then
-    wget -qO "$out" "$url"
+    wget -qO "$out" "$url" >/dev/null 2>&1
     return
   fi
 
@@ -97,23 +78,18 @@ show_help() {
 Softadastra installer
 
 Usage:
-  install.sh                       Install CLI + SDK
-  install.sh --cli-only            Install CLI only
-  install.sh --sdk-only            Install SDK only
-  install.sh --all                 Install CLI + SDK
+  install.sh                Install CLI + SDK
+  install.sh --cli-only     Install CLI only
+  install.sh --sdk-only     Install SDK only
+  install.sh --all          Install CLI + SDK
 
 Environment:
-  SOFTADASTRA_VERSION              Release version, for example v0.3.0. Default: latest
-  SOFTADASTRA_REPO                 GitHub repo. Default: softadastra/softadastra
-  SOFTADASTRA_INSTALL_KIND         all, cli, or sdk. Default: all
-  SOFTADASTRA_HOME                 Install root. Default: \$HOME/.softadastra
-  SOFTADASTRA_BIN_DIR              CLI bin dir. Default: \$SOFTADASTRA_HOME/bin
-  SOFTADASTRA_SDK_DIR              SDK dir. Default: \$SOFTADASTRA_HOME/sdk
-
-Examples:
-  curl -fsSL https://softadastra.com/install.sh | sh
-  curl -fsSL https://softadastra.com/install.sh | SOFTADASTRA_VERSION=v0.3.0 sh
-  curl -fsSL https://softadastra.com/install.sh | SOFTADASTRA_INSTALL_KIND=cli sh
+  SOFTADASTRA_VERSION       Release version, for example v0.3.0. Default: latest
+  SOFTADASTRA_REPO          GitHub repo. Default: softadastra/softadastra
+  SOFTADASTRA_INSTALL_KIND  all, cli, or sdk. Default: all
+  SOFTADASTRA_HOME          Install root. Default: \$HOME/.softadastra
+  SOFTADASTRA_BIN_DIR       CLI bin dir. Default: \$HOME/.local/bin
+  SOFTADASTRA_SDK_DIR       SDK dir. Default: \$HOME/.softadastra/sdk
 EOF
 }
 
@@ -142,7 +118,7 @@ case "$SOFTADASTRA_INSTALL_KIND" in
   all|cli|sdk)
     ;;
   *)
-    die "unsupported SOFTADASTRA_INSTALL_KIND='$SOFTADASTRA_INSTALL_KIND' expected all, cli, or sdk"
+    die "unsupported SOFTADASTRA_INSTALL_KIND='$SOFTADASTRA_INSTALL_KIND'"
     ;;
 esac
 
@@ -150,44 +126,34 @@ need_cmd uname
 need_cmd mktemp
 need_cmd tar
 
-banner
+detect_platform() {
+  os="$(uname -s)"
+  arch="$(uname -m)"
 
-step "Detecting platform"
+  case "$os" in
+    Linux)
+      OS="linux"
+      ;;
+    Darwin)
+      OS="macos"
+      ;;
+    *)
+      die "unsupported OS: $os"
+      ;;
+  esac
 
-os="$(uname -s)"
-arch="$(uname -m)"
-
-case "$os" in
-  Linux)
-    OS="linux"
-    ;;
-  Darwin)
-    OS="macos"
-    ;;
-  *)
-    die "unsupported OS: $os"
-    ;;
-esac
-
-case "$arch" in
-  x86_64|amd64)
-    ARCH="x86_64"
-    ;;
-  arm64|aarch64)
-    ARCH="aarch64"
-    ;;
-  *)
-    die "unsupported architecture: $arch"
-    ;;
-esac
-
-ok "platform detected: os=$OS arch=$ARCH"
-
-TMP_DIR="$(mktemp -d 2>/dev/null || mktemp -d -t softadastra)"
-cleanup() {
-  rm -rf "$TMP_DIR"
+  case "$arch" in
+    x86_64|amd64)
+      ARCH="x86_64"
+      ;;
+    arm64|aarch64)
+      ARCH="aarch64"
+      ;;
+    *)
+      die "unsupported architecture: $arch"
+      ;;
+  esac
 }
-trap cleanup EXIT INT TERM
 
 resolve_version() {
   if [ "$SOFTADASTRA_VERSION" = "latest" ]; then
@@ -203,17 +169,6 @@ resolve_version() {
     printf "%s" "$SOFTADASTRA_VERSION"
   fi
 }
-
-step "Resolving release version"
-
-TAG="$(resolve_version)"
-
-ok "repo=$SOFTADASTRA_REPO version=$TAG kind=$SOFTADASTRA_INSTALL_KIND"
-
-BASE_URL="https://github.com/${SOFTADASTRA_REPO}/releases/download/${TAG}"
-
-CLI_ASSET="softadastra-${OS}-${ARCH}.tar.gz"
-SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
 
 verify_checksum() {
   archive="$1"
@@ -246,16 +201,10 @@ verify_signature() {
   sig_file="$2"
 
   if ! have minisign; then
-    warn "minisig is published but minisign is not installed"
-    warn "continuing because checksum verification already succeeded"
     return
   fi
 
-  if minisign -Vm "$archive" -P "$MINISIGN_PUBKEY" >/dev/null 2>&1; then
-    ok "minisign ok"
-  else
-    die "minisign verification failed"
-  fi
+  minisign -Vm "$archive" -P "$MINISIGN_PUBKEY" >/dev/null 2>&1 || die "signature verification failed"
 }
 
 download_and_verify_asset() {
@@ -264,39 +213,57 @@ download_and_verify_asset() {
   archive="$TMP_DIR/$asset"
   sha_file="$TMP_DIR/$asset.sha256"
   sig_file="$TMP_DIR/$asset.minisig"
-
   url="$BASE_URL/$asset"
 
-  step "Downloading $asset"
-  info "url: $url"
+  info "downloading $asset"
 
-  fetch "$url" "$archive"
-  ok "archive downloaded"
+  fetch "$url" "$archive" || die "download failed: $asset"
+  fetch "$url.sha256" "$sha_file" || die "sha256 file not found: $asset"
 
-  step "Verifying checksum"
-  if fetch "$url.sha256" "$sha_file"; then
-    verify_checksum "$archive" "$sha_file"
-    ok "sha256 ok"
-  else
-    die "sha256 file not found for $asset"
-  fi
+  verify_checksum "$archive" "$sha_file"
 
-  step "Verifying signature"
   if fetch "$url.minisig" "$sig_file"; then
     verify_signature "$archive" "$sig_file"
-  else
-    warn "minisig not found for $asset"
   fi
 
   printf "%s" "$archive"
 }
 
-install_cli() {
-  asset="$CLI_ASSET"
-  archive="$(download_and_verify_asset "$asset")"
-  extract_dir="$TMP_DIR/cli-extract"
+update_shell_profile() {
+  profile=""
 
-  step "Installing CLI"
+  if [ -n "${SHELL:-}" ]; then
+    case "$SHELL" in
+      */zsh)
+        profile="$HOME/.zshrc"
+        ;;
+      */bash)
+        profile="$HOME/.bashrc"
+        ;;
+      *)
+        profile=""
+        ;;
+    esac
+  fi
+
+  [ -n "$profile" ] || return 0
+
+  mkdir -p "$(dirname "$profile")"
+  touch "$profile"
+
+  if ! grep -q 'SOFTADASTRA_HOME' "$profile" 2>/dev/null; then
+    {
+      echo ""
+      echo "# Softadastra"
+      echo "export SOFTADASTRA_HOME=\"$SOFTADASTRA_HOME\""
+      echo "export PATH=\"$SOFTADASTRA_BIN_DIR:\$PATH\""
+    } >> "$profile"
+  fi
+}
+
+install_cli() {
+  archive="$(download_and_verify_asset "$CLI_ASSET")"
+  extract_dir="$TMP_DIR/cli"
 
   rm -rf "$extract_dir"
   mkdir -p "$extract_dir" "$SOFTADASTRA_BIN_DIR"
@@ -308,21 +275,16 @@ install_cli() {
   elif [ -f "$extract_dir/$BIN_NAME" ]; then
     src="$extract_dir/$BIN_NAME"
   else
-    die "$BIN_NAME binary not found in CLI archive"
+    die "$BIN_NAME not found in CLI archive"
   fi
 
   chmod +x "$src"
   cp "$src" "$SOFTADASTRA_BIN_DIR/$BIN_NAME"
   chmod +x "$SOFTADASTRA_BIN_DIR/$BIN_NAME"
-
-  ok "CLI installed: $SOFTADASTRA_BIN_DIR/$BIN_NAME"
 }
 
 install_sdk() {
-  asset="$SDK_ASSET"
-  archive="$(download_and_verify_asset "$asset")"
-
-  step "Installing SDK"
+  archive="$(download_and_verify_asset "$SDK_ASSET")"
 
   rm -rf "$SOFTADASTRA_SDK_DIR"
   mkdir -p "$SOFTADASTRA_SDK_DIR"
@@ -331,16 +293,26 @@ install_sdk() {
 
   [ -d "$SOFTADASTRA_SDK_DIR/include/softadastra" ] || die "SDK archive is missing include/softadastra"
   [ -f "$SOFTADASTRA_SDK_DIR/lib/cmake/softadastra/softadastraConfig.cmake" ] || die "SDK archive is missing softadastraConfig.cmake"
-
-  ok "SDK installed: $SOFTADASTRA_SDK_DIR"
 }
 
-mkdir -p "$SOFTADASTRA_HOME"
-mkdir -p "$SOFTADASTRA_BIN_DIR"
+detect_platform
 
-info "install root: $SOFTADASTRA_HOME"
-info "bin dir: $SOFTADASTRA_BIN_DIR"
-info "sdk dir: $SOFTADASTRA_SDK_DIR"
+TMP_DIR="$(mktemp -d 2>/dev/null || mktemp -d -t softadastra)"
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT INT TERM
+
+TAG="$(resolve_version)"
+BASE_URL="https://github.com/${SOFTADASTRA_REPO}/releases/download/${TAG}"
+
+CLI_ASSET="softadastra-${OS}-${ARCH}.tar.gz"
+SDK_ASSET="softadastra-sdk-${OS}-${ARCH}.tar.gz"
+
+mkdir -p "$SOFTADASTRA_HOME" "$SOFTADASTRA_BIN_DIR"
+
+printf "\n%sSoftadastra installer%s\n" "$C_BOLD" "$C_RESET" >&2
+info "version=$TAG target=${OS}-${ARCH} kind=$SOFTADASTRA_INSTALL_KIND"
 
 case "$SOFTADASTRA_INSTALL_KIND" in
   all)
@@ -355,41 +327,29 @@ case "$SOFTADASTRA_INSTALL_KIND" in
     ;;
 esac
 
-step "Validating installation"
+update_shell_profile
 
 if [ "$SOFTADASTRA_INSTALL_KIND" = "all" ] || [ "$SOFTADASTRA_INSTALL_KIND" = "cli" ]; then
-  SOFTADASTRA_BIN="$SOFTADASTRA_BIN_DIR/$BIN_NAME"
-
-  if "$SOFTADASTRA_BIN" version >/dev/null 2>&1; then
-    INSTALLED_VERSION="$("$SOFTADASTRA_BIN" version 2>/dev/null || true)"
-    ok "installed: $INSTALLED_VERSION"
+  if "$SOFTADASTRA_BIN_DIR/$BIN_NAME" version >/dev/null 2>&1; then
+    INSTALLED_VERSION="$("$SOFTADASTRA_BIN_DIR/$BIN_NAME" version 2>/dev/null || true)"
+    ok "$INSTALLED_VERSION"
   else
-    warn "installed, but running '$BIN_NAME version' failed"
+    warn "installed, but '$BIN_NAME version' failed"
   fi
 fi
 
-step "Checking PATH"
+if [ "$SOFTADASTRA_INSTALL_KIND" = "all" ] || [ "$SOFTADASTRA_INSTALL_KIND" = "sdk" ]; then
+  ok "SDK installed: $SOFTADASTRA_SDK_DIR"
+fi
 
 case ":$PATH:" in
   *":$SOFTADASTRA_BIN_DIR:"*)
-    ok "'$SOFTADASTRA_BIN_DIR' is already in PATH"
+    ok "ready"
     ;;
   *)
-    warn "'$SOFTADASTRA_BIN_DIR' is not in your PATH"
-    info "add this to your shell config:"
-    printf "  export SOFTADASTRA_HOME=\"%s\"\n" "$SOFTADASTRA_HOME" >&2
-    printf "  export PATH=\"%s:\$PATH\"\n" "$SOFTADASTRA_BIN_DIR" >&2
+    warn "installed, open a new terminal if '$BIN_NAME' is not found"
     ;;
 esac
 
-printf "\n%sDone.%s\n" "$C_BOLD$C_GREEN" "$C_RESET" >&2
-printf "%sVersion:%s %s\n" "$C_BOLD" "$C_RESET" "$TAG" >&2
-printf "%sKind:%s    %s\n" "$C_BOLD" "$C_RESET" "$SOFTADASTRA_INSTALL_KIND" >&2
+printf "%sDone.%s\n\n" "$C_BOLD$C_GREEN" "$C_RESET" >&2
 
-if [ "$SOFTADASTRA_INSTALL_KIND" = "all" ] || [ "$SOFTADASTRA_INSTALL_KIND" = "cli" ]; then
-  printf "%sCLI:%s     %s\n" "$C_BOLD" "$C_RESET" "$SOFTADASTRA_BIN_DIR/$BIN_NAME" >&2
-fi
-
-if [ "$SOFTADASTRA_INSTALL_KIND" = "all" ] || [ "$SOFTADASTRA_INSTALL_KIND" = "sdk" ]; then
-  printf "%sSDK:%s     %s\n" "$C_BOLD" "$C_RESET" "$SOFTADASTRA_SDK_DIR" >&2
-fi
