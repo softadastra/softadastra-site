@@ -5,24 +5,24 @@
         <div class="company-section__content sd-reveal">
           <SectionHeading
             eyebrow="Company Model"
-            title="Open foundations. Commercial products around them."
-            text="Softadastra Company maintains the core stack as open source infrastructure. The ecosystem grows through developer adoption, while commercial products provide cloud, observability, builds, and enterprise services around the foundation."
+            title="Focused C++ tooling. Open foundations. Clear direction."
+            text="Softadastra is a C++ tooling company. It builds and maintains a focused technical ecosystem for modern C++ development: runtime foundations, developer workflows, backend reliability, local-first runtime layers, and real validation applications."
           />
 
           <div class="company-section__metrics">
             <div class="company-section__metric">
-              <strong>MIT</strong>
-              <span>Permissive core</span>
+              <strong>C++</strong>
+              <span>Tooling focus</span>
             </div>
 
             <div class="company-section__metric">
-              <strong>5</strong>
-              <span>Maintained layers</span>
+              <strong>Open</strong>
+              <span>Technical foundations</span>
             </div>
 
             <div class="company-section__metric">
-              <strong>Cloud</strong>
-              <span>Business layer</span>
+              <strong>Focused</strong>
+              <span>No product noise</span>
             </div>
           </div>
         </div>
@@ -72,28 +72,28 @@ const steps = [
   {
     number: "01",
     title: "Softadastra Company",
-    text: "Maintains the ecosystem and gives every stack a clear direction.",
+    text: "Maintains one clear direction: make modern C++ development simpler, faster, and more accessible.",
   },
   {
     number: "02",
-    title: "Open infrastructure stack",
-    text: "Vix, Softadastra, Kordex, Cnerium, and PulseGrid evolve as one architecture.",
+    title: "Vix.cpp foundation",
+    text: "The open C++ runtime and developer toolkit that gives the ecosystem its technical base.",
   },
   {
-    number: "MIT",
-    title: "MIT License",
-    text: "Developers can use, fork, study, and extend the core foundation freely.",
-    green: true,
+    number: "03",
+    title: "Focused tooling layers",
+    text: "Softadastra Engine, Cnerium, and Kordex extend the ecosystem with offline-first foundations, backend reliability, and local-first runtime work.",
   },
   {
     number: "04",
-    title: "Developer adoption",
-    text: "The open stack creates trust, usage, community, and ecosystem growth.",
+    title: "Real validation",
+    text: "Pico proves the stack inside a real C++ backend application instead of staying only as isolated examples.",
+    green: true,
   },
   {
     number: "05",
-    title: "Commercial products and services",
-    text: "Cloud, builds, observability, enterprise support, and managed services.",
+    title: "Developer adoption",
+    text: "Documentation, registry, engineering notes, and open repositories help developers understand, use, and trust the tooling.",
     accent: true,
   },
 ];
@@ -147,7 +147,11 @@ const steps = [
   border: 1px solid var(--sd-border);
   border-radius: 16px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.038),
+      rgba(255, 255, 255, 0.014)
+    ),
     #0d1319;
 }
 
@@ -176,8 +180,16 @@ const steps = [
   border: 1px solid var(--sd-border);
   border-radius: 24px;
   background:
-    radial-gradient(circle at top right, rgba(174, 185, 255, 0.1), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    radial-gradient(
+      circle at top right,
+      rgba(174, 185, 255, 0.1),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.012)
+    ),
     #0d1319;
   box-shadow:
     0 26px 90px rgba(0, 0, 0, 0.32),
@@ -198,7 +210,11 @@ const steps = [
   border: 1px solid var(--sd-border);
   border-radius: 18px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.014)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.014)
+    ),
     rgba(12, 16, 21, 0.74);
   transition:
     transform 220ms ease,
@@ -210,7 +226,11 @@ const steps = [
 .company-section__step-head:hover {
   border-color: rgba(174, 185, 255, 0.24);
   background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.065), rgba(255, 255, 255, 0.018)),
+    linear-gradient(
+      180deg,
+      rgba(174, 185, 255, 0.065),
+      rgba(255, 255, 255, 0.018)
+    ),
     rgba(12, 16, 21, 0.8);
   box-shadow:
     0 18px 56px rgba(0, 0, 0, 0.26),
@@ -221,7 +241,11 @@ const steps = [
 .company-section__step--accent .company-section__step-head {
   border-color: rgba(110, 231, 183, 0.2);
   background:
-    linear-gradient(180deg, rgba(110, 231, 183, 0.075), rgba(255, 255, 255, 0.016)),
+    linear-gradient(
+      180deg,
+      rgba(110, 231, 183, 0.075),
+      rgba(255, 255, 255, 0.016)
+    ),
     rgba(12, 16, 21, 0.78);
 }
 
@@ -233,7 +257,11 @@ const steps = [
   border: 1px solid rgba(174, 185, 255, 0.16);
   border-radius: 15px;
   background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.1), rgba(174, 185, 255, 0.035)),
+    linear-gradient(
+      180deg,
+      rgba(174, 185, 255, 0.1),
+      rgba(174, 185, 255, 0.035)
+    ),
     rgba(255, 255, 255, 0.02);
   color: var(--sd-accent);
   font-family: var(--sd-font-mono);

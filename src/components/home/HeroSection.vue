@@ -1,7 +1,6 @@
 <template>
   <section class="hero">
     <!-- Background effects -->
-    <div class="hero__grid" aria-hidden="true" />
     <div class="hero__glow-1" aria-hidden="true" />
     <div class="hero__glow-2" aria-hidden="true" />
 
@@ -10,24 +9,23 @@
       <div class="hero__copy">
         <div class="hero__badge">
           <span class="hero__badge-dot" />
-          Local-first infrastructure
+          The C++ Tooling Company
         </div>
 
         <h1 class="hero__title">
-          Build apps that keep<br />
-          working
-          <span class="hero__title-accent">offline.</span>
+          Open tooling for<br />
+          modern
+          <span class="hero__title-accent">C++ development.</span>
         </h1>
 
         <p class="hero__desc">
-          Softadastra builds open infrastructure, runtimes, tools, and cloud
-          products for applications that must keep working when the network
-          fails.
+          Softadastra builds and maintains focused tools that make C++ projects
+          easier to create, build, test, diagnose, package, and distribute.
         </p>
 
         <div class="hero__actions">
-          <a :href="links.docs" class="hero__btn hero__btn--primary">
-            Explore docs
+          <a :href="links.vix" class="hero__btn hero__btn--primary">
+            Explore Vix.cpp
             <svg
               width="14"
               height="14"
@@ -44,328 +42,181 @@
               />
             </svg>
           </a>
-          <a :href="links.business" class="hero__btn hero__btn--secondary">
-            Softadastra Cloud
+          <a href="/ecosystem" class="hero__btn hero__btn--secondary">
+            View ecosystem
+          </a>
+
+          <a
+            :href="links.github"
+            class="hero__btn hero__btn--ghost"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+            GitHub
           </a>
         </div>
 
         <div class="hero__stats">
           <div class="hero__stat">
-            <strong>100%</strong>
-            <span>Offline reads</span>
+            <strong>Open</strong>
+            <span>C++ foundation</span>
           </div>
           <div class="hero__stat-div" />
           <div class="hero__stat">
-            <strong>Durable</strong>
-            <span>Write-ahead log</span>
+            <strong>Native</strong>
+            <span>Build &amp; package</span>
           </div>
           <div class="hero__stat-div" />
           <div class="hero__stat">
-            <strong>Auto</strong>
-            <span>Sync &amp; resolve</span>
+            <strong>Focused</strong>
+            <span>Developer tooling</span>
           </div>
         </div>
       </div>
 
-      <!-- ─── RIGHT: Dashboard ─── -->
+      <!-- ─── RIGHT: Toolchain console ─── -->
       <div
-        class="hero__dashboard"
+        class="hero__console"
         role="img"
-        aria-label="Live dashboard: app continues working when network fails"
+        :aria-label="`Developer console demonstrating the ${activeTool.binary} CLI workflow.`"
       >
         <!-- Window chrome -->
-        <div class="dash__chrome">
-          <div class="dash__dots">
-            <span class="dash__dot dash__dot--red" />
-            <span class="dash__dot dash__dot--yellow" />
-            <span class="dash__dot dash__dot--green" />
+        <div class="con__chrome">
+          <div class="con__dots">
+            <span class="con__dot con__dot--red" />
+            <span class="con__dot con__dot--yellow" />
+            <span class="con__dot con__dot--green" />
           </div>
-          <div class="dash__chrome-title">
-            Softadastra — Infrastructure Console
+
+          <!-- Tool tabs: which CLI is running -->
+          <div class="con__tabs" role="presentation">
+            <button
+              v-for="tool in tools"
+              :key="tool.id"
+              type="button"
+              class="con__tab"
+              :class="{ 'con__tab--active': tool.id === activeToolId }"
+              :data-accent="tool.accent"
+              :aria-pressed="tool.id === activeToolId"
+              @click="selectTool(tool.id)"
+            >
+              {{ tool.binary }}
+            </button>
           </div>
-          <div
-            class="dash__status-pill"
-            :class="`dash__status-pill--${currentPhase}`"
-          >
-            <span class="dash__status-dot" />
-            {{ statusLabel }}
-          </div>
+
+          <div class="con__chrome-tag">{{ activeTool.context }}</div>
         </div>
 
-        <!-- Dashboard body -->
-        <div class="dash__body">
-          <!-- Sidebar -->
-          <nav class="dash__sidebar" aria-label="Console navigation">
+        <!-- Console body -->
+        <div class="con__body">
+          <!-- Terminal -->
+          <div class="con__terminal" aria-hidden="true">
             <div
-              v-for="item in sidebarItems"
-              :key="item.id"
-              class="dash__sb-item"
-              :class="{ 'dash__sb-item--active': item.id === 'overview' }"
+              v-for="line in visibleLines"
+              :key="line.id"
+              class="con__line"
+              :class="`con__line--${line.kind}`"
             >
-              <component
-                :is="'svg'"
-                v-html="item.icon"
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
+              <span
+                v-if="line.kind === 'cmd'"
+                class="con__prompt"
+                :data-accent="activeTool.accent"
+                >{{ activeTool.prompt }}</span
+              >
+              <span
+                v-else-if="line.kind === 'ok'"
+                class="con__check"
                 aria-hidden="true"
-              />
-              {{ item.label }}
-            </div>
-          </nav>
-
-          <!-- Main content -->
-          <div class="dash__main">
-            <!-- Stat cards -->
-            <div class="dash__cards">
-              <div class="dash__card dash__card--green">
-                <span class="dash__card-label">Offline reads</span>
-                <strong class="dash__card-val">100%</strong>
-                <span class="dash__card-sub">Always available</span>
-              </div>
-              <div class="dash__card dash__card--amber">
-                <span class="dash__card-label">Queued writes</span>
-                <strong class="dash__card-val">{{ queuedCount }}</strong>
-                <span class="dash__card-sub">Pending sync</span>
-              </div>
-              <div class="dash__card dash__card--purple">
-                <span class="dash__card-label">WAL engine</span>
-                <strong class="dash__card-val">Durable</strong>
-                <span class="dash__card-sub">Write-ahead log</span>
-              </div>
-            </div>
-
-            <!-- Animation panel -->
-            <div class="dash__anim-panel">
-              <!-- App node -->
-              <div class="dash__app-node">
-                <div class="dash__app-header">
-                  <div class="dash__app-icon">
-                    <img src="/logo.svg" alt="" width="18" height="18" />
-                  </div>
-                  <div class="dash__app-meta">
-                    <strong>Your app</strong>
-                    <span>Local-first</span>
-                  </div>
-                  <span class="dash__app-pulse" />
-                </div>
-
-                <!-- Log -->
-                <div
-                  class="dash__log"
-                  aria-live="polite"
-                  aria-label="Operation log"
-                >
-                  <div
-                    v-for="(entry, i) in visibleLog"
-                    :key="entry.id"
-                    class="dash__log-row"
-                    :class="{
-                      'dash__log-row--queued': entry.queued && !entry.synced,
-                      'dash__log-row--synced': entry.synced,
-                    }"
-                  >
-                    <span class="dash__log-icon" aria-hidden="true">
-                      <svg
-                        v-if="entry.synced"
-                        viewBox="0 0 16 16"
-                        width="10"
-                        height="10"
-                        fill="none"
-                      >
-                        <path
-                          d="M3 8.5l3 3 7-7"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <svg
-                        v-else-if="entry.queued"
-                        viewBox="0 0 16 16"
-                        width="10"
-                        height="10"
-                        fill="none"
-                      >
-                        <circle
-                          cx="8"
-                          cy="8"
-                          r="5"
-                          stroke="currentColor"
-                          stroke-width="1.6"
-                        />
-                        <path
-                          d="M8 5v3l1.5 1.5"
-                          stroke="currentColor"
-                          stroke-width="1.4"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                      <svg v-else viewBox="0 0 16 16" width="10" height="10">
-                        <circle cx="8" cy="8" r="3" fill="currentColor" />
-                      </svg>
-                    </span>
-                    <span class="dash__log-text">{{ entry.text }}</span>
-                    <span class="dash__log-tag">write</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Connection line -->
-              <div class="dash__conn">
-                <svg
-                  class="dash__conn-svg"
-                  viewBox="0 0 220 32"
-                  preserveAspectRatio="none"
-                >
-                  <line
-                    x1="0"
-                    y1="16"
-                    x2="220"
-                    y2="16"
-                    stroke="rgba(255,255,255,0.08)"
-                    stroke-width="1.5"
-                    stroke-dasharray="4 4"
-                  />
-                  <line
-                    v-if="
-                      currentPhase === 'online' || currentPhase === 'syncing'
-                    "
-                    x1="0"
-                    y1="16"
-                    x2="220"
-                    y2="16"
-                    stroke="url(#flowGrad)"
-                    stroke-width="2"
-                    class="dash__flow-line"
-                  />
-                  <defs>
-                    <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stop-color="transparent" />
-                      <stop offset="50%" stop-color="rgba(74,222,128,0.85)" />
-                      <stop offset="100%" stop-color="transparent" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div
-                  class="dash__conn-badge"
-                  :class="`dash__conn-badge--${currentPhase}`"
-                >
-                  <span v-if="currentPhase === 'offline'">
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M2 2l12 12M5 9a4 4 0 016-1M2.5 6.5a8 8 0 0110-1"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                    Network down
-                  </span>
-                  <span v-else-if="currentPhase === 'syncing'">
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      class="dash__spin"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M13 8a5 5 0 11-1.5-3.5L13 3v3h-3"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    Syncing {{ queuedCount }}
-                  </span>
-                  <span v-else>
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M3 8.5l3 3 7-7"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    All synced
-                  </span>
-                </div>
-              </div>
-
-              <!-- Cloud node -->
-              <div class="dash__cloud" :class="`dash__cloud--${currentPhase}`">
-                <svg
-                  class="dash__cloud-icon"
-                  viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
-                  fill="none"
-                  aria-hidden="true"
-                >
+              >
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="none">
                   <path
-                    d="M6.5 18a4.5 4.5 0 010-9 6 6 0 0111.5 1.5A4 4 0 0117.5 18z"
+                    d="M3 8.5l3 3 7-7"
                     stroke="currentColor"
-                    stroke-width="1.6"
+                    stroke-width="2"
+                    stroke-linecap="round"
                     stroke-linejoin="round"
                   />
                 </svg>
-                <div>
-                  <strong>Cloud</strong>
-                  <span>{{ cloudStatus }}</span>
-                </div>
-              </div>
-            </div>
+              </span>
+              <span v-else class="con__bullet" aria-hidden="true">›</span>
 
-            <!-- Activity feed -->
-            <div class="dash__feed">
-              <div class="dash__feed-header">
-                Recent activity
-                <span>Live</span>
-              </div>
-              <div class="dash__feed-list" aria-live="polite">
-                <div
-                  v-for="item in activityFeed"
-                  :key="item.id"
-                  class="dash__feed-row"
-                >
-                  <span
-                    class="dash__feed-dot"
-                    :style="{ background: item.color }"
-                  />
-                  <span class="dash__feed-text">{{ item.text }}</span>
-                  <span class="dash__feed-time">{{ item.time }}</span>
-                </div>
-              </div>
+              <span class="con__text" v-html="line.html" />
+              <span v-if="line.meta" class="con__meta">{{ line.meta }}</span>
             </div>
+            <div class="con__line con__line--cursor">
+              <span class="con__prompt" :data-accent="activeTool.accent">{{
+                activeTool.prompt
+              }}</span>
+              <span class="con__cursor" :data-accent="activeTool.accent" />
+            </div>
+          </div>
 
-            <!-- Phase indicators -->
-            <div class="dash__phases">
+          <!-- Pipeline: the stages of the active tool -->
+          <div
+            class="con__pipeline"
+            role="presentation"
+            :aria-label="`${activeTool.binary} workflow stages`"
+          >
+            <template v-for="(stage, i) in activeTool.stages" :key="stage.id">
               <div
-                v-for="phase in phases"
-                :key="phase.id"
-                class="dash__phase"
-                :class="{ 'dash__phase--active': phase.id === currentPhase }"
+                class="con__stage"
+                :data-accent="activeTool.accent"
+                :class="{
+                  'con__stage--active': i === activeStage,
+                  'con__stage--done': i < activeStage,
+                }"
               >
-                <span class="dash__phase-dot" />
-                {{ phase.label }}
+                <span class="con__stage-icon" v-html="stage.icon" />
+                <span class="con__stage-label">{{ stage.label }}</span>
+              </div>
+              <span
+                v-if="i < activeTool.stages.length - 1"
+                class="con__arrow"
+                :class="{ 'con__arrow--filled': i < activeStage }"
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 12 8" width="12" height="8" fill="none">
+                  <path
+                    d="M1 4h9M7 1l3 3-3 3"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </template>
+          </div>
+
+          <!-- Ecosystem map -->
+          <div class="con__eco">
+            <div class="con__eco-header">
+              <span>Ecosystem</span>
+              <span class="con__eco-root">built on Vix.cpp</span>
+            </div>
+            <div class="con__eco-grid">
+              <div
+                v-for="node in ecosystem"
+                :key="node.id"
+                class="con__node"
+                :class="`con__node--${node.accent}`"
+              >
+                <div class="con__node-head">
+                  <span class="con__node-name">{{ node.name }}</span>
+                  <span class="con__node-pulse" />
+                </div>
+                <span class="con__node-desc">{{ node.desc }}</span>
               </div>
             </div>
           </div>
@@ -379,219 +230,296 @@
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { links } from "../../data/links";
 
-// ─── Props / data ───────────────────────────────────────
-const phases = [
-  { id: "online", label: "Online" },
-  { id: "offline", label: "Offline" },
-  { id: "syncing", label: "Sync" },
+// ─── Shared SVG icons for pipeline stages ────────────────
+const ICON = {
+  run: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M4 3l8 5-8 5V3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+  build:
+    '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M2 6l6-3 6 3-6 3-6-3zM2 6v4l6 3 6-3V6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+  test: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  check:
+    '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  pack: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M8 2l5 2.5v5L8 12 3 9.5v-5L8 2zM3 4.5L8 7l5-2.5M8 7v5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  store:
+    '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><ellipse cx="8" cy="4" rx="5" ry="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M3 4v8c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2V4" stroke="currentColor" stroke-width="1.3"/></svg>',
+  sync: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M13 8a5 5 0 11-1.5-3.5L13 3v3h-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  node: '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 2"/></svg>',
+  peers:
+    '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="6" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13a2.5 2.5 0 015 0M8.5 13a2.5 2.5 0 015 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+};
+
+// Helper: highlight a command's binary + tokens in terminal output.
+function cmd(binary, rest, accentVar) {
+  return (
+    `<span class="t-bin" style="color:var(${accentVar})">${binary}</span> ` +
+    rest
+      .split(" ")
+      .map((tok) =>
+        tok.startsWith("-")
+          ? `<span class="t-flag">${tok}</span>`
+          : `<span class="t-arg">${tok}</span>`,
+      )
+      .join(" ")
+  );
+}
+
+// ─── The two real CLIs ───────────────────────────────────
+const tools = [
+  {
+    id: "vix",
+    binary: "vix",
+    prompt: "$",
+    context: "~/api",
+    accent: "--c-green",
+    // Real Vix workflow: create → install → dev → build → test → check → pack
+    stages: [
+      { id: "new", label: "new", icon: ICON.run },
+      { id: "build", label: "build", icon: ICON.build },
+      { id: "tests", label: "tests", icon: ICON.test },
+      { id: "check", label: "check", icon: ICON.check },
+      { id: "pack", label: "pack", icon: ICON.pack },
+    ],
+    script: [
+      { kind: "cmd", c: ["vix new api"], stage: 0 },
+      { kind: "ok", text: "created project", meta: "api", stage: 0 },
+      { kind: "cmd", c: ["vix install"], stage: 0 },
+      { kind: "ok", text: "dependencies resolved", meta: "vix.lock", stage: 0 },
+      { kind: "cmd", c: ["vix build", "--preset release"], stage: 1 },
+      { kind: "log", text: "configuring toolchain…", stage: 1 },
+      { kind: "ok", text: "native binary linked", meta: "1.1s", stage: 1 },
+      { kind: "cmd", c: ["vix tests"], stage: 2 },
+      { kind: "ok", text: "42 passed", meta: "0 failed", stage: 2 },
+      { kind: "cmd", c: ["vix check", "--tests"], stage: 3 },
+      { kind: "ok", text: "no diagnostics", meta: "clean", stage: 3 },
+      { kind: "cmd", c: ["vix pack", "--name api --version 1.0.0"], stage: 4 },
+      { kind: "ok", text: "packaged api@1.0.0", meta: ".vixpkg", stage: 4 },
+    ],
+  },
+  {
+    id: "softadastra",
+    binary: "softadastra",
+    prompt: "$",
+    context: "engine",
+    accent: "--c-orange",
+    // Real Softadastra Engine workflow: node → store → sync → peers
+    stages: [
+      { id: "node", label: "node", icon: ICON.node },
+      { id: "store", label: "store", icon: ICON.store },
+      { id: "sync", label: "sync", icon: ICON.sync },
+      { id: "peers", label: "peers", icon: ICON.peers },
+    ],
+    script: [
+      { kind: "cmd", c: ["softadastra node info"], stage: 0 },
+      { kind: "ok", text: "node-a · healthy", meta: "v0.1.0", stage: 0 },
+      {
+        kind: "cmd",
+        c: ["softadastra store put", "app/name Softadastra"],
+        stage: 1,
+      },
+      { kind: "ok", text: "stored app/name", meta: "created", stage: 1 },
+      { kind: "cmd", c: ["softadastra store get", "app/name"], stage: 1 },
+      { kind: "log", text: "value: Softadastra", stage: 1 },
+      { kind: "cmd", c: ["softadastra sync status"], stage: 2 },
+      { kind: "log", text: "outbox 3 · queued 3 · failed 0", stage: 2 },
+      { kind: "cmd", c: ["softadastra sync tick", "--prune"], stage: 2 },
+      { kind: "ok", text: "synced batch", meta: "pruned 2", stage: 2 },
+      { kind: "cmd", c: ["softadastra peers"], stage: 3 },
+      { kind: "ok", text: "node-b available", meta: "1 peer", stage: 3 },
+    ],
+  },
 ];
 
-const sidebarItems = [
+const ecosystem = [
   {
-    id: "overview",
-    label: "Overview",
-    icon: '<path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
+    id: "engine",
+    name: "Softadastra Engine",
+    desc: "Offline-first runtime layer for C++ apps",
+    accent: "orange",
   },
   {
-    id: "storage",
-    label: "Storage",
-    icon: '<ellipse cx="8" cy="5" rx="5" ry="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 5v6c0 1.38 2.24 2.5 5 2.5s5-1.12 5-2.5V5" stroke="currentColor" stroke-width="1.4"/>',
+    id: "cnerium",
+    name: "Cnerium",
+    desc: "Backend reliability layer for Vix apps",
+    accent: "green",
   },
   {
-    id: "sync",
-    label: "Sync",
-    icon: '<path d="M13 8a5 5 0 11-1.5-3.5L13 3v3h-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    id: "kordex",
+    name: "Kordex",
+    desc: "JS / TS runtime built on Vix.cpp",
+    accent: "purple",
   },
   {
-    id: "metrics",
-    label: "Metrics",
-    icon: '<path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    id: "pico",
+    name: "Pico",
+    desc: "Real C++ backend proving Vix.cpp",
+    accent: "blue",
   },
-  {
-    id: "settings",
-    label: "Settings",
-    icon: '<circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 2v1M8 13v1M2 8h1M13 8h1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
-  },
-];
-
-const sampleActions = [
-  { text: "Create order #4821" },
-  { text: "Update profile name" },
-  { text: "Add note to record" },
-  { text: "Mark task complete" },
-  { text: "Upload attachment" },
-  { text: "Save draft message" },
-  { text: "Delete record #299" },
-  { text: "Patch settings blob" },
 ];
 
 // ─── Reactive state ──────────────────────────────────────
-const currentPhase = ref("online");
-const log = ref([
-  { id: 1, text: "Create order #4820", queued: false, synced: true },
-  { id: 2, text: "Update profile name", queued: false, synced: true },
-]);
-const activityFeed = ref([
-  {
-    id: 1,
-    text: "Sync handshake established",
-    color: "#4ade80",
-    time: "2s ago",
-  },
-  { id: 2, text: "WAL engine initialised", color: "#a78bfa", time: "5s ago" },
-]);
+const activeToolId = ref("vix");
+const lines = ref([]);
+const activeStage = ref(0);
 
-let logCounter = 2;
-let activityCounter = 10;
-let phaseTimer = null;
-let logTimer = null;
+let lineCounter = 0;
+let stepTimer = null;
+let scriptIndex = 0;
+let reducedMotion = false;
+let userPinned = false; // true once the user clicks a tab
 
-// ─── Computed ────────────────────────────────────────────
-const statusLabel = computed(() => {
-  if (currentPhase.value === "offline") return "Offline — writes durable";
-  if (currentPhase.value === "syncing") return "Reconnecting…";
-  return "Connected";
-});
-
-const cloudStatus = computed(() => {
-  if (currentPhase.value === "offline") return "unreachable";
-  if (currentPhase.value === "syncing") return "receiving";
-  return "in sync";
-});
-
-const queuedCount = computed(
-  () => log.value.filter((e) => e.queued && !e.synced).length,
+const activeTool = computed(
+  () => tools.find((t) => t.id === activeToolId.value) || tools[0],
 );
+const visibleLines = computed(() => lines.value.slice(-7));
 
-const visibleLog = computed(() => log.value.slice(-4));
+// Build the displayed HTML for a script item.
+function renderItem(item, tool) {
+  if (item.kind === "cmd") {
+    const [bin, ...restParts] = item.c;
+    const rest = restParts.join(" ");
+    return cmd(bin, rest, tool.accent);
+  }
+  return `<span>${item.text}</span>`;
+}
 
-// ─── Methods ─────────────────────────────────────────────
-function pushActivity(text, color) {
-  activityCounter++;
-  activityFeed.value.unshift({
-    id: activityCounter,
-    text,
-    color,
-    time: "just now",
+// ─── Animation loop ──────────────────────────────────────
+function pushLine(item, tool) {
+  lineCounter++;
+  lines.value.push({
+    id: lineCounter,
+    kind: item.kind,
+    html: renderItem(item, tool),
+    meta: item.meta,
   });
-  if (activityFeed.value.length > 5) activityFeed.value.pop();
+  if (lines.value.length > 14) lines.value.shift();
+  if (typeof item.stage === "number") activeStage.value = item.stage;
 }
 
-function addLogEntry() {
-  const action = sampleActions[logCounter % sampleActions.length];
-  logCounter++;
-  const entry = {
-    id: logCounter,
-    text: action.text,
-    queued: currentPhase.value === "offline",
-    synced: currentPhase.value === "online",
-  };
-  log.value.push(entry);
-  if (log.value.length > 8) log.value.shift();
-
-  const label =
-    currentPhase.value === "offline"
-      ? `Queued: ${entry.text}`
-      : `Synced: ${entry.text}`;
-  const color = currentPhase.value === "offline" ? "#fbbf24" : "#4ade80";
-  pushActivity(label, color);
+function resetTerminal(toToolId) {
+  activeToolId.value = toToolId;
+  lines.value = [];
+  activeStage.value = 0;
+  scriptIndex = 0;
 }
 
-function advancePhase() {
-  if (currentPhase.value === "online") {
-    currentPhase.value = "offline";
-    pushActivity("Network disconnected", "#fbbf24");
-  } else if (currentPhase.value === "offline") {
-    currentPhase.value = "syncing";
-    pushActivity("Reconnected — flushing WAL", "#a78bfa");
-    const queued = log.value.filter((e) => e.queued && !e.synced);
-    queued.forEach((entry, i) => {
-      setTimeout(
-        () => {
-          entry.synced = true;
-        },
-        350 + i * 300,
-      );
-    });
-  } else {
-    currentPhase.value = "online";
-    pushActivity("All changes synced", "#4ade80");
+function step() {
+  const tool = activeTool.value;
+  const item = tool.script[scriptIndex];
+
+  pushLine(item, tool);
+  scriptIndex++;
+
+  // Reached the end of this tool's script.
+  if (scriptIndex >= tool.script.length) {
+    const delay = 2600; // hold the finished state so it's readable
+    stepTimer = setTimeout(() => {
+      if (userPinned) {
+        // Replay the same pinned tool.
+        resetTerminal(tool.id);
+      } else {
+        // Auto-advance to the other tool.
+        const next = tools[(tools.indexOf(tool) + 1) % tools.length];
+        resetTerminal(next.id);
+      }
+      stepTimer = setTimeout(step, 500);
+    }, delay);
+    return;
   }
 
-  const next =
-    currentPhase.value === "offline"
-      ? 5000
-      : currentPhase.value === "syncing"
-        ? 3200
-        : 3500;
-  phaseTimer = setTimeout(advancePhase, next);
+  const delay = item.kind === "cmd" ? 950 : 650;
+  stepTimer = setTimeout(step, delay);
+}
+
+// ─── User interaction ────────────────────────────────────
+function selectTool(id) {
+  userPinned = true;
+  if (stepTimer) clearTimeout(stepTimer);
+  resetTerminal(id);
+
+  if (reducedMotion) {
+    // Render the full static end-state for the chosen tool.
+    fillStatic(activeTool.value);
+    return;
+  }
+  stepTimer = setTimeout(step, 350);
+}
+
+function fillStatic(tool) {
+  lineCounter = 0;
+  lines.value = tool.script.map((item) => {
+    lineCounter++;
+    return {
+      id: lineCounter,
+      kind: item.kind,
+      html: renderItem(item, tool),
+      meta: item.meta,
+    };
+  });
+  activeStage.value = tool.stages.length - 1;
 }
 
 // ─── Lifecycle ───────────────────────────────────────────
 onMounted(() => {
-  phaseTimer = setTimeout(advancePhase, 3500);
-  logTimer = setInterval(addLogEntry, 1600);
+  reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reducedMotion) {
+    fillStatic(activeTool.value);
+    return;
+  }
+
+  stepTimer = setTimeout(step, 600);
 });
 
 onBeforeUnmount(() => {
-  if (phaseTimer) clearTimeout(phaseTimer);
-  if (logTimer) clearInterval(logTimer);
+  if (stepTimer) clearTimeout(stepTimer);
 });
 </script>
 
 <style scoped>
 /* ═══════════════════════════════════════════════════════
-   Design tokens
+   Design tokens — Softadastra dark green / orange identity
 ═══════════════════════════════════════════════════════ */
 .hero {
-  --c-bg: #060e0a;
-  --c-surface: #0b1812;
-  --c-panel: #0f2018;
-  --c-border: rgba(255, 255, 255, 0.07);
-  --c-border-md: rgba(255, 255, 255, 0.11);
-  --c-text: #e8f5ee;
-  --c-muted: rgba(200, 230, 214, 0.55);
-  --c-hint: rgba(200, 230, 214, 0.32);
+  --c-bg: #0b2b22;
+  --c-surface: #102f27;
+  --c-panel: #143a30;
+  --c-border: rgba(255, 255, 255, 0.11);
+  --c-border-md: rgba(255, 255, 255, 0.18);
 
-  --c-green: #4ade80;
-  --c-green-dim: rgba(74, 222, 128, 0.12);
-  --c-green-glow: rgba(74, 222, 128, 0.22);
-  --c-amber: #fbbf24;
-  --c-amber-dim: rgba(251, 191, 36, 0.1);
-  --c-purple: #a78bfa;
-  --c-purple-dim: rgba(167, 139, 250, 0.12);
+  --c-text: #f2fff8;
+  --c-muted: rgba(224, 246, 235, 0.72);
+  --c-hint: rgba(224, 246, 235, 0.5);
+
+  --c-green: #2fd49c;
+  --c-green-dim: rgba(47, 212, 156, 0.16);
+  --c-orange: #ff9d4d;
+  --c-orange-dim: rgba(255, 157, 77, 0.14);
+  --c-purple: #d3b4ff;
+  --c-purple-dim: rgba(211, 180, 255, 0.16);
+  --c-blue: #7cc7ff;
+  --c-blue-dim: rgba(124, 199, 255, 0.16);
 
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
 
+  --mono: "SF Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+
   position: relative;
   overflow: hidden;
   padding: 96px 0 80px;
-  background: var(--c-bg);
+  background: linear-gradient(
+    90deg,
+    rgba(11, 43, 34, 1),
+    rgba(11, 43, 34, 0.88)
+  );
   border-bottom: 1px solid var(--c-border);
 }
 
-/* ─── Background ────────────────────────────────────── */
-.hero__grid {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.08) 1px,
-    transparent 1px
-  );
-  background-size: 40px 40px;
-  opacity: 0.22;
-  mask-image: radial-gradient(
-    ellipse 75% 65% at 60% 40%,
-    black 0%,
-    transparent 80%
-  );
-  pointer-events: none;
-}
-
+/* ─── Background glows ──────────────────────────────── */
 .hero__glow-1 {
   position: absolute;
   top: -120px;
@@ -601,7 +529,7 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(74, 222, 128, 0.08) 0%,
+    rgba(47, 212, 156, 0.1) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -610,13 +538,13 @@ onBeforeUnmount(() => {
 .hero__glow-2 {
   position: absolute;
   bottom: -80px;
-  left: 10%;
+  left: 6%;
   width: 380px;
   height: 380px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(167, 139, 250, 0.06) 0%,
+    rgba(255, 157, 77, 0.07) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -626,7 +554,7 @@ onBeforeUnmount(() => {
 .hero__inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: clamp(40px, 5vw, 80px);
   align-items: center;
   width: min(100% - 48px, 1300px);
@@ -646,13 +574,13 @@ onBeforeUnmount(() => {
   gap: 8px;
   margin-bottom: 26px;
   padding: 6px 14px;
-  border: 1px solid rgba(74, 222, 128, 0.22);
+  border: 1px solid rgba(47, 212, 156, 0.26);
   border-radius: 999px;
-  background: rgba(74, 222, 128, 0.07);
+  background: rgba(47, 212, 156, 0.08);
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: rgba(180, 240, 210, 0.9);
+  color: rgba(180, 240, 210, 0.92);
   text-transform: uppercase;
 }
 
@@ -661,21 +589,21 @@ onBeforeUnmount(() => {
   height: 7px;
   border-radius: 50%;
   background: var(--c-green);
-  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.15);
+  box-shadow: 0 0 0 4px rgba(47, 212, 156, 0.16);
   animation: dotPulse 2s ease-in-out infinite;
 }
 
 .hero__title {
   margin: 0 0 22px;
-  font-size: clamp(42px, 4.8vw, 66px);
+  font-size: clamp(42px, 4.8vw, 64px);
   font-weight: 860;
-  line-height: 1.03;
+  line-height: 1.04;
   letter-spacing: -0.055em;
   color: var(--c-text);
 }
 
 .hero__title-accent {
-  background: linear-gradient(125deg, #4ade80, #86efac);
+  background: linear-gradient(125deg, #2fd49c, #86efac);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -708,7 +636,7 @@ onBeforeUnmount(() => {
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
-    opacity 0.18s ease;
+    background 0.18s ease;
 }
 
 .hero__btn:hover {
@@ -719,17 +647,13 @@ onBeforeUnmount(() => {
 }
 
 .hero__btn--primary {
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong, #d57a2a),
-    var(--sd-orange, #c06a22)
-  );
-  color: #061009;
+  background: linear-gradient(180deg, #ff9d4d, #ef7e22);
+  color: #1a0d02;
 }
 .hero__btn--primary:hover {
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.5),
-    0 12px 32px rgba(74, 222, 128, 0.28);
+    0 0 0 1px rgba(255, 157, 77, 0.5),
+    0 12px 32px rgba(255, 157, 77, 0.26);
 }
 
 .hero__btn--secondary {
@@ -738,7 +662,18 @@ onBeforeUnmount(() => {
   border: 1px solid var(--c-border-md);
 }
 .hero__btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.hero__btn--ghost {
+  background: transparent;
+  color: var(--c-muted);
+  border: 1px solid var(--c-border);
+}
+.hero__btn--ghost:hover {
+  color: var(--c-text);
+  border-color: var(--c-border-md);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .hero__stats {
@@ -764,7 +699,7 @@ onBeforeUnmount(() => {
 .hero__stat span {
   font-size: 11px;
   color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--mono);
   letter-spacing: 0.02em;
 }
 
@@ -775,514 +710,409 @@ onBeforeUnmount(() => {
 }
 
 /* ══════════════════════════════════════════════════════
-   RIGHT — Dashboard
+   RIGHT — Toolchain console
 ══════════════════════════════════════════════════════ */
-.hero__dashboard {
+.hero__console {
   animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
   border-radius: var(--radius-xl);
   border: 1px solid var(--c-border-md);
-  background: var(--c-surface);
+  background: linear-gradient(
+    180deg,
+    rgba(20, 65, 53, 0.98),
+    rgba(12, 42, 34, 0.98)
+  );
   box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.02),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 34px 80px rgba(0, 0, 0, 0.36),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
 
 /* Window chrome */
-.dash__chrome {
+.con__chrome {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 16px;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--c-border);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.055);
 }
 
-.dash__dots {
+.con__dots {
   display: flex;
   gap: 6px;
+  flex-shrink: 0;
 }
 
-.dash__dot {
+.con__dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
 }
-.dash__dot--red {
+.con__dot--red {
   background: #ff5f56;
 }
-.dash__dot--yellow {
+.con__dot--yellow {
   background: #ffbd2e;
 }
-.dash__dot--green {
+.con__dot--green {
   background: #27c93f;
 }
 
-.dash__chrome-title {
-  flex: 1;
-  font-size: 11.5px;
-  color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  letter-spacing: 0.02em;
-}
-
-.dash__status-pill {
+/* Tool tabs */
+.con__tabs {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 10.5px;
-  font-family: "SF Mono", "Fira Code", monospace;
-  font-weight: 600;
-  transition: all 0.4s ease;
-}
-
-.dash__status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: dotPulse 1.4s ease-in-out infinite;
-}
-
-.dash__status-pill--online {
-  background: var(--c-green-dim);
-  color: var(--c-green);
-}
-.dash__status-pill--offline {
-  background: var(--c-amber-dim);
-  color: var(--c-amber);
-}
-.dash__status-pill--syncing {
-  background: var(--c-purple-dim);
-  color: var(--c-purple);
-}
-
-/* Dashboard body */
-.dash__body {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  height: 420px;
-}
-
-/* Sidebar */
-.dash__sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 12px 8px;
-  border-right: 1px solid var(--c-border);
-  background: rgba(255, 255, 255, 0.015);
-}
-
-.dash__sb-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: var(--radius-sm);
-  font-size: 11.5px;
-  color: var(--c-hint);
-  cursor: default;
-  transition: all 0.2s;
-}
-
-.dash__sb-item svg {
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-.dash__sb-item--active {
-  background: rgba(74, 222, 128, 0.07);
-  color: rgba(180, 240, 210, 0.9);
-  font-weight: 600;
-  border: 1px solid rgba(74, 222, 128, 0.15);
-}
-.dash__sb-item--active svg {
-  opacity: 1;
-}
-
-/* Main panel */
-.dash__main {
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  gap: 12px;
-  padding: 14px;
-  overflow: hidden;
-}
-
-/* Stat cards */
-.dash__cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.dash__card {
-  display: grid;
-  gap: 2px;
-  padding: 10px 12px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--c-border);
-  background: var(--c-panel);
-}
-
-.dash__card-label {
-  font-size: 10px;
-  color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  letter-spacing: 0.03em;
-}
-
-.dash__card-val {
-  font-size: 17px;
-  font-weight: 780;
-  letter-spacing: -0.02em;
-  color: var(--c-text);
-}
-
-.dash__card-sub {
-  font-size: 9.5px;
-  color: var(--c-hint);
-}
-
-.dash__card--green .dash__card-val {
-  color: var(--c-green);
-}
-.dash__card--amber .dash__card-val {
-  color: var(--c-amber);
-}
-.dash__card--purple .dash__card-val {
-  color: var(--c-purple);
-}
-
-/* Animation panel */
-.dash__anim-panel {
-  display: grid;
-  grid-template-columns: 1fr 160px 120px;
-  gap: 10px;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* App node */
-.dash__app-node {
-  display: grid;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.02);
-  overflow: hidden;
-}
-
-.dash__app-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dash__app-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  background: rgba(74, 222, 128, 0.1);
-  display: grid;
-  place-items: center;
-}
-
-.dash__app-meta {
-  flex: 1;
-  display: grid;
-  gap: 1px;
-}
-.dash__app-meta strong {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--c-text);
-}
-.dash__app-meta span {
-  font-size: 9.5px;
-  color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-}
-
-.dash__app-pulse {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--c-green);
-  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
-  animation: appPulse 1.6s ease-in-out infinite;
-}
-
-/* Log */
-.dash__log {
-  display: grid;
   gap: 4px;
+  flex: 1;
+  justify-content: center;
 }
 
-.dash__log-row {
-  display: grid;
-  grid-template-columns: 14px 1fr auto;
-  gap: 7px;
-  align-items: center;
-  padding: 5px 8px;
+.con__tab {
+  appearance: none;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 999px;
   border: 1px solid var(--c-border);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.015);
-  font-size: 10.5px;
-  animation: logIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transition:
-    border-color 0.4s,
-    background 0.4s;
-}
-
-.dash__log-row--queued {
-  border-color: rgba(251, 191, 36, 0.2);
-  background: rgba(251, 191, 36, 0.04);
-}
-
-.dash__log-row--synced {
-  border-color: rgba(74, 222, 128, 0.18);
-  background: rgba(74, 222, 128, 0.04);
-}
-
-.dash__log-icon {
-  display: grid;
-  place-items: center;
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
   color: var(--c-hint);
+  transition: all 0.25s ease;
 }
-.dash__log-row--queued .dash__log-icon {
-  color: var(--c-amber);
+.con__tab:hover {
+  color: var(--c-text);
+  border-color: var(--c-border-md);
 }
-.dash__log-row--synced .dash__log-icon {
+
+.con__tab--active[data-accent="--c-green"] {
+  color: #eafff6;
+  border-color: rgba(47, 212, 156, 0.5);
+  background: rgba(47, 212, 156, 0.14);
+}
+.con__tab--active[data-accent="--c-orange"] {
+  color: #fff3e8;
+  border-color: rgba(255, 157, 77, 0.5);
+  background: rgba(255, 157, 77, 0.14);
+}
+
+.con__chrome-tag {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--c-border);
+  color: var(--c-hint);
+  font-family: var(--mono);
+}
+
+/* Console body */
+.con__body {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  background:
+    radial-gradient(
+      520px 260px at 72% 14%,
+      rgba(47, 212, 156, 0.1),
+      transparent 70%
+    ),
+    rgba(9, 35, 28, 0.34);
+}
+
+/* Terminal */
+.con__terminal {
+  display: grid;
+  gap: 5px;
+  height: 200px;
+  align-content: end;
+  padding: 14px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: rgba(6, 24, 19, 0.6);
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.con__line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+  animation: lineIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.con__prompt {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.con__prompt[data-accent="--c-green"] {
   color: var(--c-green);
 }
+.con__prompt[data-accent="--c-orange"] {
+  color: var(--c-orange);
+}
 
-.dash__log-text {
-  color: rgba(230, 245, 238, 0.8);
-  font-size: 10px;
-  font-family: "SF Mono", "Fira Code", monospace;
+.con__check {
+  display: grid;
+  place-items: center;
+  color: var(--c-green);
+  flex-shrink: 0;
+}
+
+.con__bullet {
+  color: var(--c-hint);
+  flex-shrink: 0;
+}
+
+.con__text {
+  color: rgba(242, 255, 248, 0.9);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.dash__log-tag {
-  font-size: 8.5px;
-  padding: 1px 5px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
+.con__line--log .con__text {
   color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+}
+.con__line--ok .con__text {
+  color: rgba(200, 255, 233, 0.86);
 }
 
-/* Connection */
-.dash__conn {
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 100%;
+/* Syntax tokens inside command lines (set via v-html) */
+.con__text :deep(.t-bin) {
+  font-weight: 700;
+}
+.con__text :deep(.t-arg) {
+  color: #eafff6;
+}
+.con__text :deep(.t-flag) {
+  color: var(--c-blue);
 }
 
-.dash__conn-svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.con__meta {
+  margin-left: auto;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(47, 212, 156, 0.12);
+  color: var(--c-green);
+  flex-shrink: 0;
 }
 
-.dash__flow-line {
-  animation: flowAnim 1.6s linear infinite;
+.con__cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: var(--c-green);
+  animation: blink 1.1s step-end infinite;
+}
+.con__cursor[data-accent="--c-orange"] {
+  background: var(--c-orange);
 }
 
-.dash__conn-badge {
-  position: relative;
-  z-index: 2;
+/* Pipeline */
+.con__pipeline {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  border: 1px solid;
-  font-size: 9.5px;
-  font-family: "SF Mono", "Fira Code", monospace;
-  font-weight: 600;
-  background: var(--c-surface);
-  transition: all 0.4s ease;
-  white-space: nowrap;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.con__pipeline::-webkit-scrollbar {
+  display: none;
 }
 
-.dash__conn-badge--online {
-  border-color: rgba(74, 222, 128, 0.3);
+.con__stage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--c-hint);
+  white-space: nowrap;
+  transition: all 0.35s ease;
+}
+
+.con__stage-icon {
+  display: grid;
+  place-items: center;
+  opacity: 0.7;
+}
+
+/* Green-accent tool (vix) */
+.con__stage[data-accent="--c-green"].con__stage--done {
+  border-color: rgba(47, 212, 156, 0.28);
+  background: rgba(47, 212, 156, 0.08);
+  color: rgba(180, 240, 210, 0.85);
+}
+.con__stage[data-accent="--c-green"].con__stage--done .con__stage-icon {
+  opacity: 1;
   color: var(--c-green);
 }
-.dash__conn-badge--offline {
-  border-color: rgba(251, 191, 36, 0.3);
-  color: var(--c-amber);
+.con__stage[data-accent="--c-green"].con__stage--active {
+  border-color: rgba(47, 212, 156, 0.5);
+  background: rgba(47, 212, 156, 0.15);
+  color: #eafff6;
+  box-shadow: 0 0 0 1px rgba(47, 212, 156, 0.18);
 }
-.dash__conn-badge--syncing {
-  border-color: rgba(167, 139, 250, 0.3);
-  color: var(--c-purple);
-}
-
-.dash__spin {
-  animation: spin 1s linear infinite;
+.con__stage[data-accent="--c-green"].con__stage--active .con__stage-icon {
+  opacity: 1;
+  color: var(--c-green);
 }
 
-/* Cloud node */
-.dash__cloud {
+/* Orange-accent tool (softadastra) */
+.con__stage[data-accent="--c-orange"].con__stage--done {
+  border-color: rgba(255, 157, 77, 0.28);
+  background: rgba(255, 157, 77, 0.08);
+  color: rgba(255, 220, 190, 0.85);
+}
+.con__stage[data-accent="--c-orange"].con__stage--done .con__stage-icon {
+  opacity: 1;
+  color: var(--c-orange);
+}
+.con__stage[data-accent="--c-orange"].con__stage--active {
+  border-color: rgba(255, 157, 77, 0.5);
+  background: rgba(255, 157, 77, 0.15);
+  color: #fff3e8;
+  box-shadow: 0 0 0 1px rgba(255, 157, 77, 0.18);
+}
+.con__stage[data-accent="--c-orange"].con__stage--active .con__stage-icon {
+  opacity: 1;
+  color: var(--c-orange);
+}
+
+.con__arrow {
   display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 8px;
-  align-items: center;
-  padding: 10px 12px;
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: var(--c-panel);
-  transition: all 0.5s ease;
-  overflow: hidden;
-}
-
-.dash__cloud--offline {
-  opacity: 0.4;
-  border-color: rgba(251, 191, 36, 0.2);
-}
-.dash__cloud--syncing {
-  border-color: rgba(167, 139, 250, 0.25);
-  background: rgba(167, 139, 250, 0.06);
-}
-.dash__cloud--online {
-  border-color: rgba(74, 222, 128, 0.18);
-}
-
-.dash__cloud-icon {
-  color: var(--c-muted);
-}
-
-.dash__cloud strong {
-  display: block;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--c-text);
-}
-.dash__cloud span {
-  display: block;
-  font-size: 9.5px;
+  place-items: center;
   color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  transition: color 0.4s;
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition:
+    color 0.35s ease,
+    opacity 0.35s ease;
+}
+.con__arrow--filled {
+  color: var(--c-muted);
+  opacity: 0.9;
 }
 
-/* Activity feed */
-.dash__feed {
-  background: var(--c-panel);
+/* Ecosystem map */
+.con__eco {
   border: 1px solid var(--c-border);
   border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.025);
   overflow: hidden;
 }
 
-.dash__feed-header {
+.con__eco-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 7px 12px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--c-border);
   font-size: 11px;
   font-weight: 600;
   color: var(--c-text);
 }
 
-.dash__feed-header span {
+.con__eco-root {
   font-size: 9.5px;
   font-weight: 500;
   color: var(--c-green);
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--mono);
 }
 
-.dash__feed-list {
+.con__eco-grid {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px;
 }
 
-.dash__feed-row {
+.con__node {
+  display: grid;
+  gap: 4px;
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--c-border);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
+  transition: border-color 0.25s ease;
+}
+.con__node:hover {
+  border-color: var(--c-border-md);
+}
+
+.con__node-head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  border-bottom: 1px solid var(--c-border);
-  animation: logIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.dash__feed-row:last-child {
-  border-bottom: none;
+  gap: 6px;
 }
 
-.dash__feed-dot {
+.con__node-name {
+  flex: 1;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.con__node-pulse {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
+  animation: dotPulse 2.4s ease-in-out infinite;
 }
 
-.dash__feed-text {
-  flex: 1;
-  font-size: 10.5px;
-  color: var(--c-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dash__feed-time {
+.con__node-desc {
   font-size: 9.5px;
+  line-height: 1.45;
   color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  flex-shrink: 0;
+  font-family: var(--mono);
 }
 
-/* Phases footer */
-.dash__phases {
-  display: flex;
-  gap: 6px;
-  padding-top: 4px;
-}
-
-.dash__phase {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 8px;
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.015);
-  font-size: 9.5px;
-  color: var(--c-hint);
-  font-family: "SF Mono", "Fira Code", monospace;
-  font-weight: 600;
-  transition: all 0.35s ease;
-}
-
-.dash__phase-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--c-hint);
-  transition: all 0.35s ease;
-}
-
-.dash__phase--active {
-  border-color: rgba(74, 222, 128, 0.28);
-  background: rgba(74, 222, 128, 0.06);
-  color: var(--c-green);
-}
-.dash__phase--active .dash__phase-dot {
+.con__node--green .con__node-pulse {
   background: var(--c-green);
-  box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 7px var(--c-green-dim);
+}
+.con__node--orange .con__node-pulse {
+  background: var(--c-orange);
+  box-shadow: 0 0 7px var(--c-orange-dim);
+}
+.con__node--purple .con__node-pulse {
+  background: var(--c-purple);
+  box-shadow: 0 0 7px var(--c-purple-dim);
+}
+.con__node--blue .con__node-pulse {
+  background: var(--c-blue);
+  box-shadow: 0 0 7px var(--c-blue-dim);
+}
+
+.con__node--green {
+  border-color: rgba(47, 212, 156, 0.2);
+}
+.con__node--orange {
+  border-color: rgba(255, 157, 77, 0.2);
+}
+.con__node--purple {
+  border-color: rgba(211, 180, 255, 0.2);
+}
+.con__node--blue {
+  border-color: rgba(124, 199, 255, 0.2);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1311,18 +1141,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@keyframes appPulse {
-  0%,
-  100% {
-    box-shadow: 0 0 12px rgba(74, 222, 128, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 4px rgba(74, 222, 128, 0.2);
-    opacity: 0.7;
-  }
-}
-
-@keyframes logIn {
+@keyframes lineIn {
   from {
     opacity: 0;
     transform: translateY(5px);
@@ -1333,33 +1152,35 @@ onBeforeUnmount(() => {
   }
 }
 
-@keyframes flowAnim {
-  0% {
-    stroke-dashoffset: 220;
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
   }
+  51%,
   100% {
-    stroke-dashoffset: 0;
+    opacity: 0;
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* ══════════════════════════════════════════════════════
+   Reduced motion
+══════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .hero__copy,
+  .hero__console,
+  .con__line,
+  .hero__badge-dot,
+  .con__node-pulse,
+  .con__cursor,
+  .con__stage {
+    animation: none !important;
+  }
+  .con__cursor {
+    opacity: 1;
   }
 }
 
-.dash__body {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  height: 480px;
-}
-.dash__main {
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  gap: 14px;
-  padding: 16px;
-  overflow: hidden;
-}
 /* ══════════════════════════════════════════════════════
    Responsive
 ══════════════════════════════════════════════════════ */
@@ -1368,7 +1189,7 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
     gap: 48px;
   }
-  .hero__dashboard {
+  .hero__console {
     max-width: 720px;
     margin-inline: auto;
     width: 100%;
@@ -1389,26 +1210,12 @@ onBeforeUnmount(() => {
   .hero__desc {
     font-size: 15px;
   }
-
-  .dash__body {
-    grid-template-columns: 1fr;
-    height: auto;
+  .con__terminal {
+    height: 176px;
+    font-size: 11px;
   }
-  .dash__sidebar {
+  .con__chrome-tag {
     display: none;
-  }
-  .dash__main {
-    padding: 12px;
-    gap: 10px;
-  }
-  .dash__cards {
-    grid-template-columns: 1fr 1fr;
-  }
-  .dash__anim-panel {
-    grid-template-columns: 1fr;
-  }
-  .dash__conn {
-    height: 36px;
   }
 }
 
@@ -1420,164 +1227,11 @@ onBeforeUnmount(() => {
     flex-wrap: wrap;
     gap: 16px 24px;
   }
-  .dash__cards {
+  .con__eco-grid {
     grid-template-columns: 1fr;
   }
-}
-/* ==========================================================================
-   Hero background override
-   Softadastra green background
-   ========================================================================== */
-
-.hero {
-  --c-bg: #0b2b22;
-  background: linear-gradient(
-    90deg,
-    rgba(11, 43, 34, 1),
-    rgba(11, 43, 34, 0.86)
-  ) !important;
-}
-.hero__grid,
-.hero__glow-1,
-.hero__glow-2 {
-  display: none !important;
-}
-/* ==========================================================================
-   Dashboard color override
-   Better contrast on Softadastra green background
-   ========================================================================== */
-
-.hero {
-  --c-surface: #102f27;
-  --c-panel: #143a30;
-  --c-border: rgba(255, 255, 255, 0.11);
-  --c-border-md: rgba(255, 255, 255, 0.18);
-  --c-text: #f2fff8;
-  --c-muted: rgba(224, 246, 235, 0.72);
-  --c-hint: rgba(224, 246, 235, 0.5);
-
-  --c-green: #2fd49c;
-  --c-green-dim: rgba(47, 212, 156, 0.16);
-  --c-green-glow: rgba(47, 212, 156, 0.28);
-
-  --c-amber: #ffb84d;
-  --c-amber-dim: rgba(255, 184, 77, 0.16);
-
-  --c-purple: #d3b4ff;
-  --c-purple-dim: rgba(211, 180, 255, 0.16);
-}
-
-.hero__dashboard {
-  border-color: rgba(255, 255, 255, 0.18) !important;
-  background: linear-gradient(
-    180deg,
-    rgba(20, 65, 53, 0.98),
-    rgba(12, 42, 34, 0.98)
-  ) !important;
-  box-shadow:
-    0 34px 80px rgba(0, 0, 0, 0.36),
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-}
-
-.dash__chrome {
-  border-bottom-color: rgba(255, 255, 255, 0.13) !important;
-  background: rgba(255, 255, 255, 0.055) !important;
-}
-
-.dash__body {
-  background:
-    radial-gradient(
-      520px 260px at 70% 20%,
-      rgba(47, 212, 156, 0.1),
-      transparent 70%
-    ),
-    rgba(9, 35, 28, 0.34);
-}
-
-.dash__sidebar {
-  border-right-color: rgba(255, 255, 255, 0.12) !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-}
-
-.dash__sb-item {
-  color: rgba(232, 250, 241, 0.56) !important;
-}
-
-.dash__sb-item--active {
-  border-color: rgba(47, 212, 156, 0.34) !important;
-  background: rgba(47, 212, 156, 0.13) !important;
-  color: #eafff6 !important;
-}
-
-.dash__card,
-.dash__app-node,
-.dash__feed,
-.dash__cloud,
-.dash__phase {
-  border-color: rgba(255, 255, 255, 0.13) !important;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.075),
-    rgba(255, 255, 255, 0.035)
-  ) !important;
-}
-
-.dash__card {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.dash__card-label,
-.dash__card-sub,
-.dash__app-meta span,
-.dash__cloud span,
-.dash__feed-text,
-.dash__feed-time,
-.dash__phase {
-  color: rgba(232, 250, 241, 0.62) !important;
-}
-
-.dash__card-val,
-.dash__app-meta strong,
-.dash__cloud strong,
-.dash__feed-header {
-  color: #f2fff8 !important;
-}
-
-.dash__app-icon {
-  border-color: rgba(47, 212, 156, 0.34) !important;
-  background: rgba(47, 212, 156, 0.14) !important;
-}
-
-.dash__log-row {
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-}
-
-.dash__log-text {
-  color: rgba(242, 255, 248, 0.86) !important;
-}
-
-.dash__log-tag {
-  background: rgba(255, 255, 255, 0.09) !important;
-  color: rgba(242, 255, 248, 0.58) !important;
-}
-
-.dash__conn-badge {
-  background: #12352c !important;
-}
-
-.dash__feed-header {
-  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
-}
-
-.dash__feed-row {
-  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-.dash__phase--active {
-  border-color: rgba(47, 212, 156, 0.38) !important;
-  background: rgba(47, 212, 156, 0.13) !important;
-  color: var(--c-green) !important;
+  .con__tabs {
+    justify-content: flex-start;
+  }
 }
 </style>

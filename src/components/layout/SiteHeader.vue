@@ -52,7 +52,6 @@
             </svg>
           </component>
 
-          <!-- Desktop dropdown (Transition OK here, not scoped issue) -->
           <Transition name="dropdown">
             <div
               v-if="group.items && activeDropdown === group.label"

@@ -2,58 +2,49 @@
   <SiteShell>
     <section class="company-page">
       <div class="company-page__hero sd-container">
-        <span class="company-page__eyebrow">
-          Softadastra Company
-        </span>
+        <span class="company-page__eyebrow"> Softadastra Company </span>
 
-        <h1>
-          The company behind reliable local-first infrastructure.
-        </h1>
+        <h1>The C++ Tooling Company.</h1>
 
         <p>
-          Softadastra maintains open runtimes, sync engines, frameworks,
-          developer tools, and commercial products built around reliability,
-          observability, cloud infrastructure, and enterprise services.
+          Softadastra builds and maintains open tooling for modern C++
+          development. The mission is to make C++ simpler, faster, more
+          productive, and more accessible for developers building real
+          applications.
         </p>
 
         <div class="company-page__hero-meta">
+          <span>C++ tooling</span>
           <span>Open foundations</span>
-          <span>MIT licensed stack</span>
-          <span>Commercial products</span>
+          <span>Developer-first</span>
         </div>
       </div>
 
       <div class="company-page__model sd-container">
         <div class="company-page__model-card">
           <div class="company-page__model-copy">
-            <span class="company-page__eyebrow">
-              Company model
-            </span>
+            <span class="company-page__eyebrow"> Company model </span>
 
-            <h2>
-              Open foundations with focused commercial products.
-            </h2>
+            <h2>A focused company for C++ tooling.</h2>
 
             <p>
-              The core stack stays open and easy to adopt. The business layer
-              adds reliability products, managed services, builds, support, and
-              enterprise tooling around that foundation.
+              Softadastra is not trying to become a broad software company with
+              many unrelated products. The company exists to build a coherent
+              tooling ecosystem around modern C++: runtime foundations,
+              developer workflows, backend reliability, local-first runtime
+              layers, and practical validation applications.
             </p>
           </div>
 
           <div class="company-page__flow">
             <div class="company-page__flow-main">
               <span class="company-page__flow-logo">
-                <img
-                  src="/logo.svg"
-                  alt=""
-                  aria-hidden="true"
-                />
+                <img src="/logo.svg" alt="" aria-hidden="true" />
               </span>
 
               <div>
                 <strong>Softadastra Company</strong>
-                <span>Maintains the ecosystem</span>
+                <span>Builds and maintains C++ tooling</span>
               </div>
             </div>
 
@@ -64,10 +55,7 @@
                 class="company-page__flow-item"
               >
                 <span class="company-page__flow-item-logo">
-                  <img
-                    :src="item.logo"
-                    :alt="`${item.name} logo`"
-                  />
+                  <img :src="item.logo" :alt="`${item.name} logo`" />
                 </span>
 
                 <strong>{{ item.name }}</strong>
@@ -82,8 +70,8 @@
         <div class="company-page__section-top">
           <SectionHeading
             eyebrow="Structure"
-            title="A simple structure that can grow over time."
-            text="Softadastra.com is the company and ecosystem hub. Specialized subdomains handle docs, business, builds, registry, and engineering content."
+            title="A small ecosystem with clear responsibilities."
+            text="Softadastra.com is the company hub. Vix.cpp is the C++ foundation. Softadastra Engine, Cnerium, and Kordex are focused technical layers. The registry, docs, and engineering notes help developers understand and use the ecosystem."
           />
         </div>
 
@@ -105,14 +93,12 @@
               v-if="section.href"
               :href="section.href"
               class="company-page__section-link"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Open
 
-              <svg
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path
                   d="M2 10L10 2M10 2H5M10 2v5"
                   stroke="currentColor"
@@ -137,78 +123,68 @@ import SectionHeading from "../components/ui/SectionHeading.vue";
 
 const ecosystemItems = [
   {
-    name: "Vix",
-    role: "C++ runtime",
+    name: "Vix.cpp",
+    role: "C++ foundation",
     logo: "/logos/vix.svg",
   },
   {
-    name: "Softadastra",
-    role: "Sync engine",
+    name: "Softadastra Engine",
+    role: "Offline-first layer",
     logo: "/logos/softadastra.svg",
   },
   {
-    name: "Kordex",
-    role: "JS runtime",
-    logo: "/logos/kordex.svg",
-  },
-  {
     name: "Cnerium",
-    role: "Web framework",
+    role: "Backend reliability",
     logo: "/logos/cnerium.svg",
   },
   {
-    name: "PulseGrid",
-    role: "Operations",
-    logo: "/logos/pulsegrid.svg",
+    name: "Kordex",
+    role: "JS/TS runtime",
+    logo: "/logos/kordex.svg",
   },
   {
     name: "Registry",
-    role: "Packages",
+    role: "C++ packages",
     logo: "/logos/vix-registry.svg",
-  },
-  {
-    name: "Converdict",
-    role: "Reliability verdicts",
-    logo: "/logos/converdict.svg",
   },
 ];
 
 const sections = [
   {
-    label: "Main hub",
+    label: "Company hub",
     title: "softadastra.com",
-    text: "The central company website for the ecosystem, maintained stacks, products, and global positioning.",
+    text: "The main website for Softadastra, its mission, its tooling direction, and the structure of the C++ ecosystem.",
     href: links.main,
   },
   {
-    label: "Technical docs",
-    title: "docs.softadastra.com",
-    text: "The documentation portal for concepts, engine internals, SDKs, CLI, modules, and developer guides.",
-    href: links.docs,
+    label: "C++ foundation",
+    title: "vixcpp.com",
+    text: "The public home of Vix.cpp, the modern C++ runtime and developer toolkit used as the technical foundation of the ecosystem.",
+    href: links.vix,
   },
   {
-    label: "Business layer",
-    title: "business.softadastra.com",
-    text: "The home for Softadastra Cloud, SaaS products, pricing, dashboards, enterprise services, and managed offerings.",
-    href: links.business,
+    label: "Documentation",
+    title: "docs.vixcpp.com",
+    text: "The main documentation for learning Vix.cpp, its CLI, runtime modules, project workflow, and application model.",
+    href: links.vixDocs,
   },
   {
-    label: "Distribution",
-    title: "builds.softadastra.com",
-    text: "The future home for official builds, binaries, SDK packages, installers, releases, and nightly artifacts.",
-    href: links.builds,
-  },
-  {
-    label: "Registry",
+    label: "Packages",
     title: "registry.vixcpp.com",
-    text: "The package registry for Vix modules, official packages, reusable libraries, and ecosystem distribution.",
+    text: "The registry for Vix packages, reusable modules, dependency metadata, and ecosystem distribution.",
     href: links.vixRegistry,
   },
   {
     label: "Engineering",
-    title: "blog.softadastra.com",
-    text: "Engineering articles about reliability, runtimes, WAL, sync, local-first systems, and infrastructure design.",
-    href: links.blog,
+    title: "blog.vixcpp.com",
+    text: "Engineering notes, release updates, benchmarks, technical decisions, and development progress around Vix.cpp.",
+    href: links.vixBlog,
+  },
+  {
+    label: "Open source",
+    title: "github.com/softadastra",
+    text: "The Softadastra GitHub organization for maintained tooling, technical layers, experiments, and public ecosystem work.",
+    href: links.github,
   },
 ];
 </script>

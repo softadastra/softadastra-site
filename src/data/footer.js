@@ -15,29 +15,36 @@ export const footerSocialLinks = [
 
 export const footerGroups = [
   {
-    title: "Product",
-    links: [
-      {
-        label: "Converdict",
-        href: links.converdict,
-      },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      {
-        label: "PulseGrid",
-        href: links.pulsegrid,
-      },
-    ],
-  },
-  {
     title: "Open Source",
     links: [
       {
-        label: "Vix Runtime",
+        label: "Vix.cpp",
+        href: links.vixGithub,
+      },
+      {
+        label: "Cnerium",
+        href: links.cneriumGithub,
+      },
+      {
+        label: "Kordex",
+        href: links.kordexGithub,
+      },
+      {
+        label: "Softadastra Engine",
+        href: links.softadastraGithub,
+      },
+    ],
+  },
+  {
+    title: "Tooling",
+    links: [
+      {
+        label: "Vix CLI",
         href: links.vix,
+      },
+      {
+        label: "Vix Registry",
+        href: links.vixRegistry,
       },
       {
         label: "Cnerium",
@@ -47,35 +54,11 @@ export const footerGroups = [
         label: "Kordex",
         href: links.kordex,
       },
-      {
-        label: "Vix Agent",
-        href: links.vixAgent,
-      },
-      {
-        label: "Vix Game",
-        href: links.vixGame,
-      },
-      {
-        label: "Ivi.hpp",
-        href: links.ivi,
-      },
-      {
-        label: "Rix",
-        href: links.rix,
-      },
-      {
-        label: "Communities",
-        href: links.communities,
-      },
     ],
   },
   {
-    title: "Resources",
+    title: "Learn",
     links: [
-      {
-        label: "Softadastra Docs",
-        href: links.softadastraDocs,
-      },
       {
         label: "Vix Docs",
         href: links.vixDocs,
@@ -89,16 +72,25 @@ export const footerGroups = [
         href: links.kordexDocs,
       },
       {
+        label: "Softadastra Docs",
+        href: links.softadastraDocs,
+      },
+    ],
+  },
+  {
+    title: "Validation",
+    links: [
+      {
+        label: "Pico",
+        href: links.pico,
+      },
+      {
+        label: "Vix Blog",
+        href: links.vixBlog,
+      },
+      {
         label: "Engineering Blog",
         href: links.blog,
-      },
-      {
-        label: "Vix Registry",
-        href: links.vixRegistry,
-      },
-      {
-        label: "Builds",
-        href: links.builds,
       },
     ],
   },
@@ -107,23 +99,19 @@ export const footerGroups = [
     links: [
       {
         label: "Company",
-        href: `${links.main}/company`,
-      },
-      {
-        label: "Ecosystem",
-        href: `${links.main}/ecosystem`,
+        href: links.company,
       },
       {
         label: "Open Source Model",
-        href: `${links.main}/ecosystem`,
+        href: links.openSourceModel,
       },
       {
-        label: "GitHub",
-        href: links.github,
+        label: "Branding",
+        href: links.branding,
       },
       {
-        label: "X",
-        href: links.x,
+        label: "Contact",
+        href: links.contact,
       },
     ],
   },
@@ -131,6 +119,6 @@ export const footerGroups = [
 
 export const footerMeta = {
   brand: "Softadastra",
-  tagline: "Reliable local-first infrastructure.",
+  tagline: "The C++ Tooling Company.",
   copyright: `© ${new Date().getFullYear()} Softadastra Company. All rights reserved.`,
 };

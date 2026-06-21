@@ -1,129 +1,92 @@
-# Softadastra Site
+# Softadastra Website
 
-Official website for Softadastra Company.
+Official website for **Softadastra Company**.
 
-Softadastra builds reliable local-first infrastructure for applications that must keep working when the network fails.
+Softadastra is **The C++ Tooling Company**.
+The website presents Softadastra’s direction, ecosystem, tooling layers, documentation links, and open-source work around modern C++ development.
 
-This site is the central hub for the Softadastra ecosystem, including:
+## Positioning
 
-- Vix
-- Softadastra
-- Kordex
-- Cnerium
-- PulseGrid
-- Softadastra Cloud
+Softadastra builds and maintains open tooling for modern C++ development.
 
-The goal of this repository is to keep the company website simple, clean, and easy to evolve as new stacks and products are added over time.
+The mission is to make C++ development:
 
-## Role of this website
+- simpler
+- faster
+- more productive
+- more accessible
+- easier to build, test, diagnose, package, and distribute
 
-`softadastra.com` is the main ecosystem hub.
+Softadastra is not positioned as a broad SaaS company or a commercial product company.
 
-It is not the SaaS dashboard.
-
-The commercial SaaS and business layer should live on:
+The website must stay focused on:
 
 ```txt
-business.softadastra.com
+C++ tooling
+Vix.cpp ecosystem
+open technical foundations
+developer workflow
+backend reliability
+local-first runtime foundations
+real validation applications
 ```
 
-Other focused subdomains:
+## Ecosystem
+
+The current ecosystem presented by the site is:
 
 ```txt
-docs.softadastra.com      Technical documentation
-business.softadastra.com  SaaS, pricing, cloud, enterprise
-builds.softadastra.com    Builds, binaries, SDK packages, releases
-blog.softadastra.com      Engineering articles
+Vix.cpp
+  -> open C++ foundation
+
+Softadastra Engine
+  -> offline-first runtime layer
+
+Cnerium
+  -> backend reliability layer for Vix applications
+
+Kordex
+  -> JavaScript and TypeScript runtime based on Vix.cpp
+
+Pico
+  -> real validation application proving Vix.cpp in action
 ```
 
-## Tech stack
+## Strategic rule
 
-This site uses:
+Do not present Softadastra as having many unrelated products.
 
-- Vue 3
-- Vite
-- Vue Router
-- Plain CSS
-
-## Project structure
+Avoid positioning such as:
 
 ```txt
-softadastra-site/
-├── LICENSE
-├── README.md
-├── package.json
-├── package-lock.json
-├── vite.config.js
-├── index.html
-│
-├── public/
-│   ├── favicon.svg
-│   ├── logo.svg
-│   └── og-image.png
-│
-└── src/
-    ├── main.js
-    ├── App.vue
-    │
-    ├── router/
-    │   └── index.js
-    │
-    ├── data/
-    │   ├── company.js
-    │   ├── navigation.js
-    │   ├── stacks.js
-    │   ├── products.js
-    │   ├── links.js
-    │   └── footer.js
-    │
-    ├── pages/
-    │   ├── HomePage.vue
-    │   ├── EcosystemPage.vue
-    │   ├── StackPage.vue
-    │   ├── ProductPage.vue
-    │   ├── CompanyPage.vue
-    │   └── NotFoundPage.vue
-    │
-    ├── components/
-    │   ├── layout/
-    │   │   ├── SiteHeader.vue
-    │   │   ├── SiteFooter.vue
-    │   │   ├── SiteShell.vue
-    │   │   └── MobileMenu.vue
-    │   │
-    │   ├── home/
-    │   │   ├── HeroSection.vue
-    │   │   ├── EcosystemMap.vue
-    │   │   ├── StackGrid.vue
-    │   │   ├── ProductGrid.vue
-    │   │   ├── CompanySection.vue
-    │   │   └── CtaSection.vue
-    │   │
-    │   ├── ecosystem/
-    │   │   ├── EcosystemLayer.vue
-    │   │   ├── EcosystemDiagram.vue
-    │   │   └── StackCard.vue
-    │   │
-    │   ├── products/
-    │   │   └── ProductCard.vue
-    │   │
-    │   └── ui/
-    │       ├── BaseButton.vue
-    │       ├── BaseBadge.vue
-    │       ├── BaseCard.vue
-    │       └── SectionHeading.vue
-    │
-    ├── styles/
-    │   ├── main.css
-    │   ├── variables.css
-    │   ├── layout.css
-    │   ├── components.css
-    │   └── responsive.css
-    │
-    └── assets/
-        ├── icons/
-        └── images/
+Commercial products
+Cloud products
+SaaS products
+Business layer
+Reliable local-first infrastructure company
 ```
+
+Use this positioning instead:
+
+```txt
+Softadastra is a C++ tooling company.
+Softadastra builds and maintains open tooling for modern C++ development.
+```
+
+## Main sections
+
+The site contains:
+
+- Home page
+- Ecosystem page
+- Stack pages
+- Tooling pages
+- Company page
+- Footer navigation
+- Header navigation
+- Ecosystem diagram
+- Tooling grid
+- Company model section
 
 ## Development
 
@@ -139,7 +102,7 @@ Start the development server:
 npm run dev
 ```
 
-Build for production:
+Build the site:
 
 ```bash
 npm run build
@@ -151,137 +114,287 @@ Preview the production build:
 npm run preview
 ```
 
-## How to add a new stack
-
-Stacks are defined in:
+## Project structure
 
 ```txt
-src/data/stacks.js
+src/
+  components/
+    ecosystem/
+    home/
+    layout/
+    ui/
+
+  data/
+    company.js
+    footer.js
+    links.js
+    navigation.js
+    stacks.js
+    tooling.js
+
+  pages/
+    CompanyPage.vue
+    EcosystemPage.vue
+    HomePage.vue
+    NotFoundPage.vue
+    StackPage.vue
+    ToolingPage.vue
+
+  router/
+    index.js
+
+  main.js
 ```
 
-Add a new object to the stacks array:
+## Important data files
 
-```js
-{
-  id: "example",
-  name: "Example",
-  label: "Runtime layer",
-  tagline: "Short positioning sentence.",
-  description: "Clear description of the stack and its role.",
-  status: "Planned",
-  license: "MIT",
-  layer: "Application runtime",
-  href: "#",
-  docsHref: "#",
-}
-```
+### `src/data/company.js`
 
-The new stack will automatically appear in the home page, ecosystem page, and stack detail route:
+Contains the company identity.
+
+Current direction:
 
 ```txt
-/stacks/example
+Softadastra — The C++ Tooling Company
 ```
 
-## How to add a new product
+### `src/data/links.js`
 
-Products are defined in:
+Contains official links for:
 
-```txt
-src/data/products.js
-```
-
-Add a new object to the products array:
-
-```js
-{
-  id: "example-product",
-  name: "Example Product",
-  label: "Commercial product",
-  tagline: "Short positioning sentence.",
-  description: "Clear description of the product and its role.",
-  status: "Planned",
-  category: "SaaS",
-  href: "#",
-}
-```
-
-The new product will automatically appear in the product grid and product detail route:
-
-```txt
-/products/example-product
-```
-
-## How to update navigation
-
-Navigation links are defined in:
-
-```txt
-src/data/navigation.js
-```
-
-Main links are stored in:
-
-```js
-export const navigation = [];
-```
-
-Header buttons are stored in:
-
-```js
-export const headerActions = [];
-```
-
-External URLs are centralized in:
-
-```txt
-src/data/links.js
-```
-
-## Design principles
-
-This website must stay:
-
-- simple
-- fast
-- responsive
-- easy to maintain
-- clear for developers
-- clear for business visitors
-- ready for future stacks and products
-
-`softadastra.com` should always explain the ecosystem first.
-
-Commercial SaaS features should be linked to `business.softadastra.com`.
-
-## Main positioning
-
-```txt
-Softadastra Company
-Reliable local-first infrastructure.
-```
-
-## Ecosystem model
-
-```txt
-Softadastra Company
-        ↓
-Maintains:
-- Vix
 - Softadastra
-- Kordex
+- Vix.cpp
+- Vix Docs
+- Vix Blog
+- Vix Registry
+- Softadastra Engine
 - Cnerium
-- PulseGrid
-        ↓
-MIT License
-        ↓
-Developer adoption
-        ↓
-Ecosystem
-        ↓
-Commercial products and services around it
+- Kordex
+- Pico
+- GitHub
+- X
+
+### `src/data/stacks.js`
+
+Contains the technical ecosystem layers.
+
+Current stack:
+
+```txt
+Vix.cpp
+Softadastra Engine
+Cnerium
+Kordex
+Pico
 ```
 
-## License
+### `src/data/tooling.js`
 
-Released under the MIT License.
+Contains Softadastra-maintained tooling items.
 
+This replaces the old `products.js` direction.
+
+Use `tooling`, not `products`, because Softadastra is not currently positioned as a company with commercial products.
+
+### `src/data/footer.js`
+
+Controls footer groups.
+
+Recommended footer logic:
+
+```txt
+Open Source
+Tooling
+Learn
+Validation
+Company
+```
+
+### `src/data/navigation.js`
+
+Controls the header navigation.
+
+Navigation should focus on:
+
+```txt
+Open Source
+Tooling
+Learn
+Company
+```
+
+Avoid old navigation entries such as:
+
+```txt
+Converdict
+PulseGrid
+Commercial Product
+Solutions
+```
+
+## Routing
+
+Main routes:
+
+```txt
+/              -> HomePage
+/ecosystem     -> EcosystemPage
+/stacks/:id    -> StackPage
+/tooling/:id   -> ToolingPage
+/company       -> CompanyPage
+```
+
+Legacy route:
+
+```txt
+/products/:id
+```
+
+This route should redirect to:
+
+```txt
+/tooling/:id
+```
+
+This keeps old links working without keeping the old product positioning.
+
+## Naming rules
+
+Use:
+
+```txt
+Tooling
+Open tooling
+C++ tooling
+Technical layers
+Ecosystem
+Stack
+Validation app
+```
+
+Avoid:
+
+```txt
+Products
+Commercial products
+SaaS
+Cloud products
+Business layer
+Reliability cloud
+```
+
+## Pico positioning
+
+Pico is not a product.
+
+Pico is a validation application.
+
+Correct positioning:
+
+```txt
+Pico is a production-style validation application built with Vix.cpp.
+It proves that Vix.cpp modules work together inside a real C++ backend application.
+```
+
+Do not place Pico as a main product.
+
+It can appear under:
+
+```txt
+Validation
+Built with Vix
+Real application
+```
+
+## Vix.cpp positioning
+
+Vix.cpp is the technical foundation of the ecosystem.
+
+Correct positioning:
+
+```txt
+Vix.cpp is a modern C++ runtime and developer toolkit.
+```
+
+Do not present Vix.cpp as a private Softadastra product.
+
+Use language like:
+
+```txt
+Vix.cpp provides the open C++ foundation.
+Softadastra builds and maintains tooling around modern C++ development.
+```
+
+## Softadastra Engine positioning
+
+Correct positioning:
+
+```txt
+Softadastra Engine is an offline-first runtime layer for durable local state, WAL, store, sync, retry, delivery, and transport.
+```
+
+## Cnerium positioning
+
+Correct positioning:
+
+```txt
+Cnerium is a backend reliability layer for Vix applications.
+It adds durable, idempotent, retry-safe route handling for critical write operations.
+```
+
+## Kordex positioning
+
+Correct positioning:
+
+```txt
+Kordex is a JavaScript and TypeScript runtime for reliable local-first applications, built on Vix.cpp.
+```
+
+## SEO direction
+
+Use titles like:
+
+```txt
+Softadastra | The C++ Tooling Company
+```
+
+Use descriptions like:
+
+```txt
+Softadastra builds and maintains open C++ tooling to make modern C++ development simpler, faster, and more accessible.
+```
+
+Avoid old SEO descriptions around:
+
+```txt
+reliable local-first infrastructure
+cloud reliability products
+commercial products
+business services
+```
+
+## Deployment
+
+Build before deployment:
+
+```bash
+npm run build
+```
+
+The production output is generated in:
+
+```txt
+dist/
+```
+
+Deploy the `dist/` directory to the hosting provider used for `softadastra.com`.
+
+## Brand rule
+
+Softadastra must stay in one clear niche:
+
+```txt
+C++ tooling
+```
+
+Any page, section, link, or component that does not support this direction should be removed, renamed, or moved out of the main website.

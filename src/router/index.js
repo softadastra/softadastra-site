@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import EcosystemPage from "../pages/EcosystemPage.vue";
 import StackPage from "../pages/StackPage.vue";
-import ProductPage from "../pages/ProductPage.vue";
+import ToolingPage from "../pages/ToolingPage.vue";
 import CompanyPage from "../pages/CompanyPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
 
@@ -13,9 +13,9 @@ const routes = [
     name: "home",
     component: HomePage,
     meta: {
-      title: "Softadastra | Reliable local-first infrastructure",
+      title: "Softadastra | The C++ Tooling Company",
       description:
-        "Softadastra builds reliable local-first infrastructure for applications that must keep working when the network fails.",
+        "Softadastra builds and maintains open C++ tooling to make modern C++ development simpler, faster, and more accessible.",
     },
   },
   {
@@ -25,7 +25,7 @@ const routes = [
     meta: {
       title: "Ecosystem | Softadastra",
       description:
-        "Explore the Softadastra ecosystem: Vix, Softadastra, Kordex, Cnerium, PulseGrid, and Softadastra Cloud.",
+        "Explore the Softadastra C++ tooling ecosystem: Vix.cpp, Softadastra Engine, Cnerium, Kordex, and Pico.",
     },
   },
   {
@@ -35,17 +35,28 @@ const routes = [
     meta: {
       title: "Stack | Softadastra",
       description:
-        "Explore a stack maintained under the Softadastra ecosystem.",
+        "Explore a technical layer maintained inside the Softadastra C++ tooling ecosystem.",
+    },
+  },
+  {
+    path: "/tooling/:id",
+    name: "tooling",
+    component: ToolingPage,
+    meta: {
+      title: "Tooling | Softadastra",
+      description:
+        "Explore open tooling maintained by Softadastra for modern C++ development.",
     },
   },
   {
     path: "/products/:id",
-    name: "product",
-    component: ProductPage,
-    meta: {
-      title: "Product | Softadastra",
-      description:
-        "Explore a product built around the Softadastra reliability foundation.",
+    redirect: (to) => {
+      return {
+        name: "tooling",
+        params: {
+          id: to.params.id,
+        },
+      };
     },
   },
   {
@@ -55,7 +66,7 @@ const routes = [
     meta: {
       title: "Company | Softadastra",
       description:
-        "Softadastra Company maintains open runtime, sync, framework, and infrastructure projects while building commercial services around them.",
+        "Softadastra is a C++ tooling company building and maintaining open tools for modern C++ development.",
     },
   },
   {

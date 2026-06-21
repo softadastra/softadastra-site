@@ -1,7 +1,6 @@
 <template>
   <footer class="site-footer">
     <div class="site-footer__inner">
-      <!-- Left: Brand column -->
       <div class="site-footer__brand">
         <RouterLink
           to="/"
@@ -11,17 +10,22 @@
           <span class="site-footer__logo-mark">
             <img src="/logo.svg" alt="" aria-hidden="true" />
           </span>
+
           <span class="site-footer__logo-text">
             <strong>{{ footerMeta.brand }}</strong>
-            <small>Company</small>
+            <small>The C++ Tooling Company</small>
           </span>
         </RouterLink>
 
-        <p class="site-footer__tagline">{{ footerMeta.tagline }}</p>
+        <p class="site-footer__tagline">
+          {{ footerMeta.tagline }}
+        </p>
 
         <p class="site-footer__desc">
-          Open infrastructure, runtimes, tools, and cloud products for
-          applications that must keep working when the network fails.
+          Softadastra builds and maintains open tooling for modern C++
+          development: runtime foundations, developer workflows, backend
+          reliability, local-first runtime layers, and practical validation
+          applications.
         </p>
 
         <div class="site-footer__socials">
@@ -34,7 +38,6 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            <!-- GitHub -->
             <svg
               v-if="social.icon === 'github'"
               viewBox="0 0 20 20"
@@ -47,7 +50,7 @@
                 d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0110 4.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.138 18.163 20 14.418 20 10c0-5.523-4.477-10-10-10z"
               />
             </svg>
-            <!-- X / Twitter -->
+
             <svg
               v-else-if="social.icon === 'x'"
               viewBox="0 0 20 20"
@@ -58,7 +61,7 @@
                 d="M15.27 2h2.51l-5.49 6.28L18.6 18h-5.06l-3.96-5.18L5.12 18H2.6l5.87-6.71L2.24 2h5.19l3.58 4.73L15.27 2zm-.88 14.37h1.39L6.53 3.43H5.04l9.35 12.94z"
               />
             </svg>
-            <!-- Discord -->
+
             <svg
               v-else-if="social.icon === 'discord'"
               viewBox="0 0 20 20"
@@ -66,10 +69,10 @@
               aria-hidden="true"
             >
               <path
-                d="M16.07 3.92A15.4 15.4 0 0012.18 2.8a.06.06 0 00-.06.03c-.17.3-.36.7-.49 1a14.3 14.3 0 00-4.26 0 10.3 10.3 0 00-.5-1 .06.06 0 00-.06-.03c-1.35.23-2.65.63-3.89 1.12a.05.05 0 00-.02.02C.84 7.2.2 10.38.54 13.52a.06.06 0 00.02.04 15.5 15.5 0 004.7 2.38.06.06 0 00.07-.02c.36-.5.68-1.02.96-1.58a.06.06 0 00-.03-.08 10.2 10.2 0 01-1.47-.7.06.06 0 01-.01-.1c.1-.07.2-.15.29-.23a.06.06 0 01.06-.01c3.08 1.41 6.42 1.41 9.47 0a.06.06 0 01.06 0c.1.08.2.16.3.23a.06.06 0 01 0 .1c-.47.28-.96.51-1.48.7a.06.06 0 00-.03.09c.28.56.6 1.08.95 1.57a.06.06 0 00.07.02 15.45 15.45 0 004.71-2.38.06.06 0 00.03-.04c.4-3.65-.67-6.81-2.82-9.62a.05.05 0 00-.03-.02zM6.68 11.6c-.83 0-1.52-.77-1.52-1.71s.67-1.71 1.52-1.71c.86 0 1.53.77 1.52 1.71 0 .94-.68 1.71-1.52 1.71zm5.63 0c-.83 0-1.52-.77-1.52-1.71s.67-1.71 1.52-1.71c.86 0 1.53.77 1.52 1.71 0 .94-.67 1.71-1.52 1.71z"
+                d="M16.07 3.92A15.4 15.4 0 0012.18 2.8a.06.06 0 00-.06.03c-.17.3-.36.7-.49 1a14.3 14.3 0 00-4.26 0 10.3 10.3 0 00-.5-1 .06.06 0 00-.06-.03c-1.35.23-2.65.63-3.89 1.12a.05.05 0 00-.02.02C.84 7.2.2 10.38.54 13.52a.06.06 0 00.02.04 15.5 15.5 0 004.7 2.38.06.06 0 00.07-.02c.36-.5.68-1.02.96-1.58a.06.06 0 00-.03-.08 10.2 10.2 0 01-1.47-.7.06.06 0 01-.01-.1c.1-.07.2-.15.29-.23a.06.06 0 01.06-.01c3.08 1.41 6.42 1.41 9.47 0a.06.06 0 01.06 0c.1.08.2.16.3.23a.06.06 0 010 .1c-.47.28-.96.51-1.48.7a.06.06 0 00-.03.09c.28.56.6 1.08.95 1.57a.06.06 0 00.07.02 15.45 15.45 0 004.71-2.38.06.06 0 00.03-.04c.4-3.65-.67-6.81-2.82-9.62a.05.05 0 00-.03-.02zM6.68 11.6c-.83 0-1.52-.77-1.52-1.71s.67-1.71 1.52-1.71c.86 0 1.53.77 1.52 1.71 0 .94-.68 1.71-1.52 1.71zm5.63 0c-.83 0-1.52-.77-1.52-1.71s.67-1.71 1.52-1.71c.86 0 1.53.77 1.52 1.71 0 .94-.67 1.71-1.52 1.71z"
               />
             </svg>
-            <!-- Fallback -->
+
             <svg v-else viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <circle
                 cx="10"
@@ -90,17 +93,24 @@
         </div>
       </div>
 
-      <!-- Right: Link columns -->
       <div class="site-footer__cols">
         <div
           v-for="group in footerGroups"
           :key="group.title"
           class="site-footer__col"
         >
-          <h4 class="site-footer__col-title">{{ group.title }}</h4>
+          <h4 class="site-footer__col-title">
+            {{ group.title }}
+          </h4>
+
           <ul class="site-footer__list">
             <li v-for="item in group.links" :key="item.label">
-              <a :href="item.href" class="site-footer__link">
+              <a
+                :href="item.href"
+                class="site-footer__link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {{ item.label }}
               </a>
             </li>
@@ -109,14 +119,32 @@
       </div>
     </div>
 
-    <!-- Bottom bar -->
     <div class="site-footer__bottom">
       <div class="site-footer__bottom-inner">
-        <span class="site-footer__copyright">{{ footerMeta.copyright }}</span>
+        <span class="site-footer__copyright">
+          {{ footerMeta.copyright }}
+        </span>
+
         <div class="site-footer__bottom-links">
-          <a :href="links.docs">Docs</a>
-          <a :href="links.vixRegistry">Registry</a>
-          <a :href="links.github">GitHub</a>
+          <a :href="links.vixDocs" target="_blank" rel="noopener noreferrer">
+            Vix Docs
+          </a>
+
+          <a :href="links.vixBlog" target="_blank" rel="noopener noreferrer">
+            Vix Blog
+          </a>
+
+          <a
+            :href="links.vixRegistry"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Registry
+          </a>
+
+          <a :href="links.github" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
         </div>
       </div>
     </div>

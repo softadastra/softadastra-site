@@ -3,9 +3,9 @@
     <div class="sd-section__inner">
       <div class="sd-section__header sd-reveal">
         <SectionHeading
-          eyebrow="Maintained Stack"
-          title="Open source. MIT licensed. Production ready."
-          text="Five interconnected projects: runtime, durability, sync, framework, deployment. All under the MIT license."
+          eyebrow="Tooling Stack"
+          title="Focused tooling for modern C++ development."
+          text="Softadastra maintains a small technical ecosystem around C++ tooling. Vix.cpp is the open C++ foundation. Softadastra Engine, Cnerium, Kordex, and Pico each have a clear role in the stack."
         />
       </div>
 
@@ -13,17 +13,11 @@
         <article
           v-for="stack in stacks"
           :key="stack.id"
-          :class="[
-            'stack-grid__card',
-            `stack-grid__card--${stack.color}`,
-          ]"
+          :class="['stack-grid__card', `stack-grid__card--${stack.color}`]"
         >
           <div class="stack-grid__top">
             <div
-              :class="[
-                'stack-grid__icon',
-                `stack-grid__icon--${stack.color}`,
-              ]"
+              :class="['stack-grid__icon', `stack-grid__icon--${stack.color}`]"
             >
               <svg
                 v-if="stack.icon === 'layers'"
@@ -41,6 +35,7 @@
                 aria-hidden="true"
               >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="M9 12l2 2 4-5" />
               </svg>
 
               <svg
@@ -48,13 +43,7 @@
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <rect
-                  x="3"
-                  y="3"
-                  width="18"
-                  height="18"
-                  rx="3"
-                />
+                <rect x="3" y="3" width="18" height="18" rx="3" />
                 <path d="M8 16V8l8 4-8 4z" />
               </svg>
 
@@ -64,18 +53,30 @@
                 aria-hidden="true"
               >
                 <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
+                <path d="M17 14l2 2 3-4" />
               </svg>
 
               <svg
-                v-else-if="stack.icon === 'network'"
+                v-else-if="stack.icon === 'app'"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                />
+                <rect x="4" y="5" width="16" height="14" rx="2" />
+                <path d="M8 9h8M8 13h5M8 17h8" />
+              </svg>
+
+              <svg
+                v-else-if="stack.icon === 'database'"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <ellipse cx="12" cy="5" rx="8" ry="3" />
+                <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
+                <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+              </svg>
+
+              <svg v-else viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
                 <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
                 <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
                 <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83" />
@@ -83,7 +84,7 @@
             </div>
 
             <div class="stack-grid__meta">
-              <span class="stack-grid__badge stack-grid__badge--mit">
+              <span class="stack-grid__badge stack-grid__badge--license">
                 {{ stack.license }}
               </span>
 
@@ -97,12 +98,7 @@
             {{ stack.name }}
           </h3>
 
-          <p
-            :class="[
-              'stack-grid__role',
-              `stack-grid__role--${stack.color}`,
-            ]"
-          >
+          <p :class="['stack-grid__role', `stack-grid__role--${stack.color}`]">
             {{ stack.role }}
           </p>
 
@@ -112,11 +108,13 @@
 
           <div class="stack-grid__links">
             <a
-              v-if="stack.docsHref && stack.docsHref !== '#'"
-              :href="stack.docsHref"
+              v-if="stack.href && stack.href !== '#'"
+              :href="stack.href"
               class="stack-grid__link stack-grid__link--accent"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Docs
+              Open
 
               <svg
                 viewBox="0 0 12 12"
@@ -136,9 +134,21 @@
             </a>
 
             <a
+              v-if="stack.docsHref && stack.docsHref !== '#'"
+              :href="stack.docsHref"
+              class="stack-grid__link stack-grid__link--dim"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Docs
+            </a>
+
+            <a
               v-if="stack.githubHref && stack.githubHref !== '#'"
               :href="stack.githubHref"
               class="stack-grid__link stack-grid__link--dim"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               GitHub
             </a>
@@ -216,24 +226,26 @@ import SectionHeading from "../ui/SectionHeading.vue";
   color: var(--sd-softadastra);
 }
 
-.stack-grid__icon--kordex {
-  background: var(--sd-kordex-bg);
-  color: var(--sd-kordex);
-}
-
 .stack-grid__icon--cnerium {
   background: var(--sd-cnerium-bg);
   color: var(--sd-cnerium);
 }
 
-.stack-grid__icon--pulsegrid {
-  background: var(--sd-pulsegrid-bg);
-  color: var(--sd-pulsegrid);
+.stack-grid__icon--kordex {
+  background: var(--sd-kordex-bg);
+  color: var(--sd-kordex);
+}
+
+.stack-grid__icon--pico {
+  background: var(--sd-accent-bg);
+  color: var(--sd-accent);
 }
 
 .stack-grid__meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 7px;
 }
 
@@ -246,7 +258,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
   letter-spacing: 0.03em;
 }
 
-.stack-grid__badge--mit {
+.stack-grid__badge--license {
   background: rgba(255, 255, 255, 0.04);
   color: var(--sd-text-muted);
 }
@@ -278,16 +290,16 @@ import SectionHeading from "../ui/SectionHeading.vue";
   color: var(--sd-softadastra);
 }
 
-.stack-grid__role--kordex {
-  color: var(--sd-kordex);
-}
-
 .stack-grid__role--cnerium {
   color: var(--sd-cnerium);
 }
 
-.stack-grid__role--pulsegrid {
-  color: var(--sd-pulsegrid);
+.stack-grid__role--kordex {
+  color: var(--sd-kordex);
+}
+
+.stack-grid__role--pico {
+  color: var(--sd-accent);
 }
 
 .stack-grid__tagline {
@@ -300,6 +312,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
 
 .stack-grid__links {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   margin-top: auto;
 }
@@ -310,6 +323,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
   gap: 4px;
   font-size: 13.5px;
   font-weight: 620;
+  text-decoration: none;
   transition:
     gap var(--sd-transition),
     color var(--sd-transition-fast);
@@ -354,7 +368,7 @@ import SectionHeading from "../ui/SectionHeading.vue";
   }
 
   .stack-grid__meta {
-    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 }
 </style>

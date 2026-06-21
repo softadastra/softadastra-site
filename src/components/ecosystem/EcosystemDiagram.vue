@@ -2,40 +2,30 @@
   <section class="ecosystem-diagram">
     <div class="ecosystem-diagram__inner">
       <div class="ecosystem-diagram__head">
-        <span class="ecosystem-diagram__eyebrow">
-          Architecture
-        </span>
+        <span class="ecosystem-diagram__eyebrow"> Architecture </span>
 
-        <h3>
-          One company. One ecosystem. Multiple layers.
-        </h3>
+        <h3>Focused C++ tooling. Clear technical layers.</h3>
 
         <p>
-          Softadastra connects runtimes, sync infrastructure, frameworks,
-          registries, and cloud products into one coherent platform.
+          Softadastra is a C++ tooling company. Vix.cpp provides the open C++
+          foundation, while Softadastra Engine, Cnerium, Kordex, and Pico each
+          serve a clear technical role in the ecosystem.
         </p>
       </div>
 
       <div class="ecosystem-diagram__map">
         <div class="ecosystem-diagram__center">
           <span class="ecosystem-diagram__logo">
-           <img
-  src="/logos/softadastra.svg"
-  alt=""
-  aria-hidden="true"
-/>
+            <img src="/logos/softadastra.svg" alt="" aria-hidden="true" />
           </span>
 
           <span class="ecosystem-diagram__center-copy">
             <strong>Softadastra</strong>
-            <small>Company</small>
+            <small>The C++ Tooling Company</small>
           </span>
         </div>
 
-        <div
-          class="ecosystem-diagram__rail"
-          aria-hidden="true"
-        />
+        <div class="ecosystem-diagram__rail" aria-hidden="true" />
 
         <div class="ecosystem-diagram__layers">
           <RouterLink
@@ -48,16 +38,13 @@
             ]"
             :style="{ '--layer-index': index }"
           >
-           <span
-  class="ecosystem-diagram__marker"
-  :class="`ecosystem-diagram__marker--${stack.color}`"
-  aria-hidden="true"
->
-  <img
-    :src="getStackLogo(stack)"
-    :alt="`${stack.name} logo`"
-  />
-</span>
+            <span
+              class="ecosystem-diagram__marker"
+              :class="`ecosystem-diagram__marker--${stack.color}`"
+              aria-hidden="true"
+            >
+              <img :src="getStackLogo(stack)" :alt="`${stack.name} logo`" />
+            </span>
 
             <span class="ecosystem-diagram__layer-body">
               <span class="ecosystem-diagram__layer-meta">
@@ -74,14 +61,14 @@
         <div class="ecosystem-diagram__business">
           <div class="ecosystem-diagram__business-line" />
 
-          <a
-            :href="links.business"
-            class="ecosystem-diagram__business-item"
-          >
-            <span>Commercial layer</span>
-            <strong>Softadastra Cloud</strong>
-            <small>Reliability SaaS, verdicts, builds, and enterprise support.</small>
-          </a>
+          <RouterLink to="/company" class="ecosystem-diagram__business-item">
+            <span>Company direction</span>
+            <strong>C++ Tooling</strong>
+            <small>
+              Build and maintain open tooling that makes modern C++ development
+              simpler, faster, and more accessible.
+            </small>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -91,17 +78,15 @@
 <script setup>
 import { computed } from "vue";
 
-import { links } from "../../data/links";
 import { stacks } from "../../data/stacks";
 
 const logoMap = {
   vix: "/logos/vix.svg",
-  softadastra: "/logos/softadastra.svg",
-  kordex: "/logos/kordex.svg",
+  "softadastra-engine": "/logos/softadastra.svg",
   cnerium: "/logos/cnerium.svg",
-  pulsegrid: "/logos/pulsegrid.svg",
+  kordex: "/logos/kordex.svg",
+  pico: "/logos/pico.svg",
   registry: "/logos/vix-registry.svg",
-  converdict: "/logos/converdict.svg",
 };
 
 const visibleStacks = computed(() => {
@@ -109,9 +94,12 @@ const visibleStacks = computed(() => {
 });
 
 function getStackLogo(stack) {
-  return logoMap[stack.id] || logoMap[stack.color] || logoMap.softadastra;
+  return (
+    logoMap[stack.id] || logoMap[stack.color] || logoMap["softadastra-engine"]
+  );
 }
 </script>
+
 <style scoped>
 .ecosystem-diagram {
   position: relative;
@@ -422,11 +410,7 @@ function getStackLogo(stack) {
 .ecosystem-diagram__business-line {
   width: 1px;
   height: 56px;
-  background: linear-gradient(
-    180deg,
-    rgba(213, 122, 42, 0.42),
-    transparent
-  );
+  background: linear-gradient(180deg, rgba(213, 122, 42, 0.42), transparent);
 }
 
 .ecosystem-diagram__business-item {
@@ -566,10 +550,10 @@ function getStackLogo(stack) {
     gap: 14px;
   }
 
-.ecosystem-diagram__layer {
-  grid-template-columns: 38px minmax(0, 1fr);
-  padding: 0;
-}
+  .ecosystem-diagram__layer {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding: 0;
+  }
 
   .ecosystem-diagram__business {
     justify-items: stretch;
@@ -580,20 +564,19 @@ function getStackLogo(stack) {
     text-align: left;
   }
 
-.ecosystem-diagram__marker {
-  width: 40px;
-  height: 40px;
-}
+  .ecosystem-diagram__marker {
+    width: 40px;
+    height: 40px;
+  }
 
-.ecosystem-diagram__marker img {
-  width: 28px;
-  height: 28px;
-  max-width: 28px;
-  max-height: 28px;
+  .ecosystem-diagram__marker img {
+    width: 28px;
+    height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+  }
+  .ecosystem-diagram__layer {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
 }
-.ecosystem-diagram__layer {
-  grid-template-columns: 42px minmax(0, 1fr);
-}
-}
-
 </style>
