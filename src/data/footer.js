@@ -102,16 +102,16 @@ export const footerGroups = [
         href: links.company,
       },
       {
-        label: "Open Source Model",
-        href: links.openSourceModel,
+        label: "Engineering Blog",
+        href: links.blog,
       },
       {
-        label: "Branding",
-        href: links.branding,
+        label: "GitHub",
+        href: links.github,
       },
       {
-        label: "Contact",
-        href: links.contact,
+        label: "X",
+        href: links.x,
       },
     ],
   },

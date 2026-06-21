@@ -487,4 +487,229 @@ function formatIndex(index) {
     font-size: 13.5px;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine tooling grid override
+   ========================================================================== */
+
+.tooling-grid.sd-section {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+}
+
+.tooling-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 14% 8%,
+      rgba(246, 222, 184, 0.1) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 86% 20%,
+      rgba(213, 122, 42, 0.14) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 32%,
+      rgba(213, 122, 42, 0.12) 33%,
+      rgba(226, 154, 85, 0.08) 40%,
+      transparent 49%
+    );
+
+  opacity: 0.9;
+}
+
+.tooling-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+}
+
+.tooling-grid .sd-section__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Tooling summary override
+   ========================================================================== */
+
+.tooling-grid__summary span {
+  border-color: rgba(255, 244, 224, 0.11);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.62);
+}
+
+.tooling-grid__summary span:hover {
+  border-color: rgba(226, 154, 85, 0.24);
+  background: rgba(213, 122, 42, 0.09);
+  color: rgba(255, 248, 235, 0.9);
+}
+
+/* ==========================================================================
+   Tooling items override
+   ========================================================================== */
+
+.tooling-grid__item {
+  border-bottom-color: rgba(255, 244, 224, 0.09);
+}
+
+.tooling-grid__item::before {
+  border-color: transparent;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 244, 224, 0.055),
+    rgba(255, 244, 224, 0.018)
+  );
+}
+
+.tooling-grid__item:hover::before {
+  border-color: rgba(255, 244, 224, 0.12);
+  background:
+    radial-gradient(
+      420px 160px at 12% 0%,
+      rgba(213, 122, 42, 0.14),
+      transparent 64%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 244, 224, 0.075),
+      rgba(255, 244, 224, 0.025)
+    );
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.tooling-grid__index {
+  color: rgba(246, 232, 204, 0.34);
+}
+
+.tooling-grid__icon {
+  border-color: rgba(255, 244, 224, 0.11);
+  background:
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(255, 244, 224, 0.13),
+      transparent 58%
+    ),
+    rgba(255, 244, 224, 0.045);
+  color: var(--sd-orange-strong);
+}
+
+.tooling-grid__item:hover .tooling-grid__icon {
+  border-color: rgba(226, 154, 85, 0.34);
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(213, 122, 42, 0.22),
+      transparent 62%
+    ),
+    rgba(255, 244, 224, 0.055);
+}
+
+/* ==========================================================================
+   Tooling icon colors override
+   ========================================================================== */
+
+.tooling-grid__item--database .tooling-grid__icon {
+  color: #f6d6aa;
+}
+
+.tooling-grid__item--shield .tooling-grid__icon {
+  color: var(--sd-orange-strong);
+}
+
+.tooling-grid__item--code .tooling-grid__icon {
+  color: #e29a55;
+}
+
+.tooling-grid__item--terminal .tooling-grid__icon {
+  color: #f5b84b;
+}
+
+/* ==========================================================================
+   Tooling text override
+   ========================================================================== */
+
+.tooling-grid__category {
+  border-color: rgba(226, 154, 85, 0.24);
+  background: rgba(213, 122, 42, 0.11);
+  color: var(--sd-orange-strong);
+}
+
+.tooling-grid__status {
+  border-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.04);
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.tooling-grid__name {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.tooling-grid__item:hover .tooling-grid__name {
+  color: var(--sd-orange-strong);
+}
+
+.tooling-grid__tagline {
+  color: rgba(246, 232, 204, 0.74);
+}
+
+.tooling-grid__description {
+  color: rgba(246, 232, 204, 0.54);
+}
+
+.tooling-grid__action {
+  color: rgba(246, 232, 204, 0.5);
+}
+
+.tooling-grid__item:hover .tooling-grid__action {
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Tooling heading override
+   ========================================================================== */
+
+.tooling-grid :deep(.sd-section-heading__eyebrow) {
+  color: var(--sd-orange-strong);
+}
+
+.tooling-grid :deep(.sd-section-heading__eyebrow::before) {
+  background: var(--sd-orange);
+  opacity: 0.65;
+}
+
+.tooling-grid :deep(.sd-section-heading__title) {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.tooling-grid :deep(.sd-section-heading__text) {
+  color: rgba(246, 232, 204, 0.62);
+}
 </style>

@@ -371,4 +371,305 @@ import SectionHeading from "../ui/SectionHeading.vue";
     justify-content: flex-start;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine stack grid override
+   ========================================================================== */
+
+.stack-grid.sd-section {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+}
+
+.stack-grid.sd-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 14% 10%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 86% 22%,
+      rgba(213, 122, 42, 0.13) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(213, 122, 42, 0.11) 35%,
+      rgba(226, 154, 85, 0.08) 42%,
+      transparent 51%
+    );
+
+  opacity: 0.9;
+}
+
+.stack-grid.sd-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+}
+
+.stack-grid .sd-section__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Stack grid cards override
+   ========================================================================== */
+
+.stack-grid__grid {
+  overflow: hidden;
+  border: 1px solid rgba(255, 244, 224, 0.11);
+  border-radius: 16px;
+  background: rgba(255, 244, 224, 0.08);
+
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.stack-grid__card {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.07),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 224, 0.05),
+      rgba(255, 244, 224, 0.018)
+    ),
+    rgba(11, 43, 34, 0.62);
+
+  transition:
+    background var(--sd-transition),
+    transform var(--sd-transition-fast),
+    box-shadow var(--sd-transition-fast);
+}
+
+.stack-grid__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    145deg,
+    transparent 0%,
+    transparent 48%,
+    rgba(213, 122, 42, 0.1) 49%,
+    rgba(226, 154, 85, 0.07) 58%,
+    transparent 66%
+  );
+
+  opacity: 0;
+  transition: opacity var(--sd-transition-fast);
+}
+
+.stack-grid__card:hover {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.1),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(213, 122, 42, 0.09),
+      rgba(255, 244, 224, 0.03)
+    ),
+    rgba(11, 43, 34, 0.68);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 18px 56px rgba(0, 0, 0, 0.18);
+
+  transform: translateY(-2px);
+}
+
+.stack-grid__card:hover::before {
+  opacity: 1;
+}
+
+.stack-grid__top,
+.stack-grid__name,
+.stack-grid__role,
+.stack-grid__tagline,
+.stack-grid__links {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Stack grid icons override
+   ========================================================================== */
+
+.stack-grid__icon {
+  border: 1px solid rgba(255, 244, 224, 0.11);
+
+  background:
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(255, 244, 224, 0.13),
+      transparent 58%
+    ),
+    rgba(255, 244, 224, 0.045);
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.stack-grid__card:hover .stack-grid__icon {
+  border-color: rgba(226, 154, 85, 0.32);
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(213, 122, 42, 0.18),
+      transparent 62%
+    ),
+    rgba(255, 244, 224, 0.055);
+}
+
+.stack-grid__icon--vix {
+  color: #f6d6aa;
+}
+
+.stack-grid__icon--softadastra {
+  color: var(--sd-orange-strong);
+}
+
+.stack-grid__icon--cnerium {
+  color: #2fd49c;
+}
+
+.stack-grid__icon--kordex {
+  color: #f5b84b;
+}
+
+.stack-grid__icon--pico {
+  color: var(--sd-orange);
+}
+
+/* ==========================================================================
+   Stack grid text override
+   ========================================================================== */
+
+.stack-grid__badge--license {
+  border: 1px solid rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.04);
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.stack-grid__badge--active {
+  border: 1px solid rgba(47, 212, 156, 0.16);
+  background: rgba(47, 212, 156, 0.1);
+  color: var(--sd-green);
+}
+
+.stack-grid__name {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.stack-grid__role--vix {
+  color: #f6d6aa;
+}
+
+.stack-grid__role--softadastra {
+  color: var(--sd-orange-strong);
+}
+
+.stack-grid__role--cnerium {
+  color: #2fd49c;
+}
+
+.stack-grid__role--kordex {
+  color: #f5b84b;
+}
+
+.stack-grid__role--pico {
+  color: var(--sd-orange);
+}
+
+.stack-grid__tagline {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.stack-grid__card:hover .stack-grid__name {
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Stack grid links override
+   ========================================================================== */
+
+.stack-grid__link--accent {
+  color: var(--sd-orange-strong);
+}
+
+.stack-grid__link--accent:hover {
+  color: #ffc184;
+}
+
+.stack-grid__link--dim {
+  color: rgba(246, 232, 204, 0.48);
+}
+
+.stack-grid__link--dim:hover {
+  color: rgba(255, 248, 235, 0.88);
+}
+
+/* ==========================================================================
+   Stack grid heading override
+   ========================================================================== */
+
+.stack-grid :deep(.sd-section-heading__eyebrow) {
+  color: var(--sd-orange-strong);
+}
+
+.stack-grid :deep(.sd-section-heading__eyebrow::before) {
+  background: var(--sd-orange);
+  opacity: 0.65;
+}
+
+.stack-grid :deep(.sd-section-heading__title) {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.stack-grid :deep(.sd-section-heading__text) {
+  color: rgba(246, 232, 204, 0.62);
+}
 </style>

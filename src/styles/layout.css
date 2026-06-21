@@ -12,7 +12,8 @@
 
 html {
   min-width: 320px;
-  background: var(--sd-bg);
+  min-height: 100%;
+  background: #0b2b22;
   color: var(--sd-text);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -21,13 +22,81 @@ html {
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--sd-bg);
   color: var(--sd-text);
   font-family: var(--sd-font);
   line-height: 1.6;
+
+  background:
+    radial-gradient(
+      circle at 50% 7%,
+      rgba(245, 222, 184, 0.9) 0%,
+      rgba(220, 171, 108, 0.42) 18%,
+      rgba(24, 68, 56, 0.86) 43%,
+      rgba(11, 43, 34, 1) 100%
+    ),
+    linear-gradient(180deg, #1a4439 0%, #12372f 42%, #0b2b22 100%);
+
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      165deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(213, 122, 42, 0.32) 37%,
+      rgba(226, 154, 85, 0.26) 43%,
+      transparent 49%
+    ),
+    linear-gradient(
+      18deg,
+      transparent 0%,
+      transparent 68%,
+      rgba(213, 122, 42, 0.3) 69%,
+      rgba(226, 154, 85, 0.22) 74%,
+      transparent 80%
+    ),
+    radial-gradient(
+      circle at 18% 42%,
+      rgba(255, 226, 176, 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 84% 58%,
+      rgba(213, 122, 42, 0.16),
+      transparent 34%
+    );
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.34;
+  mix-blend-mode: soft-light;
 }
 
 body.no-scroll {
@@ -58,7 +127,10 @@ svg {
 }
 
 #app {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
+  background: transparent;
 }
 
 /* ==========================================================================
@@ -67,8 +139,8 @@ svg {
 
 .sd-page {
   min-height: 100vh;
+  background: transparent;
 }
-
 .sd-container {
   width: min(100% - 48px, var(--sd-container));
   margin-inline: auto;
@@ -77,7 +149,7 @@ svg {
 .sd-section {
   position: relative;
   padding: 100px 0;
-  border-top: 1px solid var(--sd-border);
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
 }
 
 .sd-section__inner {

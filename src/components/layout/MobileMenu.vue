@@ -577,9 +577,7 @@ function getIcon(label) {
     opacity 260ms ease,
     transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.site-header {
-  z-index: 2147483001;
-}
+
 .mobile-menu--open .mobile-menu__panel {
   opacity: 1;
   transform: translateY(0);
@@ -780,5 +778,131 @@ function getIcon(label) {
   .mobile-menu__actions {
     padding: 12px 0;
   }
+}
+
+/* ==========================================================================
+   Softadastra Engine mobile menu override
+   ========================================================================== */
+
+.mobile-menu__backdrop {
+  background: rgba(4, 20, 16, 0.58);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.mobile-menu__panel {
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.1) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(213, 122, 42, 0.14) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 55, 47, 0.98) 0%,
+      rgba(11, 43, 34, 0.98) 48%,
+      rgba(7, 28, 23, 1) 100%
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 224, 0.05),
+    0 -1px 0 rgba(255, 244, 224, 0.04);
+}
+
+.mobile-menu__content {
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-menu__group {
+  border-bottom: 1px solid rgba(255, 244, 224, 0.08);
+}
+
+.mobile-menu__trigger,
+.mobile-menu__direct {
+  color: rgba(255, 248, 235, 0.94);
+}
+
+.mobile-menu__trigger:active,
+.mobile-menu__direct:active {
+  color: var(--sd-orange-strong);
+}
+
+.mobile-menu__direct svg,
+.mobile-menu__arrow {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.mobile-menu__arrow--open {
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Mobile menu items override
+   ========================================================================== */
+
+.mobile-menu__item {
+  border: 1px solid transparent;
+}
+
+.mobile-menu__item:active {
+  border-color: rgba(226, 154, 85, 0.2);
+  background: rgba(213, 122, 42, 0.1);
+}
+
+.mobile-menu__item-icon {
+  border-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.045);
+  color: var(--sd-orange-strong);
+}
+
+.mobile-menu__item-copy strong {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.mobile-menu__item-copy small {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+/* ==========================================================================
+   Mobile menu actions override
+   ========================================================================== */
+
+.mobile-menu__actions {
+  border-top: 1px solid rgba(255, 244, 224, 0.08);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.mobile-menu__actions :deep(.sd-button-primary) {
+  border: 1px solid rgba(255, 215, 168, 0.18);
+  background: linear-gradient(
+    180deg,
+    var(--sd-orange-strong, #e29a55),
+    var(--sd-orange, #d57a2a)
+  );
+  color: #102b23;
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.mobile-menu__actions :deep(.sd-button-secondary) {
+  border: 1px solid rgba(255, 244, 224, 0.13);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.82);
+}
+
+.mobile-menu__actions :deep(.sd-button-secondary:hover),
+.mobile-menu__actions :deep(.sd-button-secondary:active) {
+  border-color: rgba(255, 244, 224, 0.22);
+  background: rgba(255, 244, 224, 0.075);
+  color: rgba(255, 248, 235, 0.96);
 }
 </style>

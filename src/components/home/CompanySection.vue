@@ -360,4 +360,280 @@ const steps = [
     margin-left: 22px;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine company section override
+   ========================================================================== */
+
+.company-section.sd-section {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+}
+
+.company-section::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  right: -220px;
+  width: 560px;
+  height: 560px;
+  border-radius: 999px;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(213, 122, 42, 0.15),
+    rgba(246, 222, 184, 0.06) 34%,
+    transparent 68%
+  );
+
+  filter: blur(58px);
+}
+
+.company-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 12% 22%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 32%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(213, 122, 42, 0.11) 35%,
+      rgba(226, 154, 85, 0.08) 42%,
+      transparent 51%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.014) 0px,
+      rgba(255, 255, 255, 0.014) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+
+  opacity: 0.8;
+  mix-blend-mode: soft-light;
+}
+
+.company-section .sd-section__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Company metrics override
+   ========================================================================== */
+
+.company-section__metric {
+  border-color: rgba(255, 244, 224, 0.1);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 224, 0.055),
+      rgba(255, 244, 224, 0.022)
+    );
+
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.company-section__metric strong {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.company-section__metric span {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+/* ==========================================================================
+   Company model override
+   ========================================================================== */
+
+.company-section__model {
+  border-color: rgba(255, 244, 224, 0.12);
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(213, 122, 42, 0.13),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(180deg, rgba(22, 75, 60, 0.72), rgba(11, 43, 34, 0.72));
+
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 244, 224, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ==========================================================================
+   Company steps override
+   ========================================================================== */
+
+.company-section__step-head {
+  border-color: rgba(255, 244, 224, 0.1);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 224, 0.055),
+      rgba(255, 244, 224, 0.022)
+    ),
+    rgba(11, 43, 34, 0.58);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.company-section__step-head:hover {
+  border-color: rgba(226, 154, 85, 0.28);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(213, 122, 42, 0.09),
+      rgba(255, 244, 224, 0.03)
+    ),
+    rgba(11, 43, 34, 0.64);
+
+  box-shadow:
+    0 18px 56px rgba(0, 0, 0, 0.24),
+    0 8px 28px rgba(213, 122, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+  transform: translateY(-2px);
+}
+
+.company-section__step--accent .company-section__step-head {
+  border-color: rgba(226, 154, 85, 0.22);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(213, 122, 42, 0.1),
+      rgba(255, 244, 224, 0.025)
+    ),
+    rgba(11, 43, 34, 0.62);
+}
+
+/* ==========================================================================
+   Company numbers override
+   ========================================================================== */
+
+.company-section__num {
+  border-color: rgba(226, 154, 85, 0.24);
+
+  background:
+    linear-gradient(180deg, rgba(213, 122, 42, 0.18), rgba(213, 122, 42, 0.08)),
+    rgba(255, 244, 224, 0.025);
+
+  color: var(--sd-orange-strong);
+
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.company-section__num--green {
+  border-color: rgba(47, 212, 156, 0.22);
+  background: linear-gradient(
+    180deg,
+    rgba(47, 212, 156, 0.14),
+    rgba(47, 212, 156, 0.06)
+  );
+  color: var(--sd-green);
+}
+
+.company-section__num--accent {
+  border-color: rgba(226, 154, 85, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(213, 122, 42, 0.2),
+    rgba(213, 122, 42, 0.08)
+  );
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Company text and connector override
+   ========================================================================== */
+
+.company-section__body strong {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.company-section__body span {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.company-section__step-head:hover .company-section__body strong {
+  color: var(--sd-orange-strong);
+}
+
+.company-section__connector {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(226, 154, 85, 0.28),
+    rgba(246, 222, 184, 0.12),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   Company heading override
+   ========================================================================== */
+
+.company-section :deep(.sd-section-heading__eyebrow) {
+  color: var(--sd-orange-strong);
+}
+
+.company-section :deep(.sd-section-heading__eyebrow::before) {
+  background: var(--sd-orange);
+  opacity: 0.65;
+}
+
+.company-section :deep(.sd-section-heading__title) {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.company-section :deep(.sd-section-heading__text) {
+  color: rgba(246, 232, 204, 0.62);
+}
 </style>

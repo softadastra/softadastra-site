@@ -1234,4 +1234,231 @@ onBeforeUnmount(() => {
     justify-content: flex-start;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine background override
+   Paste at the very end of this scoped style
+   ========================================================================== */
+
+.hero {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 46% 8%,
+      rgba(246, 222, 184, 0.72) 0%,
+      rgba(222, 174, 111, 0.28) 20%,
+      transparent 44%
+    ),
+    linear-gradient(
+      165deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(213, 122, 42, 0.28) 35%,
+      rgba(226, 154, 85, 0.2) 42%,
+      transparent 49%
+    ),
+    linear-gradient(
+      18deg,
+      transparent 0%,
+      transparent 69%,
+      rgba(213, 122, 42, 0.24) 70%,
+      rgba(226, 154, 85, 0.18) 75%,
+      transparent 81%
+    );
+
+  opacity: 0.9;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+}
+
+.hero__glow-1 {
+  top: -140px;
+  right: -90px;
+  background: radial-gradient(
+    circle,
+    rgba(246, 222, 184, 0.16) 0%,
+    rgba(213, 122, 42, 0.08) 35%,
+    transparent 72%
+  );
+}
+
+.hero__glow-2 {
+  bottom: -90px;
+  left: 4%;
+  background: radial-gradient(
+    circle,
+    rgba(213, 122, 42, 0.13) 0%,
+    rgba(246, 222, 184, 0.05) 38%,
+    transparent 72%
+  );
+}
+
+.hero__badge {
+  border-color: rgba(226, 154, 85, 0.28);
+  background: rgba(213, 122, 42, 0.12);
+  color: rgba(255, 224, 190, 0.94);
+}
+
+.hero__badge-dot {
+  background: var(--c-orange);
+  box-shadow: 0 0 0 4px rgba(213, 122, 42, 0.18);
+}
+
+.hero__title {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.hero__title-accent {
+  background: linear-gradient(125deg, #e29a55, #f6d6aa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__desc {
+  color: rgba(246, 232, 204, 0.76);
+}
+
+.hero__stats {
+  border-top-color: rgba(255, 244, 224, 0.12);
+}
+
+.hero__stat span {
+  color: rgba(246, 232, 204, 0.52);
+}
+
+.hero__stat-div {
+  background: rgba(255, 244, 224, 0.12);
+}
+
+.hero__btn--primary {
+  background: linear-gradient(180deg, #e29a55, #d57a2a);
+  color: #102b23;
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.hero__btn--primary:hover {
+  box-shadow:
+    0 0 0 1px rgba(226, 154, 85, 0.42),
+    0 14px 34px rgba(213, 122, 42, 0.3);
+}
+
+.hero__btn--secondary,
+.hero__btn--ghost {
+  border-color: rgba(255, 244, 224, 0.14);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.hero__btn--secondary:hover,
+.hero__btn--ghost:hover {
+  border-color: rgba(255, 244, 224, 0.24);
+  background: rgba(255, 244, 224, 0.075);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.hero__console {
+  border-color: rgba(255, 244, 224, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(22, 75, 60, 0.76),
+    rgba(11, 43, 34, 0.74)
+  );
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 244, 224, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.con__chrome {
+  border-bottom-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.055);
+}
+
+.con__body {
+  background:
+    radial-gradient(
+      520px 260px at 72% 14%,
+      rgba(213, 122, 42, 0.12),
+      transparent 70%
+    ),
+    rgba(9, 35, 28, 0.3);
+}
+
+.con__terminal {
+  border-color: rgba(255, 244, 224, 0.1);
+  background: rgba(6, 24, 19, 0.58);
+}
+
+.con__pipeline,
+.con__eco {
+  border-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.035);
+}
+/* ==========================================================================
+   Fix hero top spacing
+   ========================================================================== */
+
+.hero {
+  padding-top: 34px;
+  padding-bottom: 72px;
+  min-height: auto;
+}
+
+.hero__inner {
+  align-items: center;
+}
+/* ==========================================================================
+   Hero vertical layout fix
+   ========================================================================== */
+
+.hero {
+  min-height: auto !important;
+  height: auto !important;
+  padding-top: 42px !important;
+  padding-bottom: 72px !important;
+}
+
+.hero__inner {
+  min-height: auto !important;
+  height: auto !important;
+  align-items: center;
+}
+
+.hero__copy,
+.hero__console {
+  margin-top: 0 !important;
+  transform: none;
+}
 </style>

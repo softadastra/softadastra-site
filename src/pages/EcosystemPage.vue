@@ -261,4 +261,236 @@ import StackCard from "../components/ecosystem/StackCard.vue";
     text-align: left;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine ecosystem page override
+   ========================================================================== */
+
+.ecosystem-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-bottom: 104px;
+  background: transparent;
+}
+
+.ecosystem-page::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% -8%,
+      rgba(246, 222, 184, 0.5) 0%,
+      rgba(222, 174, 111, 0.18) 20%,
+      transparent 44%
+    ),
+    radial-gradient(
+      circle at 84% 24%,
+      rgba(213, 122, 42, 0.14) 0%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 12% 56%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 34%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 33%,
+      rgba(213, 122, 42, 0.12) 34%,
+      rgba(226, 154, 85, 0.08) 42%,
+      transparent 51%
+    );
+
+  opacity: 0.95;
+}
+
+.ecosystem-page::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.26;
+  mix-blend-mode: soft-light;
+}
+
+.ecosystem-page__hero,
+.ecosystem-page__diagram,
+.ecosystem-page__layers,
+.ecosystem-page__stacks {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Ecosystem page hero override
+   ========================================================================== */
+
+.ecosystem-page__hero {
+  padding: 92px 0 58px;
+  text-align: center;
+}
+
+.ecosystem-page__hero h1 {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.ecosystem-page__hero p {
+  color: rgba(246, 232, 204, 0.72);
+}
+
+.ecosystem-page__hero-meta span {
+  border-color: rgba(255, 244, 224, 0.11);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.62);
+}
+
+.ecosystem-page__hero-meta span:hover {
+  border-color: rgba(226, 154, 85, 0.24);
+  background: rgba(213, 122, 42, 0.09);
+  color: rgba(255, 248, 235, 0.9);
+}
+
+/* ==========================================================================
+   Ecosystem layer cards override
+   ========================================================================== */
+
+.ecosystem-page__layer-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(255, 244, 224, 0.1);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 224, 0.055),
+      rgba(255, 244, 224, 0.022)
+    );
+
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.ecosystem-page__layer-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    145deg,
+    transparent 0%,
+    transparent 48%,
+    rgba(213, 122, 42, 0.1) 49%,
+    rgba(226, 154, 85, 0.07) 58%,
+    transparent 66%
+  );
+
+  opacity: 0;
+  transition: opacity var(--sd-transition-fast);
+}
+
+.ecosystem-page__layer-card:hover {
+  border-color: rgba(226, 154, 85, 0.3);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.1),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(213, 122, 42, 0.09),
+      rgba(255, 244, 224, 0.035)
+    );
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.22),
+    0 8px 28px rgba(213, 122, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+  transform: translateY(-2px);
+}
+
+.ecosystem-page__layer-card:hover::before {
+  opacity: 1;
+}
+
+.ecosystem-page__layer-head,
+.ecosystem-page__layer-card h3,
+.ecosystem-page__layer-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.ecosystem-page__layer-number {
+  border-color: rgba(226, 154, 85, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(213, 122, 42, 0.18),
+    rgba(213, 122, 42, 0.08)
+  );
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-page__layer-label {
+  color: rgba(246, 232, 204, 0.46);
+}
+
+.ecosystem-page__layer-card h3 {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.ecosystem-page__layer-card p {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+/* ==========================================================================
+   Ecosystem page heading override
+   ========================================================================== */
+
+.ecosystem-page :deep(.sd-section-heading__eyebrow) {
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-page :deep(.sd-section-heading__eyebrow::before) {
+  background: var(--sd-orange);
+  opacity: 0.65;
+}
+
+.ecosystem-page :deep(.sd-section-heading__title) {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.ecosystem-page :deep(.sd-section-heading__text) {
+  color: rgba(246, 232, 204, 0.62);
+}
 </style>

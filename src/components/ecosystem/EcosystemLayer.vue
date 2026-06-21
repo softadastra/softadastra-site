@@ -108,4 +108,127 @@ defineProps({
   font-size: 13px;
   line-height: 1.5;
 }
+
+/* ==========================================================================
+   Softadastra Engine ecosystem layer override
+   ========================================================================== */
+
+.ecosystem-layer {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  border: 1px solid rgba(255, 244, 224, 0.1);
+  border-radius: 16px;
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 224, 0.055),
+      rgba(255, 244, 224, 0.022)
+    );
+
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition:
+    border-color var(--sd-transition-fast),
+    background var(--sd-transition-fast),
+    box-shadow var(--sd-transition-fast),
+    transform var(--sd-transition-fast);
+}
+
+.ecosystem-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    145deg,
+    transparent 0%,
+    transparent 48%,
+    rgba(213, 122, 42, 0.1) 49%,
+    rgba(226, 154, 85, 0.07) 58%,
+    transparent 66%
+  );
+
+  opacity: 0;
+  transition: opacity var(--sd-transition-fast);
+}
+
+.ecosystem-layer:hover {
+  border-color: rgba(226, 154, 85, 0.3);
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.1),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(213, 122, 42, 0.09),
+      rgba(255, 244, 224, 0.035)
+    );
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.22),
+    0 8px 28px rgba(213, 122, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+  transform: translateY(-2px);
+}
+
+.ecosystem-layer:hover::before {
+  opacity: 1;
+}
+
+.ecosystem-layer__head,
+.ecosystem-layer h3,
+.ecosystem-layer p {
+  position: relative;
+  z-index: 1;
+}
+
+.ecosystem-layer__number {
+  border-color: rgba(226, 154, 85, 0.3);
+  background: linear-gradient(
+    180deg,
+    rgba(213, 122, 42, 0.18),
+    rgba(213, 122, 42, 0.08)
+  );
+  color: var(--sd-orange-strong);
+  box-shadow:
+    0 8px 24px rgba(213, 122, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.ecosystem-layer__label {
+  color: rgba(246, 232, 204, 0.46);
+}
+
+.ecosystem-layer h3 {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.ecosystem-layer p {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.ecosystem-layer:hover h3 {
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-layer:hover .ecosystem-layer__label {
+  color: rgba(246, 232, 204, 0.62);
+}
 </style>

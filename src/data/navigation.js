@@ -93,26 +93,26 @@ export const navigationGroups = [
       {
         label: "Company",
         description:
-          "Learn about Softadastra, the C++ tooling company behind Vix.cpp ecosystem work.",
+          "Learn about Softadastra, the C++ tooling company building and maintaining open tooling for modern C++ development.",
         href: links.company,
       },
       {
-        label: "Open Source Model",
+        label: "Engineering Blog",
         description:
-          "How Softadastra builds and maintains open C++ tooling while growing a focused ecosystem.",
-        href: links.openSourceModel,
+          "Read engineering notes, technical updates, and progress around the Softadastra and Vix.cpp ecosystem.",
+        href: links.blog,
       },
       {
-        label: "Branding",
+        label: "GitHub",
         description:
-          "Softadastra brand assets, identity, and usage guidelines.",
-        href: links.branding,
+          "Explore Softadastra open source repositories and maintained tooling work.",
+        href: links.github,
       },
       {
-        label: "Contact",
+        label: "X",
         description:
-          "Reach Softadastra for ecosystem, tooling, partnership, or engineering inquiries.",
-        href: links.contact,
+          "Follow Softadastra updates, releases, and development progress.",
+        href: links.x,
       },
     ],
   },
