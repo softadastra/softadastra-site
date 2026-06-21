@@ -1,11 +1,11 @@
 export const company = {
   name: "Softadastra",
   legalName: "Softadastra Company",
-  tagline: "Reliable local-first infrastructure.",
+  tagline: "The C++ Tooling Company.",
   description:
-    "Softadastra builds open infrastructure, runtimes, tools, and cloud products for applications that must keep working when the network fails.",
+    "Softadastra builds and maintains open C++ tooling to make modern C++ development simpler, faster, and more accessible.",
   mission:
-    "Make software reliable by default in real-world network conditions.",
+    "Simplify C++ development with modern tools for creating, building, testing, diagnosing, packaging, and distributing C++ projects.",
   website: "https://softadastra.com",
   founded: "2026",
 };

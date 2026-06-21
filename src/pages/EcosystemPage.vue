@@ -2,20 +2,18 @@
   <SiteShell>
     <section class="ecosystem-page">
       <div class="ecosystem-page__hero sd-container">
-        <h1>
-          One architecture for reliable local-first software.
-        </h1>
+        <h1>A focused ecosystem around modern C++ tooling.</h1>
 
         <p>
-          Softadastra Company maintains a connected stack of runtimes, engines,
-          frameworks, and products. Each layer has a clear role, but all layers
-          share the same reliability-first foundation.
+          Softadastra builds products on top of the Vix.cpp foundation. The goal
+          is simple: make C++ development easier, more reliable, and more useful
+          for real applications.
         </p>
 
         <div class="ecosystem-page__hero-meta">
-          <span>MIT licensed stack</span>
-          <span>Local-first foundation</span>
-          <span>Commercial products around it</span>
+          <span>C++ tooling</span>
+          <span>Built on Vix.cpp</span>
+          <span>Open source foundations</span>
         </div>
       </div>
 
@@ -26,18 +24,14 @@
       <div class="ecosystem-page__stacks sd-container">
         <div class="ecosystem-page__section-top">
           <SectionHeading
-            eyebrow="Maintained projects"
-            title="Projects maintained under Softadastra Company."
-            text="The ecosystem can grow without becoming scattered because every project has a defined position in the stack."
+            eyebrow="Ecosystem layers"
+            title="A clear stack built around Vix.cpp."
+            text="Vix.cpp is the foundation. Softadastra Engine, Cnerium, and Kordex extend it into local-first storage, backend reliability, and JavaScript runtime tooling. Pico validates the stack in a real C++ backend application."
           />
         </div>
 
         <div class="ecosystem-page__stack-grid">
-          <StackCard
-            v-for="stack in stacks"
-            :key="stack.id"
-            :stack="stack"
-          />
+          <StackCard v-for="stack in stacks" :key="stack.id" :stack="stack" />
         </div>
       </div>
     </section>

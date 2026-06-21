@@ -1,74 +1,69 @@
 <template>
   <SiteShell>
-    <section class="product-page">
-      <div class="product-page__hero sd-container">
+    <section class="tooling-page">
+      <div class="tooling-page__hero sd-container">
         <BaseBadge>
-          {{ currentProduct.category }}
+          {{ currentTool.category }}
         </BaseBadge>
 
         <h1>
-          {{ currentProduct.name }}
+          {{ currentTool.name }}
         </h1>
 
         <p>
-          {{ currentProduct.tagline }}
+          {{ currentTool.tagline }}
         </p>
       </div>
 
-      <div class="product-page__content sd-container">
-        <BaseCard class="product-page__main-card">
-          <div class="product-page__card-top">
-            <span>{{ currentProduct.label }}</span>
-            <strong>{{ currentProduct.status }}</strong>
+      <div class="tooling-page__content sd-container">
+        <BaseCard class="tooling-page__main-card">
+          <div class="tooling-page__card-top">
+            <span>{{ currentTool.label }}</span>
+            <strong>{{ currentTool.status }}</strong>
           </div>
 
-          <h2>
-            Built around the Softadastra reliability foundation.
-          </h2>
+          <h2>Built as part of Softadastra C++ tooling.</h2>
 
           <p>
-            {{ currentProduct.description }}
+            {{ currentTool.description }}
           </p>
 
-          <div class="product-page__meta">
-            <span>Category: {{ currentProduct.category }}</span>
-            <span>Status: {{ currentProduct.status }}</span>
+          <div class="tooling-page__meta">
+            <span>Category: {{ currentTool.category }}</span>
+            <span>Status: {{ currentTool.status }}</span>
           </div>
 
-          <div class="product-page__actions">
+          <div class="tooling-page__actions">
             <BaseButton
-              v-if="currentProduct.href && currentProduct.href !== '#'"
-              :href="currentProduct.href"
+              v-if="currentTool.href && currentTool.href !== '#'"
+              :href="currentTool.href"
             >
-              Open product
+              Open tooling
             </BaseButton>
 
-            <BaseButton
-              to="/ecosystem"
-              variant="secondary"
-            >
+            <BaseButton to="/ecosystem" variant="secondary">
               View ecosystem
             </BaseButton>
           </div>
         </BaseCard>
 
-        <div class="product-page__side">
+        <div class="tooling-page__side">
           <SectionHeading
-            eyebrow="Commercial layer"
-            title="Products stay connected to the open stack."
-            text="Softadastra products are built around the same runtime, durability, sync, and reliability foundations maintained by the company."
+            eyebrow="Tooling layer"
+            title="Focused tools, not commercial product noise."
+            text="Softadastra maintains a small technical ecosystem around modern C++ development. Each tool has a clear role: offline-first foundations, backend reliability, local-first runtime work, or validation inside real applications."
           />
 
-          <div class="product-page__products">
+          <div class="tooling-page__tools">
             <div
-              v-for="product in relatedProducts"
-              :key="product.id"
-              class="product-page__product"
+              v-for="tool in relatedTools"
+              :key="tool.id"
+              class="tooling-page__tool"
             >
-              <span>{{ product.category }}</span>
+              <span>{{ tool.category }}</span>
 
-              <RouterLink :to="`/products/${product.id}`">
-                {{ product.name }}
+              <RouterLink :to="`/tooling/${tool.id}`">
+                {{ tool.name }}
               </RouterLink>
             </div>
           </div>
@@ -82,7 +77,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-import { products } from "../data/products";
+import { tooling } from "../data/tooling.js";
 
 import SiteShell from "../components/layout/SiteShell.vue";
 
@@ -93,15 +88,16 @@ import SectionHeading from "../components/ui/SectionHeading.vue";
 
 const route = useRoute();
 
-const currentProduct = computed(() => {
+const currentTool = computed(() => {
   return (
-    products.find((product) => product.id === route.params.id) || {
+    tooling.find((tool) => tool.id === route.params.id) || {
       id: "unknown",
-      name: "Product not found",
-      label: "Unknown product",
-      tagline: "This product does not exist in the current Softadastra product list.",
+      name: "Tooling item not found",
+      label: "Unknown tooling",
+      tagline:
+        "This item does not exist in the current Softadastra tooling list.",
       description:
-        "The requested product could not be found. Go back to the ecosystem page to see the maintained products.",
+        "The requested tooling item could not be found. Go back to the ecosystem page to see the maintained tools.",
       status: "Unknown",
       category: "Unknown",
       href: "#",
@@ -109,26 +105,26 @@ const currentProduct = computed(() => {
   );
 });
 
-const relatedProducts = computed(() => {
-  return products.filter((product) => product.id !== currentProduct.value.id);
+const relatedTools = computed(() => {
+  return tooling.filter((tool) => tool.id !== currentTool.value.id);
 });
 </script>
 
 <style scoped>
-.product-page {
+.tooling-page {
   padding-bottom: 96px;
 }
 
-.product-page__hero {
+.tooling-page__hero {
   padding: 96px 0 52px;
   text-align: center;
 }
 
-.product-page__hero :deep(.sd-badge) {
+.tooling-page__hero :deep(.sd-badge) {
   margin-inline: auto;
 }
 
-.product-page__hero h1 {
+.tooling-page__hero h1 {
   max-width: 880px;
   margin: 24px auto 0;
   color: var(--sd-text);
@@ -137,7 +133,7 @@ const relatedProducts = computed(() => {
   letter-spacing: -0.085em;
 }
 
-.product-page__hero p {
+.tooling-page__hero p {
   max-width: 720px;
   margin: 24px auto 0;
   color: var(--sd-text-soft);
@@ -145,24 +141,24 @@ const relatedProducts = computed(() => {
   line-height: 1.7;
 }
 
-.product-page__content {
+.tooling-page__content {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
   gap: 28px;
 }
 
-.product-page__main-card {
+.tooling-page__main-card {
   padding: 34px;
 }
 
-.product-page__card-top {
+.tooling-page__card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
 }
 
-.product-page__card-top span {
+.tooling-page__card-top span {
   color: var(--sd-primary);
   font-size: 0.8rem;
   font-weight: 850;
@@ -170,12 +166,12 @@ const relatedProducts = computed(() => {
   text-transform: uppercase;
 }
 
-.product-page__card-top strong {
+.tooling-page__card-top strong {
   color: var(--sd-accent);
   font-size: 0.88rem;
 }
 
-.product-page__main-card h2 {
+.tooling-page__main-card h2 {
   margin: 28px 0 0;
   color: var(--sd-text);
   font-size: clamp(2rem, 4vw, 3.2rem);
@@ -183,20 +179,20 @@ const relatedProducts = computed(() => {
   letter-spacing: -0.06em;
 }
 
-.product-page__main-card p {
+.tooling-page__main-card p {
   margin: 20px 0 0;
   color: var(--sd-text-muted);
   font-size: 1.02rem;
 }
 
-.product-page__meta {
+.tooling-page__meta {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 28px;
 }
 
-.product-page__meta span {
+.tooling-page__meta span {
   padding: 8px 12px;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
@@ -205,27 +201,27 @@ const relatedProducts = computed(() => {
   font-weight: 750;
 }
 
-.product-page__actions {
+.tooling-page__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 34px;
 }
 
-.product-page__side {
+.tooling-page__side {
   padding: 30px;
   border: 1px solid var(--sd-border);
   border-radius: var(--sd-radius-xl);
   background: var(--sd-surface);
 }
 
-.product-page__products {
+.tooling-page__tools {
   display: grid;
   gap: 12px;
   margin-top: 32px;
 }
 
-.product-page__product {
+.tooling-page__tool {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -236,47 +232,47 @@ const relatedProducts = computed(() => {
   background: rgba(7, 11, 20, 0.42);
 }
 
-.product-page__product span {
+.tooling-page__tool span {
   color: var(--sd-text-muted);
   font-size: 0.82rem;
   font-weight: 750;
 }
 
-.product-page__product a {
+.tooling-page__tool a {
   color: var(--sd-text);
   font-weight: 850;
 }
 
-.product-page__product a:hover {
+.tooling-page__tool a:hover {
   color: var(--sd-primary);
 }
 
 @media (max-width: 920px) {
-  .product-page__content {
+  .tooling-page__content {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 620px) {
-  .product-page {
+  .tooling-page {
     padding-bottom: 64px;
   }
 
-  .product-page__hero {
+  .tooling-page__hero {
     padding: 72px 0 42px;
   }
 
-  .product-page__hero h1 {
+  .tooling-page__hero h1 {
     letter-spacing: -0.06em;
   }
 
-  .product-page__main-card,
-  .product-page__side {
+  .tooling-page__main-card,
+  .tooling-page__side {
     padding: 24px;
   }
 
-  .product-page__card-top,
-  .product-page__product {
+  .tooling-page__card-top,
+  .tooling-page__tool {
     align-items: flex-start;
     flex-direction: column;
   }

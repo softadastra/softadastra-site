@@ -1,24 +1,29 @@
 <template>
-  <section class="sdk-code sd-reveal">
-    <div class="sdk-code__glow" aria-hidden="true" />
-    <div class="sdk-code__grid" aria-hidden="true" />
+  <section class="showcase sd-reveal">
+    <div class="showcase__glow" aria-hidden="true" />
+    <div class="showcase__grid" aria-hidden="true" />
 
-    <div class="sdk-code__inner">
+    <div class="showcase__inner">
       <!-- LEFT: copy -->
-      <div class="sdk-code__copy">
-        <div class="sdk-code__badge">
-          <span class="sdk-code__badge-dot" />
-          Developer SDKs
+      <div class="showcase__copy">
+        <div class="showcase__badge">
+          <span class="showcase__badge-dot" />
+          Showcase
         </div>
 
-        <h2 class="sdk-code__title">Start with one SDK.</h2>
+        <h2 class="showcase__title">
+          See the C++ tooling stack
+          <span>in action.</span>
+        </h2>
 
-        <p class="sdk-code__desc">
-          Use Softadastra from C++ or JavaScript to save data locally first,
-          then sync later when the network is available.
+        <p class="showcase__desc">
+          Pico validates the Vix.cpp ecosystem inside a real backend
+          application. It brings together routing, runtime modules, storage,
+          WebSocket, diagnostics, background jobs, and developer workflow in one
+          practical C++ app.
         </p>
 
-        <ul class="sdk-code__bullets">
+        <ul class="showcase__bullets">
           <li>
             <svg viewBox="0 0 16 16" aria-hidden="true">
               <path
@@ -31,8 +36,8 @@
               />
             </svg>
             <div>
-              <strong>Write locally</strong>
-              <span>No round-trip. Instant feedback.</span>
+              <strong>Real backend application</strong>
+              <span>A practical C++ app, not an isolated snippet.</span>
             </div>
           </li>
           <li>
@@ -47,8 +52,8 @@
               />
             </svg>
             <div>
-              <strong>Persist &amp; queue</strong>
-              <span>Durable on disk, replayable on reconnect.</span>
+              <strong>Built with Vix.cpp</strong>
+              <span>Runs on the open C++ runtime and tooling foundation.</span>
             </div>
           </li>
           <li>
@@ -63,20 +68,36 @@
               />
             </svg>
             <div>
-              <strong>Sync when possible</strong>
-              <span>Peer-to-peer reconciliation, no central server.</span>
+              <strong>Validates modules together</strong>
+              <span>Routing, storage, WebSocket, jobs — exercised as one.</span>
+            </div>
+          </li>
+          <li>
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M3 8.5l3 3 7-7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              />
+            </svg>
+            <div>
+              <strong>Beyond isolated examples</strong>
+              <span>Shows the ecosystem working as a whole system.</span>
             </div>
           </li>
         </ul>
 
-        <div class="sdk-code__actions">
+        <div class="showcase__actions">
           <a
-            class="sdk-code__btn sdk-code__btn--primary"
-            href="https://docs.softadastra.com/sdk-cpp/"
+            class="showcase__btn showcase__btn--primary"
+            :href="links.pico"
             target="_blank"
             rel="noopener noreferrer"
           >
-            SDK C++
+            View Pico
             <svg
               width="14"
               height="14"
@@ -94,142 +115,387 @@
             </svg>
           </a>
 
+          <a class="showcase__btn showcase__btn--secondary" href="/ecosystem">
+            Explore ecosystem
+          </a>
+
           <a
-            class="sdk-code__btn sdk-code__btn--secondary"
-            href="https://docs.softadastra.com/sdk-js"
+            class="showcase__btn showcase__btn--ghost"
+            :href="links.vix"
             target="_blank"
             rel="noopener noreferrer"
           >
-            SDK JS
+            Vix.cpp
           </a>
         </div>
       </div>
 
-      <!-- RIGHT: stacked code windows -->
-      <div class="sdk-code__stack">
-        <!-- BACK window: JS -->
-        <article class="sdk-code__window sdk-code__window--back">
-          <header class="sdk-code__chrome">
-            <div class="sdk-code__dots">
-              <span class="sdk-code__dot sdk-code__dot--red" />
-              <span class="sdk-code__dot sdk-code__dot--yellow" />
-              <span class="sdk-code__dot sdk-code__dot--green" />
-            </div>
-            <div class="sdk-code__file">
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path
-                  d="M2.5 2.5h7l4 4v7a.5.5 0 0 1-.5.5h-10.5a.5.5 0 0 1-.5-.5v-10.5a.5.5 0 0 1 .5-.5z"
+      <!-- RIGHT: Pico backend console -->
+      <div
+        class="showcase__console"
+        role="img"
+        aria-label="Pico backend booting on Vix.cpp: source compiles, modules come online, and the validation suite passes."
+      >
+        <!-- Window chrome -->
+        <header class="con__chrome">
+          <div class="con__dots">
+            <span class="con__dot con__dot--red" />
+            <span class="con__dot con__dot--yellow" />
+            <span class="con__dot con__dot--green" />
+          </div>
+          <div class="con__chrome-title">pico — backend</div>
+          <div class="con__chrome-pill" :class="`con__chrome-pill--${phase}`">
+            <span class="con__chrome-pill-dot" />
+            {{ phaseLabel }}
+          </div>
+        </header>
+
+        <div class="con__body">
+          <!-- Build pipeline -->
+          <div class="con__pipeline" aria-hidden="true">
+            <template v-for="(stage, i) in pipeline" :key="stage.id">
+              <div
+                class="con__stage"
+                :class="{
+                  'con__stage--active': i === pipeStage,
+                  'con__stage--done': i < pipeStage,
+                }"
+              >
+                <span class="con__stage-label">{{ stage.label }}</span>
+              </div>
+              <span
+                v-if="i < pipeline.length - 1"
+                class="con__arrow"
+                :class="{ 'con__arrow--filled': i < pipeStage }"
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 12 8" width="12" height="8" fill="none">
+                  <path
+                    d="M1 4h9M7 1l3 3-3 3"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </template>
+          </div>
+
+          <!-- Module grid -->
+          <div class="con__modules-head">
+            <span>Vix modules</span>
+            <span class="con__modules-count">
+              {{ readyCount }}/{{ modules.length }} validated
+            </span>
+          </div>
+
+          <div class="con__modules" role="list">
+            <div
+              v-for="mod in modules"
+              :key="mod.id"
+              class="con__module"
+              :class="`con__module--${mod.state}`"
+              role="listitem"
+            >
+              <span class="con__module-icon" v-html="mod.icon" />
+              <div class="con__module-meta">
+                <strong>{{ mod.label }}</strong>
+                <span>{{ mod.detail }}</span>
+              </div>
+              <span class="con__module-state" aria-hidden="true">
+                <svg
+                  v-if="mod.state === 'ready'"
+                  viewBox="0 0 16 16"
+                  width="13"
+                  height="13"
                   fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.2"
+                >
+                  <path
+                    d="M3 8.5l3 3 7-7"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span
+                  v-else-if="mod.state === 'loading'"
+                  class="con__spinner"
                 />
-                <path
-                  d="M9.5 2.5v4h4"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                />
-              </svg>
-              <span>sync.js</span>
-              <em>JavaScript</em>
+                <span v-else class="con__pending-dot" />
+              </span>
             </div>
-          </header>
+          </div>
 
-          <pre
-            class="sdk-code__block"
-          ><code><span class="tk-k">import</span> { <span class="tk-v">Client</span>, <span class="tk-v">ClientOptions</span> } <span class="tk-k">from</span> <span class="tk-s">"@softadastra/sdk"</span>;
-
-<span class="tk-k">const</span> <span class="tk-v">client</span> = <span class="tk-k">new</span> <span class="tk-t">Client</span>(
-  <span class="tk-t">ClientOptions</span>.<span class="tk-fn">local</span>(<span class="tk-s">"node-local"</span>),
-);
-<span class="tk-k">await</span> client.<span class="tk-fn">open</span>();
-<span class="tk-k">await</span> client.<span class="tk-fn">put</span>(<span class="tk-s">"app/name"</span>, <span class="tk-s">"Softadastra"</span>);
-<span class="tk-k">await</span> client.<span class="tk-fn">close</span>();</code></pre>
-        </article>
-
-        <!-- FRONT window: C++ -->
-        <article class="sdk-code__window sdk-code__window--front">
-          <header class="sdk-code__chrome">
-            <div class="sdk-code__dots">
-              <span class="sdk-code__dot sdk-code__dot--red" />
-              <span class="sdk-code__dot sdk-code__dot--yellow" />
-              <span class="sdk-code__dot sdk-code__dot--green" />
+          <!-- Terminal log -->
+          <div class="con__log" aria-hidden="true">
+            <div
+              v-for="line in visibleLog"
+              :key="line.id"
+              class="con__log-row"
+              :class="`con__log-row--${line.kind}`"
+            >
+              <span v-if="line.kind === 'cmd'" class="con__log-prompt">$</span>
+              <span v-else-if="line.kind === 'ok'" class="con__log-check">
+                <svg viewBox="0 0 16 16" width="10" height="10" fill="none">
+                  <path
+                    d="M3 8.5l3 3 7-7"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span v-else class="con__log-bullet">›</span>
+              <span class="con__log-text" v-html="line.html" />
+              <span v-if="line.meta" class="con__log-meta">{{
+                line.meta
+              }}</span>
             </div>
-            <div class="sdk-code__file">
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path
-                  d="M2.5 2.5h7l4 4v7a.5.5 0 0 1-.5.5h-10.5a.5.5 0 0 1-.5-.5v-10.5a.5.5 0 0 1 .5-.5z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                />
-                <path
-                  d="M9.5 2.5v4h4"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                />
-              </svg>
-              <span>main.cpp</span>
-              <em>C++</em>
-            </div>
-            <div class="sdk-code__status">
-              <span />
-              local-first
-            </div>
-          </header>
-
-          <pre
-            class="sdk-code__block"
-          ><code><span class="tk-pp">#include</span> <span class="tk-s">&lt;softadastra/sdk.hpp&gt;</span>
-
-<span class="tk-ty">int</span> <span class="tk-fn">main</span>() {
-    <span class="tk-k">using namespace</span> <span class="tk-v">softadastra::sdk</span>;
-    <span class="tk-t">Client</span> client{
-        <span class="tk-t">ClientOptions</span>::<span class="tk-fn">local</span>(<span class="tk-s">"node-local"</span>)
-    };
-
-    client.<span class="tk-fn">open</span>();
-    client.<span class="tk-fn">put</span>(<span class="tk-s">"app/name"</span>, <span class="tk-s">"Softadastra"</span>);
-    client.<span class="tk-fn">close</span>();
-
-    <span class="tk-k">return</span> <span class="tk-n">0</span>;
-}</code></pre>
-        </article>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-// No tabs — both languages are shown stacked.
-// Keeping the script lean on purpose; the visual is the value here.
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { links } from "../../data/links";
+
+// ─── Module SVG icons ────────────────────────────────────
+const ICON = {
+  http: '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M2 6h12M2 10h12M6 2.5l-1.5 11M11.5 2.5L10 13.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  ws: '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M1.5 8a4 4 0 014-4M14.5 8a4 4 0 01-4 4M4 8a2.2 2.2 0 014.4 0M8 8a2.2 2.2 0 014.4 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  kv: '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><rect x="2" y="3" width="5" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M9 6h5M9 10h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  sqlite:
+    '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><ellipse cx="8" cy="4" rx="5" ry="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M3 4v8c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2V4" stroke="currentColor" stroke-width="1.3"/></svg>',
+  pool: '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><circle cx="4.5" cy="4.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="11.5" cy="4.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="11.5" r="1.8" stroke="currentColor" stroke-width="1.3"/><path d="M5.8 5.8l4.4 0M5.5 6l1.6 4M10.5 6L8.9 10" stroke="currentColor" stroke-width="1.1"/></svg>',
+  metrics:
+    '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  jobs: '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  runtime:
+    '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M4 3l8 5-8 5V3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+};
+
+// ─── Static config ───────────────────────────────────────
+const pipeline = [
+  { id: "src", label: "main.cpp" },
+  { id: "vix", label: "Vix.cpp" },
+  { id: "modules", label: "modules" },
+  { id: "pico", label: "Pico" },
+  { id: "diag", label: "diagnostics" },
+];
+
+const moduleDefs = [
+  {
+    id: "runtime",
+    label: "Runtime",
+    detail: "async event loop",
+    icon: ICON.runtime,
+  },
+  { id: "http", label: "HTTP routes", detail: "24 endpoints", icon: ICON.http },
+  { id: "ws", label: "WebSocket", detail: "live channels", icon: ICON.ws },
+  { id: "kv", label: "KV store", detail: "vix::kv", icon: ICON.kv },
+  { id: "sqlite", label: "SQLite", detail: "migrations ok", icon: ICON.sqlite },
+  { id: "pool", label: "ThreadPool", detail: "8 workers", icon: ICON.pool },
+  {
+    id: "jobs",
+    label: "Background jobs",
+    detail: "queue drained",
+    icon: ICON.jobs,
+  },
+  {
+    id: "metrics",
+    label: "Runtime metrics",
+    detail: "exporter up",
+    icon: ICON.metrics,
+  },
+];
+
+// Terminal script. `mod` advances module loading; `stage` advances pipeline.
+const script = [
+  { kind: "cmd", html: cmdHtml("vix build", "--preset release"), stage: 1 },
+  { kind: "log", text: "compiling main.cpp · linking Vix.cpp", stage: 1 },
+  { kind: "ok", text: "native binary linked", meta: "1.2s", stage: 2 },
+  { kind: "cmd", html: cmdHtml("vix run", "pico"), stage: 3, mod: "start" },
+  { kind: "log", text: "booting Pico backend…", mod: "runtime" },
+  { kind: "ok", text: "runtime online", mod: "http" },
+  { kind: "ok", text: "http routes mounted", mod: "ws" },
+  { kind: "ok", text: "websocket channels open", mod: "kv" },
+  { kind: "ok", text: "kv store ready", mod: "sqlite" },
+  { kind: "ok", text: "sqlite migrated", mod: "pool" },
+  { kind: "ok", text: "threadpool warm", mod: "jobs" },
+  { kind: "ok", text: "job queue draining", mod: "metrics" },
+  { kind: "ok", text: "metrics exporter up", mod: "done", stage: 4 },
+  { kind: "cmd", html: cmdHtml("vix tests"), stage: 4 },
+  { kind: "ok", text: "ecosystem validated", meta: "all green" },
+];
+
+function cmdHtml(bin, rest = "") {
+  const tokens = rest
+    ? " " +
+      rest
+        .split(" ")
+        .map((t) =>
+          t.startsWith("-")
+            ? `<span class="t-flag">${t}</span>`
+            : `<span class="t-arg">${t}</span>`,
+        )
+        .join(" ")
+    : "";
+  return `<span class="t-bin">${bin}</span>${tokens}`;
+}
+
+// ─── Reactive state ──────────────────────────────────────
+const modules = ref(
+  moduleDefs.map((m) => ({ ...m, state: "pending" })), // pending | loading | ready
+);
+const log = ref([]);
+const pipeStage = ref(0);
+const phase = ref("building"); // building | booting | validated
+
+let lineId = 0;
+let scriptIndex = 0;
+let stepTimer = null;
+let reducedMotion = false;
+
+const visibleLog = computed(() => log.value.slice(-5));
+const readyCount = computed(
+  () => modules.value.filter((m) => m.state === "ready").length,
+);
+
+const phaseLabel = computed(() => {
+  if (phase.value === "building") return "Building";
+  if (phase.value === "booting") return "Booting";
+  return "Validated";
+});
+
+// ─── Module helpers ──────────────────────────────────────
+function setModuleState(id, state) {
+  const m = modules.value.find((x) => x.id === id);
+  if (m) m.state = state;
+}
+
+// When the script names a module, mark the *previous* loading one ready
+// and start loading the named one.
+function advanceModule(name) {
+  if (name === "start") {
+    phase.value = "booting";
+    return;
+  }
+  if (name === "done") {
+    // finalize anything still loading
+    modules.value.forEach((m) => {
+      if (m.state === "loading") m.state = "ready";
+    });
+    phase.value = "validated";
+    return;
+  }
+  // mark current loading → ready, then load the next
+  modules.value.forEach((m) => {
+    if (m.state === "loading") m.state = "ready";
+  });
+  setModuleState(name, "loading");
+}
+
+// ─── Animation loop ──────────────────────────────────────
+function pushLine(item) {
+  lineId++;
+  log.value.push({
+    id: lineId,
+    kind: item.kind,
+    html: item.html || `<span>${item.text}</span>`,
+    meta: item.meta,
+  });
+  if (log.value.length > 12) log.value.shift();
+}
+
+function reset() {
+  modules.value = moduleDefs.map((m) => ({ ...m, state: "pending" }));
+  log.value = [];
+  pipeStage.value = 0;
+  phase.value = "building";
+  scriptIndex = 0;
+}
+
+function step() {
+  const item = script[scriptIndex];
+  pushLine(item);
+  if (typeof item.stage === "number") pipeStage.value = item.stage;
+  if (item.mod) advanceModule(item.mod);
+
+  scriptIndex++;
+
+  if (scriptIndex >= script.length) {
+    // hold the finished state, then loop
+    stepTimer = setTimeout(() => {
+      reset();
+      stepTimer = setTimeout(step, 600);
+    }, 3400);
+    return;
+  }
+
+  const delay = item.kind === "cmd" ? 850 : 620;
+  stepTimer = setTimeout(step, delay);
+}
+
+// Render the fully-validated end state with no motion.
+function fillStatic() {
+  modules.value = moduleDefs.map((m) => ({ ...m, state: "ready" }));
+  pipeStage.value = pipeline.length - 1;
+  phase.value = "validated";
+  lineId = 0;
+  log.value = script.slice(-5).map((item) => {
+    lineId++;
+    return {
+      id: lineId,
+      kind: item.kind,
+      html: item.html || `<span>${item.text}</span>`,
+      meta: item.meta,
+    };
+  });
+}
+
+// ─── Lifecycle ───────────────────────────────────────────
+onMounted(() => {
+  reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reducedMotion) {
+    fillStatic();
+    return;
+  }
+  stepTimer = setTimeout(step, 600);
+});
+
+onBeforeUnmount(() => {
+  if (stepTimer) clearTimeout(stepTimer);
+});
 </script>
 
 <style scoped>
-.sdk-code {
-  --sdk-bg: #0b2b22;
-  --sdk-surface: #102f27;
-  --sdk-panel: #143a30;
-  --sdk-border: rgba(255, 255, 255, 0.11);
-  --sdk-border-strong: rgba(255, 255, 255, 0.18);
-  --sdk-text: #f2fff8;
-  --sdk-muted: rgba(224, 246, 235, 0.72);
-  --sdk-hint: rgba(224, 246, 235, 0.5);
-  --sdk-green: #2fd49c;
-  --sdk-green-soft: rgba(47, 212, 156, 0.14);
-  --sdk-orange: var(--sd-orange, #c06a22);
-  --sdk-orange-strong: var(--sd-orange-strong, #d57a2a);
+.showcase {
+  --c-bg: #0b2b22;
+  --c-surface: #102f27;
+  --c-panel: #143a30;
+  --c-border: rgba(255, 255, 255, 0.11);
+  --c-border-strong: rgba(255, 255, 255, 0.18);
+  --c-text: #f2fff8;
+  --c-muted: rgba(224, 246, 235, 0.72);
+  --c-hint: rgba(224, 246, 235, 0.5);
 
-  /* syntax tokens */
-  --tk-keyword: #ff7ab2;
-  --tk-string: #9bd47a;
-  --tk-fn: #6fb8ff;
-  --tk-type: #f0c674;
-  --tk-var: #e6f0ea;
-  --tk-num: #f0a07a;
-  --tk-pp: #b48ead;
-  --tk-comment: rgba(224, 246, 235, 0.42);
+  --c-green: #2fd49c;
+  --c-green-soft: rgba(47, 212, 156, 0.14);
+  --c-orange: var(--sd-orange, #c06a22);
+  --c-orange-strong: var(--sd-orange-strong, #d57a2a);
+  --c-blue: #7cc7ff;
+
+  --mono: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
 
   position: relative;
   overflow: hidden;
@@ -241,10 +507,10 @@
       transparent 60%
     ),
     linear-gradient(180deg, #0a261f 0%, #0b2b22 100%);
-  border-bottom: 1px solid var(--sdk-border);
+  border-bottom: 1px solid var(--c-border);
 }
 
-.sdk-code__grid {
+.showcase__grid {
   position: absolute;
   inset: 0;
   background-image:
@@ -259,7 +525,7 @@
   pointer-events: none;
 }
 
-.sdk-code__glow {
+.showcase__glow {
   position: absolute;
   right: -180px;
   top: 8%;
@@ -275,23 +541,22 @@
   filter: blur(20px);
 }
 
-.sdk-code__inner {
+.showcase__inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(40px, 6vw, 100px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 6vw, 90px);
   align-items: center;
   width: min(100% - 48px, 1320px);
   margin-inline: auto;
 }
 
 /* ============== LEFT COPY ============== */
-
-.sdk-code__copy {
-  max-width: 540px;
+.showcase__copy {
+  max-width: 560px;
 }
 
-.sdk-code__badge {
+.showcase__badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -307,16 +572,16 @@
   text-transform: uppercase;
 }
 
-.sdk-code__badge-dot {
+.showcase__badge-dot {
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: var(--sdk-green);
+  background: var(--c-green);
   box-shadow: 0 0 0 4px rgba(47, 212, 156, 0.15);
-  animation: sdk-pulse 2.4s ease-in-out infinite;
+  animation: sd-pulse 2.4s ease-in-out infinite;
 }
 
-@keyframes sdk-pulse {
+@keyframes sd-pulse {
   0%,
   100% {
     box-shadow: 0 0 0 4px rgba(47, 212, 156, 0.15);
@@ -326,16 +591,16 @@
   }
 }
 
-.sdk-code__title {
+.showcase__title {
   margin: 0;
-  color: var(--sdk-text);
-  font-size: clamp(40px, 4.6vw, 64px);
+  color: var(--c-text);
+  font-size: clamp(38px, 4.4vw, 60px);
   font-weight: 860;
-  line-height: 1.02;
-  letter-spacing: -0.058em;
+  line-height: 1.04;
+  letter-spacing: -0.055em;
 }
 
-.sdk-code__title span {
+.showcase__title span {
   display: block;
   background: linear-gradient(125deg, #2fd49c 0%, #86efac 60%, #d9ffec 100%);
   -webkit-background-clip: text;
@@ -343,69 +608,69 @@
   color: transparent;
 }
 
-.sdk-code__desc {
+.showcase__desc {
   max-width: 520px;
   margin: 24px 0 0;
-  color: var(--sdk-muted);
+  color: var(--c-muted);
   font-size: 16px;
   line-height: 1.72;
 }
 
-.sdk-code__bullets {
+.showcase__bullets {
   list-style: none;
-  margin: 32px 0 0;
+  margin: 30px 0 0;
   padding: 0;
   display: grid;
   gap: 14px;
 }
 
-.sdk-code__bullets li {
+.showcase__bullets li {
   display: flex;
   gap: 12px;
   align-items: flex-start;
 }
 
-.sdk-code__bullets svg {
+.showcase__bullets svg {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
   margin-top: 2px;
   padding: 2px;
   border-radius: 999px;
-  background: var(--sdk-green-soft);
-  color: var(--sdk-green);
+  background: var(--c-green-soft);
+  color: var(--c-green);
 }
 
-.sdk-code__bullets strong {
+.showcase__bullets strong {
   display: block;
-  color: var(--sdk-text);
+  color: var(--c-text);
   font-size: 14.5px;
   font-weight: 760;
   letter-spacing: -0.015em;
 }
 
-.sdk-code__bullets span {
+.showcase__bullets span {
   display: block;
   margin-top: 2px;
-  color: var(--sdk-hint);
+  color: var(--c-hint);
   font-size: 13px;
   line-height: 1.55;
 }
 
-.sdk-code__actions {
+.showcase__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 36px;
+  margin-top: 34px;
 }
 
-.sdk-code__btn {
+.showcase__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 46px;
-  padding: 0 24px;
+  padding: 0 22px;
   border-radius: 9px;
   font-size: 14px;
   font-weight: 700;
@@ -416,85 +681,64 @@
     background 0.18s ease;
 }
 
-.sdk-code__btn:hover {
+.showcase__btn:hover {
   transform: translateY(-1px);
 }
 
-.sdk-code__btn--primary {
+.showcase__btn--primary {
   border: 1px solid transparent;
-  background: linear-gradient(
-    180deg,
-    var(--sdk-orange-strong),
-    var(--sdk-orange)
-  );
+  background: linear-gradient(180deg, var(--c-orange-strong), var(--c-orange));
   color: #1a0a02;
   box-shadow: 0 8px 24px rgba(213, 122, 42, 0.25);
 }
-
-.sdk-code__btn--primary:hover {
+.showcase__btn--primary:hover {
   box-shadow: 0 12px 32px rgba(213, 122, 42, 0.38);
 }
 
-.sdk-code__btn--secondary {
-  border: 1px solid var(--sdk-border-strong);
+.showcase__btn--secondary {
+  border: 1px solid var(--c-border-strong);
   background: rgba(255, 255, 255, 0.05);
-  color: var(--sdk-text);
+  color: var(--c-text);
 }
-
-.sdk-code__btn--secondary:hover {
+.showcase__btn--secondary:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(47, 212, 156, 0.3);
 }
 
-/* ============== RIGHT STACKED WINDOWS ============== */
+.showcase__btn--ghost {
+  border: 1px solid var(--c-border);
+  background: transparent;
+  color: var(--c-muted);
+}
+.showcase__btn--ghost:hover {
+  color: var(--c-text);
+  border-color: var(--c-border-strong);
+  background: rgba(255, 255, 255, 0.03);
+}
 
-.sdk-code__stack {
+/* ============== RIGHT CONSOLE ============== */
+.showcase__console {
   position: relative;
-  min-height: 540px;
-}
-
-.sdk-code__window {
-  position: absolute;
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid var(--sdk-border-strong);
-  border-radius: 16px;
-  background: #0d2820;
+  border: 1px solid var(--c-border-strong);
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 65, 53, 0.98),
+    rgba(12, 42, 34, 0.98)
+  );
   box-shadow:
-    0 32px 64px -16px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-/* Back window: smaller, offset top-right, slightly faded */
-.sdk-code__window--back {
-  top: 0;
-  right: -2%;
-  width: 78%;
-  transform: rotate(0.6deg);
-  z-index: 1;
-  opacity: 0.94;
-}
-
-/* Front window: larger, offset bottom-left, fully prominent */
-.sdk-code__window--front {
-  bottom: 0;
-  left: -2%;
-  width: 88%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(47, 212, 156, 0.12),
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(47, 212, 156, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
-.sdk-code__chrome {
+.con__chrome {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--c-border);
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.05),
@@ -502,379 +746,393 @@
   );
 }
 
-.sdk-code__dots {
+.con__dots {
   display: flex;
   gap: 6px;
   flex-shrink: 0;
 }
 
-.sdk-code__dot {
+.con__dot {
   width: 11px;
   height: 11px;
   border-radius: 999px;
-  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
 }
-
-.sdk-code__dot--red {
+.con__dot--red {
   background: #ff5f56;
 }
-.sdk-code__dot--yellow {
+.con__dot--yellow {
   background: #ffbd2e;
 }
-.sdk-code__dot--green {
+.con__dot--green {
   background: #27c93f;
 }
 
-.sdk-code__file {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 12px 5px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(224, 246, 235, 0.78);
-  font-family: "SF Mono", "Fira Code", monospace;
+.con__chrome-title {
+  flex: 1;
+  font-family: var(--mono);
   font-size: 11.5px;
-  font-weight: 600;
+  color: var(--c-hint);
+  letter-spacing: 0.02em;
 }
 
-.sdk-code__file svg {
-  width: 12px;
-  height: 12px;
-  color: var(--sdk-green);
-  opacity: 0.85;
-}
-
-.sdk-code__file em {
-  margin-left: 4px;
-  padding-left: 8px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--sdk-hint);
-  font-style: normal;
-  font-size: 10.5px;
-  font-weight: 600;
-}
-
-.sdk-code__status {
-  margin-left: auto;
+.con__chrome-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
+  padding: 4px 11px;
   border-radius: 999px;
-  background: var(--sdk-green-soft);
-  color: var(--sdk-green);
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--mono);
   font-size: 10.5px;
   font-weight: 700;
+  transition: all 0.4s ease;
 }
 
-.sdk-code__status span {
+.con__chrome-pill-dot {
   width: 6px;
   height: 6px;
   border-radius: 999px;
   background: currentColor;
-  box-shadow: 0 0 8px currentColor;
+  animation: sd-pulse 1.5s ease-in-out infinite;
 }
 
-/* ============== CODE BLOCK + SYNTAX HIGHLIGHTING ============== */
-
-.sdk-code__block {
-  margin: 0;
-  padding: 22px 26px;
-  overflow-x: auto;
-  color: var(--tk-var);
-  font-family: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
-  font-size: 13.5px;
-  line-height: 1.72;
-  tab-size: 4;
+.con__chrome-pill--building {
+  background: rgba(255, 184, 77, 0.14);
+  color: #ffb84d;
+}
+.con__chrome-pill--booting {
+  background: rgba(124, 199, 255, 0.14);
+  color: var(--c-blue);
+}
+.con__chrome-pill--validated {
+  background: var(--c-green-soft);
+  color: var(--c-green);
 }
 
-.sdk-code__window--back .sdk-code__block {
-  font-size: 12.5px;
-  padding: 18px 22px;
+.con__body {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  background:
+    radial-gradient(
+      520px 260px at 75% 10%,
+      rgba(47, 212, 156, 0.08),
+      transparent 70%
+    ),
+    rgba(9, 35, 28, 0.34);
 }
 
-.sdk-code__block code {
-  font: inherit;
-  display: block;
-  white-space: pre;
-}
-
-/* Syntax tokens — readable, distinct hues that work on dark green */
-.tk-k {
-  color: var(--tk-keyword);
-  font-weight: 600;
-} /* keyword */
-.tk-s {
-  color: var(--tk-string);
-} /* string */
-.tk-fn {
-  color: var(--tk-fn);
-} /* function call */
-.tk-t {
-  color: var(--tk-type);
-} /* type/class */
-.tk-ty {
-  color: var(--tk-type);
-  font-weight: 600;
-} /* primitive type */
-.tk-v {
-  color: var(--tk-var);
-} /* variable / namespace */
-.tk-n {
-  color: var(--tk-num);
-} /* number */
-.tk-pp {
-  color: var(--tk-pp);
-  font-weight: 600;
-} /* preprocessor */
-.tk-c {
-  color: var(--tk-comment);
-  font-style: italic;
-} /* comment */
-
-/* ============== RUN LINE (front window only) ============== */
-
-.sdk-code__runline {
+/* Pipeline */
+.con__pipeline {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 26px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.18);
-  font-family: "SF Mono", "Fira Code", monospace;
-  font-size: 12px;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.con__pipeline::-webkit-scrollbar {
+  display: none;
 }
 
-.sdk-code__prompt {
-  color: var(--sdk-green);
-  font-weight: 700;
+.con__stage {
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--c-hint);
+  white-space: nowrap;
+  transition: all 0.35s ease;
 }
-.sdk-code__cmd {
-  color: rgba(224, 246, 235, 0.78);
+
+.con__stage--done {
+  border-color: rgba(47, 212, 156, 0.28);
+  background: rgba(47, 212, 156, 0.08);
+  color: rgba(180, 240, 210, 0.85);
 }
-.sdk-code__out {
-  margin-left: auto;
-  color: var(--sdk-green);
+.con__stage--active {
+  border-color: rgba(47, 212, 156, 0.5);
+  background: rgba(47, 212, 156, 0.15);
+  color: #eafff6;
+  box-shadow: 0 0 0 1px rgba(47, 212, 156, 0.18);
+}
+
+.con__arrow {
+  display: grid;
+  place-items: center;
+  color: var(--c-hint);
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition: all 0.35s ease;
+}
+.con__arrow--filled {
+  color: var(--c-green);
   opacity: 0.85;
 }
-.sdk-code__stack {
-  position: relative;
-  min-height: 620px;
+
+/* Modules header */
+.con__modules-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-text);
+  padding: 0 2px;
 }
 
-.sdk-code__window--back {
-  top: 0;
-  right: -2%;
-  width: 78%;
-  transform: rotate(0.6deg);
-  z-index: 1;
-  opacity: 0.94;
+.con__modules-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-green);
 }
 
-.sdk-code__window--front {
-  top: 96px;
-  left: -2%;
-  width: 88%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(47, 212, 156, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-.sdk-code__stack {
-  position: relative;
-  min-height: 720px;
+/* Module grid */
+.con__modules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
-.sdk-code__window--back {
-  top: 0;
-  right: -1%;
-  width: 78%;
-  transform: rotate(0.6deg);
-  z-index: 1;
-  opacity: 0.96;
+.con__module {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.025);
+  transition:
+    border-color 0.4s ease,
+    background 0.4s ease,
+    opacity 0.4s ease;
 }
 
-.sdk-code__window--front {
-  top: 220px;
-  left: -2%;
-  width: 88%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(47, 212, 156, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.con__module--pending {
+  opacity: 0.5;
 }
-.sdk-code__stack {
-  position: relative;
-  min-height: 640px;
+.con__module--loading {
+  border-color: rgba(124, 199, 255, 0.3);
+  background: rgba(124, 199, 255, 0.05);
+}
+.con__module--ready {
+  border-color: rgba(47, 212, 156, 0.28);
+  background: rgba(47, 212, 156, 0.06);
 }
 
-.sdk-code__window--front {
-  top: 220px;
-  left: -2%;
-  width: 82%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(47, 212, 156, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.con__module-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  color: var(--c-hint);
+  background: rgba(255, 255, 255, 0.04);
+  transition: color 0.4s ease;
+}
+.con__module--ready .con__module-icon {
+  color: var(--c-green);
+  background: var(--c-green-soft);
+}
+.con__module--loading .con__module-icon {
+  color: var(--c-blue);
 }
 
-.sdk-code__window--front .sdk-code__block {
-  padding: 18px 24px;
-  font-size: 12.5px;
-  line-height: 1.55;
+.con__module-meta {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
 }
-.sdk-code__stack {
-  position: relative;
-  min-height: 560px;
-}
-
-.sdk-code__window--front {
-  top: 230px;
-  left: -2%;
-  width: 76%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
-  box-shadow:
-    0 34px 70px -22px rgba(0, 0, 0, 0.68),
-    0 0 0 1px rgba(47, 212, 156, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.sdk-code__window--front .sdk-code__block {
-  padding: 14px 20px;
+.con__module-meta strong {
   font-size: 11.5px;
-  line-height: 1.42;
+  font-weight: 700;
+  color: var(--c-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.sdk-code__window--front .sdk-code__chrome {
-  padding: 9px 14px;
-}
-
-.sdk-code__window--front .sdk-code__dot {
-  width: 9px;
-  height: 9px;
-}
-
-.sdk-code__window--front .sdk-code__file {
-  padding: 4px 10px 4px 8px;
-  font-size: 10.5px;
-}
-.sdk-code__stack {
-  position: relative;
-  min-height: 580px;
+.con__module-meta span {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--c-hint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.sdk-code__window--back {
-  top: -14px;
-  right: -1%;
-  width: 78%;
-  transform: rotate(0.6deg);
-  z-index: 1;
-  opacity: 0.96;
+.con__module-state {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  flex-shrink: 0;
+}
+.con__module--ready .con__module-state {
+  color: var(--c-green);
 }
 
-.sdk-code__window--front {
-  top: 230px;
-  left: -2%;
-  width: 76%;
-  transform: rotate(-0.4deg);
-  z-index: 2;
+.con__pending-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--c-hint);
+  opacity: 0.5;
 }
+
+.con__spinner {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1.6px solid rgba(124, 199, 255, 0.25);
+  border-top-color: var(--c-blue);
+  animation: sd-spin 0.7s linear infinite;
+}
+
+@keyframes sd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Terminal log */
+.con__log {
+  display: grid;
+  gap: 4px;
+  height: 116px;
+  align-content: end;
+  padding: 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: rgba(6, 24, 19, 0.6);
+  font-family: var(--mono);
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.con__log-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+  animation: lineIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.con__log-prompt {
+  color: var(--c-green);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.con__log-check {
+  display: grid;
+  place-items: center;
+  color: var(--c-green);
+  flex-shrink: 0;
+}
+
+.con__log-bullet {
+  color: var(--c-hint);
+  flex-shrink: 0;
+}
+
+.con__log-text {
+  color: rgba(242, 255, 248, 0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.con__log-row--log .con__log-text {
+  color: var(--c-hint);
+}
+.con__log-row--ok .con__log-text {
+  color: rgba(200, 255, 233, 0.86);
+}
+
+.con__log-text :deep(.t-bin) {
+  color: var(--c-green);
+  font-weight: 700;
+}
+.con__log-text :deep(.t-arg) {
+  color: #eafff6;
+}
+.con__log-text :deep(.t-flag) {
+  color: var(--c-blue);
+}
+
+.con__log-meta {
+  margin-left: auto;
+  font-size: 9.5px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--c-green-soft);
+  color: var(--c-green);
+  flex-shrink: 0;
+}
+
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============== REDUCED MOTION ============== */
+@media (prefers-reduced-motion: reduce) {
+  .showcase__badge-dot,
+  .con__chrome-pill-dot,
+  .con__spinner,
+  .con__log-row,
+  .con__module {
+    animation: none !important;
+  }
+  .con__spinner {
+    border-top-color: rgba(124, 199, 255, 0.25);
+  }
+}
+
 /* ============== RESPONSIVE ============== */
-
 @media (max-width: 1100px) {
-  .sdk-code__inner {
+  .showcase__inner {
     grid-template-columns: 1fr;
   }
-
-  .sdk-code__copy {
+  .showcase__copy {
     max-width: 720px;
     margin-inline: auto;
   }
-
-  .sdk-code__stack {
+  .showcase__console {
     max-width: 720px;
     margin-inline: auto;
-    min-height: 580px;
+    width: 100%;
   }
 }
 
 @media (max-width: 760px) {
-  .sdk-code {
+  .showcase {
     padding: 64px 0;
-    overflow: hidden;
   }
-
-  .sdk-code__inner {
+  .showcase__inner {
     width: min(100% - 32px, 1320px);
   }
-
-  .sdk-code__stack {
-    min-height: 0;
-    display: grid;
-    gap: 20px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+  .con__modules {
+    grid-template-columns: 1fr;
   }
-
-  .sdk-code__window {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    inset: auto;
-    transform: none;
-    opacity: 1;
-    overflow: hidden;
+  .con__log {
+    height: 100px;
   }
+}
 
-  .sdk-code__window--back {
-    order: 2;
-  }
-
-  .sdk-code__window--front {
-    order: 1;
-  }
-
-  .sdk-code__block {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: 14px 14px;
-    font-size: 11.5px;
-    line-height: 1.45;
-    overflow-x: auto;
-  }
-
-  .sdk-code__window--back .sdk-code__block {
-    font-size: 11px;
-  }
-
-  .sdk-code__block code {
-    display: block;
-    min-width: max-content;
-  }
-
-  .sdk-code__file {
-    max-width: calc(100% - 90px);
-    overflow: hidden;
-  }
-
-  .sdk-code__file span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .sdk-code__file em {
+@media (max-width: 480px) {
+  .con__chrome-title {
     display: none;
   }
 }

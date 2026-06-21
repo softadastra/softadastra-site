@@ -2,122 +2,90 @@ import { links } from "./links";
 
 export const navigationGroups = [
   {
-    label: "Product",
-    items: [
-      {
-        label: "Converdict",
-        description:
-          "A commercial product for turning complex technical signals, reviews, and evaluations into clear, explainable verdicts.",
-        href: links.converdict,
-      },
-    ],
-  },
-  {
-    label: "Solutions",
-    items: [
-      {
-        label: "PulseGrid",
-        description:
-          "Deployment and reliability infrastructure for production services.",
-        href: links.pulsegrid,
-      },
-    ],
-  },
-  {
     label: "Open Source",
     items: [
       {
-        label: "Vix Runtime",
+        label: "Vix.cpp",
         description:
-          "Modern C++ runtime foundation for building fast, reliable applications.",
+          "Modern C++ runtime and developer toolkit for building real applications.",
         href: links.vix,
+      },
+      {
+        label: "Softadastra Engine",
+        description:
+          "Offline-first runtime layer for durable local state, WAL, sync, and transport.",
+        href: links.softadastraEngine,
       },
       {
         label: "Cnerium",
         description:
-          "Reliability-first backend framework for durable APIs powered by Vix and Softadastra.",
+          "Reliability layer for Vix backends with durable, retry-safe write operations.",
         href: links.cnerium,
       },
       {
         label: "Kordex",
         description:
-          "JavaScript runtime for reliable local-first applications.",
+          "JavaScript and TypeScript runtime for reliable local-first applications, built on Vix.cpp.",
         href: links.kordex,
-      },
-      {
-        label: "Vix Agent",
-        description:
-          "Local-first AI agent infrastructure for C++ applications and developer workflows.",
-        href: links.vixAgent,
-      },
-      {
-        label: "Vix Game",
-        description:
-          "Game runtime layer for building simple 2D applications with Vix, SDL, and OpenGL.",
-        href: links.vixGame,
-      },
-      {
-        label: "Ivi.hpp",
-        description:
-          "Modern C++ header-only utilities designed for expressive application development.",
-        href: links.ivi,
-      },
-      {
-        label: "Rix",
-        description:
-          "Experimental runtime and tooling project within the Softadastra ecosystem.",
-        href: links.rix,
-      },
-      {
-        label: "Communities",
-        description:
-          "Community spaces for contributors, users, and ecosystem discussions.",
-        href: links.communities,
       },
     ],
   },
   {
-    label: "Resources",
+    label: "Tooling",
+    items: [
+      {
+        label: "Vix CLI",
+        description:
+          "Create, build, run, test, check, package, and operate C++ projects from one command surface.",
+        href: links.vix,
+      },
+      {
+        label: "Vix Registry",
+        description: "Package and dependency workflow for Vix.cpp projects.",
+        href: links.vixRegistry,
+      },
+      {
+        label: "Pico",
+        description:
+          "Production-style validation app showing Vix.cpp modules working together in a real C++ backend.",
+        href: links.pico,
+      },
+    ],
+  },
+  {
+    label: "Learn",
     items: [
       {
         label: "Vix Docs",
         description:
-          "Documentation for the Vix C++ runtime, CLI, modules, and application workflow.",
+          "Documentation for the Vix.cpp runtime, CLI, modules, and application workflow.",
         href: links.vixDocs,
-      },
-      {
-        label: "Cnerium Docs",
-        description:
-          "Documentation for building durable and retry-safe backend APIs.",
-        href: links.cneriumDocs,
       },
       {
         label: "Softadastra Docs",
         description:
-          "Documentation for the Softadastra reliability, WAL, sync, and local-first architecture.",
+          "Documentation for the offline-first engine, WAL, store, sync, and transport layers.",
         href: links.softadastraDocs,
+      },
+      {
+        label: "Cnerium Docs",
+        description:
+          "Documentation for durable routes, idempotency, stored responses, and retry-safe APIs.",
+        href: links.cneriumDocs,
       },
       {
         label: "Kordex Docs",
         description:
-          "Documentation for the Kordex JavaScript runtime and local-first application model.",
+          "Documentation for the Kordex runtime, permissions, native modules, and local-first JavaScript model.",
         href: links.kordexDocs,
       },
       {
-        label: "Engineering Blog",
+        label: "Vix Blog",
         description:
-          "Technical articles, release notes, architecture notes, and ecosystem updates.",
-        href: links.blog,
+          "Engineering notes, release updates, benchmarks, and technical articles around Vix.cpp.",
+        href: links.vixBlog,
       },
     ],
-  },
-  {
-    label: "Docs",
-    href: links.softadastraDocs,
-  },
-  {
-    label: "Blog",
-    href: links.blog,
   },
   {
     label: "Company",
@@ -125,20 +93,26 @@ export const navigationGroups = [
       {
         label: "Company",
         description:
-          "Learn about Softadastra, its mission, and its ecosystem strategy.",
-        to: "/company",
-      },
-      {
-        label: "Ecosystem",
-        description:
-          "Understand how Vix, Softadastra, Kordex, Cnerium, and the product layer fit together.",
-        to: "/ecosystem",
+          "Learn about Softadastra, the C++ tooling company behind Vix.cpp ecosystem work.",
+        href: links.company,
       },
       {
         label: "Open Source Model",
         description:
-          "MIT licensed foundations with commercial reliability products built around them.",
-        to: "/ecosystem",
+          "How Softadastra builds and maintains open C++ tooling while growing a focused ecosystem.",
+        href: links.openSourceModel,
+      },
+      {
+        label: "Branding",
+        description:
+          "Softadastra brand assets, identity, and usage guidelines.",
+        href: links.branding,
+      },
+      {
+        label: "Contact",
+        description:
+          "Reach Softadastra for ecosystem, tooling, partnership, or engineering inquiries.",
+        href: links.contact,
       },
     ],
   },
@@ -146,13 +120,13 @@ export const navigationGroups = [
 
 export const headerActions = [
   {
-    label: "Docs",
-    href: links.softadastraDocs,
+    label: "Vix Docs",
+    href: links.vixDocs,
     variant: "secondary",
   },
   {
-    label: "Explore Converdict",
-    href: links.converdict,
+    label: "Explore Vix.cpp",
+    href: links.vix,
     variant: "primary",
   },
 ];

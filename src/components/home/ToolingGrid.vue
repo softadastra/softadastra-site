@@ -1,51 +1,53 @@
 <template>
-  <section class="product-grid sd-section">
+  <section class="tooling-grid sd-section">
     <div class="sd-section__inner">
-      <div class="product-grid__layout">
-        <div class="product-grid__header sd-reveal">
+      <div class="tooling-grid__layout">
+        <div class="tooling-grid__header sd-reveal">
           <SectionHeading
-            eyebrow="Products"
-            title="Products built around the Softadastra ecosystem."
-            text="Softadastra connects open infrastructure with real products: reliability cloud, verdicts, documentation, builds, SDK packages, and release infrastructure."
+            eyebrow="Tooling"
+            title="Open tooling maintained by Softadastra."
+            text="Softadastra builds and maintains focused tooling for modern C++ development. The ecosystem stays small, technical, and useful: offline-first foundations, backend reliability, local-first runtime work, and validation through real applications."
           />
 
-          <div class="product-grid__summary">
-            <span>Cloud</span>
+          <div class="tooling-grid__summary">
+            <span>C++ Tooling</span>
+            <span>Local-first</span>
             <span>Reliability</span>
-            <span>Docs</span>
-            <span>Builds</span>
+            <span>Runtime</span>
           </div>
         </div>
 
-        <div class="product-grid__list">
+        <div class="tooling-grid__list">
           <a
-            v-for="(product, index) in products"
-            :key="product.id"
-            :href="product.href"
+            v-for="(tool, index) in tooling"
+            :key="tool.id"
+            :href="tool.href"
             :class="[
-              'product-grid__item',
-              `product-grid__item--${product.icon}`,
+              'tooling-grid__item',
+              `tooling-grid__item--${tool.icon}`,
               'sd-reveal',
               `sd-reveal-d${Math.min(index + 1, 3)}`,
             ]"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span class="product-grid__index">
+            <span class="tooling-grid__index">
               {{ formatIndex(index) }}
             </span>
 
-            <span class="product-grid__icon">
+            <span class="tooling-grid__icon">
               <svg
-                v-if="product.icon === 'cloud'"
+                v-if="tool.icon === 'database'"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M18 10a6 6 0 00-11.18-2A5 5 0 006 18h12a4 4 0 000-8z" />
+                <ellipse cx="12" cy="5" rx="8" ry="3" />
+                <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
+                <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
               </svg>
 
               <svg
-                v-else-if="product.icon === 'shield'"
+                v-else-if="tool.icon === 'shield'"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -54,76 +56,61 @@
               </svg>
 
               <svg
-                v-else-if="product.icon === 'docs'"
+                v-else-if="tool.icon === 'code'"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <rect
-                  x="4"
-                  y="3"
-                  width="16"
-                  height="18"
-                  rx="2"
-                />
-                <path d="M8 7h8M8 11h6M8 15h4" />
+                <path d="M8 9l-4 3 4 3" />
+                <path d="M16 9l4 3-4 3" />
+                <path d="M14 4l-4 16" />
               </svg>
 
               <svg
-                v-else-if="product.icon === 'package'"
+                v-else-if="tool.icon === 'terminal'"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M7 9l3 3-3 3" />
+                <path d="M13 15h4" />
               </svg>
 
-              <svg
-                v-else
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="3"
-                />
+              <svg v-else viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
                 <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+                <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
+                <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83" />
               </svg>
             </span>
 
-            <span class="product-grid__main">
-              <span class="product-grid__meta">
-                <span class="product-grid__category">
-                  {{ product.category }}
+            <span class="tooling-grid__main">
+              <span class="tooling-grid__meta">
+                <span class="tooling-grid__category">
+                  {{ tool.category }}
                 </span>
 
-                <span class="product-grid__status">
-                  {{ product.status }}
+                <span class="tooling-grid__status">
+                  {{ tool.status }}
                 </span>
               </span>
 
-              <span class="product-grid__name">
-                {{ product.name }}
+              <span class="tooling-grid__name">
+                {{ tool.name }}
               </span>
 
-              <span class="product-grid__tagline">
-                {{ product.tagline }}
+              <span class="tooling-grid__tagline">
+                {{ tool.tagline }}
               </span>
 
-              <span class="product-grid__description">
-                {{ product.description }}
+              <span class="tooling-grid__description">
+                {{ tool.description }}
               </span>
             </span>
 
-            <span class="product-grid__action">
+            <span class="tooling-grid__action">
               <span>Open</span>
 
-              <svg
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path
                   d="M2 10L10 2M10 2H5M10 2v5"
                   stroke="currentColor"
@@ -141,7 +128,7 @@
 </template>
 
 <script setup>
-import { products } from "../../data/products";
+import { tooling } from "../../data/tooling.js";
 
 import SectionHeading from "../ui/SectionHeading.vue";
 
@@ -151,12 +138,12 @@ function formatIndex(index) {
 </script>
 
 <style scoped>
-.product-grid {
+.tooling-grid {
   position: relative;
   overflow: hidden;
 }
 
-.product-grid::before {
+.tooling-grid::before {
   position: absolute;
   inset: 0;
   background:
@@ -174,7 +161,7 @@ function formatIndex(index) {
   content: "";
 }
 
-.product-grid__layout {
+.tooling-grid__layout {
   position: relative;
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
@@ -182,20 +169,20 @@ function formatIndex(index) {
   align-items: start;
 }
 
-.product-grid__header {
+.tooling-grid__header {
   position: sticky;
   top: calc(var(--sd-header-height) + 32px);
   max-width: 520px;
 }
 
-.product-grid__summary {
+.tooling-grid__summary {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 28px;
 }
 
-.product-grid__summary span {
+.tooling-grid__summary span {
   display: inline-flex;
   align-items: center;
   min-height: 30px;
@@ -211,12 +198,12 @@ function formatIndex(index) {
   text-transform: uppercase;
 }
 
-.product-grid__list {
+.tooling-grid__list {
   display: grid;
   gap: 14px;
 }
 
-.product-grid__item {
+.tooling-grid__item {
   position: relative;
   display: grid;
   grid-template-columns: 42px 52px minmax(0, 1fr) auto;
@@ -229,18 +216,17 @@ function formatIndex(index) {
   isolation: isolate;
 }
 
-.product-grid__item::before {
+.tooling-grid__item::before {
   position: absolute;
   inset: 0 -18px;
   z-index: -1;
   border: 1px solid transparent;
   border-radius: 22px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.065),
-      rgba(255, 255, 255, 0.018)
-    );
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.065),
+    rgba(255, 255, 255, 0.018)
+  );
   opacity: 0;
   transform: scale(0.985);
   transition:
@@ -251,7 +237,7 @@ function formatIndex(index) {
   content: "";
 }
 
-.product-grid__item:hover::before {
+.tooling-grid__item:hover::before {
   opacity: 1;
   border-color: var(--sd-border);
   background:
@@ -268,7 +254,7 @@ function formatIndex(index) {
   transform: scale(1);
 }
 
-.product-grid__index {
+.tooling-grid__index {
   padding-top: 5px;
   color: var(--sd-text-dim);
   font-family: var(--sd-font-mono);
@@ -277,7 +263,7 @@ function formatIndex(index) {
   letter-spacing: 0.05em;
 }
 
-.product-grid__icon {
+.tooling-grid__icon {
   display: inline-flex;
   width: 52px;
   height: 52px;
@@ -300,7 +286,7 @@ function formatIndex(index) {
     transform 220ms ease;
 }
 
-.product-grid__item:hover .product-grid__icon {
+.tooling-grid__item:hover .tooling-grid__icon {
   border-color: var(--sd-border-highlight);
   background:
     radial-gradient(
@@ -312,23 +298,23 @@ function formatIndex(index) {
   transform: translateY(-2px);
 }
 
-.product-grid__item--cloud .product-grid__icon {
+.tooling-grid__item--database .tooling-grid__icon {
   color: var(--sd-green);
 }
 
-.product-grid__item--shield .product-grid__icon {
+.tooling-grid__item--shield .tooling-grid__icon {
   color: var(--sd-orange);
 }
 
-.product-grid__item--docs .product-grid__icon {
+.tooling-grid__item--code .tooling-grid__icon {
   color: var(--sd-blue);
 }
 
-.product-grid__item--package .product-grid__icon {
+.tooling-grid__item--terminal .tooling-grid__icon {
   color: var(--sd-cyan);
 }
 
-.product-grid__icon svg {
+.tooling-grid__icon svg {
   width: 24px;
   height: 24px;
   fill: none;
@@ -338,20 +324,20 @@ function formatIndex(index) {
   stroke-linejoin: round;
 }
 
-.product-grid__main {
+.tooling-grid__main {
   display: grid;
   min-width: 0;
 }
 
-.product-grid__meta {
+.tooling-grid__meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 9px;
 }
 
-.product-grid__category,
-.product-grid__status {
+.tooling-grid__category,
+.tooling-grid__status {
   display: inline-flex;
   align-items: center;
   min-height: 24px;
@@ -365,19 +351,19 @@ function formatIndex(index) {
   text-transform: uppercase;
 }
 
-.product-grid__category {
+.tooling-grid__category {
   border: 1px solid rgba(213, 122, 42, 0.22);
   background: rgba(213, 122, 42, 0.1);
   color: var(--sd-orange-strong);
 }
 
-.product-grid__status {
+.tooling-grid__status {
   border: 1px solid var(--sd-border);
   background: rgba(255, 255, 255, 0.035);
   color: var(--sd-text-muted);
 }
 
-.product-grid__name {
+.tooling-grid__name {
   color: var(--sd-text);
   font-size: clamp(23px, 2.4vw, 34px);
   font-weight: 820;
@@ -386,11 +372,11 @@ function formatIndex(index) {
   transition: color 180ms ease;
 }
 
-.product-grid__item:hover .product-grid__name {
+.tooling-grid__item:hover .tooling-grid__name {
   color: var(--sd-orange-strong);
 }
 
-.product-grid__tagline {
+.tooling-grid__tagline {
   max-width: 620px;
   margin-top: 10px;
   color: var(--sd-text-soft);
@@ -399,7 +385,7 @@ function formatIndex(index) {
   line-height: 1.5;
 }
 
-.product-grid__description {
+.tooling-grid__description {
   max-width: 680px;
   margin-top: 10px;
   color: var(--sd-text-muted);
@@ -407,7 +393,7 @@ function formatIndex(index) {
   line-height: 1.65;
 }
 
-.product-grid__action {
+.tooling-grid__action {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -422,25 +408,25 @@ function formatIndex(index) {
     transform 180ms ease;
 }
 
-.product-grid__item:hover .product-grid__action {
+.tooling-grid__item:hover .tooling-grid__action {
   gap: 12px;
   color: var(--sd-orange-strong);
   transform: translateX(2px);
 }
 
-.product-grid__action svg {
+.tooling-grid__action svg {
   width: 13px;
   height: 13px;
   flex-shrink: 0;
 }
 
 @media (max-width: 1080px) {
-  .product-grid__layout {
+  .tooling-grid__layout {
     grid-template-columns: 1fr;
     gap: 34px;
   }
 
-  .product-grid__header {
+  .tooling-grid__header {
     position: relative;
     top: auto;
     max-width: 760px;
@@ -448,56 +434,56 @@ function formatIndex(index) {
 }
 
 @media (max-width: 760px) {
-  .product-grid__item {
+  .tooling-grid__item {
     grid-template-columns: 34px 46px minmax(0, 1fr);
     gap: 14px;
     padding: 20px 0;
   }
 
-  .product-grid__icon {
+  .tooling-grid__icon {
     width: 46px;
     height: 46px;
   }
 
-  .product-grid__icon svg {
+  .tooling-grid__icon svg {
     width: 22px;
     height: 22px;
   }
 
-  .product-grid__action {
+  .tooling-grid__action {
     grid-column: 3;
     padding-top: 2px;
   }
 }
 
 @media (max-width: 520px) {
-  .product-grid__summary {
+  .tooling-grid__summary {
     display: none;
   }
 
-  .product-grid__item {
+  .tooling-grid__item {
     grid-template-columns: 42px minmax(0, 1fr);
   }
 
-  .product-grid__index {
+  .tooling-grid__index {
     display: none;
   }
 
-  .product-grid__icon {
+  .tooling-grid__icon {
     grid-column: 1;
     grid-row: 1 / span 2;
   }
 
-  .product-grid__main,
-  .product-grid__action {
+  .tooling-grid__main,
+  .tooling-grid__action {
     grid-column: 2;
   }
 
-  .product-grid__name {
+  .tooling-grid__name {
     font-size: 24px;
   }
 
-  .product-grid__description {
+  .tooling-grid__description {
     font-size: 13.5px;
   }
 }

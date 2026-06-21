@@ -1,9 +1,6 @@
 <template>
   <div class="sd-section-heading">
-    <p
-      v-if="eyebrow"
-      class="sd-section-heading__eyebrow"
-    >
+    <p v-if="eyebrow" class="sd-section-heading__eyebrow">
       {{ eyebrow }}
     </p>
 
@@ -13,10 +10,7 @@
       </slot>
     </h2>
 
-    <p
-      v-if="text"
-      class="sd-section-heading__text"
-    >
+    <p v-if="text" class="sd-section-heading__text">
       {{ text }}
     </p>
 

@@ -5,8 +5,8 @@
         <div class="ecosystem-map__copy sd-reveal">
           <SectionHeading
             eyebrow="Ecosystem"
-            title="One company. Six layers. One architecture."
-            text="Every layer builds on the one below. From the C++ foundation to cloud operations, the stack is designed to be adopted incrementally."
+            title="Focused C++ tooling, built with open foundations."
+            text="Softadastra builds and maintains open tooling for modern C++ development. Vix.cpp is the technical foundation, Softadastra Engine adds offline-first runtime foundations, Cnerium adds retry-safe backend reliability, Kordex brings local-first JavaScript on a native C++ base, and Pico validates the stack in a real backend application."
           />
         </div>
 
@@ -39,11 +39,21 @@
                 </svg>
 
                 <svg
-                  v-else-if="layer.stackId === 'softadastra'"
+                  v-else-if="layer.stackId === 'softadastra-engine'"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-5" />
+                </svg>
+
+                <svg
+                  v-else-if="layer.stackId === 'cnerium'"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
+                  <path d="M17 14l2 2 3-4" />
                 </svg>
 
                 <svg
@@ -56,11 +66,12 @@
                 </svg>
 
                 <svg
-                  v-else-if="layer.stackId === 'cnerium'"
+                  v-else-if="layer.stackId === 'pico'"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
-                  <path d="M4 6h16M4 10h16M4 14h10M4 18h12" />
+                  <path d="M4 5h16v14H4z" />
+                  <path d="M8 9h8M8 13h5M8 17h8" />
                 </svg>
 
                 <svg v-else viewBox="0 0 24 24" fill="none">

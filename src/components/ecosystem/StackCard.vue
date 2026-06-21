@@ -1,30 +1,16 @@
 <template>
-  <article
-    :class="[
-      'stack-card',
-      `stack-card--${stack.color}`,
-    ]"
-  >
+  <article :class="['stack-card', `stack-card--${stack.color}`]">
     <div class="stack-card__top">
-     <div
-  :class="[
-    'stack-card__icon',
-    `stack-card__icon--${stack.color}`,
-  ]"
-  aria-hidden="true"
->
-  <img
-    :src="logoSrc"
-    :alt="`${stack.name} logo`"
-  />
-</div>
+      <div
+        :class="['stack-card__icon', `stack-card__icon--${stack.color}`]"
+        aria-hidden="true"
+      >
+        <img :src="logoSrc" :alt="`${stack.name} logo`" />
+      </div>
 
       <div class="stack-card__meta">
         <span
-          :class="[
-            'stack-card__layer',
-            `stack-card__layer--${stack.color}`,
-          ]"
+          :class="['stack-card__layer', `stack-card__layer--${stack.color}`]"
         >
           {{ stack.layer }}
         </span>
@@ -51,9 +37,21 @@
 
     <div class="stack-card__actions">
       <a
+        v-if="stack.href && stack.href !== '#'"
+        :href="stack.href"
+        class="stack-card__link stack-card__link--primary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Visit
+      </a>
+
+      <a
         v-if="stack.docsHref && stack.docsHref !== '#'"
         :href="stack.docsHref"
-        class="stack-card__link stack-card__link--primary"
+        class="stack-card__link"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Docs
       </a>
@@ -62,22 +60,18 @@
         v-if="stack.githubHref && stack.githubHref !== '#'"
         :href="stack.githubHref"
         class="stack-card__link"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         GitHub
-      </a>
-
-      <a
-        v-if="stack.href && stack.href !== '#'"
-        :href="stack.href"
-        class="stack-card__link"
-      >
-        Visit
       </a>
     </div>
   </article>
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   stack: {
     type: Object,
@@ -87,15 +81,20 @@ const props = defineProps({
 
 const logoMap = {
   vix: "/logos/vix.svg",
-  softadastra: "/logos/softadastra.svg",
-  kordex: "/logos/kordex.svg",
+  "softadastra-engine": "/logos/softadastra.svg",
   cnerium: "/logos/cnerium.svg",
-  pulsegrid: "/logos/pulsegrid.svg",
+  kordex: "/logos/kordex.svg",
+  pico: "/logos/pico.svg",
   registry: "/logos/vix-registry.svg",
-  converdict: "/logos/converdict.svg",
 };
 
-const logoSrc = logoMap[props.stack.id] || logoMap[props.stack.color] || "/logos/softadastra.svg";
+const logoSrc = computed(() => {
+  return (
+    logoMap[props.stack.id] ||
+    logoMap[props.stack.color] ||
+    "/logos/softadastra.svg"
+  );
+});
 </script>
 
 <style scoped>
