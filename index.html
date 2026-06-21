@@ -19,7 +19,7 @@
 
     <meta name="author" content="Softadastra" />
     <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b2b22" />
+    <meta name="theme-color" content="#12372f" />
 
     <link rel="canonical" href="https://softadastra.com/" />
 
@@ -82,8 +82,29 @@
 
     <style>
       :root {
-        --sa-bg: #0b2b22;
-        --sa-dot: #d57a2a;
+        --sa-bg: #12372f;
+        --sa-bg-deep: #0b2b22;
+        --sa-orange: #d57a2a;
+        --sa-orange-strong: #e29a55;
+        --sa-cream: #f6d6aa;
+      }
+
+      html {
+        background: var(--sa-bg-deep);
+      }
+
+      body {
+        background:
+          radial-gradient(
+            circle at 50% 6%,
+            rgba(246, 222, 184, 0.86) 0%,
+            rgba(222, 174, 111, 0.34) 18%,
+            rgba(18, 55, 47, 0.88) 43%,
+            rgba(11, 43, 34, 1) 100%
+          ),
+          linear-gradient(180deg, #1a4439 0%, #12372f 42%, #0b2b22 100%);
+
+        background-attachment: fixed;
       }
 
       #app-loading {
@@ -91,13 +112,65 @@
         inset: 0;
         display: grid;
         place-items: center;
-        background: var(--sa-bg);
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 50% 8%,
+            rgba(246, 222, 184, 0.78) 0%,
+            rgba(222, 174, 111, 0.28) 20%,
+            rgba(18, 55, 47, 0.9) 45%,
+            rgba(11, 43, 34, 1) 100%
+          ),
+          linear-gradient(180deg, #1a4439 0%, #12372f 44%, #0b2b22 100%);
         z-index: 9999;
         opacity: 1;
-        transition:
-          opacity 160ms ease,
-          visibility 0ms linear 160ms;
         visibility: visible;
+        transition:
+          opacity 180ms ease,
+          visibility 0ms linear 180ms;
+      }
+
+      #app-loading::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+
+        background:
+          linear-gradient(
+            165deg,
+            transparent 0%,
+            transparent 36%,
+            rgba(213, 122, 42, 0.24) 37%,
+            rgba(226, 154, 85, 0.18) 43%,
+            transparent 50%
+          ),
+          linear-gradient(
+            18deg,
+            transparent 0%,
+            transparent 68%,
+            rgba(213, 122, 42, 0.22) 69%,
+            rgba(226, 154, 85, 0.16) 75%,
+            transparent 81%
+          );
+      }
+
+      #app-loading::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.016) 0px,
+          rgba(255, 255, 255, 0.016) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+
+        opacity: 0.3;
+        mix-blend-mode: soft-light;
       }
 
       #app-loading.is-hiding {
@@ -106,6 +179,8 @@
       }
 
       .sa-dots {
+        position: relative;
+        z-index: 1;
         display: flex;
         align-items: center;
         gap: 14px;
@@ -115,11 +190,17 @@
         width: 16px;
         height: 16px;
         border-radius: 999px;
-        background: var(--sa-dot);
-        opacity: 0.25;
+        background: linear-gradient(
+          180deg,
+          var(--sa-orange-strong),
+          var(--sa-orange)
+        );
+        opacity: 0.28;
         transform: translateY(0);
         animation: saDot 1.2s ease-in-out infinite;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+        box-shadow:
+          0 10px 28px rgba(0, 0, 0, 0.35),
+          0 0 24px rgba(213, 122, 42, 0.22);
       }
 
       .sa-dots span:nth-child(2) {
@@ -134,19 +215,19 @@
         0%,
         100% {
           transform: translateY(0);
-          opacity: 0.25;
+          opacity: 0.28;
         }
 
         40% {
           transform: translateY(-10px);
-          opacity: 0.95;
+          opacity: 0.96;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
         .sa-dots span {
           animation: none;
-          opacity: 0.6;
+          opacity: 0.68;
         }
       }
     </style>

@@ -1136,4 +1136,200 @@ onBeforeUnmount(() => {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine showcase override
+   ========================================================================== */
+
+.showcase {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
+}
+
+.showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 78% 42%,
+      rgba(226, 154, 85, 0.14) 0%,
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 12% 68%,
+      rgba(246, 222, 184, 0.09) 0%,
+      transparent 34%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(213, 122, 42, 0.14) 31%,
+      rgba(226, 154, 85, 0.1) 38%,
+      transparent 46%
+    );
+
+  opacity: 0.85;
+}
+
+.showcase::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+}
+
+.showcase__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.showcase__grid {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255, 244, 224, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 244, 224, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+
+.showcase__glow {
+  position: absolute;
+  z-index: 1;
+  right: -220px;
+  top: 10%;
+  width: 620px;
+  height: 620px;
+  opacity: 0.55;
+  background: radial-gradient(
+    circle,
+    rgba(213, 122, 42, 0.14),
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(22px);
+}
+
+/* ==========================================================================
+   Showcase colors override
+   ========================================================================== */
+
+.showcase__badge {
+  border-color: rgba(226, 154, 85, 0.28);
+  background: rgba(213, 122, 42, 0.12);
+  color: rgba(255, 224, 190, 0.94);
+}
+
+.showcase__badge-dot {
+  background: var(--c-orange);
+  box-shadow: 0 0 0 4px rgba(213, 122, 42, 0.18);
+}
+
+.showcase__title {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.showcase__title span {
+  background: linear-gradient(125deg, #e29a55, #f6d6aa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.showcase__desc,
+.showcase__bullets span {
+  color: rgba(246, 232, 204, 0.68);
+}
+
+.showcase__bullets strong {
+  color: rgba(255, 248, 235, 0.94);
+}
+
+.showcase__bullets svg {
+  background: rgba(213, 122, 42, 0.13);
+  color: var(--c-orange-strong);
+}
+
+.showcase__btn--primary {
+  background: linear-gradient(180deg, #e29a55, #d57a2a);
+  color: #102b23;
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.showcase__btn--secondary,
+.showcase__btn--ghost {
+  border-color: rgba(255, 244, 224, 0.14);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.showcase__btn--secondary:hover,
+.showcase__btn--ghost:hover {
+  border-color: rgba(255, 244, 224, 0.24);
+  background: rgba(255, 244, 224, 0.075);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.showcase__console {
+  border-color: rgba(255, 244, 224, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(22, 75, 60, 0.76),
+    rgba(11, 43, 34, 0.74)
+  );
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 244, 224, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.con__chrome {
+  border-bottom-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.055);
+}
+
+.con__body {
+  background:
+    radial-gradient(
+      520px 260px at 72% 14%,
+      rgba(213, 122, 42, 0.12),
+      transparent 70%
+    ),
+    rgba(9, 35, 28, 0.3);
+}
+
+.con__pipeline,
+.con__modules,
+.con__log {
+  border-color: rgba(255, 244, 224, 0.1);
+}
+
+.con__log {
+  background: rgba(6, 24, 19, 0.58);
+}
 </style>

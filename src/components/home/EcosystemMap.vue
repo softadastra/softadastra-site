@@ -460,4 +460,142 @@ import SectionHeading from "../ui/SectionHeading.vue";
     var(--sd-orange-dark)
   );
 }
+
+/* ==========================================================================
+   Softadastra Engine ecosystem map override
+   ========================================================================== */
+
+.ecosystem-map.sd-section {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(72px, 8vw, 110px);
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+  background: transparent;
+}
+
+.ecosystem-map.sd-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 16% 18%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 82% 48%,
+      rgba(213, 122, 42, 0.14) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(213, 122, 42, 0.12) 37%,
+      rgba(226, 154, 85, 0.08) 44%,
+      transparent 52%
+    );
+
+  opacity: 0.9;
+}
+
+.ecosystem-map.sd-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.26;
+  mix-blend-mode: soft-light;
+}
+
+.ecosystem-map .sd-section__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Ecosystem plates override
+   ========================================================================== */
+
+.ecosystem-map__plate {
+  border: 1px solid rgba(255, 244, 224, 0.14);
+  box-shadow:
+    0 18px 26px rgba(0, 0, 0, 0.28),
+    0 8px 28px rgba(213, 122, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -13px 0 rgba(0, 0, 0, 0.18);
+}
+
+.ecosystem-map__plate::after {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.ecosystem-map__plate--1 {
+  background: linear-gradient(135deg, #f6d6aa, #e29a55, #d57a2a);
+}
+
+.ecosystem-map__plate--2 {
+  background: linear-gradient(135deg, #e29a55, #d57a2a, #b8621f);
+}
+
+.ecosystem-map__plate--3 {
+  background: linear-gradient(135deg, #f5b84b, #d57a2a, #8f4d1b);
+}
+
+.ecosystem-map__plate--4 {
+  background: linear-gradient(135deg, #2fd49c, #1f8f6d, #12372f);
+}
+
+.ecosystem-map__plate--5 {
+  background: linear-gradient(135deg, #67e8f9, #2f8c92, #12372f);
+}
+
+.ecosystem-map__plate--6 {
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange-strong),
+    var(--sd-orange),
+    var(--sd-orange-dark)
+  );
+}
+
+.ecosystem-map__row:hover .ecosystem-map__plate {
+  filter: brightness(1.08) saturate(1.08);
+  transform: rotateX(62deg) rotateZ(45deg) scaleY(0.52) translateY(-3px);
+}
+
+/* ==========================================================================
+   Ecosystem text override
+   ========================================================================== */
+
+.ecosystem-map__icon {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.ecosystem-map__body strong {
+  color: rgba(255, 248, 235, 0.95);
+}
+
+.ecosystem-map__body small {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.ecosystem-map__row:hover .ecosystem-map__body strong,
+.ecosystem-map__row:hover .ecosystem-map__icon {
+  color: var(--sd-orange-strong);
+}
 </style>

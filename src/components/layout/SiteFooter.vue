@@ -468,4 +468,139 @@ import { footerGroups, footerMeta, footerSocialLinks } from "../../data/footer";
     font-size: 13px;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine footer override
+   ========================================================================== */
+
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 244, 224, 0.09);
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(213, 122, 42, 0.12) 0%,
+      transparent 36%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(11, 43, 34, 0.88) 0%,
+      rgba(8, 34, 27, 0.96) 58%,
+      rgba(5, 24, 19, 1) 100%
+    );
+}
+
+/* replace the old thin green/orange footer highlight */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(226, 154, 85, 0.22) 28%,
+    rgba(246, 222, 184, 0.16) 50%,
+    rgba(213, 122, 42, 0.18) 72%,
+    transparent 100%
+  );
+
+  height: 1px;
+  top: 0;
+  left: 8%;
+  right: 8%;
+}
+
+.site-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+}
+
+.site-footer__inner,
+.site-footer__bottom {
+  position: relative;
+  z-index: 1;
+}
+
+.site-footer__bottom {
+  border-top: 1px solid rgba(255, 244, 224, 0.08);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+/* ==========================================================================
+   Footer colors override
+   ========================================================================== */
+
+.site-footer__logo-text strong {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.site-footer__logo-text small {
+  color: var(--sd-orange-strong);
+}
+
+.site-footer__tagline {
+  color: rgba(255, 248, 235, 0.94);
+}
+
+.site-footer__desc {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.site-footer__col-title {
+  color: rgba(255, 248, 235, 0.78);
+}
+
+.site-footer__link {
+  color: rgba(246, 232, 204, 0.62);
+}
+
+.site-footer__link:hover {
+  background: rgba(213, 122, 42, 0.08);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.site-footer__social {
+  border-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.04);
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.site-footer__social:hover {
+  border-color: rgba(226, 154, 85, 0.3);
+  background: rgba(213, 122, 42, 0.12);
+  color: var(--sd-orange-strong);
+}
+
+.site-footer__copyright,
+.site-footer__bottom-links a {
+  color: rgba(246, 232, 204, 0.42);
+}
+
+.site-footer__bottom-links a:hover {
+  color: var(--sd-orange-strong);
+}
 </style>

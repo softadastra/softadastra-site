@@ -1,17 +1,21 @@
 <template>
   <SiteShell>
     <div class="nf">
-
       <!-- Scanline overlay -->
       <div class="nf-scanlines" aria-hidden="true"></div>
 
       <!-- Noise grain overlay -->
       <svg class="nf-noise" aria-hidden="true">
         <filter id="noiseFilter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-          <feColorMatrix type="saturate" values="0"/>
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.65"
+            numOctaves="3"
+            stitchTiles="stitch"
+          />
+          <feColorMatrix type="saturate" values="0" />
         </filter>
-        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+        <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
 
       <!-- Speed particles (horizontal streaks) -->
@@ -33,60 +37,213 @@
 
       <!-- Main content -->
       <div class="nf-inner">
-
         <!-- Satellite dish SVG illustration -->
         <div class="nf-dish-wrap" aria-hidden="true">
-          <svg class="nf-dish" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-
+          <svg
+            class="nf-dish"
+            viewBox="0 0 400 320"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <!-- Signal waves (animated) -->
             <g class="nf-signal">
-              <path d="M260 90 Q290 80 300 60" stroke="var(--sd-orange)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6" stroke-dasharray="4 6"/>
-              <path d="M270 80 Q310 65 325 38" stroke="var(--sd-orange-strong)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.45" stroke-dasharray="3 8"/>
-              <path d="M278 72 Q325 50 348 18" stroke="var(--sd-orange)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.3" stroke-dasharray="2 10"/>
+              <path
+                d="M260 90 Q290 80 300 60"
+                stroke="var(--sd-orange)"
+                stroke-width="2"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.6"
+                stroke-dasharray="4 6"
+              />
+              <path
+                d="M270 80 Q310 65 325 38"
+                stroke="var(--sd-orange-strong)"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.45"
+                stroke-dasharray="3 8"
+              />
+              <path
+                d="M278 72 Q325 50 348 18"
+                stroke="var(--sd-orange)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.3"
+                stroke-dasharray="2 10"
+              />
             </g>
 
             <!-- Signal "X" — lost connection -->
             <g class="nf-signal-x">
-              <line x1="304" y1="30" x2="324" y2="50" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-              <line x1="324" y1="30" x2="304" y2="50" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+              <line
+                x1="304"
+                y1="30"
+                x2="324"
+                y2="50"
+                stroke="#ef4444"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                opacity="0.8"
+              />
+              <line
+                x1="324"
+                y1="30"
+                x2="304"
+                y2="50"
+                stroke="#ef4444"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                opacity="0.8"
+              />
             </g>
 
             <!-- Dish base / pedestal -->
-            <rect x="185" y="240" width="30" height="50" rx="4" fill="var(--sd-bg-raised)" stroke="var(--sd-orange)" stroke-width="1"/>
-            <rect x="170" y="284" width="60" height="10" rx="5" fill="var(--sd-bg-raised)" stroke="var(--sd-orange)" stroke-width="1"/>
+            <rect
+              x="185"
+              y="240"
+              width="30"
+              height="50"
+              rx="4"
+              fill="var(--sd-bg-raised)"
+              stroke="var(--sd-orange)"
+              stroke-width="1"
+            />
+            <rect
+              x="170"
+              y="284"
+              width="60"
+              height="10"
+              rx="5"
+              fill="var(--sd-bg-raised)"
+              stroke="var(--sd-orange)"
+              stroke-width="1"
+            />
 
             <!-- Support arm -->
-            <line x1="200" y1="240" x2="220" y2="165" stroke="var(--sd-orange)" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="200" y1="240" x2="220" y2="165" stroke="var(--sd-bg-soft)" stroke-width="1.2" stroke-linecap="round"/>
+            <line
+              x1="200"
+              y1="240"
+              x2="220"
+              y2="165"
+              stroke="var(--sd-orange)"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+            <line
+              x1="200"
+              y1="240"
+              x2="220"
+              y2="165"
+              stroke="var(--sd-bg-soft)"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
 
             <!-- Dish (parabolic shape) -->
-            <path class="nf-dish-bowl" d="M130 170 Q145 95 220 80 Q295 95 310 170 Q220 155 130 170 Z" fill="var(--sd-bg-muted)" stroke="var(--sd-orange)" stroke-width="1.5"/>
+            <path
+              class="nf-dish-bowl"
+              d="M130 170 Q145 95 220 80 Q295 95 310 170 Q220 155 130 170 Z"
+              fill="var(--sd-bg-muted)"
+              stroke="var(--sd-orange)"
+              stroke-width="1.5"
+            />
 
             <!-- Dish inner ring details -->
-            <path d="M155 160 Q165 115 220 105 Q275 115 285 160" stroke="var(--sd-orange)" stroke-width="0.8" fill="none" opacity="0.3"/>
-            <path d="M175 152 Q182 125 220 118 Q258 125 265 152" stroke="var(--sd-orange)" stroke-width="0.6" fill="none" opacity="0.2"/>
+            <path
+              d="M155 160 Q165 115 220 105 Q275 115 285 160"
+              stroke="var(--sd-orange)"
+              stroke-width="0.8"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M175 152 Q182 125 220 118 Q258 125 265 152"
+              stroke="var(--sd-orange)"
+              stroke-width="0.6"
+              fill="none"
+              opacity="0.2"
+            />
 
             <!-- Feed horn (receiver at center) -->
-            <line x1="220" y1="135" x2="248" y2="100" stroke="var(--sd-orange-strong)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="250" cy="97" r="5" fill="var(--sd-orange)" opacity="0.9"/>
-            <circle class="nf-feed-blink" cx="250" cy="97" r="8" fill="none" stroke="var(--sd-orange-strong)" stroke-width="1.5" opacity="0"/>
+            <line
+              x1="220"
+              y1="135"
+              x2="248"
+              y2="100"
+              stroke="var(--sd-orange-strong)"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <circle
+              cx="250"
+              cy="97"
+              r="5"
+              fill="var(--sd-orange)"
+              opacity="0.9"
+            />
+            <circle
+              class="nf-feed-blink"
+              cx="250"
+              cy="97"
+              r="8"
+              fill="none"
+              stroke="var(--sd-orange-strong)"
+              stroke-width="1.5"
+              opacity="0"
+            />
 
             <!-- Cable from base -->
-            <path d="M200 290 Q170 300 155 298 Q140 295 130 300" stroke="var(--sd-orange)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.35" stroke-dasharray="3 5"/>
+            <path
+              d="M200 290 Q170 300 155 298 Q140 295 130 300"
+              stroke="var(--sd-orange)"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.35"
+              stroke-dasharray="3 5"
+            />
 
             <!-- Ground shadow -->
-            <ellipse cx="200" cy="298" rx="75" ry="5" fill="var(--sd-orange)" opacity="0.04"/>
+            <ellipse
+              cx="200"
+              cy="298"
+              rx="75"
+              ry="5"
+              fill="var(--sd-orange)"
+              opacity="0.04"
+            />
 
             <!-- Softadastra logo mark on dish -->
-            <text x="220" y="148" text-anchor="middle" fill="var(--sd-orange)" font-family="var(--sd-font-mono)" font-size="9" font-weight="800" letter-spacing="0.15em" opacity="0.25">SD</text>
+            <text
+              x="220"
+              y="148"
+              text-anchor="middle"
+              fill="var(--sd-orange)"
+              font-family="var(--sd-font-mono)"
+              font-size="9"
+              font-weight="800"
+              letter-spacing="0.15em"
+              opacity="0.25"
+            >
+              SD
+            </text>
 
             <!-- Glow defs -->
             <defs>
-              <filter id="dishGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="10" result="blur"/>
+              <filter
+                id="dishGlow"
+                x="-50%"
+                y="-50%"
+                width="200%"
+                height="200%"
+              >
+                <feGaussianBlur stdDeviation="10" result="blur" />
                 <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
@@ -94,13 +251,17 @@
 
           <!-- Ground speed lines under dish -->
           <div class="nf-ground-lines" aria-hidden="true">
-            <span v-for="j in 5" :key="j" class="nf-ground-line" :style="`animation-delay:${j * 0.15}s`"></span>
+            <span
+              v-for="j in 5"
+              :key="j"
+              class="nf-ground-line"
+              :style="`animation-delay:${j * 0.15}s`"
+            ></span>
           </div>
         </div>
 
         <!-- Text block -->
         <div class="nf-text">
-
           <!-- 404 code -->
           <div class="nf-404-wrap">
             <span class="nf-404">404</span>
@@ -109,15 +270,15 @@
 
           <!-- Headline -->
           <h1 class="nf-title">
-            Connection dropped.<br>
+            Connection dropped.<br />
             <span class="nf-title-accent">Page unreachable.</span>
           </h1>
 
           <!-- Description -->
           <p class="nf-desc">
-            This route doesn't exist — or the network fell away before it
-            could load. Softadastra keeps your apps running offline, but
-            even we can't serve a page that was never there.
+            This route doesn't exist — or the network fell away before it could
+            load. Softadastra keeps your apps running offline, but even we can't
+            serve a page that was never there.
           </p>
 
           <!-- Terminal snippet -->
@@ -130,13 +291,21 @@
             </div>
             <div class="nf-terminal-body">
               <span class="nf-prompt">$</span>
-              <span class="nf-cmd">curl -s softadastra.com<span class="nf-path">{{ path }}</span></span>
-              <br>
-              <span class="nf-err">✗ 404 — route not found. no fallback configured.</span>
-              <br>
+              <span class="nf-cmd"
+                >curl -s softadastra.com<span class="nf-path">{{
+                  path
+                }}</span></span
+              >
+              <br />
+              <span class="nf-err"
+                >✗ 404 — route not found. no fallback configured.</span
+              >
+              <br />
               <span class="nf-hint">
                 <span class="nf-prompt">$</span>
-                <span class="nf-cmd-hint">cd / <span class="nf-cursor">▌</span></span>
+                <span class="nf-cmd-hint"
+                  >cd / <span class="nf-cursor">▌</span></span
+                >
               </span>
             </div>
           </div>
@@ -144,10 +313,22 @@
           <!-- Actions -->
           <div class="nf-actions">
             <BaseButton to="/" class="nf-btn-primary">
-              <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+                <path
+                  d="M10 3L5 8l5 5"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
               Back home
             </BaseButton>
-            <BaseButton to="/ecosystem" variant="secondary" class="nf-btn-secondary">
+            <BaseButton
+              to="/ecosystem"
+              variant="secondary"
+              class="nf-btn-secondary"
+            >
               View ecosystem
             </BaseButton>
             <BaseButton to="/docs" variant="secondary" class="nf-btn-secondary">
@@ -155,7 +336,6 @@
             </BaseButton>
           </div>
         </div>
-
       </div>
     </div>
   </SiteShell>
@@ -173,9 +353,9 @@ const path = computed(() => route.path);
 function particleStyle(i) {
   const seed = i * 137.5;
   const top = ((seed * 0.618) % 82) + 6;
-  const width = 18 + (i * 27 % 110);
+  const width = 18 + ((i * 27) % 110);
   const delay = (i * 0.22) % 3;
-  const duration = 0.7 + (i * 0.13 % 0.9);
+  const duration = 0.7 + ((i * 0.13) % 0.9);
   const opacity = 0.03 + (i % 5) * 0.018;
   return `top:${top}%;width:${width}px;animation-delay:${delay}s;animation-duration:${duration}s;opacity:${opacity}`;
 }
@@ -195,7 +375,11 @@ function particleStyle(i) {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 50% 45% at 50% 38%, rgba(213, 122, 42, 0.045) 0%, transparent 70%),
+    radial-gradient(
+      ellipse 50% 45% at 50% 38%,
+      rgba(213, 122, 42, 0.045) 0%,
+      transparent 70%
+    ),
     linear-gradient(180deg, var(--sd-deep-green) 0%, #071e17 100%);
 }
 
@@ -237,16 +421,28 @@ function particleStyle(i) {
 .nf-particle {
   position: absolute;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--sd-orange), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--sd-orange),
+    transparent
+  );
   border-radius: var(--sd-radius-full);
   right: -140px;
   animation: particle-fly linear infinite;
 }
 
 @keyframes particle-fly {
-  from { transform: translateX(0); }
-  60%  { opacity: inherit; }
-  to   { transform: translateX(-120vw); opacity: 0; }
+  from {
+    transform: translateX(0);
+  }
+  60% {
+    opacity: inherit;
+  }
+  to {
+    transform: translateX(-120vw);
+    opacity: 0;
+  }
 }
 
 /* ── Pulse rings ──────────────────────────────────────────────── */
@@ -270,14 +466,34 @@ function particleStyle(i) {
   animation: ring-expand 4.5s ease-out infinite;
 }
 
-.nf-ring--1 { width: 300px; height: 300px; animation-delay: 0s; }
-.nf-ring--2 { width: 300px; height: 300px; animation-delay: 1.5s; }
-.nf-ring--3 { width: 300px; height: 300px; animation-delay: 3s; }
+.nf-ring--1 {
+  width: 300px;
+  height: 300px;
+  animation-delay: 0s;
+}
+.nf-ring--2 {
+  width: 300px;
+  height: 300px;
+  animation-delay: 1.5s;
+}
+.nf-ring--3 {
+  width: 300px;
+  height: 300px;
+  animation-delay: 3s;
+}
 
 @keyframes ring-expand {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-  15%  { opacity: 0.12; }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.5); }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  15% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(3.5);
+  }
 }
 
 /* ── Inner ────────────────────────────────────────────────────── */
@@ -305,22 +521,32 @@ function particleStyle(i) {
 }
 
 @keyframes dish-hover {
-  from { transform: translateY(0) rotate(-0.2deg); }
-  to   { transform: translateY(-6px) rotate(0.2deg); }
+  from {
+    transform: translateY(0) rotate(-0.2deg);
+  }
+  to {
+    transform: translateY(-6px) rotate(0.2deg);
+  }
 }
 
 .nf-dish {
   width: 100%;
   height: auto;
-  filter:
-    drop-shadow(0 0 20px rgba(213, 122, 42, 0.18))
+  filter: drop-shadow(0 0 20px rgba(213, 122, 42, 0.18))
     drop-shadow(0 0 50px rgba(213, 122, 42, 0.06));
   animation: dish-glow 2.8s ease-in-out infinite;
 }
 
 @keyframes dish-glow {
-  0%, 100% { filter: drop-shadow(0 0 18px rgba(213, 122, 42, 0.16)) drop-shadow(0 0 44px rgba(213, 122, 42, 0.05)); }
-  50%      { filter: drop-shadow(0 0 28px rgba(213, 122, 42, 0.3))  drop-shadow(0 0 60px rgba(213, 122, 42, 0.1)); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 18px rgba(213, 122, 42, 0.16))
+      drop-shadow(0 0 44px rgba(213, 122, 42, 0.05));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(213, 122, 42, 0.3))
+      drop-shadow(0 0 60px rgba(213, 122, 42, 0.1));
+  }
 }
 
 /* Signal waves — dash animation */
@@ -329,7 +555,9 @@ function particleStyle(i) {
 }
 
 @keyframes signal-dash {
-  to { stroke-dashoffset: -30; }
+  to {
+    stroke-dashoffset: -30;
+  }
 }
 
 /* Signal X blink */
@@ -338,10 +566,22 @@ function particleStyle(i) {
 }
 
 @keyframes x-blink {
-  0%, 40%, 100% { opacity: 1; }
-  50%, 55%      { opacity: 0.15; }
-  60%           { opacity: 1; }
-  65%, 68%      { opacity: 0.2; }
+  0%,
+  40%,
+  100% {
+    opacity: 1;
+  }
+  50%,
+  55% {
+    opacity: 0.15;
+  }
+  60% {
+    opacity: 1;
+  }
+  65%,
+  68% {
+    opacity: 0.2;
+  }
 }
 
 /* Feed horn blink */
@@ -350,9 +590,18 @@ function particleStyle(i) {
 }
 
 @keyframes feed-ping {
-  0%   { r: 5; opacity: 0.6; }
-  70%  { r: 14; opacity: 0; }
-  100% { r: 14; opacity: 0; }
+  0% {
+    r: 5;
+    opacity: 0.6;
+  }
+  70% {
+    r: 14;
+    opacity: 0;
+  }
+  100% {
+    r: 14;
+    opacity: 0;
+  }
 }
 
 /* Dish bowl subtle tilt */
@@ -362,8 +611,12 @@ function particleStyle(i) {
 }
 
 @keyframes bowl-scan {
-  from { transform: rotate(-1deg); }
-  to   { transform: rotate(1deg); }
+  from {
+    transform: rotate(-1deg);
+  }
+  to {
+    transform: rotate(1deg);
+  }
 }
 
 /* Ground lines below dish */
@@ -377,19 +630,40 @@ function particleStyle(i) {
 .nf-ground-line {
   height: 1.5px;
   border-radius: var(--sd-radius-full);
-  background: linear-gradient(to right, transparent, rgba(213, 122, 42, 0.25), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(213, 122, 42, 0.25),
+    transparent
+  );
   animation: ground-line 0.7s ease-in-out infinite alternate;
 }
 
-.nf-ground-line:nth-child(1) { width: 70px; }
-.nf-ground-line:nth-child(2) { width: 45px; }
-.nf-ground-line:nth-child(3) { width: 90px; }
-.nf-ground-line:nth-child(4) { width: 35px; }
-.nf-ground-line:nth-child(5) { width: 55px; }
+.nf-ground-line:nth-child(1) {
+  width: 70px;
+}
+.nf-ground-line:nth-child(2) {
+  width: 45px;
+}
+.nf-ground-line:nth-child(3) {
+  width: 90px;
+}
+.nf-ground-line:nth-child(4) {
+  width: 35px;
+}
+.nf-ground-line:nth-child(5) {
+  width: 55px;
+}
 
 @keyframes ground-line {
-  from { transform: scaleX(1); opacity: 0.5; }
-  to   { transform: scaleX(0.35); opacity: 0.1; }
+  from {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+  to {
+    transform: scaleX(0.35);
+    opacity: 0.1;
+  }
 }
 
 /* ================================================================
@@ -414,8 +688,14 @@ function particleStyle(i) {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nf-404 {
@@ -426,7 +706,12 @@ function particleStyle(i) {
   line-height: 1;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(213, 122, 42, 0.45);
-  background: linear-gradient(135deg, var(--sd-orange) 0%, var(--sd-orange-strong) 40%, rgba(213, 122, 42, 0.25) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--sd-orange) 0%,
+    var(--sd-orange-strong) 40%,
+    rgba(213, 122, 42, 0.25) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -502,9 +787,18 @@ function particleStyle(i) {
   border-radius: 50%;
 }
 
-.nf-terminal-dot--red    { background: #ef4444; opacity: 0.7; }
-.nf-terminal-dot--yellow { background: var(--sd-yellow); opacity: 0.7; }
-.nf-terminal-dot--green  { background: var(--sd-green); opacity: 0.7; }
+.nf-terminal-dot--red {
+  background: #ef4444;
+  opacity: 0.7;
+}
+.nf-terminal-dot--yellow {
+  background: var(--sd-yellow);
+  opacity: 0.7;
+}
+.nf-terminal-dot--green {
+  background: var(--sd-green);
+  opacity: 0.7;
+}
 
 .nf-terminal-bar-title {
   margin-left: auto;
@@ -559,8 +853,14 @@ function particleStyle(i) {
 }
 
 @keyframes cursor-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* ── Actions ──────────────────────────────────────────────────── */
@@ -602,6 +902,346 @@ function particleStyle(i) {
   .nf-desc {
     font-size: 0.9rem;
     padding: 0 8px;
+  }
+}
+/* ==========================================================================
+   Softadastra Engine 404 override
+   ========================================================================== */
+
+.nf {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100vh - var(--sd-header-height, 60px));
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(246, 222, 184, 0.48) 0%,
+      rgba(222, 174, 111, 0.16) 22%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 82% 28%,
+      rgba(213, 122, 42, 0.16) 0%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 16% 62%,
+      rgba(246, 222, 184, 0.08) 0%,
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 55, 47, 0.96) 0%,
+      rgba(11, 43, 34, 0.98) 48%,
+      rgba(7, 28, 23, 1) 100%
+    );
+}
+
+.nf::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(213, 122, 42, 0.14) 36%,
+      rgba(226, 154, 85, 0.1) 43%,
+      transparent 52%
+    ),
+    linear-gradient(
+      18deg,
+      transparent 0%,
+      transparent 70%,
+      rgba(213, 122, 42, 0.12) 71%,
+      rgba(246, 222, 184, 0.08) 77%,
+      transparent 84%
+    );
+}
+
+.nf::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.26;
+  mix-blend-mode: soft-light;
+}
+
+.nf-inner {
+  z-index: 3;
+  padding-top: 18px;
+  padding-bottom: 54px;
+}
+
+.nf-scanlines,
+.nf-noise {
+  z-index: 2;
+}
+
+.nf-particles,
+.nf-pulse-rings {
+  z-index: 1;
+}
+
+/* ==========================================================================
+   404 satellite polish
+   ========================================================================== */
+
+.nf-dish-wrap {
+  max-width: 360px;
+  margin-bottom: -8px;
+}
+
+.nf-dish {
+  filter: drop-shadow(0 0 22px rgba(213, 122, 42, 0.2))
+    drop-shadow(0 0 58px rgba(246, 222, 184, 0.06));
+}
+
+.nf-pulse-rings {
+  top: 28%;
+}
+
+.nf-ring {
+  border-color: rgba(226, 154, 85, 0.42);
+}
+
+.nf-particle {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(226, 154, 85, 0.68),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   404 text polish
+   ========================================================================== */
+
+.nf-404 {
+  -webkit-text-stroke: 1.4px rgba(226, 154, 85, 0.5);
+
+  background: linear-gradient(
+    135deg,
+    #f6d6aa 0%,
+    var(--sd-orange-strong) 42%,
+    var(--sd-orange) 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow:
+    0 0 28px rgba(213, 122, 42, 0.14),
+    0 12px 42px rgba(0, 0, 0, 0.24);
+}
+
+.nf-404-sub {
+  color: rgba(246, 232, 204, 0.44);
+}
+
+.nf-title {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.nf-title-accent {
+  background: linear-gradient(125deg, #e29a55, #f6d6aa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nf-desc {
+  max-width: 48ch;
+  color: rgba(246, 232, 204, 0.68);
+}
+
+/* ==========================================================================
+   404 terminal polish
+   ========================================================================== */
+
+.nf-terminal {
+  max-width: 520px;
+  border-color: rgba(255, 244, 224, 0.12);
+  border-radius: 16px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(22, 75, 60, 0.66),
+    rgba(11, 43, 34, 0.72)
+  );
+
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 244, 224, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.nf-terminal-bar {
+  border-bottom-color: rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.055);
+}
+
+.nf-terminal-body {
+  background:
+    radial-gradient(
+      420px 180px at 72% 0%,
+      rgba(213, 122, 42, 0.1),
+      transparent 70%
+    ),
+    rgba(6, 24, 19, 0.6);
+}
+
+.nf-terminal-bar-title {
+  color: rgba(246, 232, 204, 0.38);
+}
+
+.nf-cmd {
+  color: rgba(255, 248, 235, 0.9);
+}
+
+.nf-path {
+  color: #f6d6aa;
+}
+
+.nf-err {
+  color: rgba(248, 113, 113, 0.82);
+}
+
+.nf-cmd-hint {
+  color: rgba(246, 232, 204, 0.5);
+}
+
+/* ==========================================================================
+   404 actions polish
+   ========================================================================== */
+
+.nf-actions :deep(.sd-button) {
+  min-height: 42px;
+  border-radius: 10px;
+}
+
+.nf-actions :deep(.sd-button-primary),
+.nf-btn-primary {
+  border: 1px solid rgba(255, 215, 168, 0.18);
+  background: linear-gradient(
+    180deg,
+    var(--sd-orange-strong),
+    var(--sd-orange)
+  );
+  color: #102b23;
+
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.nf-actions :deep(.sd-button-primary:hover),
+.nf-btn-primary:hover {
+  box-shadow:
+    0 14px 34px rgba(213, 122, 42, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.nf-actions :deep(.sd-button-secondary),
+.nf-btn-secondary {
+  border-color: rgba(255, 244, 224, 0.13);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.nf-actions :deep(.sd-button-secondary:hover),
+.nf-btn-secondary:hover {
+  border-color: rgba(255, 244, 224, 0.22);
+  background: rgba(255, 244, 224, 0.075);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+/* ==========================================================================
+   404 responsive polish
+   ========================================================================== */
+
+@media (max-width: 620px) {
+  .nf {
+    align-items: flex-start;
+  }
+
+  .nf-inner {
+    padding-top: 18px;
+    padding-bottom: 42px;
+  }
+
+  .nf-dish-wrap {
+    max-width: 250px;
+    margin-bottom: -4px;
+  }
+
+  .nf-404-wrap {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .nf-404-sub {
+    letter-spacing: 0.18em;
+  }
+
+  .nf-terminal {
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .nf-terminal-body {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .nf-actions {
+    max-width: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-particle,
+  .nf-ring,
+  .nf-dish-wrap,
+  .nf-dish,
+  .nf-signal path,
+  .nf-signal-x,
+  .nf-feed-blink,
+  .nf-dish-bowl,
+  .nf-ground-line,
+  .nf-cursor,
+  .nf-404-wrap,
+  .nf-title,
+  .nf-desc,
+  .nf-terminal,
+  .nf-actions {
+    animation: none !important;
   }
 }
 </style>

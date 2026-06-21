@@ -579,4 +579,229 @@ function getStackLogo(stack) {
     grid-template-columns: 42px minmax(0, 1fr);
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine ecosystem diagram override
+   ========================================================================== */
+
+.ecosystem-diagram {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 244, 224, 0.12);
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 18% 8%,
+      rgba(246, 222, 184, 0.12) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 84% 18%,
+      rgba(213, 122, 42, 0.16) 0%,
+      transparent 38%
+    ),
+    linear-gradient(180deg, rgba(22, 75, 60, 0.66), rgba(11, 43, 34, 0.72));
+
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 244, 224, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.ecosystem-diagram::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      160deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(213, 122, 42, 0.14) 35%,
+      rgba(226, 154, 85, 0.1) 42%,
+      transparent 50%
+    ),
+    linear-gradient(
+      18deg,
+      transparent 0%,
+      transparent 70%,
+      rgba(213, 122, 42, 0.12) 71%,
+      rgba(246, 222, 184, 0.08) 76%,
+      transparent 82%
+    );
+}
+
+.ecosystem-diagram::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+}
+
+.ecosystem-diagram__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Ecosystem diagram text override
+   ========================================================================== */
+
+.ecosystem-diagram__eyebrow {
+  border-color: rgba(226, 154, 85, 0.28);
+  background: rgba(213, 122, 42, 0.12);
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-diagram__head h3 {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.ecosystem-diagram__head p {
+  color: rgba(246, 232, 204, 0.66);
+}
+
+/* ==========================================================================
+   Ecosystem diagram nodes override
+   ========================================================================== */
+
+.ecosystem-diagram__center,
+.ecosystem-diagram__business-item {
+  border-color: rgba(255, 244, 224, 0.13);
+  background: linear-gradient(
+    180deg,
+    rgba(22, 75, 60, 0.82),
+    rgba(11, 43, 34, 0.76)
+  );
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.26),
+    0 0 0 1px rgba(255, 244, 224, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.ecosystem-diagram__center:hover,
+.ecosystem-diagram__business-item:hover {
+  border-color: rgba(226, 154, 85, 0.34);
+}
+
+.ecosystem-diagram__logo,
+.ecosystem-diagram__marker {
+  border-color: rgba(255, 244, 224, 0.12);
+  background:
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(255, 244, 224, 0.13),
+      transparent 58%
+    ),
+    rgba(255, 244, 224, 0.045);
+}
+
+.ecosystem-diagram__center-copy strong,
+.ecosystem-diagram__layer strong,
+.ecosystem-diagram__business-item strong {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.ecosystem-diagram__center-copy small,
+.ecosystem-diagram__business-item span {
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-diagram__layer-meta {
+  color: rgba(246, 232, 204, 0.36);
+}
+
+.ecosystem-diagram__layer small,
+.ecosystem-diagram__business-item small {
+  color: rgba(246, 232, 204, 0.56);
+}
+
+.ecosystem-diagram__layer:hover strong {
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Ecosystem diagram rails override
+   ========================================================================== */
+
+.ecosystem-diagram__rail {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(226, 154, 85, 0.36),
+    rgba(246, 222, 184, 0.22),
+    rgba(213, 122, 42, 0.32),
+    transparent
+  );
+}
+
+.ecosystem-diagram__rail::before,
+.ecosystem-diagram__rail::after {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(246, 222, 184, 0.18),
+    rgba(213, 122, 42, 0.18),
+    transparent
+  );
+}
+
+.ecosystem-diagram__business-line {
+  background: linear-gradient(
+    180deg,
+    rgba(226, 154, 85, 0.44),
+    rgba(246, 222, 184, 0.12),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   Ecosystem diagram marker colors override
+   ========================================================================== */
+
+.ecosystem-diagram__marker--vix {
+  color: #f6d6aa;
+}
+
+.ecosystem-diagram__marker--softadastra {
+  color: var(--sd-orange-strong);
+}
+
+.ecosystem-diagram__marker--kordex {
+  color: #f5b84b;
+}
+
+.ecosystem-diagram__marker--cnerium {
+  color: #2fd49c;
+}
+
+.ecosystem-diagram__marker--pulsegrid {
+  color: #67e8f9;
+}
+
+.ecosystem-diagram__marker--converdict {
+  color: var(--sd-orange);
+}
 </style>

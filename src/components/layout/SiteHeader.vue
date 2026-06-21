@@ -1297,4 +1297,363 @@ function getIcon(label) {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   Softadastra Engine header override
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  isolation: isolate;
+
+  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
+  background: linear-gradient(
+    180deg,
+    rgba(18, 55, 47, 0.76),
+    rgba(11, 43, 34, 0.66)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 1px 0 rgba(255, 244, 224, 0.04),
+    0 18px 46px rgba(0, 0, 0, 0.12);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(246, 222, 184, 0.1),
+      transparent 34%
+    ),
+    radial-gradient(circle at 82% 0%, rgba(213, 122, 42, 0.12), transparent 36%);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -1px;
+  height: 1px;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(226, 154, 85, 0.28),
+    rgba(246, 222, 184, 0.18),
+    rgba(213, 122, 42, 0.24),
+    transparent
+  );
+}
+
+.site-header--scrolled {
+  border-bottom-color: rgba(255, 244, 224, 0.13);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 48, 39, 0.9),
+    rgba(8, 34, 27, 0.84)
+  );
+
+  box-shadow:
+    0 1px 0 rgba(255, 244, 224, 0.05),
+    0 18px 52px rgba(0, 0, 0, 0.26);
+}
+
+.site-header__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.site-header__wordmark {
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.site-header__link {
+  color: rgba(246, 232, 204, 0.72);
+}
+
+.site-header__link:hover,
+.site-header__link[aria-expanded="true"] {
+  background: rgba(255, 244, 224, 0.065);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+.site-header__chevron {
+  color: rgba(246, 232, 204, 0.72);
+}
+
+.site-header__icon-link {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.site-header__icon-link:hover {
+  background: rgba(213, 122, 42, 0.1);
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Header buttons override
+   ========================================================================== */
+
+.site-header__actions :deep(.sd-button-primary) {
+  border: 1px solid rgba(255, 215, 168, 0.18);
+  background: linear-gradient(
+    180deg,
+    var(--sd-orange-strong, #e29a55),
+    var(--sd-orange, #d57a2a)
+  );
+  color: #102b23;
+  box-shadow:
+    0 8px 24px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.site-header__actions :deep(.sd-button-primary:hover) {
+  box-shadow:
+    0 12px 32px rgba(213, 122, 42, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.site-header__actions :deep(.sd-button-secondary) {
+  border: 1px solid rgba(255, 244, 224, 0.13);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.8);
+}
+
+.site-header__actions :deep(.sd-button-secondary:hover) {
+  border-color: rgba(255, 244, 224, 0.22);
+  background: rgba(255, 244, 224, 0.075);
+  color: rgba(255, 248, 235, 0.96);
+}
+
+/* ==========================================================================
+   Header mobile button override
+   ========================================================================== */
+
+.site-header__mobile-button {
+  border-color: rgba(255, 244, 224, 0.12);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.78);
+}
+
+.site-header__mobile-button:hover,
+.site-header__mobile-button[aria-expanded="true"] {
+  border-color: rgba(226, 154, 85, 0.32);
+  background: rgba(213, 122, 42, 0.12);
+  color: var(--sd-orange-strong);
+}
+
+/* ==========================================================================
+   Softadastra Engine dropdown override
+   ========================================================================== */
+
+.site-header__dropdown {
+  top: calc(100% + 10px);
+  z-index: 1200;
+}
+
+.site-header__dropdown-arrow {
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid rgba(255, 244, 224, 0.13);
+  border-left: 1px solid rgba(255, 244, 224, 0.13);
+
+  background: linear-gradient(
+    135deg,
+    rgba(22, 75, 60, 0.98),
+    rgba(11, 43, 34, 0.98)
+  );
+
+  box-shadow:
+    -3px -3px 14px rgba(0, 0, 0, 0.18),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.site-header__dropdown-grid {
+  position: relative;
+  overflow: hidden;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid rgba(255, 244, 224, 0.13);
+  border-radius: 18px;
+
+  background:
+    radial-gradient(
+      circle at 84% 0%,
+      rgba(213, 122, 42, 0.16),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 12% 12%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(180deg, rgba(22, 75, 60, 0.98), rgba(8, 34, 27, 0.98));
+
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.44),
+    0 0 0 1px rgba(255, 244, 224, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.site-header__dropdown-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    145deg,
+    transparent 0%,
+    transparent 44%,
+    rgba(213, 122, 42, 0.1) 45%,
+    rgba(226, 154, 85, 0.065) 55%,
+    transparent 64%
+  );
+}
+
+.site-header__dropdown-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+.site-header__dropdown-card {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 11px;
+  padding: 11px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.site-header__dropdown-card:hover {
+  border-color: rgba(226, 154, 85, 0.22);
+
+  background:
+    radial-gradient(
+      circle at 14% 0%,
+      rgba(246, 222, 184, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(180deg, rgba(213, 122, 42, 0.1), rgba(255, 244, 224, 0.03));
+
+  transform: translateY(-1px);
+}
+
+.site-header__dropdown-icon {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 244, 224, 0.11);
+  border-radius: 10px;
+
+  background:
+    radial-gradient(
+      circle at 50% 28%,
+      rgba(255, 244, 224, 0.13),
+      transparent 58%
+    ),
+    rgba(255, 244, 224, 0.045);
+
+  color: var(--sd-orange-strong);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.site-header__dropdown-card:hover .site-header__dropdown-icon {
+  border-color: rgba(226, 154, 85, 0.3);
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(213, 122, 42, 0.18),
+      transparent 62%
+    ),
+    rgba(255, 244, 224, 0.055);
+}
+
+.site-header__dropdown-text strong {
+  color: rgba(255, 248, 235, 0.96);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.site-header__dropdown-text small {
+  color: rgba(246, 232, 204, 0.58);
+}
+
+.site-header__dropdown-card:hover .site-header__dropdown-text strong {
+  color: var(--sd-orange-strong);
+}
+
+.site-header__dropdown-card:hover .site-header__dropdown-text small {
+  color: rgba(246, 232, 204, 0.72);
+}
+
+/* ==========================================================================
+   Softadastra Engine dropdown transition override
+   ========================================================================== */
+
+.dropdown-enter-active {
+  transition:
+    opacity 180ms ease,
+    transform 220ms var(--sd-ease-out);
+}
+
+.dropdown-leave-active {
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.98);
+}
+
+.dropdown-enter-to,
+.dropdown-leave-from {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
 </style>
