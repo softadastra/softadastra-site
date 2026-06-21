@@ -3,6 +3,7 @@
     <div class="home-page">
       <HeroSection />
       <EngineImageSection />
+      <CompanyLogosSection />
       <EcosystemMap />
       <SdkCodeSection />
       <ToolingGrid />
@@ -18,6 +19,7 @@ import SiteShell from "../components/layout/SiteShell.vue";
 
 import HeroSection from "../components/home/HeroSection.vue";
 import EngineImageSection from "../components/home/EngineImageSection.vue";
+import CompanyLogosSection from "../components/home/CompanyLogosSection.vue";
 import EcosystemMap from "../components/home/EcosystemMap.vue";
 import SdkCodeSection from "../components/home/SdkCodeSection.vue";
 import ToolingGrid from "../components/home/ToolingGrid.vue";
