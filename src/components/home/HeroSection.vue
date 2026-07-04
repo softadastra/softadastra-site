@@ -13,9 +13,13 @@
         </div>
 
         <h1 class="hero__title">
-          Open tooling for<br />
-          modern
-          <span class="hero__title-accent">C++ development.</span>
+          <span class="hero__title-line"><span>Open tooling for</span></span>
+          <span class="hero__title-line">
+            <span>
+              modern
+              <span class="hero__title-accent">C++ development.</span>
+            </span>
+          </span>
         </h1>
 
         <p class="hero__desc">
@@ -25,6 +29,7 @@
 
         <div class="hero__actions">
           <a :href="links.vix" class="hero__btn hero__btn--primary">
+            <span class="hero__btn-sheen" aria-hidden="true" />
             Explore Vix.cpp
             <svg
               width="14"
@@ -136,7 +141,7 @@
               >
               <span
                 v-else-if="line.kind === 'ok'"
-                class="con__check"
+                class="con__check con__check--pop"
                 aria-hidden="true"
               >
                 <svg viewBox="0 0 16 16" width="11" height="11" fill="none">
@@ -149,12 +154,23 @@
                   />
                 </svg>
               </span>
+              <span
+                v-else-if="line.busy"
+                class="con__spinner"
+                :data-accent="activeTool.accent"
+                aria-hidden="true"
+              />
               <span v-else class="con__bullet" aria-hidden="true">›</span>
 
               <span class="con__text" v-html="line.html" />
+              <span
+                v-if="line.kind === 'cmd' && line.typing"
+                class="con__caret"
+                :data-accent="activeTool.accent"
+              />
               <span v-if="line.meta" class="con__meta">{{ line.meta }}</span>
             </div>
-            <div class="con__line con__line--cursor">
+            <div v-if="!typingActive" class="con__line con__line--cursor">
               <span class="con__prompt" :data-accent="activeTool.accent">{{
                 activeTool.prompt
               }}</span>
@@ -207,10 +223,11 @@
             </div>
             <div class="con__eco-grid">
               <div
-                v-for="node in ecosystem"
+                v-for="(node, i) in ecosystem"
                 :key="node.id"
                 class="con__node"
                 :class="`con__node--${node.accent}`"
+                :style="{ '--i': i }"
               >
                 <div class="con__node-head">
                   <span class="con__node-name">{{ node.name }}</span>
@@ -247,16 +264,24 @@ const ICON = {
     '<svg viewBox="0 0 16 16" width="13" height="13" fill="none"><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="6" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13a2.5 2.5 0 015 0M8.5 13a2.5 2.5 0 015 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
 };
 
-// Helper: highlight a command's binary + tokens in terminal output.
-function cmd(binary, rest, accentVar) {
+// Escape user-facing text before it goes through v-html.
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Highlight a full command string: binary + args + flags.
+function highlightCmd(parts, accentVar) {
+  const [bin, ...restParts] = parts;
+  const rest = restParts.join(" ");
   return (
-    `<span class="t-bin" style="color:var(${accentVar})">${binary}</span> ` +
+    `<span class="t-bin" style="color:var(${accentVar})">${esc(bin)}</span> ` +
     rest
       .split(" ")
+      .filter(Boolean)
       .map((tok) =>
         tok.startsWith("-")
-          ? `<span class="t-flag">${tok}</span>`
-          : `<span class="t-arg">${tok}</span>`,
+          ? `<span class="t-flag">${esc(tok)}</span>`
+          : `<span class="t-arg">${esc(tok)}</span>`,
       )
       .join(" ")
   );
@@ -270,7 +295,6 @@ const tools = [
     prompt: "$",
     context: "~/api",
     accent: "--c-green",
-    // Real Vix workflow: create → install → dev → build → test → check → pack
     stages: [
       { id: "new", label: "new", icon: ICON.run },
       { id: "build", label: "build", icon: ICON.build },
@@ -279,18 +303,22 @@ const tools = [
       { id: "pack", label: "pack", icon: ICON.pack },
     ],
     script: [
-      { kind: "cmd", c: ["vix new api"], stage: 0 },
+      { kind: "cmd", c: ["vix", "new", "api"], stage: 0 },
       { kind: "ok", text: "created project", meta: "api", stage: 0 },
-      { kind: "cmd", c: ["vix install"], stage: 0 },
+      { kind: "cmd", c: ["vix", "install"], stage: 0 },
       { kind: "ok", text: "dependencies resolved", meta: "vix.lock", stage: 0 },
-      { kind: "cmd", c: ["vix build", "--preset release"], stage: 1 },
-      { kind: "log", text: "configuring toolchain…", stage: 1 },
+      { kind: "cmd", c: ["vix", "build", "--preset", "release"], stage: 1 },
+      { kind: "log", text: "configuring toolchain…", busy: true, stage: 1 },
       { kind: "ok", text: "native binary linked", meta: "1.1s", stage: 1 },
-      { kind: "cmd", c: ["vix tests"], stage: 2 },
+      { kind: "cmd", c: ["vix", "tests"], stage: 2 },
       { kind: "ok", text: "42 passed", meta: "0 failed", stage: 2 },
-      { kind: "cmd", c: ["vix check", "--tests"], stage: 3 },
+      { kind: "cmd", c: ["vix", "check", "--tests"], stage: 3 },
       { kind: "ok", text: "no diagnostics", meta: "clean", stage: 3 },
-      { kind: "cmd", c: ["vix pack", "--name api --version 1.0.0"], stage: 4 },
+      {
+        kind: "cmd",
+        c: ["vix", "pack", "--name", "api", "--version", "1.0.0"],
+        stage: 4,
+      },
       { kind: "ok", text: "packaged api@1.0.0", meta: ".vixpkg", stage: 4 },
     ],
   },
@@ -300,7 +328,6 @@ const tools = [
     prompt: "$",
     context: "engine",
     accent: "--c-orange",
-    // Real Softadastra Engine workflow: node → store → sync → peers
     stages: [
       { id: "node", label: "node", icon: ICON.node },
       { id: "store", label: "store", icon: ICON.store },
@@ -308,21 +335,21 @@ const tools = [
       { id: "peers", label: "peers", icon: ICON.peers },
     ],
     script: [
-      { kind: "cmd", c: ["softadastra node info"], stage: 0 },
+      { kind: "cmd", c: ["softadastra", "node", "info"], stage: 0 },
       { kind: "ok", text: "node-a · healthy", meta: "v0.1.0", stage: 0 },
       {
         kind: "cmd",
-        c: ["softadastra store put", "app/name Softadastra"],
+        c: ["softadastra", "store", "put", "app/name", "Softadastra"],
         stage: 1,
       },
       { kind: "ok", text: "stored app/name", meta: "created", stage: 1 },
-      { kind: "cmd", c: ["softadastra store get", "app/name"], stage: 1 },
+      { kind: "cmd", c: ["softadastra", "store", "get", "app/name"], stage: 1 },
       { kind: "log", text: "value: Softadastra", stage: 1 },
-      { kind: "cmd", c: ["softadastra sync status"], stage: 2 },
+      { kind: "cmd", c: ["softadastra", "sync", "status"], stage: 2 },
       { kind: "log", text: "outbox 3 · queued 3 · failed 0", stage: 2 },
-      { kind: "cmd", c: ["softadastra sync tick", "--prune"], stage: 2 },
+      { kind: "cmd", c: ["softadastra", "sync", "tick", "--prune"], stage: 2 },
       { kind: "ok", text: "synced batch", meta: "pruned 2", stage: 2 },
-      { kind: "cmd", c: ["softadastra peers"], stage: 3 },
+      { kind: "cmd", c: ["softadastra", "peers"], stage: 3 },
       { kind: "ok", text: "node-b available", meta: "1 peer", stage: 3 },
     ],
   },
@@ -359,84 +386,129 @@ const ecosystem = [
 const activeToolId = ref("vix");
 const lines = ref([]);
 const activeStage = ref(0);
+const typingActive = ref(false);
 
 let lineCounter = 0;
 let stepTimer = null;
+let typeTimer = null;
 let scriptIndex = 0;
 let reducedMotion = false;
-let userPinned = false; // true once the user clicks a tab
+let userPinned = false;
 
 const activeTool = computed(
   () => tools.find((t) => t.id === activeToolId.value) || tools[0],
 );
 const visibleLines = computed(() => lines.value.slice(-7));
 
-// Build the displayed HTML for a script item.
-function renderItem(item, tool) {
-  if (item.kind === "cmd") {
-    const [bin, ...restParts] = item.c;
-    const rest = restParts.join(" ");
-    return cmd(bin, rest, tool.accent);
-  }
-  return `<span>${item.text}</span>`;
+function clearTimers() {
+  if (stepTimer) clearTimeout(stepTimer);
+  if (typeTimer) clearTimeout(typeTimer);
+  stepTimer = null;
+  typeTimer = null;
 }
 
-// ─── Animation loop ──────────────────────────────────────
-function pushLine(item, tool) {
+// Mark any pending "busy" spinner line as settled.
+function settleBusyLines() {
+  for (const l of lines.value) if (l.busy) l.busy = false;
+}
+
+function pushLine(partial) {
   lineCounter++;
-  lines.value.push({
+  const line = {
     id: lineCounter,
-    kind: item.kind,
-    html: renderItem(item, tool),
-    meta: item.meta,
-  });
+    kind: partial.kind,
+    html: partial.html,
+    meta: partial.meta,
+    busy: !!partial.busy,
+    typing: !!partial.typing,
+  };
+  lines.value.push(line);
   if (lines.value.length > 14) lines.value.shift();
-  if (typeof item.stage === "number") activeStage.value = item.stage;
+  return line;
 }
 
 function resetTerminal(toToolId) {
+  clearTimers();
   activeToolId.value = toToolId;
   lines.value = [];
   activeStage.value = 0;
   scriptIndex = 0;
+  typingActive.value = false;
 }
 
+// ─── Character-by-character command typing ───────────────
+function typeCommand(item, tool, onDone) {
+  const full = item.c.join(" ");
+  const line = pushLine({ kind: "cmd", html: "", typing: true });
+  typingActive.value = true;
+  let pos = 0;
+
+  const tick = () => {
+    pos++;
+    line.html = `<span class="t-typing">${esc(full.slice(0, pos))}</span>`;
+    if (pos >= full.length) {
+      // Swap in the fully highlighted command.
+      line.html = highlightCmd(item.c, tool.accent);
+      line.typing = false;
+      typingActive.value = false;
+      onDone();
+      return;
+    }
+    // Slight human jitter: 16–40ms per char.
+    typeTimer = setTimeout(tick, 16 + Math.random() * 24);
+  };
+
+  typeTimer = setTimeout(tick, 120);
+}
+
+// ─── Animation loop ──────────────────────────────────────
 function step() {
   const tool = activeTool.value;
   const item = tool.script[scriptIndex];
-
-  pushLine(item, tool);
   scriptIndex++;
 
-  // Reached the end of this tool's script.
-  if (scriptIndex >= tool.script.length) {
-    const delay = 2600; // hold the finished state so it's readable
-    stepTimer = setTimeout(() => {
-      if (userPinned) {
-        // Replay the same pinned tool.
-        resetTerminal(tool.id);
-      } else {
-        // Auto-advance to the other tool.
-        const next = tools[(tools.indexOf(tool) + 1) % tools.length];
+  const isLast = scriptIndex >= tool.script.length;
+
+  const scheduleNext = () => {
+    if (isLast) {
+      const hold = 2600;
+      stepTimer = setTimeout(() => {
+        const next = userPinned
+          ? tool
+          : tools[(tools.indexOf(tool) + 1) % tools.length];
         resetTerminal(next.id);
-      }
-      stepTimer = setTimeout(step, 500);
-    }, delay);
+        stepTimer = setTimeout(step, 500);
+      }, hold);
+      return;
+    }
+    const delay = item.kind === "cmd" ? 420 : item.busy ? 900 : 620;
+    stepTimer = setTimeout(step, delay);
+  };
+
+  if (item.kind === "cmd") {
+    settleBusyLines();
+    if (typeof item.stage === "number") activeStage.value = item.stage;
+    typeCommand(item, tool, scheduleNext);
     return;
   }
 
-  const delay = item.kind === "cmd" ? 950 : 650;
-  stepTimer = setTimeout(step, delay);
+  settleBusyLines();
+  pushLine({
+    kind: item.kind,
+    html: `<span>${esc(item.text)}</span>`,
+    meta: item.meta,
+    busy: item.busy,
+  });
+  if (typeof item.stage === "number") activeStage.value = item.stage;
+  scheduleNext();
 }
 
 // ─── User interaction ────────────────────────────────────
 function selectTool(id) {
   userPinned = true;
-  if (stepTimer) clearTimeout(stepTimer);
   resetTerminal(id);
 
   if (reducedMotion) {
-    // Render the full static end-state for the chosen tool.
     fillStatic(activeTool.value);
     return;
   }
@@ -444,17 +516,22 @@ function selectTool(id) {
 }
 
 function fillStatic(tool) {
-  lineCounter = 0;
   lines.value = tool.script.map((item) => {
     lineCounter++;
     return {
       id: lineCounter,
       kind: item.kind,
-      html: renderItem(item, tool),
+      html:
+        item.kind === "cmd"
+          ? highlightCmd(item.c, tool.accent)
+          : `<span>${esc(item.text)}</span>`,
       meta: item.meta,
+      busy: false,
+      typing: false,
     };
   });
   activeStage.value = tool.stages.length - 1;
+  typingActive.value = false;
 }
 
 // ─── Lifecycle ───────────────────────────────────────────
@@ -469,33 +546,32 @@ onMounted(() => {
     return;
   }
 
-  stepTimer = setTimeout(step, 600);
+  stepTimer = setTimeout(step, 700);
 });
 
-onBeforeUnmount(() => {
-  if (stepTimer) clearTimeout(stepTimer);
-});
+onBeforeUnmount(clearTimers);
 </script>
 
 <style scoped>
 /* ═══════════════════════════════════════════════════════
-   Design tokens — Softadastra dark green / orange identity
+   Design tokens — Softadastra identity
+   Deep green base · warm amber accent · sand highlights
 ═══════════════════════════════════════════════════════ */
 .hero {
   --c-bg: #0b2b22;
-  --c-surface: #102f27;
-  --c-panel: #143a30;
-  --c-border: rgba(255, 255, 255, 0.11);
-  --c-border-md: rgba(255, 255, 255, 0.18);
+  --c-border: rgba(255, 244, 224, 0.1);
+  --c-border-md: rgba(255, 244, 224, 0.2);
 
-  --c-text: #f2fff8;
-  --c-muted: rgba(224, 246, 235, 0.72);
-  --c-hint: rgba(224, 246, 235, 0.5);
+  --c-text: rgba(255, 248, 235, 0.96);
+  --c-muted: rgba(246, 232, 204, 0.76);
+  --c-hint: rgba(246, 232, 204, 0.5);
 
   --c-green: #2fd49c;
   --c-green-dim: rgba(47, 212, 156, 0.16);
-  --c-orange: #ff9d4d;
-  --c-orange-dim: rgba(255, 157, 77, 0.14);
+  --c-orange: #e29a55;
+  --c-orange-deep: #d57a2a;
+  --c-orange-dim: rgba(213, 122, 42, 0.16);
+  --c-sand: #f6d6aa;
   --c-purple: #d3b4ff;
   --c-purple-dim: rgba(211, 180, 255, 0.16);
   --c-blue: #7cc7ff;
@@ -503,56 +579,106 @@ onBeforeUnmount(() => {
 
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px;
   --radius-xl: 24px;
 
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --mono: "SF Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
 
   position: relative;
   overflow: hidden;
-  padding: 96px 0 80px;
-  background: linear-gradient(
-    90deg,
-    rgba(11, 43, 34, 1),
-    rgba(11, 43, 34, 0.88)
-  );
-  border-bottom: 1px solid var(--c-border);
+  padding: 42px 0 72px;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
 }
 
-/* ─── Background glows ──────────────────────────────── */
+/* Sunbeam background layers */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 46% 8%,
+      rgba(246, 222, 184, 0.72) 0%,
+      rgba(222, 174, 111, 0.28) 20%,
+      transparent 44%
+    ),
+    linear-gradient(
+      165deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(213, 122, 42, 0.28) 35%,
+      rgba(226, 154, 85, 0.2) 42%,
+      transparent 49%
+    ),
+    linear-gradient(
+      18deg,
+      transparent 0%,
+      transparent 69%,
+      rgba(213, 122, 42, 0.24) 70%,
+      rgba(226, 154, 85, 0.18) 75%,
+      transparent 81%
+    );
+  opacity: 0.9;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.018) 0px,
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+}
+
 .hero__glow-1 {
   position: absolute;
-  top: -120px;
-  right: -80px;
+  top: -140px;
+  right: -90px;
   width: 560px;
   height: 560px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(47, 212, 156, 0.1) 0%,
-    transparent 70%
+    rgba(246, 222, 184, 0.16) 0%,
+    rgba(213, 122, 42, 0.08) 35%,
+    transparent 72%
   );
   pointer-events: none;
+  animation: glowDrift 14s ease-in-out infinite alternate;
 }
 
 .hero__glow-2 {
   position: absolute;
-  bottom: -80px;
-  left: 6%;
+  bottom: -90px;
+  left: 4%;
   width: 380px;
   height: 380px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 157, 77, 0.07) 0%,
-    transparent 70%
+    rgba(213, 122, 42, 0.13) 0%,
+    rgba(246, 222, 184, 0.05) 38%,
+    transparent 72%
   );
   pointer-events: none;
+  animation: glowDrift 18s ease-in-out infinite alternate-reverse;
 }
 
 /* ─── Layout ─────────────────────────────────────────── */
 .hero__inner {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: clamp(40px, 5vw, 80px);
@@ -562,37 +688,35 @@ onBeforeUnmount(() => {
 }
 
 /* ══════════════════════════════════════════════════════
-   LEFT — Copy
+   LEFT — Copy (orchestrated entrance)
 ══════════════════════════════════════════════════════ */
-.hero__copy {
-  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-
 .hero__badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 26px;
   padding: 6px 14px;
-  border: 1px solid rgba(47, 212, 156, 0.26);
+  border: 1px solid rgba(226, 154, 85, 0.28);
   border-radius: 999px;
-  background: rgba(47, 212, 156, 0.08);
+  background: rgba(213, 122, 42, 0.12);
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: rgba(180, 240, 210, 0.92);
+  color: rgba(255, 224, 190, 0.94);
   text-transform: uppercase;
+  animation: fadeUp 0.6s var(--ease-out) 0.05s both;
 }
 
 .hero__badge-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--c-green);
-  box-shadow: 0 0 0 4px rgba(47, 212, 156, 0.16);
+  background: var(--c-orange);
+  box-shadow: 0 0 0 4px rgba(213, 122, 42, 0.18);
   animation: dotPulse 2s ease-in-out infinite;
 }
 
+/* Line-by-line masked title reveal */
 .hero__title {
   margin: 0 0 22px;
   font-size: clamp(42px, 4.8vw, 64px);
@@ -602,8 +726,27 @@ onBeforeUnmount(() => {
   color: var(--c-text);
 }
 
+.hero__title-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.hero__title-line > span {
+  display: block;
+  animation: lineReveal 0.85s var(--ease-out) both;
+}
+
+.hero__title-line:nth-child(1) > span {
+  animation-delay: 0.12s;
+}
+.hero__title-line:nth-child(2) > span {
+  animation-delay: 0.24s;
+}
+
 .hero__title-accent {
-  background: linear-gradient(125deg, #2fd49c, #86efac);
+  background: linear-gradient(125deg, var(--c-orange), var(--c-sand));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -615,6 +758,7 @@ onBeforeUnmount(() => {
   font-size: 16px;
   line-height: 1.72;
   color: var(--c-muted);
+  animation: fadeUp 0.7s var(--ease-out) 0.34s both;
 }
 
 .hero__actions {
@@ -622,9 +766,11 @@ onBeforeUnmount(() => {
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 40px;
+  animation: fadeUp 0.7s var(--ease-out) 0.44s both;
 }
 
 .hero__btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -633,10 +779,13 @@ onBeforeUnmount(() => {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
+  overflow: hidden;
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
-    background 0.18s ease;
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .hero__btn:hover {
@@ -645,35 +794,60 @@ onBeforeUnmount(() => {
 .hero__btn:active {
   transform: translateY(0);
 }
+.hero__btn:focus-visible {
+  outline: 2px solid var(--c-sand);
+  outline-offset: 2px;
+}
 
 .hero__btn--primary {
-  background: linear-gradient(180deg, #ff9d4d, #ef7e22);
-  color: #1a0d02;
+  background: linear-gradient(180deg, var(--c-orange), var(--c-orange-deep));
+  color: #102b23;
+  box-shadow:
+    0 10px 28px rgba(213, 122, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
+
 .hero__btn--primary:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 157, 77, 0.5),
-    0 12px 32px rgba(255, 157, 77, 0.26);
+    0 0 0 1px rgba(226, 154, 85, 0.42),
+    0 14px 34px rgba(213, 122, 42, 0.3);
 }
 
-.hero__btn--secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--c-text);
-  border: 1px solid var(--c-border-md);
-}
-.hero__btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.09);
+.hero__btn--primary:hover .hero__btn-sheen {
+  transform: translateX(220%) skewX(-18deg);
 }
 
+/* Light sweep across the primary button on hover */
+.hero__btn-sheen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.34),
+    transparent
+  );
+  transform: translateX(-140%) skewX(-18deg);
+  transition: transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.hero__btn--secondary,
 .hero__btn--ghost {
-  background: transparent;
-  color: var(--c-muted);
-  border: 1px solid var(--c-border);
+  border: 1px solid rgba(255, 244, 224, 0.14);
+  background: rgba(255, 244, 224, 0.045);
+  color: rgba(246, 232, 204, 0.82);
+  backdrop-filter: blur(14px);
 }
+
+.hero__btn--secondary:hover,
 .hero__btn--ghost:hover {
+  border-color: rgba(255, 244, 224, 0.24);
+  background: rgba(255, 244, 224, 0.075);
   color: var(--c-text);
-  border-color: var(--c-border-md);
-  background: rgba(255, 255, 255, 0.03);
 }
 
 .hero__stats {
@@ -681,7 +855,8 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 24px;
   padding: 20px 0 0;
-  border-top: 1px solid var(--c-border);
+  border-top: 1px solid rgba(255, 244, 224, 0.12);
+  animation: fadeUp 0.7s var(--ease-out) 0.54s both;
 }
 
 .hero__stat {
@@ -698,7 +873,7 @@ onBeforeUnmount(() => {
 
 .hero__stat span {
   font-size: 11px;
-  color: var(--c-hint);
+  color: rgba(246, 232, 204, 0.52);
   font-family: var(--mono);
   letter-spacing: 0.02em;
 }
@@ -706,25 +881,26 @@ onBeforeUnmount(() => {
 .hero__stat-div {
   width: 1px;
   height: 28px;
-  background: var(--c-border);
+  background: rgba(255, 244, 224, 0.12);
 }
 
 /* ══════════════════════════════════════════════════════
    RIGHT — Toolchain console
 ══════════════════════════════════════════════════════ */
 .hero__console {
-  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+  animation: consoleIn 0.9s var(--ease-out) 0.3s both;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--c-border-md);
+  border: 1px solid rgba(255, 244, 224, 0.14);
   background: linear-gradient(
     180deg,
-    rgba(20, 65, 53, 0.98),
-    rgba(12, 42, 34, 0.98)
+    rgba(22, 75, 60, 0.76),
+    rgba(11, 43, 34, 0.74)
   );
   box-shadow:
-    0 34px 80px rgba(0, 0, 0, 0.36),
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 34px 90px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 244, 224, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
   overflow: hidden;
 }
 
@@ -734,8 +910,8 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  border-bottom: 1px solid var(--c-border);
-  background: rgba(255, 255, 255, 0.055);
+  border-bottom: 1px solid rgba(255, 244, 224, 0.1);
+  background: rgba(255, 244, 224, 0.055);
 }
 
 .con__dots {
@@ -784,6 +960,10 @@ onBeforeUnmount(() => {
   color: var(--c-text);
   border-color: var(--c-border-md);
 }
+.con__tab:focus-visible {
+  outline: 2px solid var(--c-sand);
+  outline-offset: 2px;
+}
 
 .con__tab--active[data-accent="--c-green"] {
   color: #eafff6;
@@ -792,8 +972,8 @@ onBeforeUnmount(() => {
 }
 .con__tab--active[data-accent="--c-orange"] {
   color: #fff3e8;
-  border-color: rgba(255, 157, 77, 0.5);
-  background: rgba(255, 157, 77, 0.14);
+  border-color: rgba(226, 154, 85, 0.5);
+  background: rgba(213, 122, 42, 0.14);
 }
 
 .con__chrome-tag {
@@ -815,10 +995,10 @@ onBeforeUnmount(() => {
   background:
     radial-gradient(
       520px 260px at 72% 14%,
-      rgba(47, 212, 156, 0.1),
+      rgba(213, 122, 42, 0.12),
       transparent 70%
     ),
-    rgba(9, 35, 28, 0.34);
+    rgba(9, 35, 28, 0.3);
 }
 
 /* Terminal */
@@ -828,9 +1008,9 @@ onBeforeUnmount(() => {
   height: 200px;
   align-content: end;
   padding: 14px;
-  border: 1px solid var(--c-border);
+  border: 1px solid rgba(255, 244, 224, 0.1);
   border-radius: var(--radius-md);
-  background: rgba(6, 24, 19, 0.6);
+  background: rgba(6, 24, 19, 0.58);
   font-family: var(--mono);
   font-size: 12px;
   overflow: hidden;
@@ -841,7 +1021,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   line-height: 1.4;
-  animation: lineIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: lineIn 0.3s var(--ease-out) both;
 }
 
 .con__prompt {
@@ -861,10 +1041,27 @@ onBeforeUnmount(() => {
   color: var(--c-green);
   flex-shrink: 0;
 }
+.con__check--pop {
+  animation: checkPop 0.35s var(--ease-out) both;
+}
 
 .con__bullet {
   color: var(--c-hint);
   flex-shrink: 0;
+}
+
+/* Rotating arc spinner for in-progress log lines */
+.con__spinner {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.6px solid rgba(255, 244, 224, 0.16);
+  border-top-color: var(--c-green);
+  animation: spin 0.7s linear infinite;
+}
+.con__spinner[data-accent="--c-orange"] {
+  border-top-color: var(--c-orange);
 }
 
 .con__text {
@@ -881,7 +1078,7 @@ onBeforeUnmount(() => {
   color: rgba(200, 255, 233, 0.86);
 }
 
-/* Syntax tokens inside command lines (set via v-html) */
+/* Syntax tokens (set via v-html) */
 .con__text :deep(.t-bin) {
   font-weight: 700;
 }
@@ -890,6 +1087,9 @@ onBeforeUnmount(() => {
 }
 .con__text :deep(.t-flag) {
   color: var(--c-blue);
+}
+.con__text :deep(.t-typing) {
+  color: #eafff6;
 }
 
 .con__meta {
@@ -900,6 +1100,20 @@ onBeforeUnmount(() => {
   background: rgba(47, 212, 156, 0.12);
   color: var(--c-green);
   flex-shrink: 0;
+  animation: metaIn 0.3s var(--ease-out) both;
+}
+
+/* Caret shown while a command is being typed */
+.con__caret {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  margin-left: -4px;
+  background: var(--c-green);
+  flex-shrink: 0;
+}
+.con__caret[data-accent="--c-orange"] {
+  background: var(--c-orange);
 }
 
 .con__cursor {
@@ -919,9 +1133,9 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 4px;
   padding: 10px 8px;
-  border: 1px solid var(--c-border);
+  border: 1px solid rgba(255, 244, 224, 0.1);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 244, 224, 0.035);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -950,6 +1164,11 @@ onBeforeUnmount(() => {
   opacity: 0.7;
 }
 
+/* Active stage gets a soft breathing glow */
+.con__stage--active {
+  animation: stageBreath 2.2s ease-in-out infinite;
+}
+
 /* Green-accent tool (vix) */
 .con__stage[data-accent="--c-green"].con__stage--done {
   border-color: rgba(47, 212, 156, 0.28);
@@ -973,8 +1192,8 @@ onBeforeUnmount(() => {
 
 /* Orange-accent tool (softadastra) */
 .con__stage[data-accent="--c-orange"].con__stage--done {
-  border-color: rgba(255, 157, 77, 0.28);
-  background: rgba(255, 157, 77, 0.08);
+  border-color: rgba(226, 154, 85, 0.28);
+  background: rgba(213, 122, 42, 0.08);
   color: rgba(255, 220, 190, 0.85);
 }
 .con__stage[data-accent="--c-orange"].con__stage--done .con__stage-icon {
@@ -982,10 +1201,10 @@ onBeforeUnmount(() => {
   color: var(--c-orange);
 }
 .con__stage[data-accent="--c-orange"].con__stage--active {
-  border-color: rgba(255, 157, 77, 0.5);
-  background: rgba(255, 157, 77, 0.15);
+  border-color: rgba(226, 154, 85, 0.5);
+  background: rgba(213, 122, 42, 0.15);
   color: #fff3e8;
-  box-shadow: 0 0 0 1px rgba(255, 157, 77, 0.18);
+  box-shadow: 0 0 0 1px rgba(226, 154, 85, 0.18);
 }
 .con__stage[data-accent="--c-orange"].con__stage--active .con__stage-icon {
   opacity: 1;
@@ -1009,9 +1228,9 @@ onBeforeUnmount(() => {
 
 /* Ecosystem map */
 .con__eco {
-  border: 1px solid var(--c-border);
+  border: 1px solid rgba(255, 244, 224, 0.1);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 244, 224, 0.035);
   overflow: hidden;
 }
 
@@ -1051,10 +1270,14 @@ onBeforeUnmount(() => {
     rgba(255, 255, 255, 0.05),
     rgba(255, 255, 255, 0.02)
   );
-  transition: border-color 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+  animation: fadeUp 0.5s var(--ease-out) calc(0.7s + var(--i, 0) * 0.08s) both;
 }
 .con__node:hover {
   border-color: var(--c-border-md);
+  transform: translateY(-1px);
 }
 
 .con__node-head {
@@ -1106,7 +1329,7 @@ onBeforeUnmount(() => {
   border-color: rgba(47, 212, 156, 0.2);
 }
 .con__node--orange {
-  border-color: rgba(255, 157, 77, 0.2);
+  border-color: rgba(226, 154, 85, 0.2);
 }
 .con__node--purple {
   border-color: rgba(211, 180, 255, 0.2);
@@ -1126,6 +1349,37 @@ onBeforeUnmount(() => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes lineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes consoleIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes glowDrift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-24px, 18px);
   }
 }
 
@@ -1152,6 +1406,47 @@ onBeforeUnmount(() => {
   }
 }
 
+@keyframes metaIn {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes checkPop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes stageBreath {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes blink {
   0%,
   50% {
@@ -1167,14 +1462,27 @@ onBeforeUnmount(() => {
    Reduced motion
 ══════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .hero__copy,
+  .hero__badge,
+  .hero__desc,
+  .hero__actions,
+  .hero__stats,
   .hero__console,
+  .hero__title-line > span,
+  .hero__glow-1,
+  .hero__glow-2,
   .con__line,
+  .con__meta,
+  .con__check--pop,
+  .con__stage--active,
+  .con__node,
   .hero__badge-dot,
   .con__node-pulse,
-  .con__cursor,
-  .con__stage {
+  .con__spinner,
+  .con__cursor {
     animation: none !important;
+  }
+  .hero__btn-sheen {
+    display: none;
   }
   .con__cursor {
     opacity: 1;
@@ -1198,7 +1506,7 @@ onBeforeUnmount(() => {
 
 @media (max-width: 760px) {
   .hero {
-    padding: 56px 0 48px;
+    padding: 40px 0 48px;
   }
   .hero__inner {
     width: min(100% - 32px, 1300px);
@@ -1233,232 +1541,5 @@ onBeforeUnmount(() => {
   .con__tabs {
     justify-content: flex-start;
   }
-}
-
-/* ==========================================================================
-   Softadastra Engine background override
-   Paste at the very end of this scoped style
-   ========================================================================== */
-
-.hero {
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 46% 8%,
-      rgba(246, 222, 184, 0.72) 0%,
-      rgba(222, 174, 111, 0.28) 20%,
-      transparent 44%
-    ),
-    linear-gradient(
-      165deg,
-      transparent 0%,
-      transparent 34%,
-      rgba(213, 122, 42, 0.28) 35%,
-      rgba(226, 154, 85, 0.2) 42%,
-      transparent 49%
-    ),
-    linear-gradient(
-      18deg,
-      transparent 0%,
-      transparent 69%,
-      rgba(213, 122, 42, 0.24) 70%,
-      rgba(226, 154, 85, 0.18) 75%,
-      transparent 81%
-    );
-
-  opacity: 0.9;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.018) 0px,
-    rgba(255, 255, 255, 0.018) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.3;
-  mix-blend-mode: soft-light;
-}
-
-.hero__glow-1 {
-  top: -140px;
-  right: -90px;
-  background: radial-gradient(
-    circle,
-    rgba(246, 222, 184, 0.16) 0%,
-    rgba(213, 122, 42, 0.08) 35%,
-    transparent 72%
-  );
-}
-
-.hero__glow-2 {
-  bottom: -90px;
-  left: 4%;
-  background: radial-gradient(
-    circle,
-    rgba(213, 122, 42, 0.13) 0%,
-    rgba(246, 222, 184, 0.05) 38%,
-    transparent 72%
-  );
-}
-
-.hero__badge {
-  border-color: rgba(226, 154, 85, 0.28);
-  background: rgba(213, 122, 42, 0.12);
-  color: rgba(255, 224, 190, 0.94);
-}
-
-.hero__badge-dot {
-  background: var(--c-orange);
-  box-shadow: 0 0 0 4px rgba(213, 122, 42, 0.18);
-}
-
-.hero__title {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.hero__title-accent {
-  background: linear-gradient(125deg, #e29a55, #f6d6aa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero__desc {
-  color: rgba(246, 232, 204, 0.76);
-}
-
-.hero__stats {
-  border-top-color: rgba(255, 244, 224, 0.12);
-}
-
-.hero__stat span {
-  color: rgba(246, 232, 204, 0.52);
-}
-
-.hero__stat-div {
-  background: rgba(255, 244, 224, 0.12);
-}
-
-.hero__btn--primary {
-  background: linear-gradient(180deg, #e29a55, #d57a2a);
-  color: #102b23;
-  box-shadow:
-    0 10px 28px rgba(213, 122, 42, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
-}
-
-.hero__btn--primary:hover {
-  box-shadow:
-    0 0 0 1px rgba(226, 154, 85, 0.42),
-    0 14px 34px rgba(213, 122, 42, 0.3);
-}
-
-.hero__btn--secondary,
-.hero__btn--ghost {
-  border-color: rgba(255, 244, 224, 0.14);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.82);
-  backdrop-filter: blur(14px);
-}
-
-.hero__btn--secondary:hover,
-.hero__btn--ghost:hover {
-  border-color: rgba(255, 244, 224, 0.24);
-  background: rgba(255, 244, 224, 0.075);
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.hero__console {
-  border-color: rgba(255, 244, 224, 0.14);
-  background: linear-gradient(
-    180deg,
-    rgba(22, 75, 60, 0.76),
-    rgba(11, 43, 34, 0.74)
-  );
-  box-shadow:
-    0 34px 90px rgba(0, 0, 0, 0.32),
-    0 0 0 1px rgba(255, 244, 224, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(18px);
-}
-
-.con__chrome {
-  border-bottom-color: rgba(255, 244, 224, 0.1);
-  background: rgba(255, 244, 224, 0.055);
-}
-
-.con__body {
-  background:
-    radial-gradient(
-      520px 260px at 72% 14%,
-      rgba(213, 122, 42, 0.12),
-      transparent 70%
-    ),
-    rgba(9, 35, 28, 0.3);
-}
-
-.con__terminal {
-  border-color: rgba(255, 244, 224, 0.1);
-  background: rgba(6, 24, 19, 0.58);
-}
-
-.con__pipeline,
-.con__eco {
-  border-color: rgba(255, 244, 224, 0.1);
-  background: rgba(255, 244, 224, 0.035);
-}
-/* ==========================================================================
-   Fix hero top spacing
-   ========================================================================== */
-
-.hero {
-  padding-top: 34px;
-  padding-bottom: 72px;
-  min-height: auto;
-}
-
-.hero__inner {
-  align-items: center;
-}
-/* ==========================================================================
-   Hero vertical layout fix
-   ========================================================================== */
-
-.hero {
-  min-height: auto !important;
-  height: auto !important;
-  padding-top: 42px !important;
-  padding-bottom: 72px !important;
-}
-
-.hero__inner {
-  min-height: auto !important;
-  height: auto !important;
-  align-items: center;
-}
-
-.hero__copy,
-.hero__console {
-  margin-top: 0 !important;
-  transform: none;
 }
 </style>
