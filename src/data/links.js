@@ -3,6 +3,7 @@ export const links = {
 
   docs: "https://docs.softadastra.com",
   blog: "https://blog.softadastra.com",
+  cloud: "https://cloud.softadastra.com",
 
   company: "https://softadastra.com/company",
   openSourceModel: "https://softadastra.com/open-source",
@@ -23,6 +24,7 @@ export const links = {
 
   softadastraEngine: "https://github.com/softadastra/softadastra",
   softadastraGithub: "https://github.com/softadastra/softadastra",
+  sdkGithub: "https://github.com/softadastra/sdk",
   softadastraDocs: "https://docs.softadastra.com",
 
   cnerium: "https://cnerium.dev",
