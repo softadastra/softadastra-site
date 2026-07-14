@@ -29,12 +29,7 @@
 <script setup>
 import { stacks } from "../../data/stacks";
 
-const secondaryProjectIds = [
-  "softadastra-engine",
-  "cnerium",
-  "kordex",
-  "pico",
-];
+const secondaryProjectIds = ["cnerium", "kordex", "pico"];
 
 const projects = stacks
   .filter((project) => secondaryProjectIds.includes(project.id))

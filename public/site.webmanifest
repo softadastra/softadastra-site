@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Softadastra",
   "short_name": "Softadastra",
-  "description": "Softadastra helps applications keep working when networks fail with durable writes, sync engines, local-first infrastructure, runtimes, registries, and cloud reliability products.",
+  "description": "Softadastra builds the tools C++ teams use to create, run, extend, and manage modern applications with Vix.cpp, Rix, and Softadastra Cloud.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

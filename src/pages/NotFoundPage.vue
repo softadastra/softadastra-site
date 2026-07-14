@@ -1,10 +1,8 @@
 <template>
   <SiteShell>
     <div class="nf">
-      <!-- Scanline overlay -->
       <div class="nf-scanlines" aria-hidden="true"></div>
 
-      <!-- Noise grain overlay -->
       <svg class="nf-noise" aria-hidden="true">
         <filter id="noiseFilter">
           <feTurbulence
@@ -18,7 +16,6 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
       </svg>
 
-      <!-- Speed particles (horizontal streaks) -->
       <div class="nf-particles" aria-hidden="true">
         <span
           v-for="i in 16"
@@ -28,16 +25,14 @@
         ></span>
       </div>
 
-      <!-- Radial pulse rings -->
       <div class="nf-pulse-rings" aria-hidden="true">
         <span class="nf-ring nf-ring--1"></span>
         <span class="nf-ring nf-ring--2"></span>
         <span class="nf-ring nf-ring--3"></span>
       </div>
 
-      <!-- Main content -->
       <div class="nf-inner">
-        <!-- Satellite dish SVG illustration -->
+        <!-- Satellite dish -->
         <div class="nf-dish-wrap" aria-hidden="true">
           <svg
             class="nf-dish"
@@ -45,7 +40,6 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <!-- Signal waves (animated) -->
             <g class="nf-signal">
               <path
                 d="M260 90 Q290 80 300 60"
@@ -76,7 +70,6 @@
               />
             </g>
 
-            <!-- Signal "X" — lost connection -->
             <g class="nf-signal-x">
               <line
                 x1="304"
@@ -100,7 +93,6 @@
               />
             </g>
 
-            <!-- Dish base / pedestal -->
             <rect
               x="185"
               y="240"
@@ -122,7 +114,6 @@
               stroke-width="1"
             />
 
-            <!-- Support arm -->
             <line
               x1="200"
               y1="240"
@@ -132,17 +123,7 @@
               stroke-width="2.5"
               stroke-linecap="round"
             />
-            <line
-              x1="200"
-              y1="240"
-              x2="220"
-              y2="165"
-              stroke="var(--sd-bg-soft)"
-              stroke-width="1.2"
-              stroke-linecap="round"
-            />
 
-            <!-- Dish (parabolic shape) -->
             <path
               class="nf-dish-bowl"
               d="M130 170 Q145 95 220 80 Q295 95 310 170 Q220 155 130 170 Z"
@@ -151,7 +132,6 @@
               stroke-width="1.5"
             />
 
-            <!-- Dish inner ring details -->
             <path
               d="M155 160 Q165 115 220 105 Q275 115 285 160"
               stroke="var(--sd-orange)"
@@ -167,7 +147,6 @@
               opacity="0.2"
             />
 
-            <!-- Feed horn (receiver at center) -->
             <line
               x1="220"
               y1="135"
@@ -195,7 +174,6 @@
               opacity="0"
             />
 
-            <!-- Cable from base -->
             <path
               d="M200 290 Q170 300 155 298 Q140 295 130 300"
               stroke="var(--sd-orange)"
@@ -205,8 +183,6 @@
               opacity="0.35"
               stroke-dasharray="3 5"
             />
-
-            <!-- Ground shadow -->
             <ellipse
               cx="200"
               cy="298"
@@ -216,7 +192,6 @@
               opacity="0.04"
             />
 
-            <!-- Softadastra logo mark on dish -->
             <text
               x="220"
               y="148"
@@ -230,26 +205,8 @@
             >
               SD
             </text>
-
-            <!-- Glow defs -->
-            <defs>
-              <filter
-                id="dishGlow"
-                x="-50%"
-                y="-50%"
-                width="200%"
-                height="200%"
-              >
-                <feGaussianBlur stdDeviation="10" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
           </svg>
 
-          <!-- Ground speed lines under dish -->
           <div class="nf-ground-lines" aria-hidden="true">
             <span
               v-for="j in 5"
@@ -260,28 +217,24 @@
           </div>
         </div>
 
-        <!-- Text block -->
+        <!-- Text -->
         <div class="nf-text">
-          <!-- 404 code -->
           <div class="nf-404-wrap">
-            <span class="nf-404">404</span>
+            <span class="nf-404" data-text="404">404</span>
             <span class="nf-404-sub">SIGNAL_LOST</span>
           </div>
 
-          <!-- Headline -->
           <h1 class="nf-title">
             Connection dropped.<br />
             <span class="nf-title-accent">Page unreachable.</span>
           </h1>
 
-          <!-- Description -->
           <p class="nf-desc">
             This route doesn't exist — or the network fell away before it could
             load. Softadastra keeps your apps running offline, but even we can't
             serve a page that was never there.
           </p>
 
-          <!-- Terminal snippet -->
           <div class="nf-terminal">
             <div class="nf-terminal-bar">
               <span class="nf-terminal-dot nf-terminal-dot--red"></span>
@@ -310,7 +263,6 @@
             </div>
           </div>
 
-          <!-- Actions -->
           <div class="nf-actions">
             <BaseButton to="/" class="nf-btn-primary">
               <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
@@ -362,11 +314,6 @@ function particleStyle(i) {
 </script>
 
 <style scoped>
-/* ================================================================
-   SOFTADASTRA — 404 "SIGNAL LOST"
-   ================================================================ */
-
-/* ── Page ─────────────────────────────────────────────────────── */
 .nf {
   min-height: 100vh;
   display: flex;
@@ -383,7 +330,6 @@ function particleStyle(i) {
     linear-gradient(180deg, var(--sd-bg) 0%, var(--sd-bg-soft) 100%);
 }
 
-/* ── Scanlines ────────────────────────────────────────────────── */
 .nf-scanlines {
   position: absolute;
   inset: 0;
@@ -398,7 +344,6 @@ function particleStyle(i) {
   z-index: 1;
 }
 
-/* ── Film grain ───────────────────────────────────────────────── */
 .nf-noise {
   position: absolute;
   inset: 0;
@@ -410,7 +355,6 @@ function particleStyle(i) {
   mix-blend-mode: overlay;
 }
 
-/* ── Particles ────────────────────────────────────────────────── */
 .nf-particles {
   position: absolute;
   inset: 0;
@@ -445,7 +389,6 @@ function particleStyle(i) {
   }
 }
 
-/* ── Pulse rings ──────────────────────────────────────────────── */
 .nf-pulse-rings {
   position: absolute;
   top: 32%;
@@ -464,21 +407,14 @@ function particleStyle(i) {
   left: 50%;
   transform: translate(-50%, -50%) scale(0.3);
   animation: ring-expand 4.5s ease-out infinite;
+  width: 300px;
+  height: 300px;
 }
 
-.nf-ring--1 {
-  width: 300px;
-  height: 300px;
-  animation-delay: 0s;
-}
 .nf-ring--2 {
-  width: 300px;
-  height: 300px;
   animation-delay: 1.5s;
 }
 .nf-ring--3 {
-  width: 300px;
-  height: 300px;
   animation-delay: 3s;
 }
 
@@ -496,23 +432,19 @@ function particleStyle(i) {
   }
 }
 
-/* ── Inner ────────────────────────────────────────────────────── */
 .nf-inner {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
   padding: 24px 1.5rem 56px;
   max-width: 860px;
   width: 100%;
   text-align: center;
 }
 
-/* ================================================================
-   SATELLITE DISH SVG
-   ================================================================ */
+/* Satellite dish */
 .nf-dish-wrap {
   position: relative;
   width: 100%;
@@ -532,11 +464,8 @@ function particleStyle(i) {
 .nf-dish {
   width: 100%;
   height: auto;
-  filter: none;
-  
 }
 
-/* Signal waves — dash animation */
 .nf-signal path {
   animation: signal-dash 1.8s linear infinite;
 }
@@ -547,7 +476,6 @@ function particleStyle(i) {
   }
 }
 
-/* Signal X blink */
 .nf-signal-x {
   animation: x-blink 2s ease-in-out infinite;
 }
@@ -571,7 +499,6 @@ function particleStyle(i) {
   }
 }
 
-/* Feed horn blink */
 .nf-feed-blink {
   animation: feed-ping 2.2s ease-out infinite;
 }
@@ -591,7 +518,6 @@ function particleStyle(i) {
   }
 }
 
-/* Dish bowl subtle tilt */
 .nf-dish-bowl {
   animation: bowl-scan 6s ease-in-out infinite alternate;
   transform-origin: 220px 170px;
@@ -606,7 +532,6 @@ function particleStyle(i) {
   }
 }
 
-/* Ground lines below dish */
 .nf-ground-lines {
   display: flex;
   gap: 8px;
@@ -653,18 +578,14 @@ function particleStyle(i) {
   }
 }
 
-/* ================================================================
-   TEXT CONTENT
-   ================================================================ */
+/* Text */
 .nf-text {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
   margin-top: 12px;
 }
 
-/* ── 404 badge ────────────────────────────────────────────────── */
 .nf-404-wrap {
   display: flex;
   align-items: baseline;
@@ -686,13 +607,12 @@ function particleStyle(i) {
 }
 
 .nf-404 {
+  position: relative;
   font-family: var(--sd-font-mono);
   font-size: clamp(4rem, 12vw, 7.5rem);
   font-weight: 900;
   letter-spacing: -0.06em;
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(213, 122, 42, 0.45);
   background: linear-gradient(
     135deg,
     var(--sd-orange) 0%,
@@ -702,6 +622,61 @@ function particleStyle(i) {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* glitch echo */
+.nf-404::before,
+.nf-404::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nf-404::before {
+  background: linear-gradient(135deg, #ef4444, transparent);
+  animation: glitch-a 3.2s steps(2) infinite;
+}
+
+.nf-404::after {
+  background: linear-gradient(135deg, var(--sd-cyan, #38bdf8), transparent);
+  animation: glitch-b 2.6s steps(2) infinite;
+}
+
+@keyframes glitch-a {
+  0%,
+  92%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  93% {
+    opacity: 0.5;
+    transform: translate(-2px, 1px);
+  }
+  96% {
+    opacity: 0.5;
+    transform: translate(2px, -1px);
+  }
+}
+
+@keyframes glitch-b {
+  0%,
+  90%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+  94% {
+    opacity: 0.4;
+    transform: translate(2px, 1px);
+  }
+  97% {
+    opacity: 0.4;
+    transform: translate(-2px, -1px);
+  }
 }
 
 .nf-404-sub {
@@ -714,7 +689,6 @@ function particleStyle(i) {
   align-self: center;
 }
 
-/* ── Headline ─────────────────────────────────────────────────── */
 .nf-title {
   margin: 0 0 14px;
   font-family: var(--sd-font);
@@ -734,7 +708,6 @@ function particleStyle(i) {
   background-clip: text;
 }
 
-/* ── Description ──────────────────────────────────────────────── */
 .nf-desc {
   margin: 0 0 26px;
   font-family: var(--sd-font);
@@ -746,7 +719,6 @@ function particleStyle(i) {
   animation-delay: 0.3s;
 }
 
-/* ── Terminal ─────────────────────────────────────────────────── */
 .nf-terminal {
   width: 100%;
   max-width: 480px;
@@ -813,7 +785,6 @@ function particleStyle(i) {
 .nf-cmd {
   color: var(--sd-text);
 }
-
 .nf-path {
   color: var(--sd-cyan);
 }
@@ -850,7 +821,6 @@ function particleStyle(i) {
   }
 }
 
-/* ── Actions ──────────────────────────────────────────────────── */
 .nf-actions {
   display: flex;
   gap: 10px;
@@ -860,14 +830,31 @@ function particleStyle(i) {
   animation-delay: 0.5s;
 }
 
-/* ================================================================
-   RESPONSIVE
-   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .nf-particle,
+  .nf-ring,
+  .nf-signal path,
+  .nf-signal-x,
+  .nf-feed-blink,
+  .nf-dish-bowl,
+  .nf-dish-wrap,
+  .nf-ground-line,
+  .nf-404::before,
+  .nf-404::after,
+  .nf-cursor {
+    animation: none;
+  }
+
+  .nf-404::before,
+  .nf-404::after {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 620px) {
   .nf-dish-wrap {
     max-width: 280px;
   }
-
   .nf-terminal-body {
     font-size: 0.68rem;
   }

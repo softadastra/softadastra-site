@@ -5,6 +5,8 @@
       <ProblemSection />
       <PlatformSection />
       <WorkflowSection />
+      <EngineSection />
+      <SdkSection />
       <CompanySection />
       <ProofSection />
       <AdditionalProjectsSection />
@@ -21,10 +23,12 @@ import SiteShell from "../components/layout/SiteShell.vue";
 import AdditionalProjectsSection from "../components/home/AdditionalProjectsSection.vue";
 import CompanySection from "../components/home/CompanySection.vue";
 import CtaSection from "../components/home/CtaSection.vue";
+import EngineSection from "../components/home/EngineSection.vue";
 import HeroSection from "../components/home/HeroSection.vue";
 import PlatformSection from "../components/home/PlatformSection.vue";
 import ProblemSection from "../components/home/ProblemSection.vue";
 import ProofSection from "../components/home/ProofSection.vue";
+import SdkSection from "../components/home/SdkSection.vue";
 import WorkflowSection from "../components/home/WorkflowSection.vue";
 
 let revealObserver = null;
