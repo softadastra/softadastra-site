@@ -7,10 +7,10 @@
   color-scheme: light;
 
   /* Base surfaces */
-  --sd-bg: #f3f3f3;
+  --sd-bg: #ffffff;
   --sd-bg-raised: #ffffff;
-  --sd-bg-soft: #fafafa;
-  --sd-bg-muted: #f6f6f6;
+  --sd-bg-soft: #ffffff;
+  --sd-bg-muted: #fafafa;
   --sd-bg-card: #ffffff;
 
   /* Brand */
@@ -23,8 +23,8 @@
   --sd-green-soft: #e8f2ef;
 
   /* Borders */
-  --sd-border: #e2e2e2;
-  --sd-border-strong: #d2d2d2;
+  --sd-border: #ededed;
+  --sd-border-strong: #dddddd;
   --sd-border-highlight: #e9a16c;
 
   /* Text */
@@ -103,20 +103,22 @@
 
   /* Effects */
   --sd-shadow-soft:
-    0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+    0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 18px rgba(15, 23, 42, 0.06);
 
   --sd-shadow-card:
-    0 1px 2px rgba(0, 0, 0, 0.05), 0 14px 40px rgba(0, 0, 0, 0.07);
+    0 2px 4px rgba(15, 23, 42, 0.04), 0 12px 32px rgba(15, 23, 42, 0.08);
+
+  --sd-shadow-card-hover:
+    0 3px 6px rgba(15, 23, 42, 0.05), 0 18px 42px rgba(15, 23, 42, 0.11);
 
   --sd-shadow-accent:
-    0 1px 2px rgba(173, 81, 23, 0.08), 0 8px 24px rgba(216, 111, 31, 0.16);
+    0 2px 4px rgba(173, 81, 23, 0.08), 0 12px 30px rgba(216, 111, 31, 0.16);
 
   /* Transitions */
   --sd-transition-fast: 120ms ease;
   --sd-transition: 180ms ease;
   --sd-transition-slow: 260ms ease;
 
-  /* Animation easing */
   --sd-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -144,15 +146,9 @@ body {
   margin: 0;
   overflow-x: hidden;
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(216, 111, 31, 0.045),
-      transparent 380px
-    ),
-    var(--sd-bg);
-
+  background: var(--sd-bg);
   color: var(--sd-text);
+
   font-family: var(--sd-font);
   font-size: 14px;
   line-height: 1.55;
