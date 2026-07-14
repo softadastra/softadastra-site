@@ -371,5 +371,4 @@ import SectionHeading from "../ui/SectionHeading.vue";
     justify-content: flex-start;
   }
 }
-
 </style>

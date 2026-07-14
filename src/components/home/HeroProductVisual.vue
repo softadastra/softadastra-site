@@ -1,1157 +1,1244 @@
 <template>
   <div
     class="hpv"
-    role="group"
-    aria-label="Softadastra platform workflow demonstration"
+    role="img"
+    aria-label="Softadastra platform showing native C++ projects, package information, local build reports, and team operations"
   >
-    <div class="hpv__scene">
-      <!-- ============ Central cloud dashboard ============ -->
-      <div class="hpv__app">
-        <!-- Browser chrome -->
-        <div class="hpv__chrome">
-          <div class="hpv__chrome-left" aria-hidden="true">
-            <span class="hpv__dot" />
-            <span class="hpv__dot" />
-            <span class="hpv__dot" />
+    <div class="hpv__grid-pattern" aria-hidden="true" />
+
+    <div class="hpv__window">
+      <div class="hpv__window-bar">
+        <div class="hpv__window-brand">
+          <span class="hpv__brand-mark">S</span>
+
+          <div>
+            <strong>Softadastra Cloud</strong>
+            <small>Project operations</small>
           </div>
-          <span class="hpv__chrome-url">
-            <svg
-              viewBox="0 0 24 24"
-              width="11"
-              height="11"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.4"
-              aria-hidden="true"
-            >
-              <rect x="4" y="10" width="16" height="10" rx="2" />
-              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-            </svg>
-            cloud.softadastra.com
-          </span>
-          <span class="hpv__chrome-badge">
-            <i aria-hidden="true" />
-            Live
-          </span>
         </div>
 
-        <div class="hpv__dash">
-          <!-- Sidebar -->
-          <aside class="hpv__side" aria-label="Cloud navigation">
-            <div class="hpv__side-org">
-              <span class="hpv__side-avatar" aria-hidden="true">S</span>
+        <div class="hpv__window-context">
+          <span>softadastra</span>
+          <svg
+            viewBox="0 0 24 24"
+            width="10"
+            height="10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.4"
+            aria-hidden="true"
+          >
+            <path d="m9 5 7 7-7 7" />
+          </svg>
+          <strong>native-platform</strong>
+        </div>
+
+        <div class="hpv__window-user">
+          <span aria-hidden="true" />
+          GK
+        </div>
+      </div>
+
+      <div class="hpv__dashboard">
+        <aside class="hpv__sidebar" aria-hidden="true">
+          <span class="hpv__sidebar-label">Workspace</span>
+
+          <span class="hpv__nav hpv__nav--active">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            </svg>
+            Overview
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+              <path d="m3 12 9 5 9-5" />
+              <path d="m3 16 9 5 9-5" />
+            </svg>
+            Projects
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 16V8l-9-5-9 5v8l9 5 9-5Z" />
+              <path d="m3.5 8.3 8.5 4.8 8.5-4.8" />
+            </svg>
+            Packages
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 19V5" />
+              <path d="M4 19h16" />
+              <path d="m7 15 3-4 3 2 4-6" />
+            </svg>
+            Build reports
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v12" />
+              <path d="m7 10 5 5 5-5" />
+              <rect x="4" y="18" width="16" height="3" rx="1" />
+            </svg>
+            Lockfiles
+          </span>
+
+          <span class="hpv__sidebar-label hpv__sidebar-label--team">
+            Team
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="8" r="3" />
+              <path d="M3.5 20c.8-3 2.9-4.5 5.5-4.5s4.7 1.5 5.5 4.5" />
+              <circle cx="17" cy="9" r="2.3" />
+              <path d="M16 15.7c2.2.2 3.8 1.6 4.4 4.3" />
+            </svg>
+            Members
+          </span>
+
+          <span class="hpv__nav">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2Z"
+              />
+            </svg>
+            Settings
+          </span>
+        </aside>
+
+        <main class="hpv__main">
+          <div class="hpv__project-head">
+            <div class="hpv__project-identity">
+              <span class="hpv__project-mark">N</span>
+
               <div>
-                <strong>softadastra</strong>
-                <em>Pro workspace</em>
+                <div class="hpv__project-title">
+                  <h2>Native Platform</h2>
+                  <span>Production</span>
+                </div>
+
+                <p>
+                  Modern C++ backend with private packages and local build
+                  reporting.
+                </p>
               </div>
             </div>
 
-            <span class="hpv__side-label">Platform</span>
-            <span class="hpv__side-item hpv__side-item--active">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="3" width="7" height="9" rx="1.5" />
-                <rect x="14" y="3" width="7" height="5" rx="1.5" />
-                <rect x="14" y="12" width="7" height="9" rx="1.5" />
-                <rect x="3" y="16" width="7" height="5" rx="1.5" />
-              </svg>
-              Overview
-            </span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z" />
-                <path d="M3.3 8.3 12 13l8.7-4.7" />
-                <path d="M12 22V13" />
-              </svg>
-              Packages
-            </span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 3v12" />
-                <path d="m7 10 5 5 5-5" />
-                <rect x="4" y="17" width="16" height="4" rx="1.5" />
-              </svg>
-              Lockfiles
-            </span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 19V5" />
-                <path d="M4 19h16" />
-                <rect x="7" y="11" width="3" height="5" rx="0.8" />
-                <rect x="12" y="8" width="3" height="8" rx="0.8" />
-                <rect x="17" y="13" width="3" height="3" rx="0.8" />
-              </svg>
-              Build reports
-            </span>
+            <button type="button" tabindex="-1">Open project</button>
+          </div>
 
-            <span class="hpv__side-label">Workspace</span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="9" cy="8" r="3.2" />
-                <path d="M3.5 20c.8-3 3-4.5 5.5-4.5S13.7 17 14.5 20" />
-                <circle cx="17" cy="9" r="2.5" />
-                <path d="M16 15.7c2.4.2 4 1.6 4.5 4.3" />
-              </svg>
-              Members
-            </span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M14 7a4 4 0 1 1-4 4" />
-                <path d="m11.5 12.5-7 7" />
-                <path d="M6 18l2 2" />
-                <path d="M8.5 15.5l2 2" />
-              </svg>
-              Tokens
-            </span>
-            <span class="hpv__side-item">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="3.2" />
-                <path
-                  d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.06-.4.1-.8.1-1.2z"
-                />
-              </svg>
-              Settings
-            </span>
-          </aside>
+          <div class="hpv__metrics">
+            <article>
+              <span>Packages</span>
+              <strong>24</strong>
+              <small>3 updated</small>
+            </article>
 
-          <!-- Main -->
-          <div class="hpv__main">
-            <!-- Topbar -->
-            <div class="hpv__topbar">
-              <div class="hpv__crumb">
-                <span>softadastra</span>
-                <svg
-                  viewBox="0 0 24 24"
-                  width="10"
-                  height="10"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
+            <article>
+              <span>Dependencies</span>
+              <strong>47</strong>
+              <small>Fully locked</small>
+            </article>
+
+            <article>
+              <span>Last build</span>
+              <strong>12.4s</strong>
+              <small class="hpv__positive">Passed</small>
+            </article>
+
+            <article>
+              <span>Toolchain</span>
+              <strong>GCC 14</strong>
+              <small>Linux x86_64</small>
+            </article>
+          </div>
+
+          <div class="hpv__content-grid">
+            <section class="hpv__panel">
+              <header>
+                <div>
+                  <strong>Project activity</strong>
+                  <span>main branch</span>
+                </div>
+
+                <small>Today</small>
+              </header>
+
+              <div
+                v-for="operation in operations"
+                :key="operation.title"
+                class="hpv__operation"
+              >
+                <span
+                  class="hpv__operation-icon"
+                  :class="`hpv__operation-icon--${operation.kind}`"
                   aria-hidden="true"
                 >
-                  <path d="m9 5 7 7-7 7" />
-                </svg>
-                <strong>native-app</strong>
-                <em class="hpv__env">production</em>
-              </div>
-              <div class="hpv__topbar-right">
-                <span class="hpv__search" aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="11"
-                    height="11"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.4"
-                  >
-                    <circle cx="11" cy="11" r="6.5" />
-                    <path d="m20 20-3.8-3.8" />
-                  </svg>
-                  Search…
-                  <kbd>⌘K</kbd>
+                  {{ operation.mark }}
                 </span>
-                <span class="hpv__user" aria-hidden="true">GK</span>
-              </div>
-            </div>
 
-            <div class="hpv__content">
-              <!-- Page head -->
-              <div class="hpv__page-head">
                 <div>
-                  <h2>Workspace operations</h2>
-                  <p>
-                    Private packages, lockfiles, and build reports synced to the
-                    cloud. Builds stay local.
-                  </p>
+                  <strong>{{ operation.title }}</strong>
+                  <small>{{ operation.detail }}</small>
                 </div>
-                <span class="hpv__cta" aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="11"
-                    height="11"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.6"
-                  >
-                    <path d="M12 5v14M5 12h14" />
-                  </svg>
-                  New project
+
+                <span
+                  class="hpv__status"
+                  :class="`hpv__status--${operation.status}`"
+                >
+                  <i aria-hidden="true" />
+                  {{ operation.label }}
                 </span>
+
+                <time>{{ operation.time }}</time>
               </div>
+            </section>
 
-              <!-- Stat cards -->
-              <div class="hpv__stats">
-                <div class="hpv__stat">
-                  <span>Packages</span>
-                  <strong>24</strong>
-                  <em class="hpv__delta hpv__delta--up">+3 this week</em>
+            <section class="hpv__panel hpv__panel--packages">
+              <header>
+                <div>
+                  <strong>Private packages</strong>
+                  <span>Current lockfile</span>
                 </div>
-                <div class="hpv__stat">
-                  <span>Lockfiles</span>
-                  <strong>128</strong>
-                  <em class="hpv__delta hpv__delta--up">+12 synced</em>
+
+                <small>vix.lock</small>
+              </header>
+
+              <div v-for="pkg in packages" :key="pkg.name" class="hpv__package">
+                <span>{{ pkg.mark }}</span>
+
+                <div>
+                  <strong>{{ pkg.name }}</strong>
+                  <small>{{ pkg.description }}</small>
                 </div>
-                <div class="hpv__stat">
-                  <span>Build reports</span>
-                  <strong>1,043</strong>
-                  <em class="hpv__delta">98.7% pass</em>
-                </div>
-                <div class="hpv__stat hpv__stat--chart">
-                  <span>Publish activity</span>
-                  <div class="hpv__bars" aria-hidden="true">
-                    <i style="--h: 34%" /><i style="--h: 52%" /><i
-                      style="--h: 40%"
-                    />
-                    <i style="--h: 68%" /><i style="--h: 46%" /><i
-                      style="--h: 78%"
-                    />
-                    <i style="--h: 58%" /><i
-                      style="--h: 88%"
-                      class="hpv__bar--hot"
-                    />
-                    <i style="--h: 64%" /><i style="--h: 72%" />
-                  </div>
-                </div>
+
+                <code>{{ pkg.version }}</code>
               </div>
-
-              <!-- Recent operations table -->
-              <div class="hpv__table">
-                <div class="hpv__table-head">
-                  <span>Recent operations</span>
-                  <em>native-app · main</em>
-                </div>
-
-                <div class="hpv__row hpv__row--one">
-                  <span class="hpv__row-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z" />
-                    </svg>
-                  </span>
-                  <div class="hpv__row-main">
-                    <strong>vix cloud publish</strong>
-                    <em>native-app@1.4.2 · linux-x86_64</em>
-                  </div>
-                  <span class="hpv__pill hpv__pill--ok">
-                    <i aria-hidden="true" />published
-                  </span>
-                  <time>2m</time>
-                </div>
-
-                <div class="hpv__row hpv__row--two">
-                  <span class="hpv__row-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 3v12" />
-                      <path d="m7 10 5 5 5-5" />
-                      <rect x="4" y="17" width="16" height="4" rx="1.5" />
-                    </svg>
-                  </span>
-                  <div class="hpv__row-main">
-                    <strong>vix cloud lockfile upload</strong>
-                    <em>vix.lock · 47 dependencies</em>
-                  </div>
-                  <span class="hpv__pill hpv__pill--ok">
-                    <i aria-hidden="true" />synced
-                  </span>
-                  <time>9m</time>
-                </div>
-
-                <div class="hpv__row hpv__row--three">
-                  <span class="hpv__row-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M4 19V5" />
-                      <path d="M4 19h16" />
-                      <rect x="7" y="11" width="3" height="5" rx="0.8" />
-                      <rect x="12" y="8" width="3" height="8" rx="0.8" />
-                      <rect x="17" y="13" width="3" height="3" rx="0.8" />
-                    </svg>
-                  </span>
-                  <div class="hpv__row-main">
-                    <strong>local build report</strong>
-                    <em>vix build · release · 12.4s</em>
-                  </div>
-                  <span class="hpv__pill hpv__pill--run">
-                    <i aria-hidden="true" />submitting
-                  </span>
-                  <time>now</time>
-                </div>
-
-                <div class="hpv__row hpv__row--four">
-                  <span class="hpv__row-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M14 7a4 4 0 1 1-4 4" />
-                      <path d="m11.5 12.5-7 7" />
-                      <path d="M6 18l2 2" />
-                    </svg>
-                  </span>
-                  <div class="hpv__row-main">
-                    <strong>token rotation</strong>
-                    <em>ci-deploy · role: publisher</em>
-                  </div>
-                  <span class="hpv__pill">
-                    <i aria-hidden="true" />checked
-                  </span>
-                  <time>1h</time>
-                </div>
-              </div>
-            </div>
+            </section>
           </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="hpv__projects-card">
+      <header>
+        <div>
+          <span>Active projects</span>
+          <strong>3 environments</strong>
         </div>
+
+        <small>Live</small>
+      </header>
+
+      <article
+        v-for="project in projects"
+        :key="project.name"
+        class="hpv__project-row"
+      >
+        <span
+          class="hpv__project-row-mark"
+          :class="`hpv__project-row-mark--${project.kind}`"
+          aria-hidden="true"
+        >
+          {{ project.mark }}
+        </span>
+
+        <div class="hpv__project-row-name">
+          <strong>{{ project.name }}</strong>
+          <small>{{ project.target }}</small>
+        </div>
+
+        <div class="hpv__project-row-stat">
+          <strong>{{ project.packages }}</strong>
+          <small>Packages</small>
+        </div>
+
+        <div class="hpv__project-row-stat">
+          <strong>{{ project.duration }}</strong>
+          <small>Build</small>
+        </div>
+
+        <span class="hpv__project-row-state">
+          {{ project.state }}
+        </span>
+      </article>
+    </div>
+
+    <div class="hpv__performance-card">
+      <header>
+        <div>
+          <span>Build duration</span>
+          <strong>Release · main</strong>
+        </div>
+
+        <small>Last 7 builds</small>
+      </header>
+
+      <div class="hpv__performance-value">
+        <strong>12.4s</strong>
+        <span>18% faster</span>
       </div>
 
-      <!-- ============ Floating terminal (bottom-left) ============ -->
-      <div
-        class="hpv__float hpv__float--term"
-        aria-label="Vix.cpp local workflow commands"
+      <svg
+        class="hpv__chart"
+        viewBox="0 0 360 150"
+        preserveAspectRatio="none"
+        aria-hidden="true"
       >
-        <header class="hpv__float-head">
-          <span>Local development</span>
-          <strong>Vix.cpp</strong>
-        </header>
-        <pre
-          class="hpv__term"
-        ><code><span class="hpv__prompt">$</span> vix build
-<span class="hpv__ok">✓</span> release build in 12.4s
-<span class="hpv__prompt">$</span> vix cloud publish<span class="hpv__cursor" aria-hidden="true" /></code></pre>
-      </div>
+        <defs>
+          <linearGradient id="build-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="currentColor" stop-opacity="0.2" />
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+          </linearGradient>
+        </defs>
 
-      <!-- ============ Floating Rix card (bottom-right) ============ -->
-      <div
-        class="hpv__float hpv__float--rix"
-        aria-label="Rix reusable application capabilities"
-      >
-        <header class="hpv__float-head hpv__float-head--light">
-          <span>Extend</span>
-          <strong>Rix</strong>
-        </header>
-        <ul class="hpv__rix-list">
-          <li><i aria-hidden="true" />CSV export</li>
-          <li><i aria-hidden="true" />Auth diagnostics</li>
-          <li><i aria-hidden="true" />PDF generation</li>
-        </ul>
+        <line x1="0" y1="28" x2="360" y2="28" />
+        <line x1="0" y1="74" x2="360" y2="74" />
+        <line x1="0" y1="120" x2="360" y2="120" />
+
+        <path
+          class="hpv__chart-area"
+          d="M0 98 C35 85 47 90 72 82 C101 72 122 78 145 68 C178 53 195 65 220 55 C248 45 266 50 290 37 C315 25 334 31 360 20 L360 150 L0 150 Z"
+        />
+
+        <path
+          class="hpv__chart-line"
+          d="M0 98 C35 85 47 90 72 82 C101 72 122 78 145 68 C178 53 195 65 220 55 C248 45 266 50 290 37 C315 25 334 31 360 20"
+        />
+      </svg>
+
+      <div class="hpv__chart-labels">
+        <span>Build 1</span>
+        <span>Build 4</span>
+        <span>Build 7</span>
       </div>
     </div>
   </div>
 </template>
 
+<script setup>
+const operations = [
+  {
+    mark: "B",
+    kind: "build",
+    title: "Release build completed",
+    detail: "GCC 14 · linux-x86_64 · 0 warnings",
+    label: "Passed",
+    status: "success",
+    time: "2m",
+  },
+  {
+    mark: "P",
+    kind: "package",
+    title: "Package version published",
+    detail: "softadastra/runtime@1.4.2",
+    label: "Published",
+    status: "success",
+    time: "9m",
+  },
+  {
+    mark: "L",
+    kind: "lock",
+    title: "Lockfile synchronized",
+    detail: "47 dependencies · checksum verified",
+    label: "Synced",
+    status: "active",
+    time: "18m",
+  },
+];
+
+const packages = [
+  {
+    mark: "V",
+    name: "vix/web",
+    description: "HTTP server and routing",
+    version: "2.7.5",
+  },
+  {
+    mark: "R",
+    name: "rix/core",
+    description: "Application utilities",
+    version: "0.9.1",
+  },
+  {
+    mark: "S",
+    name: "softadastra/runtime",
+    description: "Durable local state",
+    version: "1.4.2",
+  },
+];
+
+const projects = [
+  {
+    mark: "A",
+    kind: "api",
+    name: "Atlas API",
+    target: "C++23 · linux-x86_64",
+    packages: "24",
+    duration: "12.4s",
+    state: "Passed",
+  },
+  {
+    mark: "E",
+    kind: "edge",
+    name: "Edge Agent",
+    target: "C++20 · linux-arm64",
+    packages: "18",
+    duration: "8.7s",
+    state: "Passed",
+  },
+  {
+    mark: "D",
+    kind: "desktop",
+    name: "Desktop Sync",
+    target: "C++20 · windows-x64",
+    packages: "31",
+    duration: "15.2s",
+    state: "Passed",
+  },
+];
+</script>
+
 <style scoped>
-/* ================= Dark gradient stage ================= */
 .hpv {
   position: relative;
+  min-height: clamp(470px, 52vw, 630px);
   overflow: hidden;
-  border-radius: var(--sd-radius-xl);
+  border: 1px solid rgba(31, 31, 31, 0.08);
+  border-radius: 3px;
   background:
     radial-gradient(
-      120% 140% at 85% 0%,
-      rgba(214, 106, 40, 0.32),
-      transparent 55%
+      circle at 16% 5%,
+      rgba(255, 191, 143, 0.32),
+      transparent 32%
     ),
     radial-gradient(
-      90% 120% at 10% 100%,
-      rgba(173, 81, 23, 0.22),
-      transparent 60%
+      circle at 86% 12%,
+      rgba(90, 131, 119, 0.26),
+      transparent 33%
     ),
-    linear-gradient(160deg, #1b1410 0%, #241a13 45%, #14100c 100%);
+    linear-gradient(135deg, #3c2117 0%, #5c2f1d 48%, #173c33 100%);
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.05),
+    0 20px 55px rgba(15, 23, 42, 0.14);
 }
 
-.hpv::after {
-  content: "";
+.hpv::before {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 40%;
-  height: 55%;
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.14) 1px,
-    transparent 1px
-  );
-  background-size: 14px 14px;
-  mask-image: radial-gradient(closest-side at 80% 20%, #000, transparent);
+  inset: 0;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.08), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.14));
+  content: "";
   pointer-events: none;
 }
 
-.hpv__scene {
-  position: relative;
-  z-index: 1;
-  padding: clamp(28px, 5vw, 60px) clamp(20px, 8vw, 104px) clamp(60px, 7vw, 92px);
+.hpv__grid-pattern {
+  position: absolute;
+  top: -20px;
+  left: 13%;
+  width: 58%;
+  height: 47%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 8px 8px;
+  mask-image: radial-gradient(circle at 50% 30%, #000, transparent 72%);
+  opacity: 0.72;
+  pointer-events: none;
 }
 
-/* ================= App window ================= */
-.hpv__app {
+/* Main application */
+
+.hpv__window {
+  position: absolute;
+  top: 9%;
+  left: 13%;
+  width: 74%;
+  height: 67%;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--sd-radius-lg);
-  background: var(--sd-bg-raised);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 6px;
+  background: #ffffff;
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.45),
-    0 8px 24px rgba(0, 0, 0, 0.3);
+    0 28px 70px rgba(0, 0, 0, 0.34),
+    0 8px 22px rgba(0, 0, 0, 0.2);
 }
 
-.hpv__chrome {
-  display: flex;
+.hpv__window-bar {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 14px;
+  min-height: 43px;
+  padding: 0 14px;
   border-bottom: 1px solid var(--sd-border);
-  background: var(--sd-bg-soft);
+  background: #ffffff;
 }
 
-.hpv__chrome-left {
+.hpv__window-brand {
   display: flex;
-  gap: 6px;
-}
-
-.hpv__dot {
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--sd-border-strong);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-bg-muted);
-}
-
-.hpv__chrome-url {
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  flex: 1;
+  gap: 8px;
   min-width: 0;
-  max-width: 300px;
-  margin-inline: auto;
-  justify-content: center;
-  padding: 4px 12px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-bg-raised);
-  color: var(--sd-text-soft);
-  font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 660;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.hpv__chrome-url svg {
-  flex-shrink: 0;
-  color: var(--sd-text-muted);
-}
-
-.hpv__chrome-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 9px;
-  border: 1px solid var(--sd-border-highlight);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-accent-bg-soft);
-  color: var(--sd-orange-dark);
-  font-size: 10px;
-  font-weight: 760;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.hpv__chrome-badge i {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-orange);
-  animation: hpv-pulse 2.2s ease infinite;
-}
-
-@keyframes hpv-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 var(--sd-accent-bg);
-  }
-  50% {
-    box-shadow: 0 0 0 4px var(--sd-accent-bg);
-  }
-}
-
-/* ================= Dashboard layout ================= */
-.hpv__dash {
+.hpv__brand-mark {
   display: grid;
-  grid-template-columns: 176px minmax(0, 1fr);
-}
-
-/* ---- Sidebar ---- */
-.hpv__side {
-  display: grid;
-  align-content: start;
-  gap: 3px;
-  padding: 12px 10px;
-  border-right: 1px solid var(--sd-border);
-  background: var(--sd-bg-soft);
-}
-
-.hpv__side-org {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-md);
-  background: var(--sd-bg-raised);
-}
-
-.hpv__side-avatar {
-  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
   place-items: center;
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
-  border-radius: var(--sd-radius-sm);
+  border-radius: 5px;
   background: var(--sd-orange);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 780;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
 }
 
-.hpv__side-org div {
-  min-width: 0;
+.hpv__window-brand div {
   display: grid;
-  line-height: 1.25;
+  min-width: 0;
+  line-height: 1.1;
 }
 
-.hpv__side-org strong {
+.hpv__window-brand strong {
   overflow: hidden;
   color: var(--sd-text);
-  font-size: 12px;
-  font-weight: 720;
+  font-size: 10.5px;
+  font-weight: 750;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.hpv__side-org em {
+.hpv__window-brand small {
   color: var(--sd-text-muted);
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 640;
+  font-size: 8px;
 }
 
-.hpv__side-label {
-  margin: 8px 8px 3px;
+.hpv__window-context {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
-  font-size: 9.5px;
+  font-size: 8.5px;
+}
+
+.hpv__window-context strong {
+  overflow: hidden;
+  color: var(--sd-text);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hpv__window-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--sd-text-soft);
+  font-family: var(--sd-font-mono);
+  font-size: 8px;
+  font-weight: 740;
+}
+
+.hpv__window-user span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sd-green);
+}
+
+.hpv__dashboard {
+  display: grid;
+  grid-template-columns: 122px minmax(0, 1fr);
+  height: calc(100% - 43px);
+}
+
+/* Sidebar */
+
+.hpv__sidebar {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: 12px 8px;
+  border-right: 1px solid var(--sd-border);
+  background: #fafafa;
+}
+
+.hpv__sidebar-label {
+  margin: 0 7px 4px;
+  color: var(--sd-text-dim);
+  font-family: var(--sd-font-mono);
+  font-size: 7px;
   font-weight: 760;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.hpv__side-item {
+.hpv__sidebar-label--team {
+  margin-top: 10px;
+}
+
+.hpv__nav {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 29px;
-  padding: 0 8px;
-  border-radius: var(--sd-radius-sm);
+  gap: 7px;
+  min-height: 25px;
+  padding: 0 7px;
+  border-radius: 5px;
   color: var(--sd-text-muted);
-  font-size: 11.5px;
+  font-size: 8.5px;
   font-weight: 660;
 }
 
-.hpv__side-item svg {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
+.hpv__nav svg {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.hpv__side-item--active {
+.hpv__nav--active {
   background: var(--sd-accent-bg-soft);
   color: var(--sd-orange-dark);
-  box-shadow: inset 2px 0 0 var(--sd-orange);
 }
 
-/* ---- Topbar ---- */
+/* Project content */
+
 .hpv__main {
-  display: grid;
-  grid-template-rows: auto 1fr;
   min-width: 0;
-}
-
-.hpv__topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 9px 16px;
-  border-bottom: 1px solid var(--sd-border);
-  background: var(--sd-bg-raised);
-}
-
-.hpv__crumb {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-width: 0;
-  color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 11px;
-  font-weight: 660;
-}
-
-.hpv__crumb strong {
-  color: var(--sd-text);
-  font-weight: 720;
-}
-
-.hpv__env {
-  padding: 2px 7px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-bg-soft);
-  color: var(--sd-text-soft);
-  font-size: 9.5px;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.hpv__topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.hpv__search {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 4px 9px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-md);
-  background: var(--sd-bg-soft);
-  color: var(--sd-text-muted);
-  font-size: 11px;
-  font-weight: 620;
-  white-space: nowrap;
-}
-
-.hpv__search kbd {
-  padding: 1px 5px;
-  border: 1px solid var(--sd-border);
-  border-radius: 4px;
-  background: var(--sd-bg-raised);
-  font-family: var(--sd-font-mono);
-  font-size: 9.5px;
-  font-weight: 700;
-}
-
-.hpv__user {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--sd-border-strong);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-bg-muted);
-  color: var(--sd-text-soft);
-  font-size: 10px;
-  font-weight: 760;
-}
-
-/* ---- Content ---- */
-.hpv__content {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  min-width: 0;
+  overflow: hidden;
   padding: 16px;
-  background: var(--sd-bg-soft);
+  background: #ffffff;
 }
 
-.hpv__page-head {
+.hpv__project-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
 }
 
-.hpv__page-head h2 {
+.hpv__project-identity {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.hpv__project-mark {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--sd-border);
+  border-radius: 6px;
+  background: #fafafa;
+  color: var(--sd-text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hpv__project-identity > div {
+  min-width: 0;
+}
+
+.hpv__project-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.hpv__project-title h2 {
   margin: 0;
   color: var(--sd-text);
-  font-size: 17px;
-  font-weight: 720;
-  letter-spacing: -0.02em;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
 }
 
-.hpv__page-head p {
+.hpv__project-title span {
+  padding: 2px 6px;
+  border: 1px solid rgba(46, 125, 50, 0.18);
+  border-radius: 999px;
+  background: var(--sd-green-bg);
+  color: var(--sd-green);
+  font-size: 7px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.hpv__project-identity p {
   margin: 3px 0 0;
   color: var(--sd-text-muted);
-  font-size: 11.5px;
-  font-weight: 600;
+  font-size: 8.5px;
+  line-height: 1.45;
 }
 
-.hpv__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  padding: 6px 11px;
-  border-radius: var(--sd-radius-md);
-  background: var(--sd-orange);
-  color: #fff;
-  font-size: 11.5px;
-  font-weight: 720;
-  box-shadow: 0 1px 2px rgba(173, 81, 23, 0.2);
+.hpv__project-head button {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid var(--sd-border-strong);
+  border-radius: 5px;
+  background: #ffffff;
+  color: var(--sd-text-soft);
+  font-size: 8px;
+  font-weight: 700;
 }
 
-/* ---- Stat cards ---- */
-.hpv__stats {
+.hpv__metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  margin-top: 14px;
+  border-block: 1px solid var(--sd-border);
 }
 
-.hpv__stat {
+.hpv__metrics article {
   display: grid;
-  align-content: start;
-  gap: 4px;
-  padding: 11px 12px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-md);
-  background: var(--sd-bg-raised);
+  gap: 2px;
+  padding: 10px 10px 9px;
+  border-right: 1px solid var(--sd-border);
 }
 
-.hpv__stat > span {
+.hpv__metrics article:first-child {
+  padding-left: 0;
+}
+
+.hpv__metrics article:last-child {
+  border-right: 0;
+}
+
+.hpv__metrics span {
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
-  font-size: 9.5px;
-  font-weight: 760;
+  font-size: 6.8px;
+  font-weight: 720;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.hpv__stat strong {
+.hpv__metrics strong {
   color: var(--sd-text);
-  font-size: 21px;
-  font-weight: 720;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  font-size: 13px;
+  font-weight: 740;
 }
 
-.hpv__delta {
+.hpv__metrics small {
   color: var(--sd-text-muted);
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 680;
+  font-size: 7px;
 }
 
-.hpv__delta--up {
-  color: var(--sd-orange-dark);
+.hpv__metrics .hpv__positive {
+  color: var(--sd-green);
 }
 
-.hpv__stat--chart {
-  gap: 8px;
+.hpv__content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(160px, 0.8fr);
+  gap: 10px;
+  margin-top: 12px;
 }
 
-.hpv__bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 34px;
-}
-
-.hpv__bars i {
-  flex: 1;
-  height: var(--h);
-  border-radius: 2px 2px 0 0;
-  background: var(--sd-accent-bg);
-  animation: hpv-bar 5s ease infinite;
-}
-
-.hpv__bars i:nth-child(2n) {
-  animation-delay: 0.6s;
-}
-.hpv__bars i:nth-child(3n) {
-  animation-delay: 1.4s;
-}
-
-.hpv__bar--hot {
-  background: var(--sd-orange) !important;
-}
-
-@keyframes hpv-bar {
-  0%,
-  100% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(0.82);
-  }
-}
-
-/* ---- Operations table ---- */
-.hpv__table {
+.hpv__panel {
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-md);
-  background: var(--sd-bg-raised);
+  border-radius: 6px;
+  background: #ffffff;
 }
 
-.hpv__table-head {
+.hpv__panel > header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 9px 13px;
+  gap: 8px;
+  padding: 8px 9px;
   border-bottom: 1px solid var(--sd-border);
-  background: var(--sd-bg-soft);
+  background: #fafafa;
 }
 
-.hpv__table-head span {
+.hpv__panel > header div {
+  display: grid;
+  line-height: 1.25;
+}
+
+.hpv__panel > header strong {
+  color: var(--sd-text);
+  font-size: 8px;
+  font-weight: 730;
+}
+
+.hpv__panel > header span,
+.hpv__panel > header small {
   color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 10px;
-  font-weight: 760;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 6.5px;
 }
 
-.hpv__table-head em {
-  color: var(--sd-text-muted);
-  font-family: var(--sd-font-mono);
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 640;
-}
-
-.hpv__row {
+.hpv__operation {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 11px;
-  padding: 9px 13px;
+  gap: 7px;
+  padding: 7px 8px;
   border-bottom: 1px solid var(--sd-border);
-  animation: hpv-row 7s ease infinite;
 }
 
-.hpv__row:last-child {
+.hpv__operation:last-child {
   border-bottom: 0;
 }
 
-.hpv__row--two {
-  animation-delay: 1.3s;
-}
-.hpv__row--three {
-  animation-delay: 2.6s;
-}
-.hpv__row--four {
-  animation-delay: 3.9s;
-}
-
-@keyframes hpv-row {
-  0%,
-  24%,
-  100% {
-    background: transparent;
-  }
-  8%,
-  16% {
-    background: var(--sd-accent-bg-soft);
-  }
-}
-
-.hpv__row-icon {
+.hpv__operation-icon {
   display: grid;
+  width: 20px;
+  height: 20px;
   place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-sm);
-  background: var(--sd-bg-soft);
-  color: var(--sd-text-soft);
+  border-radius: 4px;
+  font-size: 7px;
+  font-weight: 800;
 }
 
-.hpv__row-icon svg {
-  width: 12px;
-  height: 12px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.hpv__operation-icon--build {
+  background: var(--sd-blue-bg);
+  color: var(--sd-blue);
 }
 
-.hpv__row-main {
-  display: grid;
-  gap: 1px;
-  min-width: 0;
-  line-height: 1.3;
+.hpv__operation-icon--package {
+  background: var(--sd-purple-bg);
+  color: var(--sd-purple);
 }
 
-.hpv__row-main strong {
-  overflow: hidden;
-  color: var(--sd-text);
-  font-family: var(--sd-font-mono);
-  font-size: 11.5px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hpv__row-main em {
-  overflow: hidden;
-  color: var(--sd-text-muted);
-  font-size: 10.5px;
-  font-style: normal;
-  font-weight: 620;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hpv__pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2px 8px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-bg-soft);
-  color: var(--sd-text-soft);
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.hpv__pill i {
-  width: 5px;
-  height: 5px;
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-text-muted);
-}
-
-.hpv__pill--ok {
-  border-color: rgba(34, 128, 62, 0.25);
-  background: rgba(34, 128, 62, 0.07);
-  color: #1f7a3d;
-}
-
-.hpv__pill--ok i {
-  background: #2b9e50;
-}
-
-.hpv__pill--run {
-  border-color: var(--sd-border-highlight);
+.hpv__operation-icon--lock {
   background: var(--sd-accent-bg-soft);
   color: var(--sd-orange-dark);
 }
 
-.hpv__pill--run i {
-  background: var(--sd-orange);
-  animation: hpv-pulse 1.6s ease infinite;
+.hpv__operation > div {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
 }
 
-.hpv__row time {
+.hpv__operation > div strong {
+  overflow: hidden;
+  color: var(--sd-text);
+  font-size: 7.5px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hpv__operation > div small {
+  overflow: hidden;
+  color: var(--sd-text-muted);
+  font-size: 6.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hpv__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  font-size: 6.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hpv__status i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.hpv__status--success {
+  background: var(--sd-green-bg);
+  color: var(--sd-green);
+}
+
+.hpv__status--active {
+  background: var(--sd-accent-bg-soft);
+  color: var(--sd-orange-dark);
+}
+
+.hpv__operation time {
+  color: var(--sd-text-dim);
+  font-family: var(--sd-font-mono);
+  font-size: 6.5px;
+}
+
+.hpv__package {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 8px;
+  border-bottom: 1px solid var(--sd-border);
+}
+
+.hpv__package:last-child {
+  border-bottom: 0;
+}
+
+.hpv__package > span {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 4px;
+  background: var(--sd-accent-bg-soft);
+  color: var(--sd-orange-dark);
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.hpv__package > div {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.hpv__package strong {
+  color: var(--sd-text);
+  font-family: var(--sd-font-mono);
+  font-size: 7px;
+}
+
+.hpv__package small {
+  overflow: hidden;
+  color: var(--sd-text-muted);
+  font-size: 6.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hpv__package code {
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
-  font-size: 10px;
-  font-weight: 660;
+  font-size: 6.5px;
 }
 
-/* ================= Floating cards ================= */
-.hpv__float {
+/* Floating projects */
+
+.hpv__projects-card,
+.hpv__performance-card {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   overflow: hidden;
-  border-radius: var(--sd-radius-lg);
+  border: 1px solid rgba(31, 31, 31, 0.09);
+  border-radius: 6px;
+  background: #ffffff;
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.45),
-    0 6px 18px rgba(0, 0, 0, 0.3);
+    0 20px 45px rgba(0, 0, 0, 0.24),
+    0 5px 15px rgba(0, 0, 0, 0.13);
 }
 
-.hpv__float--term {
-  left: clamp(12px, 3.5vw, 44px);
-  bottom: clamp(16px, 3vw, 36px);
-  width: min(290px, 46%);
-  border: 1px solid #2a2e38;
-  background: #101216;
+.hpv__projects-card {
+  bottom: 8%;
+  left: 5%;
+  width: 43%;
 }
 
-.hpv__float--rix {
-  right: clamp(12px, 3.5vw, 44px);
-  bottom: clamp(28px, 4vw, 56px);
-  width: min(224px, 38%);
-  border: 1px solid var(--sd-border);
-  background: var(--sd-bg-raised);
-}
-
-.hpv__float-head {
+.hpv__projects-card > header,
+.hpv__performance-card > header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 9px 13px;
-  border-bottom: 1px solid #252932;
-  background: #151821;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sd-border);
+  background: #ffffff;
 }
 
-.hpv__float-head span {
-  color: #9aa4b2;
+.hpv__projects-card > header div,
+.hpv__performance-card > header div {
+  display: grid;
+  line-height: 1.3;
+}
+
+.hpv__projects-card > header span,
+.hpv__performance-card > header span {
+  color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
-  font-size: 10px;
-  font-weight: 760;
-  letter-spacing: 0.05em;
+  font-size: 7px;
+  font-weight: 720;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.hpv__float-head strong {
-  color: #eef2f7;
-  font-size: 12px;
-  font-weight: 730;
-}
-
-.hpv__float-head--light {
-  border-bottom-color: var(--sd-border);
-  background: var(--sd-bg-soft);
-}
-
-.hpv__float-head--light span {
-  color: var(--sd-text-muted);
-}
-
-.hpv__float-head--light strong {
+.hpv__projects-card > header strong,
+.hpv__performance-card > header strong {
   color: var(--sd-text);
+  font-size: 9px;
+  font-weight: 740;
 }
 
-.hpv__term {
-  overflow-x: auto;
-  margin: 0;
-  padding: 13px 15px;
-}
-
-.hpv__term code {
-  color: #eef2f7;
-  font-family: var(--sd-font-mono);
-  font-size: 12px;
-  line-height: 1.85;
-  white-space: pre;
-}
-
-.hpv__prompt {
-  color: var(--sd-orange);
+.hpv__projects-card > header small,
+.hpv__performance-card > header small {
+  color: var(--sd-green);
+  font-size: 7px;
   font-weight: 700;
 }
 
-.hpv__ok {
-  color: #4ade80;
-  font-weight: 700;
-}
-
-.hpv__cursor {
-  display: inline-block;
-  width: 7px;
-  height: 13px;
-  margin-left: 4px;
-  vertical-align: -2px;
-  background: #eef2f7;
-  animation: hpv-blink 1.1s steps(1) infinite;
-}
-
-@keyframes hpv-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-.hpv__rix-list {
+.hpv__project-row {
   display: grid;
-  gap: 6px;
-  margin: 0;
-  padding: 11px 13px;
-  list-style: none;
-}
-
-.hpv__rix-list li {
-  display: flex;
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    minmax(52px, auto)
+    minmax(52px, auto)
+    auto;
   align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-bottom: 1px solid var(--sd-border);
+}
+
+.hpv__project-row:last-child {
+  border-bottom: 0;
+}
+
+.hpv__project-row-mark {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.hpv__project-row-mark--api {
+  background: var(--sd-blue-bg);
+  color: var(--sd-blue);
+}
+
+.hpv__project-row-mark--edge {
+  background: var(--sd-cyan-bg);
+  color: var(--sd-cyan);
+}
+
+.hpv__project-row-mark--desktop {
+  background: var(--sd-purple-bg);
+  color: var(--sd-purple);
+}
+
+.hpv__project-row-name,
+.hpv__project-row-stat {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.hpv__project-row-name strong {
+  overflow: hidden;
+  color: var(--sd-text);
+  font-size: 8.5px;
+  font-weight: 720;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hpv__project-row-name small,
+.hpv__project-row-stat small {
+  color: var(--sd-text-muted);
+  font-size: 6.3px;
+}
+
+.hpv__project-row-stat strong {
+  color: var(--sd-orange);
+  font-family: var(--sd-font-mono);
+  font-size: 8px;
+}
+
+.hpv__project-row-state {
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: var(--sd-green-bg);
+  color: var(--sd-green);
+  font-size: 6.5px;
+  font-weight: 720;
+}
+
+/* Floating performance chart */
+
+.hpv__performance-card {
+  right: 4%;
+  bottom: 12%;
+  width: 31%;
+  padding-bottom: 10px;
+}
+
+.hpv__performance-value {
+  display: flex;
+  align-items: baseline;
   gap: 8px;
-  padding: 7px 9px;
-  border: 1px solid var(--sd-border);
-  border-radius: var(--sd-radius-sm);
-  background: var(--sd-bg-soft);
-  color: var(--sd-text-soft);
-  font-size: 11.5px;
-  font-weight: 680;
+  padding: 11px 13px 0;
 }
 
-.hpv__rix-list li i {
-  width: 6px;
-  height: 6px;
-  flex-shrink: 0;
-  border-radius: var(--sd-radius-full);
-  background: var(--sd-orange);
+.hpv__performance-value strong {
+  color: var(--sd-text);
+  font-size: 19px;
+  font-weight: 740;
+  letter-spacing: -0.04em;
 }
 
-/* ================= Motion / responsive ================= */
-@media (prefers-reduced-motion: reduce) {
-  .hpv__cursor,
-  .hpv__row,
-  .hpv__bars i,
-  .hpv__chrome-badge i,
-  .hpv__pill--run i {
-    animation: none;
+.hpv__performance-value span {
+  color: var(--sd-green);
+  font-size: 7px;
+  font-weight: 720;
+}
+
+.hpv__chart {
+  width: calc(100% - 26px);
+  height: 96px;
+  margin: 3px 13px 0;
+  overflow: visible;
+  color: var(--sd-orange);
+}
+
+.hpv__chart line {
+  stroke: var(--sd-border);
+  stroke-width: 1;
+}
+
+.hpv__chart-area {
+  fill: url("#build-area");
+}
+
+.hpv__chart-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.hpv__chart-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 13px;
+  color: var(--sd-text-dim);
+  font-family: var(--sd-font-mono);
+  font-size: 6px;
+}
+
+@media (max-width: 960px) {
+  .hpv {
+    min-height: 650px;
+  }
+
+  .hpv__window {
+    top: 6%;
+    left: 5%;
+    width: 90%;
+    height: 60%;
+  }
+
+  .hpv__projects-card {
+    bottom: 5%;
+    left: 4%;
+    width: 54%;
+  }
+
+  .hpv__performance-card {
+    right: 4%;
+    bottom: 7%;
+    width: 37%;
   }
 }
 
-@media (max-width: 920px) {
-  .hpv__scene {
+@media (max-width: 700px) {
+  .hpv {
     display: grid;
-    gap: 14px;
-    padding: 20px;
+    min-height: auto;
+    gap: 12px;
+    padding: 18px;
   }
 
-  .hpv__float {
-    position: static;
+  .hpv__window,
+  .hpv__projects-card,
+  .hpv__performance-card {
+    position: relative;
+    inset: auto;
     width: 100%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
-}
 
-@media (max-width: 820px) {
-  .hpv__dash {
+  .hpv__window {
+    height: auto;
+  }
+
+  .hpv__dashboard {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
-  .hpv__side {
-    grid-template-columns: repeat(2, 1fr);
-    border-right: 0;
-    border-bottom: 1px solid var(--sd-border);
-  }
-
-  .hpv__side-org,
-  .hpv__side-label {
-    grid-column: 1 / -1;
-  }
-
-  .hpv__stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .hpv__search,
-  .hpv__env {
+  .hpv__sidebar {
     display: none;
   }
 
-  .hpv__row {
+  .hpv__main {
+    min-height: 360px;
+  }
+
+  .hpv__projects-card,
+  .hpv__performance-card {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  }
+}
+
+@media (max-width: 520px) {
+  .hpv {
+    padding: 12px;
+  }
+
+  .hpv__window-context {
+    display: none;
+  }
+
+  .hpv__window-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .hpv__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hpv__metrics article:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hpv__content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hpv__project-row {
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .hpv__row time {
+  .hpv__project-row-stat {
     display: none;
   }
 
-  .hpv__side {
-    grid-template-columns: 1fr;
+  .hpv__project-head button {
+    display: none;
   }
 }
 </style>
