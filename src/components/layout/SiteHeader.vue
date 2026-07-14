@@ -27,6 +27,9 @@
           <component
             :is="group.href ? 'a' : 'button'"
             class="site-header__link"
+            :class="{
+              'site-header__link--open': activeDropdown === group.label,
+            }"
             :type="group.href ? undefined : 'button'"
             :href="group.href || undefined"
             :aria-expanded="
@@ -50,6 +53,7 @@
                 stroke-linejoin="round"
               />
             </svg>
+            <span class="site-header__link-indicator" aria-hidden="true" />
           </component>
 
           <Transition name="dropdown">
@@ -60,36 +64,63 @@
               @mouseleave="scheduleClose"
             >
               <div class="site-header__dropdown-arrow" />
+
               <div
-                class="site-header__dropdown-grid"
+                class="site-header__dropdown-panel"
                 :class="{
-                  'site-header__dropdown-grid--wide': group.items.length > 3,
+                  'site-header__dropdown-panel--wide': group.items.length > 3,
                 }"
               >
-                <component
-                  :is="item.to ? 'RouterLink' : 'a'"
-                  v-for="item in group.items"
-                  :key="item.label"
-                  :to="item.to || undefined"
-                  :href="item.href || undefined"
-                  class="site-header__dropdown-card"
-                  @click="closeDropdown"
+                <p class="site-header__dropdown-label">{{ group.label }}</p>
+
+                <div
+                  class="site-header__dropdown-grid"
+                  :class="{
+                    'site-header__dropdown-grid--wide': group.items.length > 3,
+                  }"
                 >
-                  <span class="site-header__dropdown-icon">
-                    <component :is="getIcon(item.label)" />
-                  </span>
-                  <span class="site-header__dropdown-text">
-                    <strong>{{ item.label }}</strong>
-                    <small>{{ item.description }}</small>
-                  </span>
-                </component>
+                  <component
+                    :is="item.to ? 'RouterLink' : 'a'"
+                    v-for="(item, i) in group.items"
+                    :key="item.label"
+                    :to="item.to || undefined"
+                    :href="item.href || undefined"
+                    class="site-header__dropdown-card"
+                    :style="{ '--i': i }"
+                    @click="closeDropdown"
+                  >
+                    <span class="site-header__dropdown-icon">
+                      <component :is="getIcon(item.label)" />
+                    </span>
+                    <span class="site-header__dropdown-text">
+                      <strong>
+                        {{ item.label }}
+                        <svg
+                          class="site-header__dropdown-go"
+                          viewBox="0 0 12 12"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M2.5 6h7M6.5 3l3 3-3 3"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </strong>
+                      <small>{{ item.description }}</small>
+                    </span>
+                  </component>
+                </div>
               </div>
             </div>
           </Transition>
         </div>
       </nav>
 
-      <!-- Right: actions -->
+      <!-- Right actions -->
       <div class="site-header__actions">
         <a
           :href="links.github"
@@ -127,32 +158,13 @@
         "
         @click="toggleMenu"
       >
-        <svg
-          v-if="!menuOpen"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
+        <span
+          class="site-header__burger"
+          :class="{ 'site-header__burger--open': menuOpen }"
           aria-hidden="true"
         >
-          <line x1="4" y1="7" x2="20" y2="7" />
-          <line x1="4" y1="12" x2="20" y2="12" />
-          <line x1="4" y1="17" x2="20" y2="17" />
-        </svg>
-
-        <svg
-          v-else
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <line x1="6" y1="6" x2="18" y2="18" />
-          <line x1="18" y1="6" x2="6" y2="18" />
-        </svg>
+          <i /><i /><i />
+        </span>
       </button>
     </div>
 
@@ -185,7 +197,6 @@ const route = useRoute();
 const scrolled = ref(false);
 const menuOpen = ref(false);
 const activeDropdown = ref("");
-const mobileExpanded = ref("");
 let closeTimer = null;
 
 // ── Dropdown logic ──
@@ -222,10 +233,6 @@ function toggleMenu() {
 }
 function closeMenu() {
   menuOpen.value = false;
-  mobileExpanded.value = "";
-}
-function toggleMobileGroup(label) {
-  mobileExpanded.value = mobileExpanded.value === label ? "" : label;
 }
 
 // ── Scroll detection ──
@@ -274,71 +281,37 @@ onUnmounted(() => {
 });
 
 // ── SVG Icon components (inline, no images) ──
+const stroke = (extra = {}) => ({
+  fill: "none",
+  stroke: "currentColor",
+  "stroke-width": "1.4",
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  ...extra,
+});
+
 const iconDefs = {
   Converdict: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M10 2l2.5 5H18l-4 3.5 1.5 5.5L10 13l-5.5 3 1.5-5.5L2 7h5.5z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M10 2l2.5 5H18l-4 3.5 1.5 5.5L10 13l-5.5 3 1.5-5.5L2 7h5.5z",
+        }),
+      ),
     ]),
 
   PulseGrid: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("rect", {
-        x: 2,
-        y: 2,
-        width: 7,
-        height: 7,
-        rx: 1.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("rect", {
-        x: 11,
-        y: 2,
-        width: 7,
-        height: 7,
-        rx: 1.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("rect", {
-        x: 2,
-        y: 11,
-        width: 7,
-        height: 7,
-        rx: 1.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("rect", {
-        x: 11,
-        y: 11,
-        width: 7,
-        height: 7,
-        rx: 1.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
+      h("rect", stroke({ x: 2, y: 2, width: 7, height: 7, rx: 1.5 })),
+      h("rect", stroke({ x: 11, y: 2, width: 7, height: 7, rx: 1.5 })),
+      h("rect", stroke({ x: 2, y: 11, width: 7, height: 7, rx: 1.5 })),
+      h("rect", stroke({ x: 11, y: 11, width: 7, height: 7, rx: 1.5 })),
     ]),
 
   "Vix Runtime": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("polygon", {
-        points: "10,2 18,7 18,13 10,18 2,13 2,7",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
+      h("polygon", stroke({ points: "10,2 18,7 18,13 10,18 2,13 2,7" })),
       h("circle", {
         cx: 10,
         cy: 10,
@@ -350,56 +323,23 @@ const iconDefs = {
 
   Cnerium: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M10 2v16M2 10h16",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linecap": "round",
-      }),
-      h("circle", {
-        cx: 10,
-        cy: 10,
-        r: 6,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
+      h("path", stroke({ d: "M10 2v16M2 10h16" })),
+      h("circle", stroke({ cx: 10, cy: 10, r: 6 })),
     ]),
 
   Kordex: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M4 4h12v12H4z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("path", {
-        d: "M4 10h12M10 4v12",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        opacity: 0.5,
-      }),
+      h("path", stroke({ d: "M4 4h12v12H4z" })),
+      h(
+        "path",
+        stroke({ d: "M4 10h12M10 4v12", "stroke-width": "1.2", opacity: 0.5 }),
+      ),
     ]),
 
   "Vix Agent": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("circle", {
-        cx: 10,
-        cy: 8,
-        r: 4,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("path", {
-        d: "M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linecap": "round",
-      }),
+      h("circle", stroke({ cx: 10, cy: 8, r: 4 })),
+      h("path", stroke({ d: "M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" })),
       h("circle", {
         cx: 10,
         cy: 8,
@@ -411,16 +351,7 @@ const iconDefs = {
 
   "Vix Game": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("rect", {
-        x: 3,
-        y: 5,
-        width: 14,
-        height: 10,
-        rx: 2.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
+      h("rect", stroke({ x: 3, y: 5, width: 14, height: 10, rx: 2.5 })),
       h("circle", {
         cx: 7.5,
         cy: 10,
@@ -439,184 +370,96 @@ const iconDefs = {
 
   "Ivi.hpp": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M4 4l6 12 6-12",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-      }),
+      h("path", stroke({ d: "M4 4l6 12 6-12", "stroke-width": "1.5" })),
     ]),
 
   Rix: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M3 10a7 7 0 1114 0 7 7 0 01-14 0z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("path", {
-        d: "M10 6v4l2.5 2.5",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-      }),
+      h("path", stroke({ d: "M3 10a7 7 0 1114 0 7 7 0 01-14 0z" })),
+      h("path", stroke({ d: "M10 6v4l2.5 2.5" })),
     ]),
 
   Communities: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("circle", {
-        cx: 7,
-        cy: 7,
-        r: 3,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.3",
-      }),
-      h("circle", {
-        cx: 13,
-        cy: 7,
-        r: 3,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.3",
-      }),
-      h("circle", {
-        cx: 10,
-        cy: 14,
-        r: 3,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.3",
-      }),
+      h("circle", stroke({ cx: 7, cy: 7, r: 3, "stroke-width": "1.3" })),
+      h("circle", stroke({ cx: 13, cy: 7, r: 3, "stroke-width": "1.3" })),
+      h("circle", stroke({ cx: 10, cy: 14, r: 3, "stroke-width": "1.3" })),
     ]),
 
   "Vix Docs": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("path", {
-        d: "M7 9h6M7 12h4",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        "stroke-linecap": "round",
-        opacity: 0.6,
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
+        }),
+      ),
+      h(
+        "path",
+        stroke({ d: "M7 9h6M7 12h4", "stroke-width": "1.2", opacity: 0.6 }),
+      ),
     ]),
 
   "Cnerium Docs": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("path", {
-        d: "M7 9h6M7 12h4",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        "stroke-linecap": "round",
-        opacity: 0.6,
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
+        }),
+      ),
+      h(
+        "path",
+        stroke({ d: "M7 9h6M7 12h4", "stroke-width": "1.2", opacity: 0.6 }),
+      ),
     ]),
 
   "Softadastra Docs": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("circle", {
-        cx: 10,
-        cy: 11,
-        r: 2.5,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        opacity: 0.5,
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
+        }),
+      ),
+      h(
+        "circle",
+        stroke({ cx: 10, cy: 11, r: 2.5, "stroke-width": "1.2", opacity: 0.5 }),
+      ),
     ]),
 
   "Kordex Docs": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("path", {
-        d: "M7 9h6M7 12h4",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        "stroke-linecap": "round",
-        opacity: 0.6,
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M5 3h8l3 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z",
+        }),
+      ),
+      h(
+        "path",
+        stroke({ d: "M7 9h6M7 12h4", "stroke-width": "1.2", opacity: 0.6 }),
+      ),
     ]),
 
   "Engineering Blog": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M14.5 3.5l2 2-9 9H5.5v-2z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("path", {
-        d: "M4 17h12",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linecap": "round",
-        opacity: 0.4,
-      }),
+      h("path", stroke({ d: "M14.5 3.5l2 2-9 9H5.5v-2z" })),
+      h("path", stroke({ d: "M4 17h12", opacity: 0.4 })),
     ]),
 
   Company: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M3 17V6l7-4 7 4v11H3z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-        "stroke-linejoin": "round",
-      }),
-      h("rect", {
-        x: 8,
-        y: 11,
-        width: 4,
-        height: 6,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-      }),
+      h("path", stroke({ d: "M3 17V6l7-4 7 4v11H3z" })),
+      h(
+        "rect",
+        stroke({ x: 8, y: 11, width: 4, height: 6, "stroke-width": "1.2" }),
+      ),
     ]),
 
   Ecosystem: () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("circle", {
-        cx: 10,
-        cy: 10,
-        r: 3,
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
+      h("circle", stroke({ cx: 10, cy: 10, r: 3 })),
       h("circle", {
         cx: 10,
         cy: 3,
@@ -638,43 +481,26 @@ const iconDefs = {
         fill: "currentColor",
         opacity: 0.5,
       }),
-      h("path", {
-        d: "M10 6v-1.5M12.6 11.5l2 1M7.4 11.5l-2 1",
-        stroke: "currentColor",
-        "stroke-width": "1.2",
-        opacity: 0.45,
-      }),
+      h(
+        "path",
+        stroke({
+          d: "M10 6v-1.5M12.6 11.5l2 1M7.4 11.5l-2 1",
+          "stroke-width": "1.2",
+          opacity: 0.45,
+        }),
+      ),
     ]),
 
   "Open Source Model": () =>
     h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-      h("path", {
-        d: "M10 2a8 8 0 100 16 8 8 0 000-16z",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.4",
-      }),
-      h("path", {
-        d: "M7 10l2 2 4-4",
-        fill: "none",
-        stroke: "currentColor",
-        "stroke-width": "1.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-      }),
+      h("path", stroke({ d: "M10 2a8 8 0 100 16 8 8 0 000-16z" })),
+      h("path", stroke({ d: "M7 10l2 2 4-4", "stroke-width": "1.5" })),
     ]),
 };
 
 const fallbackIcon = () =>
   h("svg", { viewBox: "0 0 20 20", width: 18, height: 18 }, [
-    h("circle", {
-      cx: 10,
-      cy: 10,
-      r: 7,
-      fill: "none",
-      stroke: "currentColor",
-      "stroke-width": "1.4",
-    }),
+    h("circle", stroke({ cx: 10, cy: 10, r: 7 })),
     h("circle", { cx: 10, cy: 10, r: 2, fill: "currentColor", opacity: 0.4 }),
   ]);
 
@@ -693,7 +519,9 @@ function getIcon(label) {
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid var(--sd-border);
-  background: color-mix(in srgb, var(--sd-bg-raised) 94%, transparent);
+  background: color-mix(in srgb, var(--sd-bg-raised) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.4);
   transition:
     background 300ms ease,
     border-color 300ms ease,
@@ -701,9 +529,11 @@ function getIcon(label) {
 }
 
 .site-header--scrolled {
-  background: var(--sd-bg-raised);
+  background: color-mix(in srgb, var(--sd-bg-raised) 92%, transparent);
   border-bottom-color: var(--sd-border-strong);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
 /* ── Inner ── */
@@ -727,11 +557,6 @@ function getIcon(label) {
   margin-right: 12px;
   color: var(--sd-text);
   text-decoration: none;
-  transition: opacity 150ms ease;
-}
-
-.site-header__brand:hover {
-  opacity: 0.85;
 }
 
 .site-header__logo {
@@ -740,6 +565,11 @@ function getIcon(label) {
   justify-content: center;
   width: 30px;
   height: 30px;
+  transition: transform 300ms var(--sd-ease-out, ease);
+}
+
+.site-header__brand:hover .site-header__logo {
+  transform: rotate(-8deg) scale(1.05);
 }
 
 .site-header__logo img {
@@ -769,6 +599,7 @@ function getIcon(label) {
 }
 
 .site-header__link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -789,9 +620,27 @@ function getIcon(label) {
 }
 
 .site-header__link:hover,
-.site-header__link[aria-expanded="true"] {
+.site-header__link--open {
   background: var(--sd-bg-muted);
   color: var(--sd-text);
+}
+
+/* animated underline indicator */
+.site-header__link-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sd-orange);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 220ms var(--sd-ease-out, ease);
+}
+
+.site-header__link--open .site-header__link-indicator {
+  transform: scaleX(1);
 }
 
 .site-header__chevron {
@@ -799,19 +648,19 @@ function getIcon(label) {
   height: 10px;
   opacity: 0.55;
   transition:
-    transform 200ms ease,
+    transform 220ms var(--sd-ease-out, ease),
     opacity 150ms ease;
 }
 
-.site-header__link[aria-expanded="true"] .site-header__chevron {
+.site-header__link--open .site-header__chevron {
   transform: rotate(180deg);
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 /* ── Dropdown ── */
 .site-header__dropdown {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 8px);
   left: 50%;
   z-index: 50;
   transform: translateX(-50%);
@@ -821,6 +670,7 @@ function getIcon(label) {
   position: absolute;
   top: -5px;
   left: 50%;
+  z-index: 1;
   width: 10px;
   height: 10px;
   border-top: 1px solid var(--sd-border);
@@ -830,20 +680,42 @@ function getIcon(label) {
   transform: translateX(-50%) rotate(45deg);
 }
 
-.site-header__dropdown-grid {
-  display: grid;
-  gap: 2px;
-  min-width: 280px;
-  max-width: min(580px, calc(100vw - 48px));
-  padding: 6px;
+.site-header__dropdown-panel {
+  min-width: 300px;
+  max-width: min(600px, calc(100vw - 48px));
+  overflow: hidden;
   border: 1px solid var(--sd-border);
   border-radius: var(--sd-radius-lg);
   background: var(--sd-bg-raised);
-  box-shadow: var(--sd-shadow-soft);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.1),
+    0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.site-header__dropdown-panel--wide {
+  width: 560px;
+}
+
+.site-header__dropdown-label {
+  margin: 0;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--sd-border);
+  background: var(--sd-bg-soft);
+  color: var(--sd-text-muted);
+  font-family: var(--sd-font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.site-header__dropdown-grid {
+  display: grid;
+  gap: 2px;
+  padding: 6px;
 }
 
 .site-header__dropdown-grid--wide {
-  width: 540px;
   grid-template-columns: repeat(2, 1fr);
 }
 
@@ -855,7 +727,18 @@ function getIcon(label) {
   padding: 10px;
   border-radius: 10px;
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: card-in 260ms var(--sd-ease-out, ease) forwards;
+  animation-delay: calc(40ms + var(--i, 0) * 30ms);
   transition: background 140ms ease;
+}
+
+@keyframes card-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .site-header__dropdown-card:hover {
@@ -872,6 +755,14 @@ function getIcon(label) {
   background: var(--sd-accent-bg-soft);
   color: var(--sd-orange);
   flex-shrink: 0;
+  transition:
+    transform 180ms var(--sd-ease-out, ease),
+    border-color 150ms ease;
+}
+
+.site-header__dropdown-card:hover .site-header__dropdown-icon {
+  border-color: var(--sd-border-highlight);
+  transform: scale(1.07);
 }
 
 .site-header__dropdown-text {
@@ -882,10 +773,29 @@ function getIcon(label) {
 }
 
 .site-header__dropdown-text strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--sd-text);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.site-header__dropdown-go {
+  width: 11px;
+  height: 11px;
+  color: var(--sd-orange-dark);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms var(--sd-ease-out, ease);
+}
+
+.site-header__dropdown-card:hover .site-header__dropdown-go {
+  opacity: 1;
+  transform: none;
 }
 
 .site-header__dropdown-text small {
@@ -916,12 +826,14 @@ function getIcon(label) {
   color: var(--sd-text-muted);
   transition:
     background 150ms ease,
-    color 150ms ease;
+    color 150ms ease,
+    transform 200ms var(--sd-ease-out, ease);
 }
 
 .site-header__icon-link:hover {
   background: var(--sd-bg-muted);
   color: var(--sd-text);
+  transform: translateY(-1px);
 }
 
 .site-header__actions :deep(.sd-button) {
@@ -930,6 +842,14 @@ function getIcon(label) {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 650;
+  transition:
+    background 150ms ease,
+    box-shadow 200ms ease,
+    transform 200ms var(--sd-ease-out, ease);
+}
+
+.site-header__actions :deep(.sd-button:hover) {
+  transform: translateY(-1px);
 }
 
 .site-header__actions :deep(.sd-button-primary) {
@@ -940,7 +860,7 @@ function getIcon(label) {
 }
 
 .site-header__actions :deep(.sd-button-primary:hover) {
-  box-shadow: 0 4px 14px rgba(173, 81, 23, 0.18);
+  box-shadow: 0 6px 18px rgba(173, 81, 23, 0.24);
 }
 
 .site-header__actions :deep(.sd-button-secondary) {
@@ -950,240 +870,11 @@ function getIcon(label) {
 }
 
 .site-header__actions :deep(.sd-button-secondary:hover) {
-  border-color: var(--sd-border-strong);
   background: var(--sd-bg-muted);
   color: var(--sd-text);
 }
-/* ==========================================================================
-   MOBILE MENU
 
-   KEY FIX: No <Transition>, no v-if.
-   The menu is ALWAYS in the DOM.
-   Show/hide is done via CSS class .site-header__mobile--open
-   using visibility, pointer-events, opacity, and transform.
-
-   This avoids Vue scoped <Transition> race conditions where
-   the menu element gets removed before the enter transition fires.
-   ========================================================================== */
-
-.site-header__mobile {
-  position: fixed;
-  inset: 0;
-  z-index: 1001;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.site-header__mobile--open {
-  pointer-events: auto;
-  visibility: visible;
-}
-
-/* Backdrop — separate element so @click works without .self */
-.site-header__mobile-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(31, 31, 31, 0.32);
-  opacity: 0;
-  transition: opacity 280ms ease;
-}
-
-.site-header__mobile--open .site-header__mobile-backdrop {
-  opacity: 1;
-}
-
-/* Panel — slides down from header */
-.site-header__mobile-panel {
-  position: absolute;
-  top: var(--sd-header-height, 60px);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--sd-bg-raised);
-  border-top: 1px solid var(--sd-border);
-  opacity: 0;
-  transform: translateY(-10px);
-  transition:
-    opacity 280ms ease,
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.site-header__mobile--open .site-header__mobile-panel {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.site-header__mobile-scroll {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-/* ── Mobile body ── */
-.site-header__mobile-body {
-  flex: 1;
-  padding: 12px 20px;
-}
-
-.site-header__mobile-group {
-  border-bottom: 1px solid var(--sd-border);
-}
-
-.site-header__mobile-group:last-child {
-  border-bottom: none;
-}
-
-.site-header__mobile-trigger,
-.site-header__mobile-direct {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 14px 4px;
-  border: none;
-  background: transparent;
-  color: var(--sd-text);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: color 150ms ease;
-}
-
-.site-header__mobile-trigger:active,
-.site-header__mobile-direct:active {
-  color: var(--sd-orange-dark);
-}
-
-.site-header__mobile-direct svg {
-  opacity: 0.4;
-}
-
-.site-header__mobile-arrow {
-  opacity: 0.5;
-  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.site-header__mobile-arrow--open {
-  transform: rotate(180deg);
-  opacity: 0.8;
-}
-
-/* Accordion — CSS grid-template-rows trick (no v-if needed) */
-.site-header__mobile-items {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.site-header__mobile-items--open {
-  grid-template-rows: 1fr;
-}
-
-.site-header__mobile-items-inner {
-  overflow: hidden;
-  display: grid;
-  gap: 2px;
-  padding: 0;
-  transition: padding 300ms ease;
-}
-
-.site-header__mobile-items--open .site-header__mobile-items-inner {
-  padding: 0 0 12px;
-}
-
-.site-header__mobile-item {
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  gap: 10px;
-  align-items: start;
-  padding: 10px 8px;
-  border-radius: 10px;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 150ms ease;
-}
-
-.site-header__mobile-item:active {
-  background: var(--sd-accent-bg-soft);
-}
-
-.site-header__mobile-icon {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--sd-border);
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--sd-orange-dark);
-}
-
-.site-header__mobile-copy {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.site-header__mobile-copy strong {
-  color: var(--sd-text);
-  font-size: 13.5px;
-  font-weight: 680;
-}
-
-.site-header__mobile-copy small {
-  color: var(--sd-text-muted);
-  font-size: 12px;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ── Mobile footer ── */
-.site-header__mobile-footer {
-  display: grid;
-  gap: 8px;
-  padding: 16px 20px;
-  border-top: 1px solid var(--sd-border);
-  background: rgba(0, 0, 0, 0.15);
-  flex-shrink: 0;
-}
-
-.site-header__mobile-cta {
-  width: 100%;
-  justify-content: center;
-}
-
-.site-header__mobile-footer :deep(.sd-button) {
-  width: 100%;
-  justify-content: center;
-  height: 44px;
-  font-size: 14px;
-  border-radius: 10px;
-}
-
-.site-header__mobile-footer :deep(.sd-button-primary) {
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong, #d57a2a),
-    var(--sd-orange, #c06a22)
-  );
-  color: #111;
-  border: none;
-}
-
-.site-header__mobile-footer :deep(.sd-button-secondary) {
-  border: 1px solid var(--sd-border-strong);
-  background: var(--sd-bg-raised);
-  color: var(--sd-text-soft);
-}
-
+/* ── Mobile button (animated burger) ── */
 .site-header__mobile-button {
   display: none;
   width: 38px;
@@ -1196,9 +887,9 @@ function getIcon(label) {
   color: var(--sd-text-soft);
   cursor: pointer;
   transition:
-    background var(--sd-transition-fast),
-    border-color var(--sd-transition-fast),
-    color var(--sd-transition-fast);
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
 }
 
 .site-header__mobile-button:hover,
@@ -1208,34 +899,90 @@ function getIcon(label) {
   color: var(--sd-orange-dark);
 }
 
-.site-header__mobile-button svg {
-  width: 23px;
-  height: 23px;
+.site-header__burger {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 14px;
 }
 
-/* ── Desktop dropdown transitions (these work fine with scoped) ── */
+.site-header__burger i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 280ms var(--sd-ease-out, ease),
+    opacity 200ms ease,
+    top 280ms var(--sd-ease-out, ease);
+}
+
+.site-header__burger i:nth-child(1) {
+  top: 0;
+}
+.site-header__burger i:nth-child(2) {
+  top: 6px;
+}
+.site-header__burger i:nth-child(3) {
+  top: 12px;
+}
+
+.site-header__burger--open i:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+
+.site-header__burger--open i:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.4);
+}
+
+.site-header__burger--open i:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+/* ── Dropdown transition ── */
 .dropdown-enter-active {
   transition:
-    opacity 180ms ease,
-    transform 180ms ease;
+    opacity 200ms var(--sd-ease-out, ease),
+    transform 220ms var(--sd-ease-out, ease);
 }
 
 .dropdown-leave-active {
   transition:
-    opacity 120ms ease,
-    transform 120ms ease;
+    opacity 130ms ease,
+    transform 130ms ease;
 }
 
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateX(-50%) translateY(-6px) scale(0.985);
 }
 
 .dropdown-enter-to,
 .dropdown-leave-from {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .site-header__dropdown-card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .site-header__link-indicator,
+  .site-header__chevron,
+  .site-header__logo,
+  .site-header__burger i {
+    transition: none;
+  }
 }
 
 /* ── Responsive ── */
@@ -1274,19 +1021,5 @@ function getIcon(label) {
   .site-header__wordmark {
     font-size: 15.5px;
   }
-
-  .site-header__mobile-body {
-    padding: 8px 16px;
-  }
-
-  .site-header__mobile-footer {
-    padding: 12px 16px;
-  }
 }
-@media (min-width: 1101px) {
-  .mobile-menu {
-    display: none !important;
-  }
-}
-
 </style>
