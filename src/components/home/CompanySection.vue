@@ -1,350 +1,146 @@
 <template>
   <section class="company-section sd-section">
-    <div class="sd-section__inner">
-      <div class="company-section__grid">
-        <div class="company-section__content sd-reveal">
-          <SectionHeading
-            eyebrow="Company Model"
-            title="Focused C++ tooling. Open foundations. Clear direction."
-            text="Softadastra is a C++ tooling company. It builds and maintains a focused technical ecosystem for modern C++ development: runtime foundations, developer workflows, backend reliability, local-first runtime layers, and real validation applications."
-          />
+    <div class="sd-section__inner company-section__inner">
+      <div class="company-section__copy sd-reveal">
+        <p class="company-section__eyebrow">The company</p>
+        <h2>The company behind the tooling</h2>
+        <p>
+          Softadastra is a developer tooling company focused on modern C++
+          applications. It develops open foundations for local development and
+          runtime workflows, together with team tools for packages, project
+          metadata, diagnostics, and collaboration.
+        </p>
+        <p>
+          The company is building one coherent path from creating a native
+          application to organizing its development across a team.
+        </p>
+        <a class="company-section__link" :href="links.company">Learn about Softadastra</a>
+      </div>
 
-          <div class="company-section__metrics">
-            <div class="company-section__metric">
-              <strong>C++</strong>
-              <span>Tooling focus</span>
-            </div>
-
-            <div class="company-section__metric">
-              <strong>Open</strong>
-              <span>Technical foundations</span>
-            </div>
-
-            <div class="company-section__metric">
-              <strong>Focused</strong>
-              <span>No product noise</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="company-section__model sd-reveal sd-reveal-d2">
-          <div
-            v-for="(step, index) in steps"
-            :key="step.title"
-            :class="[
-              'company-section__step',
-              step.accent ? 'company-section__step--accent' : '',
-            ]"
-          >
-            <div class="company-section__step-head">
-              <span
-                :class="[
-                  'company-section__num',
-                  step.green ? 'company-section__num--green' : '',
-                  step.accent ? 'company-section__num--accent' : '',
-                ]"
-              >
-                {{ step.number }}
-              </span>
-
-              <div class="company-section__body">
-                <strong>{{ step.title }}</strong>
-                <span>{{ step.text }}</span>
-              </div>
-            </div>
-
-            <div
-              v-if="index < steps.length - 1"
-              class="company-section__connector"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
+      <div class="company-section__principles sd-reveal sd-reveal-d2">
+        <article v-for="principle in principles" :key="principle.title">
+          <span>{{ principle.number }}</span>
+          <h3>{{ principle.title }}</h3>
+          <p>{{ principle.text }}</p>
+        </article>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import SectionHeading from "../ui/SectionHeading.vue";
+import { links } from "../../data/links";
 
-const steps = [
+const principles = [
   {
     number: "01",
-    title: "Softadastra Company",
-    text: "Maintains one clear direction: make modern C++ development simpler, faster, and more accessible.",
+    title: "Open foundations",
+    text: "The core development workflow remains inspectable and usable locally.",
   },
   {
     number: "02",
-    title: "Vix.cpp foundation",
-    text: "The open C++ runtime and developer toolkit that gives the ecosystem its technical base.",
+    title: "Native applications",
+    text: "The platform is designed around compiled applications and native performance.",
   },
   {
     number: "03",
-    title: "Focused tooling layers",
-    text: "Softadastra Engine, Cnerium, and Kordex extend the ecosystem with offline-first foundations, backend reliability, and local-first runtime work.",
-  },
-  {
-    number: "04",
-    title: "Real validation",
-    text: "Pico proves the stack inside a real C++ backend application instead of staying only as isolated examples.",
-    green: true,
-  },
-  {
-    number: "05",
-    title: "Developer adoption",
-    text: "Documentation, registry, engineering notes, and open repositories help developers understand, use, and trust the tooling.",
-    accent: true,
+    title: "Coherent tooling",
+    text: "Each product solves one layer of the same development workflow.",
   },
 ];
 </script>
 
 <style scoped>
 .company-section {
-  position: relative;
-  overflow: hidden;
+  background: var(--sd-bg-soft);
+  border-block: 1px solid var(--sd-border);
 }
 
-.company-section::before {
-  content: none;
-}
-
-.company-section__grid {
-  position: relative;
+.company-section__inner {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
-  gap: 72px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.8fr);
+  gap: clamp(32px, 5vw, 72px);
   align-items: center;
 }
 
-.company-section__content {
-  min-width: 0;
-}
-
-.company-section__metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  max-width: 520px;
-  margin-top: 36px;
-}
-
-.company-section__metric {
-  padding: 16px;
-  border: 1px solid var(--sd-border);
-  border-radius: 16px;
-  background:
-    linear-gradient(
-      180deg,
-      var(--sd-bg-raised),
-      var(--sd-bg-soft)
-    ),
-    var(--sd-bg-raised);
-}
-
-.company-section__metric strong {
-  display: block;
-  color: var(--sd-text);
+.company-section__eyebrow {
+  margin: 0 0 10px;
+  color: var(--sd-orange-dark);
   font-family: var(--sd-font-mono);
-  font-size: 14px;
-  font-weight: 820;
-  letter-spacing: 0.03em;
-}
-
-.company-section__metric span {
-  display: block;
-  margin-top: 6px;
-  color: var(--sd-text-muted);
-  font-size: 13px;
-  line-height: 1.35;
-}
-
-.company-section__model {
-  position: relative;
-  display: grid;
-  gap: 0;
-  padding: 26px;
-  border: 1px solid var(--sd-border);
-  border-radius: 24px;
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(174, 185, 255, 0.1),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      var(--sd-bg-raised),
-      var(--sd-bg-soft)
-    ),
-    var(--sd-bg-raised);
-  box-shadow:
-    var(--sd-shadow-soft);
-}
-
-.company-section__step {
-  position: relative;
-}
-
-.company-section__step-head {
-  position: relative;
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 16px;
-  align-items: center;
-  padding: 16px;
-  border: 1px solid var(--sd-border);
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      180deg,
-      var(--sd-bg-raised),
-      var(--sd-bg-soft)
-    ),
-    var(--sd-bg-raised);
-  transition:
-    transform 220ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 220ms ease;
-}
-
-.company-section__step-head:hover {
-  border-color: rgba(174, 185, 255, 0.24);
-  background:
-    linear-gradient(
-      180deg,
-      rgba(174, 185, 255, 0.065),
-      var(--sd-bg-soft)
-    ),
-    var(--sd-bg-raised);
-  box-shadow:
-    0 18px 56px rgba(0, 0, 0, 0.26),
-    inset 0 1px 0 var(--sd-bg-raised);
-  transform: translateY(-2px);
-}
-
-.company-section__step--accent .company-section__step-head {
-  border-color: rgba(110, 231, 183, 0.2);
-  background:
-    linear-gradient(
-      180deg,
-      rgba(110, 231, 183, 0.075),
-      rgba(255, 255, 255, 0.016)
-    ),
-    var(--sd-bg-raised);
-}
-
-.company-section__num {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  border: 1px solid rgba(174, 185, 255, 0.16);
-  border-radius: 15px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(174, 185, 255, 0.1),
-      rgba(174, 185, 255, 0.035)
-    ),
-    var(--sd-bg-soft);
-  color: var(--sd-accent);
-  font-family: var(--sd-font-mono);
-  font-size: 12px;
-  font-weight: 820;
-  letter-spacing: 0.03em;
-}
-
-.company-section__num--green {
-  border-color: rgba(110, 231, 183, 0.18);
-  background: var(--sd-green-bg);
-  color: var(--sd-green);
-}
-
-.company-section__num--accent {
-  border-color: rgba(174, 185, 255, 0.2);
-  background: var(--sd-accent-bg);
-  color: var(--sd-accent);
-}
-
-.company-section__body {
-  min-width: 0;
-}
-
-.company-section__body strong {
-  display: block;
-  color: var(--sd-text);
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 760;
-  line-height: 1.28;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.company-section h2 {
+  margin: 0;
+  color: var(--sd-text);
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 740;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.company-section__copy p:not(.company-section__eyebrow) {
+  max-width: 690px;
+  margin: 16px 0 0;
+  color: var(--sd-text-soft);
+  font-size: 15.5px;
+  line-height: 1.68;
+}
+
+.company-section__link {
+  display: inline-flex;
+  margin-top: 24px;
+  color: var(--sd-orange-dark);
+  font-size: 13.5px;
+  font-weight: 720;
+  text-decoration: none;
+}
+
+.company-section__link:hover {
+  color: var(--sd-orange);
+}
+
+.company-section__principles {
+  display: grid;
+  gap: 10px;
+}
+
+.company-section__principles article {
+  padding: 18px;
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius-md);
+  background: var(--sd-bg-raised);
+  box-shadow: var(--sd-shadow-soft);
+}
+
+.company-section__principles span {
+  color: var(--sd-text-muted);
+  font-family: var(--sd-font-mono);
+  font-size: 11px;
+  font-weight: 760;
+}
+
+.company-section__principles h3 {
+  margin: 10px 0 6px;
+  color: var(--sd-text);
+  font-size: 17px;
+  font-weight: 730;
   letter-spacing: -0.015em;
 }
 
-.company-section__body span {
-  display: block;
-  margin-top: 5px;
-  color: var(--sd-text-muted);
+.company-section__principles p {
+  margin: 0;
+  color: var(--sd-text-soft);
   font-size: 13.5px;
-  line-height: 1.45;
+  line-height: 1.55;
 }
 
-.company-section__connector {
-  width: 1px;
-  height: 26px;
-  margin-left: 40px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(174, 185, 255, 0.24),
-    transparent
-  );
-}
-
-@media (max-width: 960px) {
-  .company-section__grid {
-    grid-template-columns: 1fr;
-    gap: 42px;
-  }
-
-  .company-section__model {
-    max-width: 720px;
-  }
-}
-
-@media (max-width: 640px) {
-  .company-section__metrics {
+@media (max-width: 860px) {
+  .company-section__inner {
     grid-template-columns: 1fr;
   }
-
-  .company-section__model {
-    padding: 20px;
-    border-radius: 20px;
-  }
-
-  .company-section__step-head {
-    grid-template-columns: 44px minmax(0, 1fr);
-    padding: 15px;
-  }
-
-  .company-section__num {
-    width: 44px;
-    height: 44px;
-  }
-
-  .company-section__connector {
-    margin-left: 37px;
-  }
 }
-
-@media (max-width: 420px) {
-  .company-section__step-head {
-    grid-template-columns: 1fr;
-  }
-
-  .company-section__connector {
-    margin-left: 22px;
-  }
-}
-
 </style>

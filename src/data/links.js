@@ -18,6 +18,7 @@ export const links = {
   vixBlog: "https://blog.vixcpp.com",
   vixRegistry: "https://registry.vixcpp.com",
   vixGithub: "https://github.com/vixcpp/vix",
+  rix: "https://rix.vixcpp.com",
 
   pico: "https://pico.vixcpp.com",
   picoGithub: "https://github.com/vixcpp/pico",

@@ -2,11 +2,12 @@
   <SiteShell>
     <div class="home-page">
       <HeroSection />
-      <EngineImageSection />
-      <CompanyLogosSection />
-      <EcosystemMap />
-      <SdkCodeSection />
-      <ToolingGrid />
+      <ProblemSection />
+      <PlatformSection />
+      <WorkflowSection />
+      <CompanySection />
+      <ProofSection />
+      <AdditionalProjectsSection />
       <CtaSection />
     </div>
   </SiteShell>
@@ -17,13 +18,14 @@ import { onMounted, onUnmounted } from "vue";
 
 import SiteShell from "../components/layout/SiteShell.vue";
 
-import HeroSection from "../components/home/HeroSection.vue";
-import EngineImageSection from "../components/home/EngineImageSection.vue";
-import CompanyLogosSection from "../components/home/CompanyLogosSection.vue";
-import EcosystemMap from "../components/home/EcosystemMap.vue";
-import SdkCodeSection from "../components/home/SdkCodeSection.vue";
-import ToolingGrid from "../components/home/ToolingGrid.vue";
+import AdditionalProjectsSection from "../components/home/AdditionalProjectsSection.vue";
+import CompanySection from "../components/home/CompanySection.vue";
 import CtaSection from "../components/home/CtaSection.vue";
+import HeroSection from "../components/home/HeroSection.vue";
+import PlatformSection from "../components/home/PlatformSection.vue";
+import ProblemSection from "../components/home/ProblemSection.vue";
+import ProofSection from "../components/home/ProofSection.vue";
+import WorkflowSection from "../components/home/WorkflowSection.vue";
 
 let revealObserver = null;
 
