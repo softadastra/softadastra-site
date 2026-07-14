@@ -19,7 +19,7 @@
 
     <meta name="author" content="Softadastra" />
     <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#12372f" />
+    <meta name="theme-color" content="#f3f3f3" />
 
     <link rel="canonical" href="https://softadastra.com/" />
 
@@ -82,46 +82,26 @@
 
     <style>
       :root {
-        --sa-bg: #12372f;
-        --sa-bg-deep: #0b2b22;
-        --sa-orange: #d57a2a;
-        --sa-orange-strong: #e29a55;
-        --sa-cream: #f6d6aa;
+        --sa-bg: #f3f3f3;
+        --sa-bg-raised: #ffffff;
+        --sa-bg-soft: #fafafa;
+        --sa-border: #e2e2e2;
+        --sa-border-strong: #d2d2d2;
+        --sa-text: #1f1f1f;
+        --sa-muted: #80868b;
+        --sa-orange: #d86f1f;
       }
 
-      html {
-        background: var(--sa-bg-deep);
-      }
-
+      html,
       body {
-        background:
-          radial-gradient(
-            circle at 50% 6%,
-            rgba(246, 222, 184, 0.86) 0%,
-            rgba(222, 174, 111, 0.34) 18%,
-            rgba(18, 55, 47, 0.88) 43%,
-            rgba(11, 43, 34, 1) 100%
-          ),
-          linear-gradient(180deg, #1a4439 0%, #12372f 42%, #0b2b22 100%);
-
-        background-attachment: fixed;
+        background: var(--sa-bg);
       }
 
       #app-loading {
         position: fixed;
         inset: 0;
-        display: grid;
-        place-items: center;
         overflow: hidden;
-        background:
-          radial-gradient(
-            circle at 50% 8%,
-            rgba(246, 222, 184, 0.78) 0%,
-            rgba(222, 174, 111, 0.28) 20%,
-            rgba(18, 55, 47, 0.9) 45%,
-            rgba(11, 43, 34, 1) 100%
-          ),
-          linear-gradient(180deg, #1a4439 0%, #12372f 44%, #0b2b22 100%);
+        background: var(--sa-bg);
         z-index: 9999;
         opacity: 1;
         visibility: visible;
@@ -130,104 +110,277 @@
           visibility 0ms linear 180ms;
       }
 
-      #app-loading::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-
-        background:
-          linear-gradient(
-            165deg,
-            transparent 0%,
-            transparent 36%,
-            rgba(213, 122, 42, 0.24) 37%,
-            rgba(226, 154, 85, 0.18) 43%,
-            transparent 50%
-          ),
-          linear-gradient(
-            18deg,
-            transparent 0%,
-            transparent 68%,
-            rgba(213, 122, 42, 0.22) 69%,
-            rgba(226, 154, 85, 0.16) 75%,
-            transparent 81%
-          );
-      }
-
-      #app-loading::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-
-        background-image: repeating-linear-gradient(
-          0deg,
-          rgba(255, 255, 255, 0.016) 0px,
-          rgba(255, 255, 255, 0.016) 1px,
-          transparent 1px,
-          transparent 4px
-        );
-
-        opacity: 0.3;
-        mix-blend-mode: soft-light;
-      }
-
       #app-loading.is-hiding {
         opacity: 0;
         visibility: hidden;
       }
 
-      .sa-dots {
-        position: relative;
-        z-index: 1;
+      .sa-skeleton {
+        min-height: 100vh;
+        color: var(--sa-text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+          sans-serif;
+      }
+
+      .sa-skeleton__header {
+        height: 52px;
+        border-bottom: 1px solid var(--sa-border);
+        background: var(--sa-bg-raised);
+      }
+
+      .sa-skeleton__header-inner,
+      .sa-skeleton__main {
+        width: min(100% - 40px, 1120px);
+        margin-inline: auto;
+      }
+
+      .sa-skeleton__header-inner {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .sa-skeleton__brand,
+      .sa-skeleton__nav,
+      .sa-skeleton__actions,
+      .sa-skeleton__hero,
+      .sa-skeleton__preview,
+      .sa-skeleton__cards {
         display: flex;
         align-items: center;
+      }
+
+      .sa-skeleton__brand {
+        gap: 10px;
+        flex: 0 0 auto;
+      }
+
+      .sa-skeleton__mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--sa-orange);
+      }
+
+      .sa-skeleton__nav,
+      .sa-skeleton__actions {
+        gap: 8px;
+      }
+
+      .sa-skeleton__main {
+        padding: 48px 0 72px;
+      }
+
+      .sa-skeleton__hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+        gap: clamp(36px, 6vw, 72px);
+        align-items: center;
+      }
+
+      .sa-skeleton__copy,
+      .sa-skeleton__panel,
+      .sa-skeleton__card {
+        min-width: 0;
+      }
+
+      .sa-skeleton__copy {
+        display: grid;
+        gap: 18px;
+      }
+
+      .sa-skeleton__row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .sa-skeleton__preview {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--sa-border);
+        border-radius: 12px;
+        background: var(--sa-bg-raised);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+
+      .sa-skeleton__preview-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--sa-border);
+      }
+
+      .sa-skeleton__preview-body {
+        display: grid;
+        gap: 10px;
+        padding: 10px 0 2px;
+      }
+
+      .sa-skeleton__cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
+        margin-top: 42px;
       }
 
-      .sa-dots span {
-        width: 16px;
-        height: 16px;
-        border-radius: 999px;
+      .sa-skeleton__card {
+        display: grid;
+        gap: 12px;
+        min-height: 132px;
+        padding: 16px;
+        border: 1px solid var(--sa-border);
+        border-radius: 10px;
+        background: var(--sa-bg-raised);
+      }
+
+      .sa-line,
+      .sa-block,
+      .sa-pill,
+      .sa-button,
+      .sa-dot {
+        position: relative;
+        overflow: hidden;
+        background: #e7e7e7;
+      }
+
+      .sa-line::after,
+      .sa-block::after,
+      .sa-pill::after,
+      .sa-button::after,
+      .sa-dot::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
         background: linear-gradient(
-          180deg,
-          var(--sa-orange-strong),
-          var(--sa-orange)
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.72),
+          transparent
         );
-        opacity: 0.28;
-        transform: translateY(0);
-        animation: saDot 1.2s ease-in-out infinite;
-        box-shadow:
-          0 10px 28px rgba(0, 0, 0, 0.35),
-          0 0 24px rgba(213, 122, 42, 0.22);
+        animation: saShimmer 1.35s ease-in-out infinite;
       }
 
-      .sa-dots span:nth-child(2) {
-        animation-delay: 0.15s;
+      .sa-line {
+        height: 12px;
+        border-radius: 5px;
       }
 
-      .sa-dots span:nth-child(3) {
-        animation-delay: 0.3s;
+      .sa-line--brand {
+        width: 118px;
+        height: 16px;
       }
 
-      @keyframes saDot {
-        0%,
+      .sa-line--nav {
+        width: 64px;
+        height: 10px;
+      }
+
+      .sa-line--eyebrow {
+        width: 168px;
+        height: 24px;
+        border-radius: 999px;
+      }
+
+      .sa-line--title-lg {
+        width: min(100%, 520px);
+        height: 48px;
+        border-radius: 8px;
+      }
+
+      .sa-line--title-md {
+        width: min(88%, 460px);
+        height: 48px;
+        border-radius: 8px;
+      }
+
+      .sa-line--text {
+        width: min(100%, 520px);
+      }
+
+      .sa-line--text-short {
+        width: min(72%, 380px);
+      }
+
+      .sa-button {
+        width: 128px;
+        height: 40px;
+        border-radius: 7px;
+      }
+
+      .sa-button--accent {
+        background: var(--sa-orange);
+      }
+
+      .sa-pill {
+        width: 86px;
+        height: 26px;
+        border-radius: 999px;
+      }
+
+      .sa-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+      }
+
+      .sa-block {
+        height: 52px;
+        border-radius: 8px;
+      }
+
+      @keyframes saShimmer {
         100% {
-          transform: translateY(0);
-          opacity: 0.28;
+          transform: translateX(100%);
+        }
+      }
+
+      @media (max-width: 860px) {
+        .sa-skeleton__nav,
+        .sa-skeleton__actions {
+          display: none;
         }
 
-        40% {
-          transform: translateY(-10px);
-          opacity: 0.96;
+        .sa-skeleton__hero,
+        .sa-skeleton__cards {
+          grid-template-columns: 1fr;
+        }
+
+        .sa-skeleton__hero {
+          gap: 34px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .sa-skeleton__header-inner,
+        .sa-skeleton__main {
+          width: min(100% - 28px, 1120px);
+        }
+
+        .sa-skeleton__main {
+          padding-top: 34px;
+        }
+
+        .sa-skeleton__row .sa-button {
+          width: 100%;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .sa-dots span {
+        .sa-line::after,
+        .sa-block::after,
+        .sa-pill::after,
+        .sa-button::after,
+        .sa-dot::after {
           animation: none;
-          opacity: 0.68;
         }
       }
     </style>
@@ -303,10 +456,79 @@
     </noscript>
 
     <div id="app-loading" aria-label="Loading">
-      <div class="sa-dots" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
+      <div class="sa-skeleton" aria-hidden="true">
+        <header class="sa-skeleton__header">
+          <div class="sa-skeleton__header-inner">
+            <div class="sa-skeleton__brand">
+              <span class="sa-skeleton__mark"></span>
+              <span class="sa-line sa-line--brand"></span>
+            </div>
+
+            <div class="sa-skeleton__nav">
+              <span class="sa-line sa-line--nav"></span>
+              <span class="sa-line sa-line--nav"></span>
+              <span class="sa-line sa-line--nav"></span>
+              <span class="sa-line sa-line--nav"></span>
+            </div>
+
+            <div class="sa-skeleton__actions">
+              <span class="sa-pill"></span>
+              <span class="sa-button sa-button--accent"></span>
+            </div>
+          </div>
+        </header>
+
+        <main class="sa-skeleton__main">
+          <section class="sa-skeleton__hero">
+            <div class="sa-skeleton__copy">
+              <span class="sa-line sa-line--eyebrow"></span>
+              <span class="sa-line sa-line--title-lg"></span>
+              <span class="sa-line sa-line--title-md"></span>
+              <span class="sa-line sa-line--text"></span>
+              <span class="sa-line sa-line--text"></span>
+              <span class="sa-line sa-line--text-short"></span>
+              <div class="sa-skeleton__row">
+                <span class="sa-button sa-button--accent"></span>
+                <span class="sa-button"></span>
+              </div>
+            </div>
+
+            <div class="sa-skeleton__preview">
+              <div class="sa-skeleton__preview-top">
+                <div class="sa-skeleton__row">
+                  <span class="sa-dot"></span>
+                  <span class="sa-dot"></span>
+                  <span class="sa-dot"></span>
+                </div>
+                <span class="sa-pill"></span>
+              </div>
+              <div class="sa-skeleton__preview-body">
+                <span class="sa-block"></span>
+                <span class="sa-block"></span>
+                <span class="sa-block"></span>
+                <span class="sa-line sa-line--text-short"></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="sa-skeleton__cards">
+            <div class="sa-skeleton__card">
+              <span class="sa-pill"></span>
+              <span class="sa-line sa-line--text"></span>
+              <span class="sa-line sa-line--text-short"></span>
+            </div>
+            <div class="sa-skeleton__card">
+              <span class="sa-pill"></span>
+              <span class="sa-line sa-line--text"></span>
+              <span class="sa-line sa-line--text-short"></span>
+            </div>
+            <div class="sa-skeleton__card">
+              <span class="sa-pill"></span>
+              <span class="sa-line sa-line--text"></span>
+              <span class="sa-line sa-line--text-short"></span>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
 

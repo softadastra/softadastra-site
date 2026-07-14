@@ -557,7 +557,7 @@ function getIcon(label) {
 .mobile-menu__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(31, 31, 31, 0.32);
   opacity: 0;
   transition: opacity 260ms ease;
 }
@@ -569,8 +569,8 @@ function getIcon(label) {
 .mobile-menu__panel {
   position: absolute;
   inset: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(11, 43, 34, 0.995);
+  border-top: 1px solid var(--sd-border);
+  background: var(--sd-bg-raised);
   opacity: 0;
   transform: translateY(-10px);
   transition:
@@ -601,7 +601,7 @@ function getIcon(label) {
 }
 
 .mobile-menu__group {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--sd-border);
 }
 
 .mobile-menu__group:last-child {
@@ -628,7 +628,7 @@ function getIcon(label) {
 
 .mobile-menu__trigger:active,
 .mobile-menu__direct:active {
-  color: var(--sd-green, #2fd49c);
+  color: var(--sd-orange-dark);
 }
 
 .mobile-menu__direct svg {
@@ -689,7 +689,7 @@ function getIcon(label) {
 }
 
 .mobile-menu__item:active {
-  background: rgba(47, 212, 156, 0.1);
+  background: var(--sd-accent-bg-soft);
 }
 
 .mobile-menu__item-icon {
@@ -697,10 +697,10 @@ function getIcon(label) {
   place-items: center;
   width: 30px;
   height: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--sd-border);
   border-radius: 7px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--sd-green, #2fd49c);
+  background: var(--sd-bg-soft);
+  color: var(--sd-orange-dark);
 }
 
 .mobile-menu__item-icon svg {
@@ -737,8 +737,8 @@ function getIcon(label) {
   width: min(100% - 40px, var(--sd-container));
   margin-inline: auto;
   padding: 16px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--sd-border);
+  background: var(--sd-bg-soft);
 }
 
 .mobile-menu__actions :deep(.sd-button) {
@@ -750,18 +750,14 @@ function getIcon(label) {
 }
 
 .mobile-menu__actions :deep(.sd-button-primary) {
-  border: none;
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong, #d57a2a),
-    var(--sd-orange, #c06a22)
-  );
-  color: #111;
+  border-color: var(--sd-orange);
+  background: var(--sd-orange);
+  color: #ffffff;
 }
 
 .mobile-menu__actions :deep(.sd-button-secondary) {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--sd-border-strong);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-soft);
 }
 
@@ -780,129 +776,4 @@ function getIcon(label) {
   }
 }
 
-/* ==========================================================================
-   Softadastra Engine mobile menu override
-   ========================================================================== */
-
-.mobile-menu__backdrop {
-  background: rgba(4, 20, 16, 0.58);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-}
-
-.mobile-menu__panel {
-  border-top: 1px solid rgba(255, 244, 224, 0.09);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.1) 0%,
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 82% 12%,
-      rgba(213, 122, 42, 0.14) 0%,
-      transparent 38%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(18, 55, 47, 0.98) 0%,
-      rgba(11, 43, 34, 0.98) 48%,
-      rgba(7, 28, 23, 1) 100%
-    );
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 244, 224, 0.05),
-    0 -1px 0 rgba(255, 244, 224, 0.04);
-}
-
-.mobile-menu__content {
-  position: relative;
-  z-index: 1;
-}
-
-.mobile-menu__group {
-  border-bottom: 1px solid rgba(255, 244, 224, 0.08);
-}
-
-.mobile-menu__trigger,
-.mobile-menu__direct {
-  color: rgba(255, 248, 235, 0.94);
-}
-
-.mobile-menu__trigger:active,
-.mobile-menu__direct:active {
-  color: var(--sd-orange-strong);
-}
-
-.mobile-menu__direct svg,
-.mobile-menu__arrow {
-  color: rgba(246, 232, 204, 0.58);
-}
-
-.mobile-menu__arrow--open {
-  color: var(--sd-orange-strong);
-}
-
-/* ==========================================================================
-   Mobile menu items override
-   ========================================================================== */
-
-.mobile-menu__item {
-  border: 1px solid transparent;
-}
-
-.mobile-menu__item:active {
-  border-color: rgba(226, 154, 85, 0.2);
-  background: rgba(213, 122, 42, 0.1);
-}
-
-.mobile-menu__item-icon {
-  border-color: rgba(255, 244, 224, 0.1);
-  background: rgba(255, 244, 224, 0.045);
-  color: var(--sd-orange-strong);
-}
-
-.mobile-menu__item-copy strong {
-  color: rgba(255, 248, 235, 0.95);
-}
-
-.mobile-menu__item-copy small {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-/* ==========================================================================
-   Mobile menu actions override
-   ========================================================================== */
-
-.mobile-menu__actions {
-  border-top: 1px solid rgba(255, 244, 224, 0.08);
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.mobile-menu__actions :deep(.sd-button-primary) {
-  border: 1px solid rgba(255, 215, 168, 0.18);
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong, #e29a55),
-    var(--sd-orange, #d57a2a)
-  );
-  color: #102b23;
-  box-shadow:
-    0 10px 28px rgba(213, 122, 42, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
-}
-
-.mobile-menu__actions :deep(.sd-button-secondary) {
-  border: 1px solid rgba(255, 244, 224, 0.13);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.82);
-}
-
-.mobile-menu__actions :deep(.sd-button-secondary:hover),
-.mobile-menu__actions :deep(.sd-button-secondary:active) {
-  border-color: rgba(255, 244, 224, 0.22);
-  background: rgba(255, 244, 224, 0.075);
-  color: rgba(255, 248, 235, 0.96);
-}
 </style>

@@ -118,8 +118,8 @@ defineProps({
   border: 1px solid var(--sd-border);
   border-radius: 18px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
-    #0d1319;
+    linear-gradient(180deg, var(--sd-bg-raised), var(--sd-bg-soft)),
+    var(--sd-bg-raised);
   transition:
     transform 240ms ease,
     border-color 180ms ease,
@@ -130,42 +130,15 @@ defineProps({
 .product-card:hover {
   border-color: rgba(174, 185, 255, 0.24);
   background:
-    linear-gradient(180deg, rgba(174, 185, 255, 0.065), rgba(255, 255, 255, 0.018)),
-    #0f161d;
+    linear-gradient(180deg, rgba(174, 185, 255, 0.065), var(--sd-bg-soft)),
+    var(--sd-bg-raised);
   box-shadow:
-    0 22px 70px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-  transform: translateY(-4px);
+    var(--sd-shadow-soft);
+  transform: translateY(-2px);
 }
 
 .product-card__glow {
-  position: absolute;
-  top: -90px;
-  right: -90px;
-  width: 220px;
-  height: 220px;
-  border-radius: 999px;
-  background: rgba(174, 185, 255, 0.08);
-  filter: blur(42px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 240ms ease;
-}
-
-.product-card:hover .product-card__glow {
-  opacity: 1;
-}
-
-.product-card--cloud .product-card__glow {
-  background: rgba(110, 231, 183, 0.1);
-}
-
-.product-card--docs .product-card__glow {
-  background: rgba(174, 185, 255, 0.1);
-}
-
-.product-card--package .product-card__glow {
-  background: rgba(103, 232, 249, 0.1);
+  display: none;
 }
 
 .product-card__top {
@@ -187,7 +160,7 @@ defineProps({
   border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(174, 185, 255, 0.1), rgba(174, 185, 255, 0.035)),
-    rgba(255, 255, 255, 0.02);
+    var(--sd-bg-soft);
   color: var(--sd-accent);
 }
 
@@ -232,7 +205,7 @@ defineProps({
   min-height: 23px;
   padding: 0 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
   font-size: 10.5px;

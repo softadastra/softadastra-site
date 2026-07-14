@@ -49,55 +49,13 @@ import BaseButton from "../ui/BaseButton.vue";
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border-top: 1px solid rgba(255, 244, 224, 0.09);
-  background: transparent;
+  border-top: 1px solid var(--sd-border);
+  background: var(--sd-bg);
 }
 
-.engine-image-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 82% 42%,
-      rgba(213, 122, 42, 0.16) 0%,
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 18% 18%,
-      rgba(246, 222, 184, 0.09) 0%,
-      transparent 34%
-    ),
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 34%,
-      rgba(213, 122, 42, 0.12) 35%,
-      rgba(226, 154, 85, 0.08) 42%,
-      transparent 51%
-    );
-}
-
+.engine-image-section::before,
 .engine-image-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.014) 0px,
-    rgba(255, 255, 255, 0.014) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.24;
-  mix-blend-mode: soft-light;
+  content: none;
 }
 
 .engine-image-section__inner {
@@ -119,9 +77,9 @@ import BaseButton from "../ui/BaseButton.vue";
   align-items: center;
   min-height: 28px;
   padding: 0 11px;
-  border: 1px solid rgba(226, 154, 85, 0.28);
-  border-radius: 999px;
-  background: rgba(213, 122, 42, 0.12);
+  border: 1px solid var(--sd-border-strong);
+  border-radius: var(--sd-radius-full);
+  background: var(--sd-bg-raised);
   color: var(--sd-orange-strong);
   font-family: var(--sd-font-mono);
   font-size: 10.5px;
@@ -133,7 +91,7 @@ import BaseButton from "../ui/BaseButton.vue";
 .engine-image-section h2 {
   max-width: 620px;
   margin: 20px 0 0;
-  color: rgba(255, 248, 235, 0.96);
+  color: var(--sd-text);
   font-size: clamp(32px, 4.5vw, 58px);
   font-weight: 850;
   line-height: 0.98;
@@ -143,7 +101,7 @@ import BaseButton from "../ui/BaseButton.vue";
 .engine-image-section p {
   max-width: 560px;
   margin: 22px 0 0;
-  color: rgba(246, 232, 204, 0.68);
+  color: var(--sd-text-soft);
   font-size: 16.5px;
   line-height: 1.7;
 }
@@ -156,23 +114,15 @@ import BaseButton from "../ui/BaseButton.vue";
 }
 
 .engine-image-section__actions :deep(.sd-button-primary) {
-  border: 1px solid rgba(255, 215, 168, 0.18);
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong),
-    var(--sd-orange)
-  );
-  color: #102b23;
-
-  box-shadow:
-    0 10px 28px rgba(213, 122, 42, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  border-color: var(--sd-orange);
+  background: var(--sd-orange);
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(173, 81, 23, 0.16);
 }
 
 .engine-image-section__actions :deep(.sd-button-primary:hover) {
-  box-shadow:
-    0 14px 34px rgba(213, 122, 42, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  background: var(--sd-orange-dark);
+  box-shadow: 0 4px 14px rgba(173, 81, 23, 0.18);
 }
 
 .engine-image-section__meta {
@@ -187,10 +137,10 @@ import BaseButton from "../ui/BaseButton.vue";
   align-items: center;
   min-height: 30px;
   padding: 0 12px;
-  border: 1px solid rgba(255, 244, 224, 0.11);
-  border-radius: 999px;
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.62);
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius-full);
+  background: var(--sd-bg-soft);
+  color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
   font-size: 11px;
   font-weight: 760;
@@ -205,47 +155,17 @@ import BaseButton from "../ui/BaseButton.vue";
 .engine-image-section__frame {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 244, 224, 0.13);
+  border: 1px solid var(--sd-border);
   border-radius: 28px;
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(246, 222, 184, 0.12),
-      transparent 34%
-    ),
-    linear-gradient(180deg, rgba(22, 75, 60, 0.74), rgba(11, 43, 34, 0.72));
+  background: var(--sd-bg-raised);
+  box-shadow: var(--sd-shadow-soft);
 
-  box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.34),
-    0 0 0 1px rgba(255, 244, 224, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  
 }
 
 .engine-image-section__frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      145deg,
-      transparent 0%,
-      transparent 46%,
-      rgba(213, 122, 42, 0.12) 47%,
-      rgba(226, 154, 85, 0.08) 58%,
-      transparent 66%
-    ),
-    radial-gradient(
-      circle at 82% 12%,
-      rgba(213, 122, 42, 0.16),
-      transparent 34%
-    );
+  content: none;
 }
 
 .engine-image-section__frame img {

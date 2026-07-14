@@ -1,59 +1,62 @@
 /* ==========================================================================
    Softadastra Design Tokens
+   Light professional interface
    ========================================================================== */
 
 :root {
-  /* Base colors — image background feeling */
-  --sd-bg: #12372f;
-  --sd-bg-raised: rgba(17, 63, 51, 0.78);
-  --sd-bg-soft: rgba(18, 55, 47, 0.72);
-  --sd-bg-muted: rgba(29, 76, 63, 0.72);
-  --sd-bg-card: rgba(255, 244, 224, 0.055);
+  color-scheme: light;
 
-  /* Brand colors */
-  --sd-orange: #d57a2a;
-  --sd-orange-strong: #e29a55;
-  --sd-orange-dark: #b8621f;
+  /* Base surfaces */
+  --sd-bg: #f3f3f3;
+  --sd-bg-raised: #ffffff;
+  --sd-bg-soft: #fafafa;
+  --sd-bg-muted: #f6f6f6;
+  --sd-bg-card: #ffffff;
 
-  --sd-deep-green: #0b2b22;
-  --sd-green-dark: #12372f;
-  --sd-green-soft: #1f5a49;
+  /* Brand */
+  --sd-orange: #d86f1f;
+  --sd-orange-strong: #ed7d26;
+  --sd-orange-dark: #ad5117;
+
+  --sd-deep-green: #173c33;
+  --sd-green-dark: #214c41;
+  --sd-green-soft: #e8f2ef;
 
   /* Borders */
-  --sd-border: rgba(255, 244, 224, 0.1);
-  --sd-border-strong: rgba(255, 244, 224, 0.18);
-  --sd-border-highlight: rgba(213, 122, 42, 0.38);
+  --sd-border: #e2e2e2;
+  --sd-border-strong: #d2d2d2;
+  --sd-border-highlight: #e9a16c;
 
   /* Text */
-  --sd-text: rgba(255, 248, 235, 0.95);
-  --sd-text-soft: rgba(246, 232, 204, 0.76);
-  --sd-text-muted: rgba(246, 232, 204, 0.56);
-  --sd-text-dim: rgba(246, 232, 204, 0.38);
+  --sd-text: #1f1f1f;
+  --sd-text-soft: #5f6368;
+  --sd-text-muted: #80868b;
+  --sd-text-dim: #a6a6a6;
 
   /* Accent */
   --sd-accent: var(--sd-orange);
   --sd-accent-strong: var(--sd-orange-strong);
-  --sd-accent-bg: rgba(213, 122, 42, 0.13);
-  --sd-accent-bg-soft: rgba(213, 122, 42, 0.07);
+  --sd-accent-bg: #fde8d8;
+  --sd-accent-bg-soft: #fff5ed;
 
   /* Semantic colors */
-  --sd-green: #2fd49c;
-  --sd-green-bg: rgba(47, 212, 156, 0.1);
+  --sd-green: #2e7d32;
+  --sd-green-bg: #e8f5e9;
 
-  --sd-yellow: #f5b84b;
-  --sd-yellow-bg: rgba(245, 184, 75, 0.11);
+  --sd-yellow: #9a6700;
+  --sd-yellow-bg: #fff8d8;
 
-  --sd-pink: #f472b6;
-  --sd-pink-bg: rgba(244, 114, 182, 0.1);
+  --sd-pink: #b4236c;
+  --sd-pink-bg: #fce7f3;
 
-  --sd-cyan: #67e8f9;
-  --sd-cyan-bg: rgba(103, 232, 249, 0.1);
+  --sd-cyan: #087f8c;
+  --sd-cyan-bg: #e5f7f8;
 
-  --sd-blue: #8fa8ff;
-  --sd-blue-bg: rgba(143, 168, 255, 0.1);
+  --sd-blue: #2768c7;
+  --sd-blue-bg: #e8f0fd;
 
-  --sd-purple: #b794f6;
-  --sd-purple-bg: rgba(183, 148, 246, 0.1);
+  --sd-purple: #7047a3;
+  --sd-purple-bg: #f0e9f8;
 
   /* Stack aliases */
   --sd-vix: var(--sd-blue);
@@ -78,115 +81,132 @@
   --sd-converdict-bg: var(--sd-accent-bg);
 
   /* Radius */
-  --sd-radius-xs: 6px;
-  --sd-radius-sm: 8px;
-  --sd-radius-md: 12px;
-  --sd-radius-lg: 16px;
-  --sd-radius-xl: 24px;
+  --sd-radius-xs: 5px;
+  --sd-radius-sm: 7px;
+  --sd-radius-md: 10px;
+  --sd-radius-lg: 12px;
+  --sd-radius-xl: 16px;
   --sd-radius-full: 999px;
 
   /* Layout */
-  --sd-container: 1280px;
-  --sd-header-height: 60px;
+  --sd-container: 1120px;
+  --sd-header-height: 52px;
 
   /* Typography */
   --sd-font:
-    "DM Sans", Inter, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Helvetica, Arial,
+    sans-serif;
 
   --sd-font-mono:
-    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+    "Menlo", "Consolas", "SFMono-Regular", "DejaVu Sans Mono",
+    "Liberation Mono", monospace;
 
   /* Effects */
-  --sd-shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.24);
-  --sd-shadow-card: 0 24px 90px rgba(0, 0, 0, 0.34);
-  --sd-shadow-accent: 0 8px 28px rgba(213, 122, 42, 0.24);
+  --sd-shadow-soft:
+    0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+
+  --sd-shadow-card:
+    0 1px 2px rgba(0, 0, 0, 0.05), 0 14px 40px rgba(0, 0, 0, 0.07);
+
+  --sd-shadow-accent:
+    0 1px 2px rgba(173, 81, 23, 0.08), 0 8px 24px rgba(216, 111, 31, 0.16);
 
   /* Transitions */
-  --sd-transition-fast: 150ms ease;
-  --sd-transition: 200ms ease;
-  --sd-transition-slow: 300ms ease;
+  --sd-transition-fast: 120ms ease;
+  --sd-transition: 180ms ease;
+  --sd-transition-slow: 260ms ease;
 
   /* Animation easing */
   --sd-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ==========================================================================
+   Global foundation
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body,
 #app {
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(216, 111, 31, 0.045),
+      transparent 380px
+    ),
+    var(--sd-bg);
+
   color: var(--sd-text);
   font-family: var(--sd-font);
+  font-size: 14px;
+  line-height: 1.55;
 
-  background:
-    radial-gradient(
-      circle at 50% 8%,
-      rgba(246, 222, 184, 0.92) 0%,
-      rgba(222, 174, 111, 0.42) 18%,
-      rgba(18, 55, 47, 0.82) 43%,
-      rgba(11, 43, 34, 1) 100%
-    ),
-    linear-gradient(180deg, #1a4439 0%, #12372f 42%, #0b2b22 100%);
-
-  background-attachment: fixed;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      165deg,
-      transparent 0%,
-      transparent 37%,
-      rgba(213, 122, 42, 0.32) 38%,
-      rgba(226, 154, 85, 0.28) 43%,
-      transparent 48%
-    ),
-    linear-gradient(
-      15deg,
-      transparent 0%,
-      transparent 68%,
-      rgba(213, 122, 42, 0.34) 69%,
-      rgba(226, 154, 85, 0.24) 74%,
-      transparent 79%
-    ),
-    radial-gradient(
-      circle at 18% 42%,
-      rgba(255, 226, 176, 0.16),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 84% 58%,
-      rgba(213, 122, 42, 0.18),
-      transparent 34%
-    );
-}
-
+/*
+ * The previous dark theme used decorative fixed overlays.
+ * They are disabled in the light interface.
+ */
+body::before,
 body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+  content: none;
+}
 
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.018) 0px,
-    rgba(255, 255, 255, 0.018) 1px,
-    transparent 1px,
-    transparent 4px
-  );
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
 
-  opacity: 0.32;
-  mix-blend-mode: soft-light;
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--sd-accent-bg);
+  color: var(--sd-orange-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--sd-orange);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

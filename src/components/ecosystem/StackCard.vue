@@ -106,7 +106,7 @@ const logoSrc = computed(() => {
   padding: 20px;
   border: 1px solid var(--sd-border);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.028);
+  background: var(--sd-bg-raised);
   color: inherit;
   transition:
     transform var(--sd-transition-fast),
@@ -116,7 +116,7 @@ const logoSrc = computed(() => {
 
 .stack-card:hover {
   border-color: rgba(213, 122, 42, 0.28);
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--sd-bg-raised);
   transform: translateY(-2px);
 }
 
@@ -136,7 +136,7 @@ const logoSrc = computed(() => {
   justify-content: center;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--sd-bg-raised);
   color: var(--sd-accent);
 }
 .stack-card__icon {
@@ -149,7 +149,7 @@ const logoSrc = computed(() => {
   overflow: hidden;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--sd-bg-raised);
 }
 
 .stack-card__icon img {
@@ -256,7 +256,7 @@ const logoSrc = computed(() => {
   padding: 0 10px;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-soft);
   font-size: 12.5px;
   font-weight: 740;
@@ -297,208 +297,4 @@ const logoSrc = computed(() => {
   }
 }
 
-/* ==========================================================================
-   Softadastra Engine stack card override
-   ========================================================================== */
-
-.stack-card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 244, 224, 0.1);
-  border-radius: 18px;
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 244, 224, 0.055),
-      rgba(255, 244, 224, 0.022)
-    );
-
-  box-shadow:
-    0 18px 54px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-
-  transition:
-    transform var(--sd-transition-fast),
-    border-color var(--sd-transition-fast),
-    background var(--sd-transition-fast),
-    box-shadow var(--sd-transition-fast);
-}
-
-.stack-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background: linear-gradient(
-    145deg,
-    transparent 0%,
-    transparent 48%,
-    rgba(213, 122, 42, 0.11) 49%,
-    rgba(226, 154, 85, 0.075) 58%,
-    transparent 66%
-  );
-
-  opacity: 0;
-  transition: opacity var(--sd-transition-fast);
-}
-
-.stack-card:hover {
-  border-color: rgba(226, 154, 85, 0.3);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.1),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(213, 122, 42, 0.09),
-      rgba(255, 244, 224, 0.035)
-    );
-
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.22),
-    0 8px 28px rgba(213, 122, 42, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-  transform: translateY(-2px);
-}
-
-.stack-card:hover::before {
-  opacity: 1;
-}
-
-.stack-card__top,
-.stack-card__body,
-.stack-card__actions {
-  position: relative;
-  z-index: 1;
-}
-
-/* ==========================================================================
-   Stack card content override
-   ========================================================================== */
-
-.stack-card__icon {
-  border-color: rgba(255, 244, 224, 0.12);
-
-  background:
-    radial-gradient(
-      circle at 50% 28%,
-      rgba(255, 244, 224, 0.13),
-      transparent 58%
-    ),
-    rgba(255, 244, 224, 0.045);
-
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-}
-
-.stack-card:hover .stack-card__icon {
-  border-color: rgba(226, 154, 85, 0.32);
-  background:
-    radial-gradient(
-      circle at 50% 30%,
-      rgba(213, 122, 42, 0.18),
-      transparent 62%
-    ),
-    rgba(255, 244, 224, 0.055);
-}
-
-.stack-card__status {
-  border-color: rgba(255, 244, 224, 0.1);
-  background: rgba(255, 244, 224, 0.04);
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.stack-card__layer {
-  color: var(--sd-orange-strong);
-}
-
-.stack-card__layer--vix {
-  color: #f6d6aa;
-}
-
-.stack-card__layer--softadastra {
-  color: var(--sd-orange-strong);
-}
-
-.stack-card__layer--kordex {
-  color: #f5b84b;
-}
-
-.stack-card__layer--cnerium {
-  color: #2fd49c;
-}
-
-.stack-card__layer--pulsegrid {
-  color: #67e8f9;
-}
-
-.stack-card__layer--registry {
-  color: #b794f6;
-}
-
-.stack-card__layer--converdict {
-  color: var(--sd-orange);
-}
-
-.stack-card h3 {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.stack-card__role {
-  color: rgba(246, 232, 204, 0.74);
-}
-
-.stack-card__tagline {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.stack-card:hover h3 {
-  color: var(--sd-orange-strong);
-}
-
-/* ==========================================================================
-   Stack card actions override
-   ========================================================================== */
-
-.stack-card__actions {
-  border-top-color: rgba(255, 244, 224, 0.09);
-}
-
-.stack-card__link {
-  border-color: rgba(255, 244, 224, 0.11);
-  background: rgba(255, 244, 224, 0.04);
-  color: rgba(246, 232, 204, 0.72);
-}
-
-.stack-card__link:hover {
-  border-color: rgba(226, 154, 85, 0.3);
-  background: rgba(213, 122, 42, 0.1);
-  color: var(--sd-orange-strong);
-}
-
-.stack-card__link--primary {
-  border-color: rgba(226, 154, 85, 0.28);
-  background: linear-gradient(
-    180deg,
-    rgba(213, 122, 42, 0.16),
-    rgba(213, 122, 42, 0.08)
-  );
-  color: var(--sd-orange-strong);
-}
 </style>
