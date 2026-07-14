@@ -76,55 +76,13 @@ const companies = [
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border-top: 1px solid rgba(255, 244, 224, 0.09);
-  background: transparent;
+  border-top: 1px solid var(--sd-border);
+  background: var(--sd-bg);
 }
 
-.company-logos::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(246, 222, 184, 0.12) 0%,
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 82% 52%,
-      rgba(213, 122, 42, 0.14) 0%,
-      transparent 38%
-    ),
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 34%,
-      rgba(213, 122, 42, 0.1) 35%,
-      rgba(226, 154, 85, 0.07) 42%,
-      transparent 51%
-    );
-}
-
+.company-logos::before,
 .company-logos::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.014) 0px,
-    rgba(255, 255, 255, 0.014) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.24;
-  mix-blend-mode: soft-light;
+  content: none;
 }
 
 .company-logos__inner {
@@ -146,9 +104,9 @@ const companies = [
   align-items: center;
   min-height: 28px;
   padding: 0 11px;
-  border: 1px solid rgba(226, 154, 85, 0.28);
-  border-radius: 999px;
-  background: rgba(213, 122, 42, 0.12);
+  border: 1px solid var(--sd-border-strong);
+  border-radius: var(--sd-radius-full);
+  background: var(--sd-bg-raised);
   color: var(--sd-orange-strong);
   font-family: var(--sd-font-mono);
   font-size: 10.5px;
@@ -160,7 +118,7 @@ const companies = [
 .company-logos__head h2 {
   max-width: 820px;
   margin: 20px auto 0;
-  color: rgba(255, 248, 235, 0.96);
+  color: var(--sd-text);
   font-size: clamp(30px, 4vw, 52px);
   font-weight: 840;
   line-height: 1.04;
@@ -170,7 +128,7 @@ const companies = [
 .company-logos__head p {
   max-width: 720px;
   margin: 18px auto 0;
-  color: rgba(246, 232, 204, 0.64);
+  color: var(--sd-text-soft);
   font-size: 16px;
   line-height: 1.7;
 }
@@ -179,24 +137,13 @@ const companies = [
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   overflow: hidden;
-  border: 1px solid rgba(255, 244, 224, 0.11);
+  border: 1px solid var(--sd-border);
   border-radius: 24px;
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(246, 222, 184, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(180deg, rgba(22, 75, 60, 0.58), rgba(11, 43, 34, 0.64));
+  background: var(--sd-bg-raised);
+  box-shadow: var(--sd-shadow-soft);
 
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 244, 224, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  
 }
 
 .company-logos__item {
@@ -206,7 +153,7 @@ const companies = [
   place-items: center;
   gap: 14px;
   padding: 28px 20px;
-  border-right: 1px solid rgba(255, 244, 224, 0.08);
+  border-right: 1px solid var(--sd-border);
   color: inherit;
   text-align: center;
   text-decoration: none;
@@ -221,26 +168,11 @@ const companies = [
 }
 
 .company-logos__item::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-
-  background: linear-gradient(
-    145deg,
-    transparent 0%,
-    transparent 48%,
-    rgba(213, 122, 42, 0.1) 49%,
-    rgba(226, 154, 85, 0.07) 58%,
-    transparent 66%
-  );
-
-  opacity: 0;
-  transition: opacity var(--sd-transition-fast);
+  content: none;
 }
 
 .company-logos__item:hover {
-  background: rgba(213, 122, 42, 0.07);
+  background: var(--sd-accent-bg-soft);
   transform: translateY(-2px);
 }
 
@@ -255,16 +187,10 @@ const companies = [
   width: 58px;
   height: 58px;
   place-items: center;
-  border: 1px solid rgba(255, 244, 224, 0.12);
-  border-radius: 999px;
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius-full);
 
-  background:
-    radial-gradient(
-      circle at 50% 28%,
-      rgba(255, 244, 224, 0.13),
-      transparent 58%
-    ),
-    rgba(255, 244, 224, 0.045);
+  background: var(--sd-accent-bg-soft);
 
   color: var(--sd-orange-strong);
   font-family: var(--sd-font-mono);
@@ -272,9 +198,7 @@ const companies = [
   font-weight: 900;
   letter-spacing: -0.04em;
 
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .company-logos__copy {
@@ -293,7 +217,7 @@ const companies = [
 
 .company-logos__copy small {
   max-width: 210px;
-  color: rgba(246, 232, 204, 0.56);
+  color: var(--sd-text-muted);
   font-size: 12.5px;
   line-height: 1.4;
 }
@@ -305,7 +229,7 @@ const companies = [
 .company-logos__disclaimer {
   max-width: 760px;
   margin: -12px auto 0;
-  color: rgba(246, 232, 204, 0.42);
+  color: var(--sd-text-muted);
   font-size: 12.5px;
   line-height: 1.55;
   text-align: center;
@@ -321,7 +245,7 @@ const companies = [
   }
 
   .company-logos__item:nth-child(n + 3) {
-    border-top: 1px solid rgba(255, 244, 224, 0.08);
+    border-top: 1px solid var(--sd-border);
   }
 }
 
@@ -334,7 +258,7 @@ const companies = [
   .company-logos__item {
     min-height: 138px;
     border-right: none;
-    border-top: 1px solid rgba(255, 244, 224, 0.08);
+    border-top: 1px solid var(--sd-border);
   }
 
   .company-logos__item:first-child {

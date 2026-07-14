@@ -264,7 +264,7 @@ const relatedStacks = computed(() => {
   border: 1px solid var(--sd-border);
   border-radius: 10px;
   padding: 0 16px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-soft);
   font-size: 0.92rem;
   font-weight: 650;
@@ -278,21 +278,21 @@ const relatedStacks = computed(() => {
 
 .stack-page__button:hover {
   border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--sd-bg-raised);
   color: var(--sd-text);
   transform: translateY(-1px);
 }
 
 .stack-page__button--primary {
-  border-color: rgba(47, 212, 156, 0.35);
-  background: rgba(47, 212, 156, 0.1);
-  color: var(--sd-green, #2fd49c);
+  border-color: rgba(216, 111, 31, 0.35);
+  background: var(--sd-accent-bg-soft);
+  color: var(--sd-orange-dark);
 }
 
 .stack-page__button--primary:hover {
-  border-color: rgba(47, 212, 156, 0.55);
-  background: rgba(47, 212, 156, 0.15);
-  color: var(--sd-green, #2fd49c);
+  border-color: rgba(216, 111, 31, 0.55);
+  background: rgba(216, 111, 31, 0.15);
+  color: var(--sd-orange-dark);
 }
 
 .stack-page__content {
@@ -311,7 +311,7 @@ const relatedStacks = computed(() => {
 
 .stack-page__eyebrow {
   margin: 0 0 10px;
-  color: var(--sd-green, #2fd49c);
+  color: var(--sd-orange-dark);
   font-family: var(--sd-font-mono);
   font-size: 0.72rem;
   font-weight: 800;
@@ -349,7 +349,7 @@ const relatedStacks = computed(() => {
   border: 1px solid var(--sd-border);
   border-radius: 14px;
   padding: 18px 20px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-soft);
   font-size: 0.98rem;
   line-height: 1.6;
@@ -365,7 +365,7 @@ const relatedStacks = computed(() => {
   border: 1px solid var(--sd-border);
   border-radius: 14px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sd-bg-raised);
 }
 
 .stack-page__feature h3 {
@@ -392,7 +392,7 @@ const relatedStacks = computed(() => {
 }
 
 .stack-page__code code {
-  color: var(--sd-green, #2fd49c);
+  color: var(--sd-orange-dark);
   font-family: var(--sd-font-mono);
   font-size: 0.88rem;
   line-height: 1.7;
@@ -400,16 +400,16 @@ const relatedStacks = computed(() => {
 }
 
 .stack-page__section--next {
-  border: 1px solid rgba(47, 212, 156, 0.2);
+  border: 1px solid rgba(216, 111, 31, 0.2);
   border-radius: 18px;
   padding: 28px;
-  background: rgba(47, 212, 156, 0.055);
+  background: rgba(216, 111, 31, 0.055);
 }
 
 .stack-page__text-link {
   display: inline-flex;
   margin-top: 18px;
-  color: var(--sd-green, #2fd49c);
+  color: var(--sd-orange-dark);
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
@@ -429,7 +429,7 @@ const relatedStacks = computed(() => {
   border: 1px solid var(--sd-border);
   border-radius: 14px;
   padding: 18px 20px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--sd-bg-raised);
   text-decoration: none;
   transition:
     background 160ms ease,
@@ -439,7 +439,7 @@ const relatedStacks = computed(() => {
 
 .stack-page__related-card:hover {
   border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--sd-bg-raised);
   transform: translateY(-1px);
 }
 
@@ -501,308 +501,4 @@ const relatedStacks = computed(() => {
   }
 }
 
-/* ==========================================================================
-   Softadastra Engine stack page override
-   ========================================================================== */
-
-.stack-page {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  min-height: 100vh;
-  background: transparent;
-  color: var(--sd-text);
-}
-
-.stack-page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 50% -8%,
-      rgba(246, 222, 184, 0.46) 0%,
-      rgba(222, 174, 111, 0.16) 20%,
-      transparent 44%
-    ),
-    radial-gradient(
-      circle at 84% 22%,
-      rgba(213, 122, 42, 0.14) 0%,
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 12% 58%,
-      rgba(246, 222, 184, 0.08) 0%,
-      transparent 34%
-    ),
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 33%,
-      rgba(213, 122, 42, 0.12) 34%,
-      rgba(226, 154, 85, 0.08) 42%,
-      transparent 51%
-    );
-
-  opacity: 0.95;
-}
-
-.stack-page::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.014) 0px,
-    rgba(255, 255, 255, 0.014) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.26;
-  mix-blend-mode: soft-light;
-}
-
-.stack-page__hero,
-.stack-page__content {
-  position: relative;
-  z-index: 2;
-}
-
-/* ==========================================================================
-   Stack page hero override
-   ========================================================================== */
-
-.stack-page__hero {
-  border-bottom: 1px solid rgba(255, 244, 224, 0.09);
-  padding: 72px 0 56px;
-}
-
-.stack-page__back {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.stack-page__back:hover {
-  color: var(--sd-orange-strong);
-}
-
-.stack-page__meta span {
-  border-color: rgba(255, 244, 224, 0.11);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.62);
-}
-
-.stack-page__hero h1 {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.stack-page__tagline {
-  color: rgba(255, 248, 235, 0.9);
-}
-
-.stack-page__description {
-  color: rgba(246, 232, 204, 0.68);
-}
-
-/* ==========================================================================
-   Stack page buttons override
-   ========================================================================== */
-
-.stack-page__button {
-  border-color: rgba(255, 244, 224, 0.13);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.82);
-
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.stack-page__button:hover {
-  border-color: rgba(255, 244, 224, 0.22);
-  background: rgba(255, 244, 224, 0.075);
-  color: rgba(255, 248, 235, 0.96);
-  transform: translateY(-1px);
-}
-
-.stack-page__button--primary {
-  border-color: rgba(226, 154, 85, 0.32);
-  background: linear-gradient(
-    180deg,
-    rgba(213, 122, 42, 0.18),
-    rgba(213, 122, 42, 0.08)
-  );
-  color: var(--sd-orange-strong);
-
-  box-shadow:
-    0 10px 28px rgba(213, 122, 42, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.stack-page__button--primary:hover {
-  border-color: rgba(226, 154, 85, 0.42);
-  background: linear-gradient(
-    180deg,
-    rgba(213, 122, 42, 0.24),
-    rgba(213, 122, 42, 0.11)
-  );
-  color: #ffc184;
-}
-
-/* ==========================================================================
-   Stack page sections and cards override
-   ========================================================================== */
-
-.stack-page__eyebrow {
-  color: var(--sd-orange-strong);
-}
-
-.stack-page__section h2 {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.stack-page__section p {
-  color: rgba(246, 232, 204, 0.64);
-}
-
-.stack-page__card,
-.stack-page__feature,
-.stack-page__related-card {
-  position: relative;
-  overflow: hidden;
-  border-color: rgba(255, 244, 224, 0.1);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 244, 224, 0.055),
-      rgba(255, 244, 224, 0.022)
-    );
-
-  box-shadow:
-    0 18px 54px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.stack-page__card {
-  color: rgba(246, 232, 204, 0.72);
-}
-
-.stack-page__feature h3 {
-  color: rgba(255, 248, 235, 0.95);
-}
-
-.stack-page__feature p {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.stack-page__related-card:hover {
-  border-color: rgba(226, 154, 85, 0.3);
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.1),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(213, 122, 42, 0.09),
-      rgba(255, 244, 224, 0.035)
-    );
-
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.22),
-    0 8px 28px rgba(213, 122, 42, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-  transform: translateY(-2px);
-}
-
-.stack-page__related-card span {
-  color: rgba(246, 232, 204, 0.44);
-}
-
-.stack-page__related-card strong {
-  color: rgba(255, 248, 235, 0.95);
-}
-
-.stack-page__related-card p {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.stack-page__related-card:hover strong {
-  color: var(--sd-orange-strong);
-}
-
-/* ==========================================================================
-   Stack page code override
-   ========================================================================== */
-
-.stack-page__code {
-  border-color: rgba(255, 244, 224, 0.11);
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(213, 122, 42, 0.08),
-      transparent 34%
-    ),
-    rgba(6, 24, 19, 0.64);
-
-  box-shadow:
-    0 18px 54px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-}
-
-.stack-page__code code {
-  color: #f6d6aa;
-}
-
-/* ==========================================================================
-   Stack page next section override
-   ========================================================================== */
-
-.stack-page__section--next {
-  border: 1px solid rgba(226, 154, 85, 0.24);
-  border-radius: 18px;
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(180deg, rgba(213, 122, 42, 0.11), rgba(255, 244, 224, 0.03));
-
-  box-shadow:
-    0 22px 70px rgba(0, 0, 0, 0.18),
-    0 8px 28px rgba(213, 122, 42, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.stack-page__text-link {
-  color: var(--sd-orange-strong);
-}
-
-.stack-page__text-link:hover {
-  color: #ffc184;
-  text-decoration: none;
-}
 </style>

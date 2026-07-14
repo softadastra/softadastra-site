@@ -7,8 +7,8 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0b2b22",
-  "theme_color": "#0b2b22",
+  "background_color": "#f3f3f3",
+  "theme_color": "#f3f3f3",
   "icons": [
     {
       "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png",

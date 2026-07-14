@@ -35,76 +35,18 @@ import BaseButton from "../ui/BaseButton.vue";
   isolation: isolate;
   overflow: hidden;
   padding: 120px 0;
-  border-top: 1px solid rgba(255, 244, 224, 0.09);
+  border-top: 1px solid var(--sd-border);
   text-align: center;
-  background: transparent;
+  background: var(--sd-bg);
 }
 
-.cta-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 50% 12%,
-      rgba(246, 222, 184, 0.14) 0%,
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 50% 88%,
-      rgba(213, 122, 42, 0.18) 0%,
-      transparent 42%
-    ),
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 34%,
-      rgba(213, 122, 42, 0.12) 35%,
-      rgba(226, 154, 85, 0.08) 42%,
-      transparent 51%
-    );
-}
-
+.cta-section::before,
 .cta-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.014) 0px,
-    rgba(255, 255, 255, 0.014) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.24;
-  mix-blend-mode: soft-light;
+  content: none;
 }
 
 .cta-section__glow {
-  position: absolute;
-  bottom: -190px;
-  left: 50%;
-  z-index: 1;
-  width: min(900px, 92vw);
-  height: 480px;
-  pointer-events: none;
-  transform: translateX(-50%);
-
-  background: radial-gradient(
-    ellipse at center,
-    rgba(213, 122, 42, 0.2) 0%,
-    rgba(246, 222, 184, 0.08) 36%,
-    transparent 70%
-  );
-
-  filter: blur(18px);
+  display: none;
 }
 
 .cta-section__inner {
@@ -117,7 +59,7 @@ import BaseButton from "../ui/BaseButton.vue";
 
 .cta-section__title {
   margin: 0 0 18px;
-  color: rgba(255, 248, 235, 0.96);
+  color: var(--sd-text);
   font-size: clamp(30px, 3.8vw, 50px);
   font-weight: 820;
   line-height: 1.06;
@@ -127,7 +69,7 @@ import BaseButton from "../ui/BaseButton.vue";
 .cta-section__desc {
   max-width: 640px;
   margin: 0 auto 36px;
-  color: rgba(246, 232, 204, 0.68);
+  color: var(--sd-text-soft);
   font-size: 17px;
   line-height: 1.68;
 }
@@ -141,37 +83,28 @@ import BaseButton from "../ui/BaseButton.vue";
 }
 
 .cta-section__actions :deep(.sd-button-primary) {
-  border: 1px solid rgba(255, 215, 168, 0.18);
-  background: linear-gradient(
-    180deg,
-    var(--sd-orange-strong),
-    var(--sd-orange)
-  );
-  color: #102b23;
-
-  box-shadow:
-    0 10px 28px rgba(213, 122, 42, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  border-color: var(--sd-orange);
+  background: var(--sd-orange);
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(173, 81, 23, 0.16);
 }
 
 .cta-section__actions :deep(.sd-button-primary:hover) {
-  box-shadow:
-    0 14px 34px rgba(213, 122, 42, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  background: var(--sd-orange-dark);
+  box-shadow: 0 4px 14px rgba(173, 81, 23, 0.18);
 }
 
 .cta-section__actions :deep(.sd-button-secondary) {
-  border-color: rgba(255, 244, 224, 0.13);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  border-color: var(--sd-border-strong);
+  background: var(--sd-bg-soft);
+  color: var(--sd-text-soft);
+  
 }
 
 .cta-section__actions :deep(.sd-button-secondary:hover) {
-  border-color: rgba(255, 244, 224, 0.22);
-  background: rgba(255, 244, 224, 0.075);
-  color: rgba(255, 248, 235, 0.96);
+  border-color: var(--sd-border-strong);
+  background: var(--sd-bg-muted);
+  color: var(--sd-text);
 }
 
 @media (max-width: 640px) {

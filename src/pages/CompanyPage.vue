@@ -194,11 +194,7 @@ const sections = [
   position: relative;
   overflow: hidden;
   padding-bottom: 96px;
-  background: linear-gradient(
-    90deg,
-    rgba(11, 43, 34, 1),
-    rgba(11, 43, 34, 0.72)
-  );
+  background: var(--sd-bg);
 }
 
 .company-page::before,
@@ -268,7 +264,7 @@ const sections = [
   padding: 0 12px;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.028);
+  background: var(--sd-bg-raised);
   color: var(--sd-text-muted);
   font-family: var(--sd-font-mono);
   font-size: 11px;
@@ -289,7 +285,7 @@ const sections = [
   padding: clamp(28px, 4vw, 42px);
   border: 1px solid var(--sd-border);
   border-radius: 26px;
-  background: rgba(255, 255, 255, 0.028);
+  background: var(--sd-bg-raised);
 }
 
 .company-page__model-copy h2 {
@@ -335,7 +331,7 @@ const sections = [
   overflow: hidden;
   border: 1px solid var(--sd-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--sd-bg-raised);
 }
 
 .company-page__flow-logo img {
@@ -375,7 +371,7 @@ const sections = [
   padding: 12px;
   border: 1px solid var(--sd-border);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.026);
+  background: var(--sd-bg-raised);
 }
 
 .company-page__flow-item-logo {
@@ -433,7 +429,7 @@ const sections = [
   padding: 18px;
   border: 1px solid var(--sd-border);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.028);
+  background: var(--sd-bg-raised);
   transition:
     border-color var(--sd-transition-fast),
     background var(--sd-transition-fast),
@@ -442,7 +438,7 @@ const sections = [
 
 .company-page__section-card:hover {
   border-color: rgba(213, 122, 42, 0.28);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--sd-bg-raised);
   transform: translateY(-2px);
 }
 
@@ -562,357 +558,4 @@ const sections = [
   }
 }
 
-/* ==========================================================================
-   Softadastra Engine company page override
-   ========================================================================== */
-
-.company-page {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding-bottom: 96px;
-  background: transparent;
-}
-
-.company-page::before {
-  content: "";
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 50% -8%,
-      rgba(246, 222, 184, 0.5) 0%,
-      rgba(222, 174, 111, 0.18) 20%,
-      transparent 44%
-    ),
-    radial-gradient(
-      circle at 82% 24%,
-      rgba(213, 122, 42, 0.14) 0%,
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 12% 54%,
-      rgba(246, 222, 184, 0.08) 0%,
-      transparent 34%
-    ),
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 33%,
-      rgba(213, 122, 42, 0.12) 34%,
-      rgba(226, 154, 85, 0.08) 42%,
-      transparent 51%
-    );
-
-  opacity: 0.95;
-}
-
-.company-page::after {
-  content: "";
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.014) 0px,
-    rgba(255, 255, 255, 0.014) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-
-  opacity: 0.26;
-  mix-blend-mode: soft-light;
-}
-
-.company-page__hero,
-.company-page__model,
-.company-page__sections {
-  position: relative;
-  z-index: 2;
-}
-
-/* ==========================================================================
-   Company page hero override
-   ========================================================================== */
-
-.company-page__hero {
-  padding: 88px 0 54px;
-  text-align: center;
-}
-
-.company-page__eyebrow {
-  border-color: rgba(226, 154, 85, 0.28);
-  background: rgba(213, 122, 42, 0.12);
-  color: var(--sd-orange-strong);
-}
-
-.company-page__hero h1 {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.company-page__hero p {
-  color: rgba(246, 232, 204, 0.72);
-}
-
-.company-page__hero-meta span {
-  border-color: rgba(255, 244, 224, 0.11);
-  background: rgba(255, 244, 224, 0.045);
-  color: rgba(246, 232, 204, 0.62);
-}
-
-.company-page__hero-meta span:hover {
-  border-color: rgba(226, 154, 85, 0.24);
-  background: rgba(213, 122, 42, 0.09);
-  color: rgba(255, 248, 235, 0.9);
-}
-/* ==========================================================================
-   Company model card override
-   ========================================================================== */
-
-.company-page__model-card {
-  border-color: rgba(255, 244, 224, 0.12);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.09),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 88% 16%,
-      rgba(213, 122, 42, 0.13),
-      transparent 38%
-    ),
-    linear-gradient(180deg, rgba(22, 75, 60, 0.68), rgba(11, 43, 34, 0.72));
-
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.24),
-    0 0 0 1px rgba(255, 244, 224, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.055);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.company-page__model-copy h2 {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.company-page__model-copy p {
-  color: rgba(246, 232, 204, 0.62);
-}
-/* ==========================================================================
-   Company flow override
-   ========================================================================== */
-
-.company-page__flow-main {
-  border-color: rgba(226, 154, 85, 0.28);
-
-  background: linear-gradient(
-    180deg,
-    rgba(213, 122, 42, 0.16),
-    rgba(213, 122, 42, 0.07)
-  );
-
-  box-shadow:
-    0 18px 54px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-}
-
-.company-page__flow-logo,
-.company-page__flow-item-logo {
-  border-color: rgba(255, 244, 224, 0.12);
-
-  background:
-    radial-gradient(
-      circle at 50% 28%,
-      rgba(255, 244, 224, 0.13),
-      transparent 58%
-    ),
-    rgba(255, 244, 224, 0.045);
-}
-
-.company-page__flow-main strong {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.company-page__flow-main span:not(.company-page__flow-logo) {
-  color: rgba(246, 232, 204, 0.62);
-}
-
-.company-page__flow-item {
-  border-color: rgba(255, 244, 224, 0.1);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 244, 224, 0.055),
-      rgba(255, 244, 224, 0.022)
-    ),
-    rgba(11, 43, 34, 0.56);
-
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  transition:
-    border-color var(--sd-transition-fast),
-    background var(--sd-transition-fast),
-    transform var(--sd-transition-fast);
-}
-
-.company-page__flow-item:hover {
-  border-color: rgba(226, 154, 85, 0.28);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(213, 122, 42, 0.09),
-      rgba(255, 244, 224, 0.03)
-    ),
-    rgba(11, 43, 34, 0.64);
-
-  transform: translateY(-2px);
-}
-
-.company-page__flow-item strong {
-  color: rgba(255, 248, 235, 0.95);
-}
-
-.company-page__flow-item small {
-  color: rgba(246, 232, 204, 0.56);
-}
-/* ==========================================================================
-   Company section cards override
-   ========================================================================== */
-
-.company-page__section-card {
-  position: relative;
-  overflow: hidden;
-  border-color: rgba(255, 244, 224, 0.1);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 244, 224, 0.055),
-      rgba(255, 244, 224, 0.022)
-    );
-
-  box-shadow:
-    0 18px 54px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.company-page__section-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background: linear-gradient(
-    145deg,
-    transparent 0%,
-    transparent 48%,
-    rgba(213, 122, 42, 0.1) 49%,
-    rgba(226, 154, 85, 0.07) 58%,
-    transparent 66%
-  );
-
-  opacity: 0;
-  transition: opacity var(--sd-transition-fast);
-}
-
-.company-page__section-card:hover {
-  border-color: rgba(226, 154, 85, 0.3);
-
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(246, 222, 184, 0.1),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(213, 122, 42, 0.09),
-      rgba(255, 244, 224, 0.035)
-    );
-
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.22),
-    0 8px 28px rgba(213, 122, 42, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-  transform: translateY(-2px);
-}
-
-.company-page__section-card:hover::before {
-  opacity: 1;
-}
-
-.company-page__section-label,
-.company-page__section-card h3,
-.company-page__section-card p,
-.company-page__section-link {
-  position: relative;
-  z-index: 1;
-}
-
-.company-page__section-label {
-  color: var(--sd-orange-strong);
-}
-
-.company-page__section-card h3 {
-  color: rgba(255, 248, 235, 0.95);
-}
-
-.company-page__section-card p {
-  color: rgba(246, 232, 204, 0.56);
-}
-
-.company-page__section-card:hover h3 {
-  color: var(--sd-orange-strong);
-}
-
-.company-page__section-link {
-  color: var(--sd-orange-strong);
-}
-
-.company-page__section-link:hover {
-  color: #ffc184;
-}
-
-/* ==========================================================================
-   Company page heading override
-   ========================================================================== */
-
-.company-page :deep(.sd-section-heading__eyebrow) {
-  color: var(--sd-orange-strong);
-}
-
-.company-page :deep(.sd-section-heading__eyebrow::before) {
-  background: var(--sd-orange);
-  opacity: 0.65;
-}
-
-.company-page :deep(.sd-section-heading__title) {
-  color: rgba(255, 248, 235, 0.96);
-}
-
-.company-page :deep(.sd-section-heading__text) {
-  color: rgba(246, 232, 204, 0.62);
-}
 </style>
