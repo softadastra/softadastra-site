@@ -4,4 +4,5 @@
 /products/softadastra-converdict /ecosystem 301
 /products/softadastra-docs https://docs.softadastra.com/ 301
 /products/softadastra-builds /ecosystem 301
+/updates/oscar-service/* /404 404
 /* /index.html 200

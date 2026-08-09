@@ -5,6 +5,7 @@ import EcosystemPage from "../pages/EcosystemPage.vue";
 import StackPage from "../pages/StackPage.vue";
 import ToolingPage from "../pages/ToolingPage.vue";
 import CompanyPage from "../pages/CompanyPage.vue";
+import OscarServicePage from "../pages/OscarServicePage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
 
 const routes = [
@@ -65,6 +66,16 @@ const routes = [
           id: to.params.id,
         },
       };
+    },
+  },
+  {
+    path: "/oscar-service",
+    name: "oscar-service",
+    component: OscarServicePage,
+    meta: {
+      title: "Oscar Service | Softadastra",
+      description:
+        "Téléchargez Oscar Service, le logiciel simple de gestion des transactions, calculs et rapports.",
     },
   },
   {
