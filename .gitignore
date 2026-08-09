@@ -26,3 +26,6 @@ dist-ssr
 .git/
 cmd.md
 guide.md
+
+# Oscar Service staged release artifacts
+public/updates/oscar-service/
