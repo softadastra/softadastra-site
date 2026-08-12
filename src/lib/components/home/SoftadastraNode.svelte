@@ -1,27 +1,6 @@
 <script lang="ts">
-	import { onMount, type Component } from 'svelte';
 	import Container from '$lib/components/ui/Container.svelte';
-
-	let nodeStage: HTMLDivElement;
-	let NodeVisualization: Component | undefined = $state();
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (!entry.isIntersecting) return;
-
-				observer.disconnect();
-				void import('./SoftadastraNode3D.svelte').then(({ default: component }) => {
-					NodeVisualization = component;
-				});
-			},
-			{ rootMargin: '300px 0px' }
-		);
-
-		observer.observe(nodeStage);
-
-		return () => observer.disconnect();
-	});
+	import SoftadastraNodeVisual from './SoftadastraNodeVisual.svelte';
 
 	const specifications = [
 		{
@@ -171,10 +150,8 @@
 				</p>
 			</header>
 
-			<div class="node-stage" bind:this={nodeStage}>
-				{#if NodeVisualization}
-					<NodeVisualization />
-				{/if}
+			<div class="node-stage">
+				<SoftadastraNodeVisual />
 			</div>
 
 			<p class="node-intro">
@@ -297,7 +274,7 @@
 	}
 
 	/* --------------------------------------------------
-	   3D Node
+	   Node visual
 	-------------------------------------------------- */
 
 	.node-stage {
