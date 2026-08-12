@@ -1,88 +1,82 @@
 <script lang="ts">
 	import Container from '$lib/components/ui/Container.svelte';
 
-const navigation = [
-	{ label: 'Research', href: '/research' },
-	{ label: 'Technology', href: '/technology' },
-	{ label: 'The System', href: '/#system' },
-	{ label: 'Open Source', href: '/open-source' },
-	{ label: 'Company', href: '/company' }
-];
-
-	const external = [
+	const links = [
 		{
-			label: 'Vix.cpp',
-			href: 'https://vixcpp.com'
+			label: 'research',
+			href: '/research'
 		},
 		{
-			label: 'GitHub',
-			href: 'https://github.com/softadastra'
+			label: 'technology',
+			href: '/technology'
+		},
+		{
+			label: 'open source',
+			href: '/open-source'
+		},
+		{
+			label: 'company',
+			href: '/company'
+		},
+		{
+			label: 'Vix.cpp',
+			href: 'https://vixcpp.com',
+			external: true
+		},
+		{
+			label: 'runtime',
+			href: 'https://github.com/softadastra/runtime',
+			external: true
+		},
+		{
+			label: 'github',
+			href: 'https://github.com/softadastra',
+			external: true
 		}
 	];
 </script>
 
 <footer class="site-footer">
 	<Container>
-		<div class="footer-main">
-			<div class="footer-brand">
-				<a href="/" class="brand" aria-label="Softadastra home">
-					<span class="brand-mark" aria-hidden="true"></span>
-					<span class="brand-name">Softadastra</span>
+		<div class="footer-content">
+			<div class="footer-main">
+				<a
+					class="footer-brand"
+					href="/"
+					aria-label="Softadastra home"
+				>
+					Softadastra
 				</a>
 
-				<p>Make computing infrastructure-independent.</p>
+				<nav
+					class="footer-nav"
+					aria-label="Footer navigation"
+				>
+					{#each links as link, index}
+						{#if index > 0}
+							<span aria-hidden="true">|</span>
+						{/if}
+
+						<a
+							href={link.href}
+							target={link.external ? '_blank' : undefined}
+							rel={link.external ? 'noopener noreferrer' : undefined}
+						>
+							{link.label}
+						</a>
+					{/each}
+				</nav>
 			</div>
 
-			<div class="footer-navigation">
-				<div class="footer-column">
-					<span class="column-label">Explore</span>
+			<div class="footer-bottom">
+				<p>
+					Make computing infrastructure-independent.
+				</p>
 
-					<nav aria-label="Footer navigation">
-						{#each navigation as item}
-							<a href={item.href}>{item.label}</a>
-						{/each}
-					</nav>
-				</div>
-
-				<div class="footer-column">
-					<span class="column-label">Technology</span>
-
-					<div class="footer-links">
-						{#each external as item}
-							<a
-								href={item.href}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								{item.label}
-
-								<svg
-									viewBox="0 0 16 16"
-									fill="none"
-									aria-hidden="true"
-								>
-									<path
-										d="M5.5 10.5L10.5 5.5M6.5 5.5H10.5V9.5"
-										stroke="currentColor"
-										stroke-width="1.3"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									/>
-								</svg>
-							</a>
-						{/each}
-					</div>
-				</div>
+				<p>
+					© {new Date().getFullYear()} Softadastra
+				</p>
 			</div>
-		</div>
-
-		<div class="footer-bottom">
-			<p>© {new Date().getFullYear()} Softadastra.</p>
-
-			<p class="footer-principle">
-				Software expresses intent.
-				<span>Infrastructure satisfies it.</span>
-			</p>
 		</div>
 	</Container>
 </footer>
@@ -90,151 +84,149 @@ const navigation = [
 <style>
 	.site-footer {
 		background: var(--color-white);
+		color: var(--color-text);
 	}
 
+	.footer-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+
+		padding-block: 22px 20px;
+
+		border-top: 1px solid var(--color-border);
+
+		font-family: var(--font-mono);
+	}
+
+	/* --------------------------------------------------
+	   Main
+	-------------------------------------------------- */
+
 	.footer-main {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: clamp(64px, 10vw, 160px);
-		padding-block: clamp(72px, 8vw, 104px);
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 24px;
 	}
 
 	.footer-brand {
-		max-width: 420px;
+		flex: 0 0 auto;
+
+		color: var(--color-accent);
+
+		font-size: 0.86rem;
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.015em;
+
+		text-decoration: none;
 	}
 
-	.brand {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		color: var(--color-black);
+	.footer-brand:hover {
+		color: var(--color-accent);
 	}
 
-	.brand:hover {
-		color: var(--color-black);
-	}
+	/* --------------------------------------------------
+	   Navigation
+	-------------------------------------------------- */
 
-	.brand-mark {
-		display: block;
-		width: 30px;
-		height: 30px;
-		flex: 0 0 30px;
-		background: var(--color-accent);
-		-webkit-mask: url('/logo.svg') center / contain no-repeat;
-		mask: url('/logo.svg') center / contain no-repeat;
-	}
-
-	.brand-name {
-		font-size: 1.05rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.025em;
-	}
-
-	.footer-brand > p {
-		max-width: 330px;
-		margin-top: var(--space-5);
-		color: var(--color-muted);
-		font-size: 0.95rem;
-		line-height: 1.65;
-	}
-
-	.footer-navigation {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(140px, 1fr));
-		gap: clamp(48px, 6vw, 88px);
-	}
-
-	.footer-column {
-		min-width: 140px;
-	}
-
-	.column-label {
-		display: block;
-		margin-bottom: var(--space-5);
-		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.footer-column nav,
-	.footer-links {
+	.footer-nav {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--space-3);
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+
+		gap: 5px 8px;
+
+		font-size: 0.7rem;
+		line-height: 1.4;
 	}
 
-	.footer-column a {
-		display: inline-flex;
-		align-items: center;
-		gap: 5px;
+	.footer-nav a {
 		color: var(--color-text-secondary);
-		font-size: 0.88rem;
-		font-weight: var(--font-weight-medium);
-		line-height: 1.5;
+
+		text-decoration: none;
+
 		transition: color var(--transition-fast);
 	}
 
-	.footer-column a:hover {
+	.footer-nav a:hover {
 		color: var(--color-accent);
 	}
 
-	.footer-column svg {
-		width: 14px;
-		height: 14px;
+	.footer-nav > span {
+		color: var(--color-border-strong);
+
+		user-select: none;
 	}
+
+	/* --------------------------------------------------
+	   Bottom
+	-------------------------------------------------- */
 
 	.footer-bottom {
 		display: flex;
-		min-height: 78px;
-		align-items: center;
+		align-items: baseline;
 		justify-content: space-between;
-		gap: var(--space-6);
-		border-top: 1px solid var(--color-border);
+
+		gap: 24px;
+
+		margin-top: 13px;
+
 		color: var(--color-muted);
-		font-size: 0.78rem;
+
+		font-size: 0.65rem;
+		line-height: 1.5;
 	}
 
-	.footer-principle {
-		text-align: right;
+	.footer-bottom p {
+		margin: 0;
 	}
 
-	.footer-principle span {
-		color: var(--color-accent);
-	}
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
 
 	@media (max-width: 760px) {
 		.footer-main {
-			grid-template-columns: 1fr;
-			gap: 64px;
+			flex-direction: column;
+
+			gap: 12px;
 		}
 
-		.footer-navigation {
-			max-width: 500px;
+		.footer-nav {
+			justify-content: flex-start;
+		}
+
+		.footer-bottom {
+			margin-top: 16px;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.footer-content {
+			padding-block: 19px 18px;
+		}
+
+		.footer-brand {
+			font-size: 0.82rem;
+		}
+
+		.footer-nav {
+			gap: 4px 6px;
+
+			font-size: 0.64rem;
 		}
 
 		.footer-bottom {
 			flex-direction: column;
-			align-items: flex-start;
-			justify-content: center;
-			padding-block: var(--space-5);
-		}
 
-		.footer-principle {
-			text-align: left;
-		}
-	}
+			gap: 4px;
 
-	@media (max-width: 480px) {
-		.footer-main {
-			padding-block: 64px;
-		}
-
-		.footer-navigation {
-			grid-template-columns: 1fr;
-			gap: var(--space-7);
+			font-size: 0.61rem;
 		}
 	}
 </style>

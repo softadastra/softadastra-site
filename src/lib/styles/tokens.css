@@ -1,66 +1,124 @@
 :root {
-  /* Brand */
-  --color-accent: #ff9900;
-  --color-accent-hover: #e88900;
+  /* --------------------------------------------------
+	   Brand
+	-------------------------------------------------- */
 
-  /* Surfaces */
+  --color-brand: #d97745;
+
+  --color-accent: #f47b20;
+  --color-accent-hover: #df6814;
+
+  /* --------------------------------------------------
+	   Surfaces
+	-------------------------------------------------- */
+
   --color-white: #ffffff;
   --color-background: #ffffff;
   --color-surface: #ffffff;
 
-  /* Text */
+  /* --------------------------------------------------
+	   Text
+	-------------------------------------------------- */
+
   --color-black: #111111;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #4f4f4f;
-  --color-muted: #6f6f6f;
 
-  /* Borders */
-  --color-border: #e8e8e8;
-  --color-border-strong: #d8d8d8;
+  --color-text: #292929;
+  --color-text-secondary: #4b4743;
+  --color-muted: #77716c;
+  --color-subtle: #8c847e;
 
-  /* Typography */
+  /* --------------------------------------------------
+	   Borders
+	-------------------------------------------------- */
+
+  --color-border: #d9d7d4;
+  --color-border-strong: #c8c3bf;
+
+  /* --------------------------------------------------
+	   Typography
+	-------------------------------------------------- */
+
   --font-sans:
     Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
 
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Layout */
-  --content-width: 1200px;
-  --content-width-narrow: 820px;
+  /* --------------------------------------------------
+	   Layout
+	-------------------------------------------------- */
+
+  --content-width: 1100px;
+  --content-width-narrow: 880px;
 
   --page-padding: 24px;
 
-  /* Spacing */
+  /* --------------------------------------------------
+	   General spacing
+
+	   Deliberately tighter than before.
+	-------------------------------------------------- */
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-9: 96px;
-  --space-10: 128px;
+  --space-5: 20px;
+  --space-6: 28px;
+  --space-7: 36px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
 
-  /* Radius */
+  /* --------------------------------------------------
+	   Section rhythm
+
+	   This becomes the default rhythm of the entire site.
+	-------------------------------------------------- */
+
+  --section-padding: clamp(40px, 4vw, 56px);
+  --section-padding-compact: clamp(32px, 3vw, 44px);
+
+  --section-gap-small: 16px;
+  --section-gap: 24px;
+  --section-gap-large: 36px;
+
+  /* --------------------------------------------------
+	   Radius
+	-------------------------------------------------- */
+
   --radius-small: 6px;
   --radius-medium: 10px;
 
-  /* Motion */
+  /* --------------------------------------------------
+	   Motion
+	-------------------------------------------------- */
+
   --transition-fast: 150ms ease;
   --transition-normal: 220ms ease;
 }
 
 @media (max-width: 640px) {
   :root {
-    --page-padding: 20px;
-    --space-9: 72px;
-    --space-10: 96px;
+    --page-padding: 16px;
+
+    --space-7: 30px;
+    --space-8: 40px;
+    --space-9: 48px;
+    --space-10: 64px;
+
+    --section-padding: 36px;
+    --section-padding-compact: 30px;
+
+    --section-gap-small: 14px;
+    --section-gap: 20px;
+    --section-gap-large: 30px;
   }
 }

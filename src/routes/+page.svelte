@@ -1,10 +1,10 @@
 <script lang="ts">
 	import HeroSection from '$lib/components/home/HeroSection.svelte';
-	import ThesisSection from '$lib/components/home/ThesisSection.svelte';
-	import SystemSection from '$lib/components/home/SystemSection.svelte';
-	import CurrentResearchSection from '$lib/components/home/CurrentResearchSection.svelte';
-	import TechnologySection from '$lib/components/home/TechnologySection.svelte';
+  import CompanySection from '$lib/components/home/CompanySection.svelte';
+	import SoftadastraRuntime from '$lib/components/home/SoftadastraRuntime.svelte';
+	import SoftadastraNode from '$lib/components/home/SoftadastraNode.svelte';
 	import JoinResearchSection from '$lib/components/home/JoinResearchSection.svelte';
+	import FaqSection from '$lib/components/home/FaqSection.svelte';
 </script>
 
 <svelte:head>
@@ -17,7 +17,7 @@
 
 	<meta
 		name="keywords"
-		content="Softadastra, infrastructure-independent computing, adaptive runtime, distributed systems, systems research, C++, Vix.cpp, edge computing, offline-first computing"
+		content="Softadastra, infrastructure-independent computing, adaptive runtime, Softadastra Runtime, Softadastra Node, distributed systems, systems research, C++, Vix.cpp, edge computing, offline-first computing"
 	/>
 
 	<meta name="author" content="Softadastra" />
@@ -25,20 +25,24 @@
 
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Softadastra" />
+
 	<meta
 		property="og:title"
 		content="Softadastra — Make computing infrastructure-independent."
 	/>
+
 	<meta
 		property="og:description"
 		content="Research and technology toward software that expresses intent while computing systems determine how infrastructure satisfies it."
 	/>
 
 	<meta name="twitter:card" content="summary_large_image" />
+
 	<meta
 		name="twitter:title"
 		content="Softadastra — Make computing infrastructure-independent."
 	/>
+
 	<meta
 		name="twitter:description"
 		content="Research and technology toward infrastructure-independent computing."
@@ -46,8 +50,12 @@
 </svelte:head>
 
 <HeroSection />
-<ThesisSection />
-<SystemSection />
-<CurrentResearchSection />
-<TechnologySection />
+<CompanySection />
+
+<SoftadastraRuntime />
+
+<SoftadastraNode />
+
 <JoinResearchSection />
+
+<FaqSection />

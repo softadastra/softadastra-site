@@ -1,83 +1,99 @@
 <script lang="ts">
-	import ButtonLink from '$lib/components/ui/ButtonLink.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 
 	const fields = [
-		'Programming models',
+		'C++',
 		'Distributed systems',
+		'Operating systems',
+		'Compilers',
+		'Programming languages',
 		'Runtimes',
 		'Distributed state',
-		'Reliability',
-		'Heterogeneous computing'
+		'Networking',
+		'Fault tolerance',
+		'Security',
+		'Edge computing',
+		'Heterogeneous computing',
+		'Performance engineering',
+		'Hardware acceleration'
 	];
 </script>
 
-<section class="join" id="open-source" aria-labelledby="join-title">
+<section
+	class="join"
+	id="join"
+	aria-labelledby="join-title"
+>
 	<Container>
-		<div class="join-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Join the Research</span>
-			</div>
+		<div class="join-content">
+			<div class="join-main">
+				<div class="join-intro">
+					<h2 id="join-title">
+						Work on problems
+						<span>that may take years to solve.</span>
+					</h2>
 
-			<div class="join-content">
-				<p class="eyebrow">Long-term systems research</p>
+					<p>
+						Softadastra is interested in people who want to work on
+						fundamental computing problems, from programming models and
+						runtimes to distributed systems and computing infrastructure.
+					</p>
 
-				<h2 id="join-title">
-					Work on problems
-					<span>that may take years to solve.</span>
-				</h2>
+					<p>
+						Many of the questions are difficult. Some are still unresolved.
+						That is precisely why they are worth working on.
+					</p>
+				</div>
 
-				<p class="join-description">
-					We are working on programming models, distributed systems, runtimes,
-					state, reliability and heterogeneous computing.
-				</p>
-
-				<ul class="fields" aria-label="Research areas">
+				<ul
+					class="fields"
+					aria-label="Areas of interest"
+				>
 					{#each fields as field}
 						<li>
-							<span class="field-mark" aria-hidden="true"></span>
+							<span aria-hidden="true">+</span>
 							{field}
 						</li>
 					{/each}
 				</ul>
+			</div>
 
-				<div class="question">
-					<span class="question-label">Our question</span>
+			<div class="join-call">
+				<p>
+					If infrastructure-independent computing interests you,
+					<strong>work on it with us.</strong>
+				</p>
 
-					<p>
-						Can software be separated from the infrastructure that executes it?
-					</p>
-				</div>
-
-				<div class="actions">
-					<ButtonLink href="mailto:hello@softadastra.com" variant="primary">
-						Join Softadastra
-					</ButtonLink>
-
-					<ButtonLink
-						href="https://github.com/softadastra"
-						variant="secondary"
-						external
-						ariaLabel="Explore Softadastra open-source projects on GitHub"
+				<div class="join-links">
+					<a
+						class="join-link join-link--primary"
+						href="mailto:hello@softadastra.com"
 					>
-						Open Source
+						<span>Join Softadastra</span>
 
-						<svg
-							class="arrow"
-							viewBox="0 0 16 16"
-							fill="none"
+						<span
+							class="link-arrow"
 							aria-hidden="true"
 						>
-							<path
-								d="M4 8H12M9 5L12 8L9 11"
-								stroke="currentColor"
-								stroke-width="1.4"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</ButtonLink>
+							↗
+						</span>
+					</a>
+
+					<a
+						class="join-link join-link--secondary"
+						href="https://github.com/softadastra"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span>Contribute on GitHub</span>
+
+						<span
+							class="link-arrow"
+							aria-hidden="true"
+						>
+							↗
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -86,195 +102,328 @@
 
 <style>
 	.join {
-		border-bottom: 1px solid var(--color-border);
 		background: var(--color-white);
-	}
-
-	.join :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.join-layout {
-		display: grid;
-		grid-template-columns: minmax(160px, 0.35fr) minmax(0, 1fr);
-		gap: clamp(48px, 8vw, 120px);
-	}
-
-	.section-label {
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-		padding-top: 10px;
-		color: var(--color-muted);
-		font-size: 0.75rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
-
-	.section-label__line {
-		width: 22px;
-		height: 2px;
-		margin-top: 4px;
-		flex: 0 0 auto;
-		background: var(--color-accent);
+		color: var(--color-text);
 	}
 
 	.join-content {
-		max-width: 900px;
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: var(--section-padding);
+
+		font-family: var(--font-mono);
 	}
 
-	.eyebrow {
-		margin-bottom: var(--space-5);
-		color: var(--color-accent);
-		font-size: 0.78rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
+	/* --------------------------------------------------
+	   Main composition
+	-------------------------------------------------- */
+
+	.join-main {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1.2fr)
+			minmax(300px, 0.8fr);
+
+		gap: clamp(40px, 7vw, 90px);
+
+		align-items: start;
 	}
 
-	h2 {
-		max-width: 880px;
-		color: var(--color-black);
-		font-size: clamp(2.5rem, 4.8vw, 5rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.06em;
-		line-height: 1;
-		text-wrap: balance;
+	/* --------------------------------------------------
+	   Intro
+	-------------------------------------------------- */
+
+	.join-intro {
+		max-width: 720px;
 	}
 
-	h2 span {
+	.join-intro h2 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(
+			1.2rem,
+			1.65vw,
+			1.5rem
+		);
+
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.018em;
+		line-height: 1.5;
+	}
+
+	.join-intro h2 span {
 		display: block;
-		color: var(--color-text-secondary);
+
+		color: var(--color-accent);
 	}
 
-	.join-description {
+	.join-intro p {
 		max-width: 680px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.05rem;
-		line-height: 1.7;
+
+		margin: 18px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: clamp(
+			0.88rem,
+			1vw,
+			0.96rem
+		);
+
+		font-weight: var(--font-weight-normal);
+
+		line-height: 1.65;
 	}
+
+	.join-intro p + p {
+		margin-top: 11px;
+	}
+
+	/* --------------------------------------------------
+	   Fields
+	-------------------------------------------------- */
 
 	.fields {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0 var(--space-7);
-		max-width: 720px;
-		margin-top: clamp(48px, 6vw, 72px);
-		border-top: 1px solid var(--color-border);
+		grid-template-columns:
+			repeat(2, minmax(0, 1fr));
+
+		gap: 8px 22px;
+
+		margin: 2px 0 0;
+		padding: 0;
+
+		list-style: none;
 	}
 
 	.fields li {
 		display: flex;
-		min-height: 58px;
-		align-items: center;
-		gap: var(--space-3);
-		border-bottom: 1px solid var(--color-border);
+		align-items: baseline;
+
+		gap: 8px;
+
+		min-width: 0;
+
 		color: var(--color-text-secondary);
-		font-size: 0.9rem;
-		font-weight: var(--font-weight-medium);
+
+		font-size: 0.76rem;
+		font-weight: var(--font-weight-normal);
+
+		line-height: 1.45;
 	}
 
-	.field-mark {
-		width: 6px;
-		height: 6px;
+	.fields li > span {
 		flex: 0 0 auto;
-		border-radius: 50%;
-		background: var(--color-accent);
+
+		color: var(--color-accent);
+
+		font-weight: var(--font-weight-bold);
 	}
 
-	.question {
-		max-width: 760px;
-		margin-top: clamp(64px, 8vw, 96px);
-		padding: var(--space-6) 0 var(--space-6) var(--space-6);
-		border-left: 3px solid var(--color-accent);
-		border-top: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-	}
+	/* --------------------------------------------------
+	   Call to action
+	-------------------------------------------------- */
 
-	.question-label {
-		display: block;
-		margin-bottom: var(--space-3);
-		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.question p {
-		max-width: 680px;
-		color: var(--color-black);
-		font-size: clamp(1.35rem, 2.4vw, 2rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.035em;
-		line-height: 1.35;
-		text-wrap: balance;
-	}
-
-	.actions {
+	.join-call {
 		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
-		margin-top: var(--space-7);
+		align-items: flex-end;
+		justify-content: space-between;
+
+		gap: 40px;
+
+		margin-top: clamp(34px, 4vw, 48px);
 	}
 
-	.arrow {
-		width: 16px;
-		height: 16px;
+	.join-call > p {
+		max-width: 620px;
+
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.9rem;
+		font-weight: var(--font-weight-normal);
+
+		line-height: 1.6;
 	}
 
-	@media (max-width: 760px) {
-		.join :global(.container) {
-			padding-block: 88px;
-		}
+	.join-call > p strong {
+		color: var(--color-text);
 
-		.join-layout {
+		font-weight: var(--font-weight-bold);
+	}
+
+	/* --------------------------------------------------
+	   Links
+	-------------------------------------------------- */
+
+	.join-links {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
+		gap: 11px;
+
+		flex: 0 0 auto;
+	}
+
+	.join-link {
+		display: inline-flex;
+		align-items: center;
+
+		gap: 9px;
+
+		width: fit-content;
+
+		text-decoration: none;
+	}
+
+	.join-link--primary {
+		position: relative;
+
+		color: var(--color-accent);
+
+		font-size: clamp(
+			1.08rem,
+			1.55vw,
+			1.35rem
+		);
+
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+		line-height: 1.3;
+	}
+
+	.join-link--primary::after {
+		position: absolute;
+
+		right: 0;
+		bottom: -4px;
+		left: 0;
+
+		height: 1px;
+
+		background: var(--color-accent);
+
+		content: '';
+
+		transform: scaleX(1);
+		transform-origin: left;
+
+		transition:
+			transform var(--transition-fast);
+	}
+
+	.join-link--primary:hover::after {
+		transform: scaleX(0.72);
+	}
+
+	.join-link--secondary {
+		color: var(--color-text);
+
+		font-size: 0.78rem;
+		font-weight: var(--font-weight-semibold);
+
+		line-height: 1.4;
+	}
+
+	.join-link--secondary:hover {
+		color: var(--color-accent);
+	}
+
+	.link-arrow {
+		display: inline-block;
+
+		transition:
+			transform var(--transition-fast);
+	}
+
+	.join-link:hover .link-arrow {
+		transform:
+			translate(2px, -2px);
+	}
+
+	/* --------------------------------------------------
+	   Tablet
+	-------------------------------------------------- */
+
+	@media (max-width: 820px) {
+		.join-main {
 			grid-template-columns: 1fr;
-			gap: var(--space-7);
+
+			gap: 30px;
 		}
 
-		.section-label {
-			padding-top: 0;
+		.fields {
+			max-width: 620px;
 		}
 
-		h2 {
-			font-size: clamp(2.5rem, 10vw, 3.8rem);
+		.join-call {
+			align-items: flex-start;
+
+			flex-direction: column;
+
+			gap: 24px;
+		}
+	}
+
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
+
+	@media (max-width: 640px) {
+		.join-intro h2 {
+			font-size: 1.08rem;
+		}
+
+		.join-intro p {
+			margin-top: 14px;
+
+			font-size: 0.82rem;
+		}
+
+		.join-intro p + p {
+			margin-top: 9px;
+		}
+
+		.join-main {
+			gap: 25px;
 		}
 
 		.fields {
 			grid-template-columns: 1fr;
-		}
-	}
 
-	@media (max-width: 480px) {
-		.join :global(.container) {
-			padding-block: 72px;
+			gap: 7px;
 		}
 
-		h2 {
-			font-size: 2.4rem;
-			letter-spacing: -0.05em;
+		.fields li {
+			font-size: 0.72rem;
 		}
 
-		.question {
-			padding:
-				var(--space-5)
-				0
-				var(--space-5)
-				var(--space-4);
+		.join-call {
+			margin-top: 30px;
 		}
 
-		.actions {
-			display: grid;
-			grid-template-columns: 1fr;
+		.join-call > p {
+			font-size: 0.82rem;
 		}
 
-		.actions :global(.button-link) {
-			width: 100%;
-			min-height: 46px;
+		.join-links {
+			gap: 13px;
+		}
+
+		.join-link--primary {
+			font-size: 1.05rem;
+		}
+
+		.join-link--secondary {
+			font-size: 0.74rem;
 		}
 	}
 </style>

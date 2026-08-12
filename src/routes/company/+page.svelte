@@ -1,746 +1,1586 @@
 <script lang="ts">
-	import ButtonLink from '$lib/components/ui/ButtonLink.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
+
+	const work = [
+		{
+			status: 'maintained',
+			name: 'Vix.cpp',
+			type: 'Open-source C++ developer platform',
+			description:
+				'Vix.cpp provides developer tooling and foundations for building modern C++ systems. It is maintained by Softadastra and represents an important part of our existing open-source work.',
+			href: 'https://vixcpp.com',
+			external: true
+		},
+		{
+			status: 'in progress',
+			name: 'Softadastra Runtime',
+			type: 'Intent-driven adaptive runtime',
+			description:
+				'The Runtime is the core execution technology behind our infrastructure-independent computing direction. It is being developed to progressively move infrastructure decisions out of application code and into the computing system.',
+			href: 'https://github.com/softadastra/runtime',
+			external: true
+		},
+		{
+			status: 'planned',
+			name: 'Softadastra Node',
+			type: 'Reference computing hardware',
+			description:
+				'A future low-power reference machine designed to run the Softadastra Runtime and participate in a computing fabric without becoming a hardware dependency for applications.',
+			href: '/technology',
+			external: false
+		}
+	];
+
+	const researchAreas = [
+		'Programming models',
+		'Adaptive runtimes',
+		'Distributed systems',
+		'Distributed state',
+		'Scheduling and placement',
+		'Offline-first computing',
+		'Failure recovery',
+		'Reconciliation',
+		'Networking',
+		'Systems security',
+		'Heterogeneous computing',
+		'Hardware acceleration',
+		'C++ systems engineering'
+	];
 
 	const principles = [
 		{
 			number: '01',
-			title: 'Mission',
-			value: 'Make computing infrastructure-independent.'
+			title: 'Software should express intent.',
+			description:
+				'Applications should describe what they need to accomplish, the state they require and the constraints that must be respected.'
 		},
 		{
 			number: '02',
-			title: 'Research Question',
-			value: 'Can software be separated from the infrastructure that executes it?'
+			title: 'Infrastructure should satisfy it.',
+			description:
+				'Placement, scheduling, resources, recovery and infrastructure selection should increasingly become responsibilities of the computing system.'
 		},
 		{
 			number: '03',
-			title: 'Core Principle',
-			value:
-				'Software should describe what it needs to accomplish, not the infrastructure required to accomplish it.'
+			title: 'Infrastructure should remain replaceable.',
+			description:
+				'Applications should not have to be permanently redesigned because execution moves between local machines, edge systems, cloud infrastructure or future hardware.'
 		},
 		{
 			number: '04',
-			title: 'Technological Direction',
-			value: 'Intent-driven adaptive computing.'
+			title: 'Useful systems should survive disconnection.',
+			description:
+				'Where application requirements permit it, loss of Internet connectivity should not automatically mean loss of computation, state or usefulness.'
+		},
+		{
+			number: '05',
+			title: 'The architecture must work on ordinary hardware.',
+			description:
+				'Infrastructure-independent computing should not require expensive proprietary machines. Efficiency and hardware diversity are part of the research problem.'
 		}
 	];
 
-	const disciplines = [
-		'C++',
-		'Distributed systems',
-		'Operating systems',
-		'Compilers',
-		'Programming languages',
-		'Runtimes',
-		'Databases',
-		'Networking',
-		'Fault tolerance',
-		'Security',
-		'Edge computing',
-		'Heterogeneous computing',
-		'Performance engineering',
-		'Hardware acceleration'
-	];
-
-	const technology = [
-		{
-			name: 'Vix.cpp',
-			role: 'Developer platform',
-			description:
-				'An open-source C++ developer platform and one way developers can interact with Softadastra technologies.'
-		},
-		{
-			name: 'Softadastra Engine',
-			role: 'Runtime research',
-			description:
-				'Runtime foundations for resilient, offline-first and progressively infrastructure-independent applications.'
-		},
-		{
-			name: 'Softadastra Cloud',
-			role: 'Hosted infrastructure',
-			description:
-				'Connected infrastructure for the ecosystem without making the architecture dependent on the cloud.'
-		}
-	];
+	const organizationSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: 'Softadastra',
+		url: 'https://softadastra.com',
+		description:
+			'Softadastra is a computing research and technology company working toward infrastructure-independent computing.',
+		sameAs: [
+			'https://github.com/softadastra',
+			'https://vixcpp.com'
+		],
+		knowsAbout: [
+			'Infrastructure-independent computing',
+			'Adaptive runtimes',
+			'Distributed systems',
+			'C++',
+			'Offline-first computing',
+			'Edge computing',
+			'Heterogeneous computing'
+		]
+	};
 </script>
 
 <svelte:head>
-	<title>Company — Softadastra</title>
+	<title>About Softadastra — Computing Research & Technology</title>
+
 	<meta
 		name="description"
-		content="Softadastra is a computing research and technology company working toward infrastructure-independent computing."
+		content="Softadastra is a computing research and technology company building Vix.cpp, the Softadastra Runtime and infrastructure-independent computing systems."
 	/>
+
+	<meta
+		name="keywords"
+		content="Softadastra, infrastructure-independent computing, Softadastra Runtime, Vix.cpp, distributed systems, adaptive runtime, C++, systems research, offline-first computing, edge computing, computing infrastructure"
+	/>
+
+	<meta name="author" content="Softadastra" />
+	<meta name="robots" content="index, follow" />
+
+	<link
+		rel="canonical"
+		href="https://softadastra.com/company"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Softadastra" />
+	<meta
+		property="og:url"
+		content="https://softadastra.com/company"
+	/>
+
+	<meta
+		property="og:title"
+		content="About Softadastra — Computing Research & Technology"
+	/>
+
+	<meta
+		property="og:description"
+		content="Softadastra is working toward infrastructure-independent computing through open-source developer technology, adaptive runtimes and systems research."
+	/>
+
+	<meta name="twitter:card" content="summary_large_image" />
+
+	<meta
+		name="twitter:title"
+		content="About Softadastra"
+	/>
+
+	<meta
+		name="twitter:description"
+		content="Computing research and technology toward infrastructure-independent computing."
+	/>
+
+	<script type="application/ld+json">
+		{JSON.stringify(organizationSchema)}
+	</script>
 </svelte:head>
 
-<section class="company-hero">
-	<Container>
-		<div class="hero-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Company</span>
-			</div>
-
+<main class="company-page">
+	<section
+		class="hero"
+		aria-labelledby="company-title"
+	>
+		<Container>
 			<div class="hero-content">
-				<p class="eyebrow">Softadastra</p>
+				<p class="eyebrow">
+					Company
+				</p>
 
-				<h1>
-					A computing research
-					<span>and technology company.</span>
+				<h1 id="company-title">
+					Softadastra
 				</h1>
 
+				<p class="hero-lead">
+					A computing research and technology company working toward
+					<strong>infrastructure-independent computing.</strong>
+				</p>
+
 				<p class="hero-description">
-					Softadastra exists to investigate a long-term computing problem:
-					how software can become progressively independent from the machines,
-					networks, clouds and hardware configurations that execute it.
-				</p>
-			</div>
-		</div>
-	</Container>
-</section>
-
-<section class="identity" aria-labelledby="identity-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>What Defines Us</span>
-			</div>
-
-			<div>
-				<p class="section-kicker">One mission</p>
-
-				<h2 id="identity-title">
-					Products may change.
-					<span>The mission should not.</span>
-				</h2>
-
-				<p class="section-description">
-					Programming languages will evolve. Hardware will change. Architectures and
-					products may be replaced. Softadastra is organized around a question designed
-					to remain relevant beyond any individual technology.
-				</p>
-			</div>
-		</div>
-
-		<div class="principles">
-			{#each principles as principle}
-				<article class="principle">
-					<span class="principle-number">{principle.number}</span>
-
-					<div>
-						<p class="principle-title">{principle.title}</p>
-						<h3>{principle.value}</h3>
-					</div>
-				</article>
-			{/each}
-		</div>
-	</Container>
-</section>
-
-<section class="direction" aria-labelledby="direction-title">
-	<Container>
-		<div class="direction-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>One Direction</span>
-			</div>
-
-			<div class="direction-content">
-				<h2 id="direction-title">
-					Many technologies.
-					<span>One test.</span>
-				</h2>
-
-				<p>
-					Softadastra may build different technologies throughout its lifetime.
-					They should not become unrelated products living under the same name.
+					We research and build systems that progressively separate software
+					from the infrastructure executing it.
 				</p>
 
-				<div class="mission-test">
-					<span>Every major technology should answer</span>
-
-					<strong>
-						Does this remove another infrastructure constraint from software?
-					</strong>
-
-					<p>
-						If it does, it belongs to the mission. If it does not, we should question
-						why Softadastra is building it.
-					</p>
-				</div>
-			</div>
-		</div>
-	</Container>
-</section>
-
-<section class="technology" aria-labelledby="technology-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Technology</span>
-			</div>
-
-			<div>
-				<h2 id="technology-title">
-					Technology is a means
-					<span>to pursue the mission.</span>
-				</h2>
-
-				<p class="section-description">
-					Vix.cpp, Softadastra Engine and Softadastra Cloud represent different parts
-					of the same long-term technical direction.
-				</p>
-			</div>
-		</div>
-
-		<div class="technology-list">
-			{#each technology as item}
-				<article class="technology-item">
-					<div>
-						<p class="technology-role">{item.role}</p>
-						<h3>{item.name}</h3>
-					</div>
-
-					<p>{item.description}</p>
-				</article>
-			{/each}
-		</div>
-
-		<div class="technology-action">
-			<ButtonLink href="/technology" variant="secondary">
-				Explore the technology
-			</ButtonLink>
-		</div>
-	</Container>
-</section>
-
-<section class="why" aria-labelledby="why-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Why This Matters</span>
-			</div>
-
-			<div>
-				<h2 id="why-title">
-					Infrastructure dependence is
-					<span>more than developer inconvenience.</span>
-				</h2>
-
-				<p class="section-description">
-					Many systems operate in environments where permanent connectivity,
-					centralized infrastructure or a single cloud provider cannot safely be assumed.
-					A more infrastructure-independent computing foundation could eventually serve
-					many different industries without requiring a separate platform for each one.
-				</p>
-			</div>
-		</div>
-
-		<div class="why-statement">
-			<span class="why-mark" aria-hidden="true"></span>
-
-			<p>
-				The deeper opportunity is not to build one product for every industry.
-				<strong>
-					It is to build a computing foundation that many of them can use.
-				</strong>
-			</p>
-		</div>
-	</Container>
-</section>
-
-<section class="people" aria-labelledby="people-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>People</span>
-			</div>
-
-			<div>
-				<p class="section-kicker">Work on fundamental problems</p>
-
-				<h2 id="people-title">
-					We are interested in people who want
-					<span>to understand the underlying systems.</span>
-				</h2>
-
-				<p class="section-description">
-					Not only applications. Not only another SaaS product. Not only another
-					developer tool. The underlying computing systems themselves.
-				</p>
-			</div>
-		</div>
-
-		<div class="disciplines">
-			{#each disciplines as discipline}
-				<div class="discipline">
-					<span aria-hidden="true"></span>
-					{discipline}
-				</div>
-			{/each}
-		</div>
-	</Container>
-</section>
-
-<section class="company-close">
-	<Container narrow>
-		<div class="close-content">
-			<span class="close-mark" aria-hidden="true"></span>
-
-			<p class="close-label">Our time horizon</p>
-
-			<h2>
-				The questions are difficult.
-				<span>That is why they are worth working on.</span>
-			</h2>
-
-			<p>
-				Softadastra is pursuing a long-term research direction. Individual products,
-				architectures and technologies will evolve as we learn. The mission is intended
-				to remain.
-			</p>
-
-			<div class="close-actions">
-				<ButtonLink href="/research" variant="primary">
-					Explore the research
-				</ButtonLink>
-
-				<ButtonLink
-					href="mailto:hello@softadastra.com"
-					variant="secondary"
+				<div
+					class="hero-direction"
+					aria-label="Softadastra direction"
 				>
-					Join Softadastra
-				</ButtonLink>
+					<span>software</span>
+					<span aria-hidden="true">→</span>
+					<strong>intent</strong>
+					<span aria-hidden="true">→</span>
+					<strong>runtime</strong>
+					<span aria-hidden="true">→</span>
+					<span>computing fabric</span>
+					<span aria-hidden="true">→</span>
+					<span>infrastructure</span>
+				</div>
 			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="question-title"
+	>
+		<Container>
+			<div class="section-content statement-section">
+				<div class="section-heading">
+					<p class="section-index">
+						01
+					</p>
+
+					<h2 id="question-title">
+						The question
+					</h2>
+				</div>
+
+				<div class="statement">
+					<p class="statement-question">
+						Can software be separated from the infrastructure that executes it?
+					</p>
+
+					<div class="statement-copy">
+						<p>
+							Modern applications are deeply coupled to infrastructure.
+							Developers choose machines, regions, databases, replication
+							strategies, accelerators, recovery systems, deployment topology
+							and cloud services long before an application begins executing.
+						</p>
+
+						<p>
+							Softadastra is exploring a different computing model: applications
+							express their requirements while the computing system determines
+							how available infrastructure can satisfy them.
+						</p>
+
+						<p>
+							This is the long-term problem around which the company is being
+							built.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="work-title"
+	>
+		<Container>
+			<div class="section-content">
+				<div class="section-heading">
+					<p class="section-index">
+						02
+					</p>
+
+					<h2 id="work-title">
+						What we build
+					</h2>
+				</div>
+
+				<p class="section-intro">
+					Softadastra combines existing open-source engineering with longer-term
+					runtime and computing systems research.
+				</p>
+
+				<div class="work-list">
+					{#each work as project}
+						<article class="work-item">
+							<div class="work-meta">
+								<span class:status-active={project.status === 'maintained'}>
+									{project.status}
+								</span>
+							</div>
+
+							<div class="work-name">
+								<h3>
+									{project.name}
+								</h3>
+
+								<p>
+									{project.type}
+								</p>
+							</div>
+
+							<div class="work-description">
+								<p>
+									{project.description}
+								</p>
+
+								<a
+									href={project.href}
+									target={project.external ? '_blank' : undefined}
+									rel={project.external ? 'noopener noreferrer' : undefined}
+								>
+									explore {project.name}
+									<span aria-hidden="true">
+										{project.external ? '↗' : '→'}
+									</span>
+								</a>
+							</div>
+						</article>
+					{/each}
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="vix-title"
+	>
+		<Container>
+			<div class="section-content split-section">
+				<div class="section-heading">
+					<p class="section-index">
+						03
+					</p>
+
+					<h2 id="vix-title">
+						We already maintain software
+					</h2>
+				</div>
+
+				<div class="split-content">
+					<div class="large-copy">
+						<p>
+							<a
+								href="https://vixcpp.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Vix.cpp ↗
+							</a>
+							is Softadastra's open-source C++ developer platform.
+						</p>
+					</div>
+
+					<div class="body-copy">
+						<p>
+							Our long-term research does not begin from a presentation or a
+							hardware concept. We already spend time building and maintaining
+							developer infrastructure.
+						</p>
+
+						<p>
+							Vix.cpp gives us a practical environment for working on C++ tooling,
+							build systems, developer experience, runtime integration and future
+							programming models.
+						</p>
+
+						<p>
+							It also keeps Softadastra connected to a simple requirement:
+							research must eventually become software developers can actually
+							use.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="runtime-title"
+	>
+		<Container>
+			<div class="section-content split-section">
+				<div class="section-heading">
+					<p class="section-index">
+						04
+					</p>
+
+					<h2 id="runtime-title">
+						The Runtime is the center
+					</h2>
+				</div>
+
+				<div class="split-content">
+					<div class="large-copy">
+						<p>
+							Intent + State + Constraints
+							<span>→</span>
+							Softadastra Runtime
+							<span>→</span>
+							Computing Fabric
+						</p>
+					</div>
+
+					<div class="body-copy">
+						<p>
+							The
+							<a
+								href="https://github.com/softadastra/runtime"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Softadastra Runtime ↗
+							</a>
+							is currently in development.
+						</p>
+
+						<p>
+							It is the execution layer where our research is intended to become
+							executable technology.
+						</p>
+
+						<p>
+							Over time, it is intended to take increasing responsibility for
+							placement, scheduling, distributed state, replication, recovery,
+							reconciliation, trust, resource selection and adaptation.
+						</p>
+
+						<p class="development-note">
+							These are engineering and research targets. Runtime capabilities
+							are being implemented and validated progressively.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="principles-title"
+	>
+		<Container>
+			<div class="section-content">
+				<div class="section-heading">
+					<p class="section-index">
+						05
+					</p>
+
+					<h2 id="principles-title">
+						Principles
+					</h2>
+				</div>
+
+				<div class="principles">
+					{#each principles as principle}
+						<article class="principle">
+							<span class="principle-number">
+								{principle.number}
+							</span>
+
+							<h3>
+								{principle.title}
+							</h3>
+
+							<p>
+								{principle.description}
+							</p>
+						</article>
+					{/each}
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="research-title"
+	>
+		<Container>
+			<div class="section-content research-section">
+				<div class="section-heading">
+					<p class="section-index">
+						06
+					</p>
+
+					<h2 id="research-title">
+						Research territory
+					</h2>
+				</div>
+
+				<div class="research-layout">
+					<p class="research-copy">
+						Infrastructure-independent computing crosses multiple areas of
+						computer science and systems engineering. We do not expect a single
+						abstraction to solve it.
+					</p>
+
+					<ul class="research-areas">
+						{#each researchAreas as area}
+							<li>
+								<span aria-hidden="true">+</span>
+								{area}
+							</li>
+						{/each}
+					</ul>
+				</div>
+
+				<a
+					class="inline-link"
+					href="/research"
+				>
+					read about our research direction →
+				</a>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="hardware-title"
+	>
+		<Container>
+			<div class="section-content split-section">
+				<div class="section-heading">
+					<p class="section-index">
+						07
+					</p>
+
+					<h2 id="hardware-title">
+						Hardware without hardware lock-in
+					</h2>
+				</div>
+
+				<div class="split-content">
+					<div class="large-copy">
+						<p>
+							The machine should be replaceable.
+							<strong>The application should remain.</strong>
+						</p>
+					</div>
+
+					<div class="body-copy">
+						<p>
+							Softadastra Node is our planned reference hardware direction: a
+							small, efficient computing resource designed around the
+							Softadastra Runtime.
+						</p>
+
+						<p>
+							It is deliberately not the foundation of the architecture.
+							Softadastra software should also be able to use existing local
+							machines, edge infrastructure, cloud resources and future
+							hardware.
+						</p>
+
+						<p>
+							The purpose of reference hardware is to demonstrate what the
+							Runtime can do on a known, low-cost environment, not to create a
+							new infrastructure dependency.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="approach-title"
+	>
+		<Container>
+			<div class="section-content">
+				<div class="section-heading">
+					<p class="section-index">
+						08
+					</p>
+
+					<h2 id="approach-title">
+						How we are approaching it
+					</h2>
+				</div>
+
+				<div class="approach">
+					<div>
+						<strong>Build</strong>
+
+						<p>
+							Turn research questions into small working systems instead of
+							keeping the architecture theoretical.
+						</p>
+					</div>
+
+					<span aria-hidden="true">→</span>
+
+					<div>
+						<strong>Measure</strong>
+
+						<p>
+							Test behavior, performance, resource consumption, recovery and
+							failure modes.
+						</p>
+					</div>
+
+					<span aria-hidden="true">→</span>
+
+					<div>
+						<strong>Learn</strong>
+
+						<p>
+							Remove assumptions that fail and refine the programming and
+							execution models.
+						</p>
+					</div>
+
+					<span aria-hidden="true">→</span>
+
+					<div>
+						<strong>Expand</strong>
+
+						<p>
+							Move progressively from individual runtime capabilities toward a
+							larger computing fabric.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="open-title"
+	>
+		<Container>
+			<div class="section-content split-section">
+				<div class="section-heading">
+					<p class="section-index">
+						09
+					</p>
+
+					<h2 id="open-title">
+						Open development
+					</h2>
+				</div>
+
+				<div class="split-content">
+					<div class="large-copy">
+						<p>
+							Some of the best way to understand Softadastra is to
+							<strong>read the code.</strong>
+						</p>
+					</div>
+
+					<div class="body-copy">
+						<p>
+							Vix.cpp is open source and the Softadastra Runtime is being
+							developed publicly on GitHub.
+						</p>
+
+						<p>
+							That gives developers, researchers and potential collaborators a
+							way to evaluate the technical direction from actual work rather
+							than only company descriptions.
+						</p>
+
+						<div class="text-links">
+							<a
+								href="https://github.com/softadastra"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								github.com/softadastra ↗
+							</a>
+
+							<a
+								href="https://vixcpp.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								vixcpp.com ↗
+							</a>
+
+							<a
+								href="https://github.com/softadastra/runtime"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								runtime repository ↗
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="company-model-title"
+	>
+		<Container>
+			<div class="section-content">
+				<div class="section-heading">
+					<p class="section-index">
+						10
+					</p>
+
+					<h2 id="company-model-title">
+						Building a company around a long-term problem
+					</h2>
+				</div>
+
+				<div class="company-model">
+					<p class="company-model-lead">
+						Softadastra is being built around a technical thesis rather than a
+						single temporary product category.
+					</p>
+
+					<div class="company-model-copy">
+						<p>
+							The immediate work is concrete: maintain developer technology,
+							build the Runtime, validate individual capabilities and test them
+							on real hardware.
+						</p>
+
+						<p>
+							The larger opportunity is a computing layer capable of spanning
+							machines and infrastructure without forcing applications to encode
+							every infrastructure decision themselves.
+						</p>
+
+						<p>
+							If successful, that direction can become useful across developer
+							infrastructure, edge systems, unreliable networks, local
+							computing, cloud environments and new classes of hardware.
+						</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section final-section"
+		aria-labelledby="collaborate-title"
+	>
+		<Container>
+			<div class="section-content">
+				<div class="section-heading">
+					<p class="section-index">
+						11
+					</p>
+
+					<h2 id="collaborate-title">
+						Work with Softadastra
+					</h2>
+				</div>
+
+				<div class="collaborate">
+					<div class="collaborate-intro">
+						<p>
+							We are interested in people and organizations who care about
+							difficult computing systems problems.
+						</p>
+					</div>
+
+					<div class="collaborate-groups">
+						<div>
+							<h3>
+								Developers & researchers
+							</h3>
+
+							<p>
+								Explore the repositories, challenge the architecture, contribute
+								code and work with us on the systems problems behind the
+								Runtime.
+							</p>
+
+							<a
+								href="https://github.com/softadastra"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								explore the open source ↗
+							</a>
+						</div>
+
+						<div>
+							<h3>
+								Investors & partners
+							</h3>
+
+							<p>
+								If you are interested in long-term computing infrastructure,
+								developer technology, edge computing or adaptive runtime
+								systems, we are open to conversations about the direction.
+							</p>
+
+							<a href="mailto:softadastra@gmail.com">
+								softadastra@gmail.com ↗
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<p class="final-principle">
+					Software expresses intent.
+					<strong>
+						Infrastructure satisfies it.
+					</strong>
+				</p>
+			</div>
+		</Container>
+	</section>
+</main>
 
 <style>
-	.company-hero,
-	.identity,
-	.direction,
-	.technology,
-	.why,
-	.people,
-	.company-close {
-		border-bottom: 1px solid var(--color-border);
+	.company-page {
+		background: var(--color-white);
+		color: var(--color-text);
+
+		font-family: var(--font-mono);
+	}
+
+	/* --------------------------------------------------
+	   Hero
+	-------------------------------------------------- */
+
+	.hero {
 		background: var(--color-white);
 	}
 
-	.company-hero :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.hero-layout,
-	.section-heading,
-	.direction-layout {
-		display: grid;
-		grid-template-columns: minmax(160px, 0.35fr) minmax(0, 1fr);
-		gap: clamp(48px, 8vw, 120px);
-	}
-
-	.section-label {
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-		padding-top: 10px;
-		color: var(--color-muted);
-		font-size: 0.75rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
-
-	.section-label__line {
-		width: 22px;
-		height: 2px;
-		margin-top: 4px;
-		flex: 0 0 auto;
-		background: var(--color-accent);
-	}
-
 	.hero-content {
-		max-width: 940px;
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(70px, 9vw, 120px);
 	}
 
 	.eyebrow,
-	.section-kicker {
-		margin-bottom: var(--space-5);
+	.section-index {
+		margin: 0;
+
 		color: var(--color-accent);
-		font-size: 0.78rem;
+
+		font-size: 0.68rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
+
+		letter-spacing: 0.04em;
+		line-height: 1.4;
 	}
 
-	h1 {
-		max-width: 950px;
-		color: var(--color-black);
-		font-size: clamp(3rem, 6vw, 6rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.065em;
+	.hero h1 {
+		margin: 8px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(2.4rem, 6vw, 5.5rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.055em;
 		line-height: 0.98;
-		text-wrap: balance;
 	}
 
-	h1 span {
-		display: block;
+	.hero-lead {
+		max-width: 930px;
+
+		margin: clamp(26px, 4vw, 44px) 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.15rem, 2.3vw, 1.8rem);
+		font-weight: var(--font-weight-normal);
+
+		letter-spacing: -0.025em;
+		line-height: 1.45;
+	}
+
+	.hero-lead strong {
 		color: var(--color-accent);
-	}
 
-	.hero-description,
-	.section-description {
-		max-width: 690px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.05rem;
-		line-height: 1.75;
+		font-weight: var(--font-weight-bold);
 	}
 
 	.hero-description {
-		margin-top: var(--space-7);
-		font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-	}
+		max-width: 780px;
 
-	.identity :global(.container),
-	.direction :global(.container),
-	.technology :global(.container),
-	.why :global(.container),
-	.people :global(.container) {
-		padding-block: clamp(96px, 12vw, 160px);
-	}
+		margin: 15px 0 0;
 
-	h2 {
-		max-width: 900px;
-		color: var(--color-black);
-		font-size: clamp(2.3rem, 4.3vw, 4.5rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.055em;
-		line-height: 1.04;
-		text-wrap: balance;
-	}
-
-	h2 span {
-		display: block;
 		color: var(--color-text-secondary);
-	}
 
-	.principles {
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.principle {
-		display: grid;
-		grid-template-columns: 70px 190px minmax(0, 1fr);
-		gap: var(--space-6);
-		align-items: start;
-		padding-block: var(--space-6);
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.principle-number {
-		color: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-	}
-
-	.principle-title {
-		color: var(--color-accent);
-		font-size: 0.72rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
-	}
-
-	.principle h3 {
-		max-width: 740px;
-		color: var(--color-black);
-		font-size: clamp(1.25rem, 2vw, 1.7rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.035em;
-		line-height: 1.4;
-	}
-
-	.direction-content {
-		max-width: 850px;
-	}
-
-	.direction-content > p {
-		max-width: 660px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.7;
-	}
-
-	.mission-test {
-		margin-top: clamp(56px, 7vw, 88px);
-		padding: var(--space-6) 0 var(--space-6) var(--space-6);
-		border-top: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-		border-left: 3px solid var(--color-accent);
-	}
-
-	.mission-test > span {
-		display: block;
-		margin-bottom: var(--space-4);
-		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.mission-test strong {
-		display: block;
-		max-width: 720px;
-		color: var(--color-black);
-		font-size: clamp(1.35rem, 2.4vw, 2rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.035em;
-		line-height: 1.4;
-	}
-
-	.mission-test p {
-		max-width: 620px;
-		margin-top: var(--space-5);
-		color: var(--color-muted);
-		font-size: 0.93rem;
+		font-size: clamp(0.86rem, 1.1vw, 0.98rem);
 		line-height: 1.65;
 	}
 
-	.technology-list {
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-	}
+	.hero-direction {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 
-	.technology-item {
-		display: grid;
-		grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
-		gap: var(--space-7);
-		padding-block: var(--space-7);
-		border-bottom: 1px solid var(--color-border);
-	}
+		gap: 6px 10px;
 
-	.technology-role {
-		margin-bottom: var(--space-3);
-		color: var(--color-accent);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
-	}
+		margin-top: 32px;
 
-	.technology-item h3 {
-		color: var(--color-black);
-		font-size: clamp(1.45rem, 2.4vw, 2rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.04em;
-	}
-
-	.technology-item > p {
-		max-width: 580px;
 		color: var(--color-muted);
-		font-size: 0.95rem;
-		line-height: 1.7;
-	}
 
-	.technology-action {
-		margin-top: var(--space-7);
-	}
-
-	.why-statement {
-		display: grid;
-		grid-template-columns: 4px minmax(0, 760px);
-		gap: var(--space-5);
-		margin-top: clamp(64px, 8vw, 96px);
-	}
-
-	.why-mark {
-		background: var(--color-accent);
-	}
-
-	.why-statement p {
-		color: var(--color-text-secondary);
-		font-size: clamp(1.2rem, 2vw, 1.65rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.03em;
+		font-size: 0.73rem;
 		line-height: 1.5;
 	}
 
-	.why-statement strong {
-		display: block;
-		margin-top: var(--space-2);
-		color: var(--color-black);
-	}
-
-	.disciplines {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-		border-left: 1px solid var(--color-border);
-	}
-
-	.discipline {
-		display: flex;
-		min-height: 68px;
-		align-items: center;
-		gap: var(--space-3);
-		padding-inline: var(--space-5);
-		border-right: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-		color: var(--color-text-secondary);
-		font-size: 0.88rem;
-		font-weight: var(--font-weight-medium);
-	}
-
-	.discipline span {
-		width: 6px;
-		height: 6px;
-		flex: 0 0 auto;
-		border-radius: 50%;
-		background: var(--color-accent);
-	}
-
-	.company-close :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.close-content {
-		text-align: center;
-	}
-
-	.close-mark {
-		display: block;
-		width: 36px;
-		height: 3px;
-		margin: 0 auto var(--space-6);
-		background: var(--color-accent);
-	}
-
-	.close-label {
-		margin-bottom: var(--space-5);
-		color: var(--color-muted);
-		font-size: 0.72rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.close-content h2 {
-		margin-inline: auto;
-	}
-
-	.close-content h2 span {
+	.hero-direction strong {
 		color: var(--color-accent);
 	}
 
-	.close-content > p:not(.close-label) {
-		max-width: 650px;
-		margin: var(--space-6) auto 0;
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.7;
+	.hero-direction > span:nth-child(even) {
+		color: var(--color-border-strong);
 	}
 
-	.close-actions {
+	/* --------------------------------------------------
+	   Sections
+	-------------------------------------------------- */
+
+	.section {
+		position: relative;
+	}
+
+	.section::before {
+		position: absolute;
+
+		top: 0;
+		right: var(--page-padding);
+		left: var(--page-padding);
+
+		height: 1px;
+
+		background: var(--color-border);
+
+		content: '';
+	}
+
+	.section-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: var(--section-padding);
+	}
+
+	.section-heading {
+		display: flex;
+		align-items: baseline;
+
+		gap: 12px;
+
+		margin-bottom: 27px;
+	}
+
+	.section-heading h2 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.18rem, 1.7vw, 1.5rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.022em;
+		line-height: 1.4;
+	}
+
+	.section-intro {
+		max-width: 850px;
+
+		margin: -10px 0 29px;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.88rem;
+		line-height: 1.65;
+	}
+
+	/* --------------------------------------------------
+	   Question
+	-------------------------------------------------- */
+
+	.statement {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.85fr)
+			minmax(0, 1.15fr);
+
+		gap: clamp(42px, 8vw, 110px);
+	}
+
+	.statement-question {
+		margin: 0;
+
+		color: var(--color-accent);
+
+		font-size: clamp(1.1rem, 2vw, 1.45rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.025em;
+		line-height: 1.5;
+	}
+
+	.statement-copy,
+	.body-copy {
+		max-width: 720px;
+	}
+
+	.statement-copy p,
+	.body-copy p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.86rem;
+		line-height: 1.65;
+	}
+
+	.statement-copy p + p,
+	.body-copy p + p {
+		margin-top: 13px;
+	}
+
+	/* --------------------------------------------------
+	   Work
+	-------------------------------------------------- */
+
+	.work-list {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.work-item {
+		display: grid;
+		grid-template-columns:
+			140px
+			minmax(220px, 0.75fr)
+			minmax(0, 1.25fr);
+
+		gap: 28px;
+
+		padding-block: 19px;
+
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.work-meta span {
+		color: var(--color-accent);
+
+		font-size: 0.65rem;
+		font-weight: var(--font-weight-semibold);
+
+		line-height: 1.4;
+	}
+
+	.work-meta .status-active {
+		color: var(--color-text);
+	}
+
+	.work-name h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.91rem;
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.4;
+	}
+
+	.work-name p {
+		margin: 4px 0 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.66rem;
+		line-height: 1.45;
+	}
+
+	.work-description p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.78rem;
+		line-height: 1.6;
+	}
+
+	.work-description a,
+	.body-copy a,
+	.large-copy a,
+	.inline-link,
+	.text-links a,
+	.collaborate-groups a {
+		display: inline-block;
+
+		margin-top: 10px;
+
+		color: var(--color-accent);
+
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+
+	.work-description a {
+		font-size: 0.68rem;
+	}
+
+	/* --------------------------------------------------
+	   Split sections
+	-------------------------------------------------- */
+
+	.split-content {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.9fr)
+			minmax(0, 1.1fr);
+
+		gap: clamp(42px, 8vw, 110px);
+	}
+
+	.large-copy p {
+		max-width: 620px;
+
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1rem, 1.7vw, 1.27rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+		line-height: 1.5;
+	}
+
+	.large-copy span {
+		color: var(--color-muted);
+	}
+
+	.large-copy strong {
+		color: var(--color-accent);
+	}
+
+	.body-copy a {
+		margin-top: 0;
+	}
+
+	.development-note {
+		color: var(--color-muted) !important;
+
+		font-size: 0.72rem !important;
+	}
+
+	/* --------------------------------------------------
+	   Principles
+	-------------------------------------------------- */
+
+	.principles {
+		display: grid;
+		grid-template-columns:
+			repeat(2, minmax(0, 1fr));
+
+		gap: 28px clamp(36px, 7vw, 90px);
+
+		max-width: 1050px;
+	}
+
+	.principle-number {
+		display: block;
+
+		margin-bottom: 8px;
+
+		color: var(--color-accent);
+
+		font-size: 0.63rem;
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.principle h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.88rem;
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.45;
+	}
+
+	.principle p {
+		margin: 7px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.76rem;
+		line-height: 1.6;
+	}
+
+	/* --------------------------------------------------
+	   Research
+	-------------------------------------------------- */
+
+	.research-layout {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.85fr)
+			minmax(300px, 1.15fr);
+
+		gap: clamp(40px, 8vw, 110px);
+	}
+
+	.research-copy {
+		max-width: 620px;
+
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.88rem;
+		line-height: 1.65;
+	}
+
+	.research-areas {
+		display: grid;
+		grid-template-columns:
+			repeat(2, minmax(0, 1fr));
+
+		gap: 7px 24px;
+
+		margin: 0;
+		padding: 0;
+
+		list-style: none;
+	}
+
+	.research-areas li {
+		display: flex;
+
+		gap: 8px;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.72rem;
+		line-height: 1.45;
+	}
+
+	.research-areas li span {
+		color: var(--color-accent);
+
+		font-weight: var(--font-weight-bold);
+	}
+
+	.inline-link {
+		margin-top: 24px;
+
+		font-size: 0.72rem;
+	}
+
+	/* --------------------------------------------------
+	   Approach
+	-------------------------------------------------- */
+
+	.approach {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr);
+
+		gap: 18px;
+
+		align-items: start;
+	}
+
+	.approach > span {
+		padding-top: 3px;
+
+		color: var(--color-border-strong);
+	}
+
+	.approach strong {
+		color: var(--color-accent);
+
+		font-size: 0.8rem;
+	}
+
+	.approach p {
+		margin: 7px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.72rem;
+		line-height: 1.6;
+	}
+
+	/* --------------------------------------------------
+	   Open development
+	-------------------------------------------------- */
+
+	.text-links {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
-		gap: var(--space-3);
-		margin-top: var(--space-7);
+
+		gap: 6px 22px;
+
+		margin-top: 17px;
 	}
 
-	@media (max-width: 900px) {
-		.disciplines {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+	.text-links a {
+		margin: 0;
+
+		font-size: 0.7rem;
+	}
+
+	/* --------------------------------------------------
+	   Company model
+	-------------------------------------------------- */
+
+	.company-model {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.9fr)
+			minmax(0, 1.1fr);
+
+		gap: clamp(42px, 8vw, 110px);
+	}
+
+	.company-model-lead {
+		max-width: 640px;
+
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1rem, 1.7vw, 1.25rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+		line-height: 1.5;
+	}
+
+	.company-model-copy p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.84rem;
+		line-height: 1.65;
+	}
+
+	.company-model-copy p + p {
+		margin-top: 13px;
+	}
+
+	/* --------------------------------------------------
+	   Collaborate
+	-------------------------------------------------- */
+
+	.collaborate {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.75fr)
+			minmax(0, 1.25fr);
+
+		gap: clamp(42px, 8vw, 110px);
+	}
+
+	.collaborate-intro p {
+		max-width: 580px;
+
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1rem, 1.6vw, 1.2rem);
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.55;
+	}
+
+	.collaborate-groups {
+		display: grid;
+		grid-template-columns:
+			repeat(2, minmax(0, 1fr));
+
+		gap: 38px;
+	}
+
+	.collaborate-groups h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.82rem;
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.4;
+	}
+
+	.collaborate-groups p {
+		margin: 8px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.74rem;
+		line-height: 1.6;
+	}
+
+	.collaborate-groups a {
+		font-size: 0.68rem;
+	}
+
+	.final-principle {
+		margin: 34px 0 0;
+
+		color: var(--color-text);
+
+		font-size: 0.8rem;
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.5;
+	}
+
+	.final-principle strong {
+		color: var(--color-accent);
+	}
+
+	/* --------------------------------------------------
+	   Links
+	-------------------------------------------------- */
+
+	a {
+		transition: color var(--transition-fast);
+	}
+
+	a:hover {
+		color: var(--color-text);
+	}
+
+	/* --------------------------------------------------
+	   Tablet
+	-------------------------------------------------- */
+
+	@media (max-width: 820px) {
+		.statement,
+		.split-content,
+		.research-layout,
+		.company-model,
+		.collaborate {
+			grid-template-columns: 1fr;
+
+			gap: 28px;
+		}
+
+		.work-item {
+			grid-template-columns:
+				110px
+				minmax(180px, 0.8fr)
+				minmax(0, 1.2fr);
+
+			gap: 20px;
+		}
+
+		.approach {
+			grid-template-columns: 1fr;
+
+			gap: 9px;
+		}
+
+		.approach > span {
+			width: fit-content;
+
+			padding: 0;
+
+			transform: rotate(90deg);
 		}
 	}
 
-	@media (max-width: 760px) {
-		.hero-layout,
-		.section-heading,
-		.direction-layout {
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
+
+	@media (max-width: 640px) {
+		.hero-content {
+			padding-block: 55px 50px;
+		}
+
+		.hero h1 {
+			font-size: clamp(2.35rem, 14vw, 4rem);
+		}
+
+		.hero-lead {
+			margin-top: 24px;
+
+			font-size: 1.02rem;
+		}
+
+		.hero-description {
+			font-size: 0.79rem;
+		}
+
+		.hero-direction {
+			gap: 4px 7px;
+
+			margin-top: 24px;
+
+			font-size: 0.64rem;
+		}
+
+		.section-heading {
+			gap: 9px;
+
+			margin-bottom: 22px;
+		}
+
+		.section-heading h2 {
+			font-size: 1.06rem;
+		}
+
+		.section-index {
+			font-size: 0.6rem;
+		}
+
+		.statement-question {
+			font-size: 1rem;
+		}
+
+		.statement-copy p,
+		.body-copy p {
+			font-size: 0.79rem;
+		}
+
+		.work-item {
 			grid-template-columns: 1fr;
-			gap: var(--space-7);
+
+			gap: 9px;
+
+			padding-block: 16px;
 		}
 
-		.section-label {
-			padding-top: 0;
+		.work-name p {
+			font-size: 0.62rem;
 		}
 
-		.company-hero :global(.container),
-		.identity :global(.container),
-		.direction :global(.container),
-		.technology :global(.container),
-		.why :global(.container),
-		.people :global(.container) {
-			padding-block: 88px;
+		.work-description p {
+			font-size: 0.73rem;
 		}
 
-		.principle {
-			grid-template-columns: 44px minmax(0, 1fr);
-		}
-
-		.principle > div {
-			grid-column: 2;
-		}
-
-		.technology-item {
+		.principles {
 			grid-template-columns: 1fr;
-			gap: var(--space-5);
-		}
-	}
 
-	@media (max-width: 480px) {
-		.company-hero :global(.container),
-		.identity :global(.container),
-		.direction :global(.container),
-		.technology :global(.container),
-		.why :global(.container),
-		.people :global(.container),
-		.company-close :global(.container) {
-			padding-block: 72px;
+			gap: 22px;
 		}
 
-		h1 {
-			font-size: 2.75rem;
-			letter-spacing: -0.055em;
-		}
-
-		h2 {
-			font-size: 2.25rem;
-			letter-spacing: -0.045em;
-		}
-
-		.principle {
-			grid-template-columns: 32px minmax(0, 1fr);
-			gap: var(--space-4);
-		}
-
-		.mission-test {
-			padding-left: var(--space-4);
-		}
-
-		.disciplines {
+		.research-areas {
 			grid-template-columns: 1fr;
+
+			gap: 6px;
 		}
 
-		.close-actions {
-			display: grid;
+		.collaborate-groups {
 			grid-template-columns: 1fr;
+
+			gap: 26px;
 		}
 
-		.close-actions :global(.button-link) {
-			width: 100%;
+		.large-copy p,
+		.company-model-lead,
+		.collaborate-intro p {
+			font-size: 0.95rem;
+		}
+
+		.company-model-copy p {
+			font-size: 0.78rem;
+		}
+
+		.section-intro,
+		.research-copy {
+			font-size: 0.79rem;
+		}
+
+		.final-principle {
+			margin-top: 28px;
+
+			font-size: 0.72rem;
 		}
 	}
 </style>

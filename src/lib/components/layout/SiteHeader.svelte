@@ -1,72 +1,68 @@
 <script lang="ts">
-	import ButtonLink from '$lib/components/ui/ButtonLink.svelte';
+	import { page } from '$app/state';
 	import Container from '$lib/components/ui/Container.svelte';
 
-const navigation = [
-	{ label: 'Research', href: '/research' },
-	{ label: 'Technology', href: '/technology' },
-	{ label: 'Open Source', href: '/open-source' },
-	{ label: 'Company', href: '/company' }
-];
+	const navigation = [
+		{
+			label: 'research',
+			href: '/research'
+		},
+		{
+			label: 'technology',
+			href: '/technology'
+		},
+		{
+			label: 'open source',
+			href: '/open-source'
+		},
+		{
+			label: 'company',
+			href: '/company'
+		}
+	];
+
+	function isActive(href: string) {
+		return page.url.pathname === href;
+	}
 </script>
 
 <header class="site-header">
 	<Container>
 		<div class="header-inner">
-			<a class="brand" href="/" aria-label="Softadastra home">
-				<span class="brand-mark" aria-hidden="true"></span>
-
-				<span class="brand-name">Softadastra</span>
+			<a
+				class="brand"
+				href="/"
+				aria-label="Softadastra home"
+			>
+				Softadastra
 			</a>
 
-			<nav class="desktop-navigation" aria-label="Main navigation">
-				{#each navigation as item}
-					<a class="navigation-link" href={item.href}>
-						{item.label}
-					</a>
-				{/each}
-			</nav>
-
-			<div class="desktop-actions">
-				<ButtonLink
-					href="https://github.com/softadastra"
-					variant="secondary"
-					external
-					ariaLabel="Softadastra on GitHub"
+			<div class="navigation-wrapper">
+				<nav
+					class="navigation"
+					aria-label="Main navigation"
 				>
-					GitHub
-				</ButtonLink>
-			</div>
-
-			<details class="mobile-navigation">
-				<summary aria-label="Open navigation">
-					<span class="menu-icon" aria-hidden="true">
-						<span></span>
-						<span></span>
-					</span>
-				</summary>
-
-				<div class="mobile-panel">
-					<nav aria-label="Mobile navigation">
-						{#each navigation as item}
-							<a class="mobile-link" href={item.href}>
-								{item.label}
-							</a>
-						{/each}
-					</nav>
-
-					<div class="mobile-action">
-						<ButtonLink
-							href="https://github.com/softadastra"
-							variant="primary"
-							external
-							ariaLabel="Softadastra on GitHub"
+					{#each navigation as item}
+						<a
+							href={item.href}
+							class:active={isActive(item.href)}
+							aria-current={isActive(item.href) ? 'page' : undefined}
 						>
-							GitHub
-						</ButtonLink>
-					</div>
-				</div>
-			</details>
+							{item.label}
+						</a>
+					{/each}
+
+					<a
+						class="github"
+						href="https://github.com/softadastra"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						github
+						<span aria-hidden="true">↗</span>
+					</a>
+				</nav>
+			</div>
 		</div>
 	</Container>
 </header>
@@ -76,209 +72,212 @@ const navigation = [
 		position: sticky;
 		z-index: 100;
 		top: 0;
+
 		width: 100%;
+
+		background: rgb(255 255 255 / 96%);
+
 		border-bottom: 1px solid var(--color-border);
-		background: var(--color-white);
-		box-shadow: 0 4px 16px rgb(17 17 17 / 3%);
+
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 	}
 
 	.header-inner {
-		display: grid;
-		grid-template-columns: 1fr auto 1fr;
-		min-height: 68px;
+		display: flex;
 		align-items: center;
-		gap: var(--space-6);
+		justify-content: space-between;
+
+		gap: clamp(20px, 4vw, 50px);
+
+		width: 100%;
+		max-width: var(--content-width);
+		height: 52px;
+
+		margin-inline: auto;
+
+		font-family: var(--font-mono);
 	}
 
+	/* --------------------------------------------------
+	   Brand
+	-------------------------------------------------- */
+
 	.brand {
-		display: inline-flex;
-		width: fit-content;
-		align-items: center;
-		gap: 10px;
-		color: var(--color-black);
+		flex: 0 0 auto;
+
+		color: var(--color-accent);
+
+		font-size: 0.84rem;
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.025em;
+		line-height: 1;
+
+		text-decoration: none;
+
+		transition: opacity var(--transition-fast);
 	}
 
 	.brand:hover {
-		color: var(--color-black);
+		color: var(--color-accent);
+
+		opacity: 0.72;
 	}
 
-	.brand-mark {
-		display: block;
-		width: 30px;
-		height: 30px;
-		flex: 0 0 30px;
-		background: var(--color-accent);
-		-webkit-mask: url('/logo.svg') center / contain no-repeat;
-		mask: url('/logo.svg') center / contain no-repeat;
+	/* --------------------------------------------------
+	   Navigation
+	-------------------------------------------------- */
+
+	.navigation-wrapper {
+		min-width: 0;
+
+		overflow: hidden;
 	}
 
-	.brand-name {
-		font-size: 1.05rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.025em;
-	}
-
-	.desktop-navigation {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 30px;
-	}
-
-	.navigation-link {
-		position: relative;
-		padding: 22px 0;
-		color: var(--color-text-secondary);
-		font-size: 0.875rem;
-		font-weight: var(--font-weight-medium);
-		line-height: 1;
-		transition: color var(--transition-fast);
-	}
-
-	.navigation-link::after {
-		position: absolute;
-		right: 0;
-		bottom: -1px;
-		left: 0;
-		height: 2px;
-		background: var(--color-accent);
-		content: '';
-		transform: scaleX(0);
-		transform-origin: center;
-		transition: transform var(--transition-fast);
-	}
-
-	.navigation-link:hover {
-		color: var(--color-black);
-	}
-
-	.navigation-link:hover::after {
-		transform: scaleX(1);
-	}
-
-	.desktop-actions {
+	.navigation {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
+
+		gap: clamp(13px, 2.1vw, 27px);
+
+		white-space: nowrap;
 	}
 
-	.mobile-navigation {
-		display: none;
+	.navigation a {
 		position: relative;
+
+		flex: 0 0 auto;
+
+		padding-block: 4px;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.68rem;
+		font-weight: var(--font-weight-medium);
+
+		line-height: 1.3;
+
+		text-decoration: none;
+
+		transition:
+			color var(--transition-fast),
+			opacity var(--transition-fast);
 	}
 
-	.mobile-navigation summary {
-		display: flex;
-		width: 42px;
-		height: 42px;
-		cursor: pointer;
-		list-style: none;
+	.navigation a:hover {
+		color: var(--color-text);
+	}
+
+	/* --------------------------------------------------
+	   Active page
+	-------------------------------------------------- */
+
+	.navigation a.active {
+		color: var(--color-text);
+
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.navigation a.active::after {
+		position: absolute;
+
+		right: 0;
+		bottom: -3px;
+		left: 0;
+
+		height: 1px;
+
+		background: var(--color-accent);
+
+		content: '';
+	}
+
+	/* --------------------------------------------------
+	   GitHub
+	-------------------------------------------------- */
+
+	.navigation .github {
+		display: inline-flex;
 		align-items: center;
-		justify-content: center;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-small);
-		background: var(--color-white);
+
+		gap: 4px;
+
+		color: var(--color-accent);
 	}
 
-	.mobile-navigation summary::-webkit-details-marker {
-		display: none;
+	.navigation .github:hover {
+		color: var(--color-text);
 	}
 
-	.menu-icon {
-		display: flex;
-		width: 18px;
-		flex-direction: column;
-		gap: 5px;
-	}
+	.navigation .github span {
+		display: inline-block;
 
-	.menu-icon span {
-		display: block;
-		width: 100%;
-		height: 1.5px;
-		background: var(--color-black);
+		font-size: 0.85em;
+
 		transition: transform var(--transition-fast);
 	}
 
-	.mobile-navigation[open] .menu-icon span:first-child {
-		transform: translateY(3.25px) rotate(45deg);
+	.navigation .github:hover span {
+		transform: translate(1px, -1px);
 	}
 
-	.mobile-navigation[open] .menu-icon span:last-child {
-		transform: translateY(-3.25px) rotate(-45deg);
-	}
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
 
-	.mobile-panel {
-		position: absolute;
-		top: calc(100% + 14px);
-		right: 0;
-		width: min(320px, calc(100vw - 40px));
-		padding: var(--space-3);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-medium);
-		background: var(--color-white);
-		box-shadow: 0 18px 50px rgb(17 17 17 / 10%);
-	}
-
-	.mobile-panel nav {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.mobile-link {
-		display: flex;
-		min-height: 48px;
-		align-items: center;
-		padding-inline: var(--space-3);
-		border-radius: var(--radius-small);
-		color: var(--color-text);
-		font-size: 0.95rem;
-		font-weight: var(--font-weight-medium);
-	}
-
-	.mobile-link:hover {
-		background: rgb(255 153 0 / 7%);
-		color: var(--color-black);
-	}
-
-	.mobile-action {
-		margin-top: var(--space-3);
-		padding-top: var(--space-3);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.mobile-action :global(.button-link) {
-		width: 100%;
-	}
-
-	@media (max-width: 900px) {
+	@media (max-width: 720px) {
 		.header-inner {
-			display: flex;
-			justify-content: space-between;
+			gap: 17px;
+
+			height: 48px;
 		}
 
-		.desktop-navigation,
-		.desktop-actions {
+		.brand {
+			font-size: 0.76rem;
+		}
+
+		.navigation-wrapper {
+			overflow-x: auto;
+
+			scrollbar-width: none;
+
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.navigation-wrapper::-webkit-scrollbar {
 			display: none;
 		}
 
-		.mobile-navigation {
-			display: block;
+		.navigation {
+			width: max-content;
+
+			gap: 14px;
+		}
+
+		.navigation a {
+			font-size: 0.61rem;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.header-inner {
-			min-height: 62px;
+			gap: 13px;
+
+			height: 46px;
 		}
 
-		.brand-mark {
-			width: 27px;
-			height: 27px;
-			flex-basis: 27px;
+		.brand {
+			font-size: 0.71rem;
 		}
 
-		.brand-name {
-			font-size: 1rem;
+		.navigation {
+			gap: 11px;
+		}
+
+		.navigation a {
+			font-size: 0.57rem;
 		}
 	}
 </style>

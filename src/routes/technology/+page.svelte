@@ -1,1006 +1,1741 @@
 <script lang="ts">
-	import ButtonLink from '$lib/components/ui/ButtonLink.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 
-	const runtimeCapabilities = [
+	const runtimeResponsibilities = [
 		{
-			number: '01',
-			title: 'Placement',
-			description:
-				'Determine which available computing resources satisfy application requirements.'
+			area: 'Placement',
+			observes: 'latency · locality · trust · capabilities',
+			responsibility:
+				'Determine where computation should execute across available infrastructure.'
 		},
 		{
-			number: '02',
-			title: 'Scheduling',
-			description:
-				'Coordinate execution as resources, priorities and application constraints change.'
+			area: 'Scheduling',
+			observes: 'priority · load · resources · constraints',
+			responsibility:
+				'Schedule workloads according to application requirements and current resource conditions.'
 		},
 		{
-			number: '03',
-			title: 'State',
-			description:
-				'Keep application state durable, portable and available across infrastructure.'
+			area: 'Distributed state',
+			observes: 'durability · consistency · availability',
+			responsibility:
+				'Manage application state independently from any single machine or location.'
 		},
 		{
-			number: '04',
-			title: 'Replication',
-			description:
-				'Replicate state and execution where availability and resilience require it.'
+			area: 'Replication',
+			observes: 'state · availability · locality',
+			responsibility:
+				'Determine when and where state should be replicated across the computing fabric.'
 		},
 		{
-			number: '05',
-			title: 'Recovery',
-			description:
-				'Recover or resume applications when machines, networks or services fail.'
+			area: 'Recovery',
+			observes: 'failure · availability · application state',
+			responsibility:
+				'Recover or resume execution when machines, networks or infrastructure become unavailable.'
 		},
 		{
-			number: '06',
-			title: 'Reconciliation',
-			description:
-				'Reconcile divergent state after disconnected infrastructure becomes available again.'
+			area: 'Reconciliation',
+			observes: 'divergent state · connectivity · consistency',
+			responsibility:
+				'Reconcile state after partitions, offline operation or infrastructure reconnection.'
+		},
+		{
+			area: 'Trust',
+			observes: 'identity · policy · security',
+			responsibility:
+				'Restrict execution and state placement to infrastructure permitted by application policy.'
+		},
+		{
+			area: 'Hardware',
+			observes: 'CPU · GPU · accelerators · capabilities',
+			responsibility:
+				'Select compatible computing resources without permanently coupling the application to specific hardware.'
+		},
+		{
+			area: 'Adaptation',
+			observes: 'network · resources · failures · changing conditions',
+			responsibility:
+				'Re-evaluate execution decisions while the application and its environment change.'
 		}
 	];
 
 	const technologies = [
 		{
-			number: '01',
+			status: 'maintained',
 			name: 'Vix.cpp',
-			type: 'Developer Platform',
+			role: 'Developer platform',
 			description:
-				'Softadastra’s open-source C++ developer platform for building modern software and experimenting with simpler developer experiences.',
-			note:
-				'Vix.cpp is not the mission itself. It is one way developers can interact with the technologies Softadastra builds.',
+				'Open-source C++ developer platform maintained by Softadastra.',
 			href: 'https://vixcpp.com',
-			action: 'Visit Vix.cpp',
 			external: true
 		},
 		{
-			number: '02',
-			name: 'Softadastra Engine',
-			type: 'Runtime Research',
+			status: 'in progress',
+			name: 'Softadastra Runtime',
+			role: 'Adaptive execution layer',
 			description:
-				'Technology for resilient and offline-first applications that remain useful when connectivity or preferred infrastructure becomes unavailable.',
-			note:
-				'Offline-first computing is an early step toward making applications less dependent on permanent centralized infrastructure.',
-			href: '#runtime',
-			action: 'Explore the runtime',
-			external: false
+				'The central runtime technology behind infrastructure-independent computing.',
+			href: 'https://github.com/softadastra/runtime',
+			external: true
 		},
 		{
-			number: '03',
-			name: 'Softadastra Cloud',
-			type: 'Hosted Infrastructure',
+			status: 'planned',
+			name: 'Softadastra Node',
+			role: 'Reference hardware',
 			description:
-				'Connected infrastructure for Softadastra technologies and applications that need hosted computing resources.',
-			note:
-				'The cloud is one possible environment, not the destination of every application. Softadastra is intentionally not cloud-dependent.',
-			href: '#fabric',
-			action: 'See the architecture',
+				'Low-power reference hardware designed to run the Runtime as one resource in the computing fabric.',
+			href: '#softadastra-node',
 			external: false
 		}
 	];
 
-	const infrastructure = ['Local', 'Edge', 'Cloud', 'Peer', 'Future infrastructure'];
+	const nodeTargets = [
+		{
+			property: 'Role',
+			value: 'Reference hardware for the Softadastra computing fabric'
+		},
+		{
+			property: 'Architecture',
+			value: 'x86-64 initially'
+		},
+		{
+			property: 'Prototype class',
+			value: 'Low-power 4-core system'
+		},
+		{
+			property: 'Memory',
+			value: '16 GB target'
+		},
+		{
+			property: 'Storage',
+			value: '512 GB NVMe target'
+		},
+		{
+			property: 'Networking',
+			value: '2.5 GbE · Wi-Fi'
+		},
+		{
+			property: 'Power',
+			value: '< 20 W typical system target'
+		},
+		{
+			property: 'Operation',
+			value: 'Local-first · able to remain useful without Internet connectivity'
+		},
+		{
+			property: 'Status',
+			value: 'Planned reference system',
+			accent: true
+		}
+	];
+
+	const technologySchema = {
+		'@context': 'https://schema.org',
+		'@type': 'TechArticle',
+		headline: 'Softadastra Technology',
+		description:
+			'The technical architecture behind Softadastra infrastructure-independent computing.',
+		author: {
+			'@type': 'Organization',
+			name: 'Softadastra',
+			url: 'https://softadastra.com'
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'Softadastra',
+			url: 'https://softadastra.com'
+		},
+		mainEntityOfPage: 'https://softadastra.com/technology'
+	};
 </script>
 
 <svelte:head>
 	<title>Technology — Softadastra</title>
+
 	<meta
 		name="description"
-		content="Explore the technology behind Softadastra: intent-driven adaptive computing, the Softadastra Runtime, Vix.cpp, Softadastra Engine and Softadastra Cloud."
+		content="Explore the Softadastra Runtime, Computing Fabric, Vix.cpp and reference hardware architecture behind infrastructure-independent computing."
 	/>
+
+	<meta
+		name="keywords"
+		content="Softadastra, Softadastra Runtime, infrastructure-independent computing, adaptive runtime, computing fabric, distributed systems, Vix.cpp, C++, edge computing, offline-first computing"
+	/>
+
+	<meta name="author" content="Softadastra" />
+	<meta name="robots" content="index, follow" />
+
+	<link
+		rel="canonical"
+		href="https://softadastra.com/technology"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Softadastra" />
+
+	<meta
+		property="og:url"
+		content="https://softadastra.com/technology"
+	/>
+
+	<meta
+		property="og:title"
+		content="Technology — Softadastra"
+	/>
+
+	<meta
+		property="og:description"
+		content="The Runtime and computing architecture behind Softadastra infrastructure-independent computing."
+	/>
+
+	<meta
+		name="twitter:card"
+		content="summary_large_image"
+	/>
+
+	<meta
+		name="twitter:title"
+		content="Technology — Softadastra"
+	/>
+
+	<meta
+		name="twitter:description"
+		content="Adaptive runtime technology for infrastructure-independent computing."
+	/>
+
+	<script type="application/ld+json">
+		{JSON.stringify(technologySchema)}
+	</script>
 </svelte:head>
 
-<section class="technology-hero">
-	<Container>
-		<div class="hero-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Technology</span>
-			</div>
-
+<main class="technology-page">
+	<section
+		class="hero"
+		aria-labelledby="technology-title"
+	>
+		<Container>
 			<div class="hero-content">
-				<p class="eyebrow">Intent-driven adaptive computing</p>
+				<div class="hero-heading">
+					<p class="eyebrow">
+						Technology
+					</p>
 
-				<h1>
-					Technology for separating software
-					<span>from infrastructure.</span>
-				</h1>
+					<h1 id="technology-title">
+						Infrastructure-independent computing.
+					</h1>
+				</div>
 
-				<p class="hero-description">
-					Softadastra is building programming models, runtime systems and computing
-					infrastructure that progressively allow applications to express what they need
-					without being permanently designed around where they execute.
-				</p>
-			</div>
-		</div>
-	</Container>
-</section>
+				<div class="hero-description">
+					<p>
+						Softadastra is developing an adaptive computing architecture where
+						software describes what it needs and the Runtime determines how
+						available infrastructure can satisfy it.
+					</p>
 
-<section class="architecture" id="architecture" aria-labelledby="architecture-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>The Architecture</span>
-			</div>
+					<div class="hero-links">
+						<a
+							href="https://github.com/softadastra/runtime"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Runtime source ↗
+						</a>
 
-			<div>
-				<p class="section-kicker">The technological direction</p>
-
-				<h2 id="architecture-title">
-					Intent becomes
-					<span>execution.</span>
-				</h2>
-
-				<p class="section-description">
-					The application describes intent, state and constraints. The adaptive runtime
-					connects those requirements to available computing resources.
-				</p>
-			</div>
-		</div>
-
-		<div class="architecture-flow" aria-label="Softadastra technology architecture">
-			<div class="architecture-stage">
-				<span class="stage-number">01</span>
-				<span class="stage-type">Application</span>
-				<strong>Intent + State + Constraints</strong>
-			</div>
-
-			<div class="flow-arrow" aria-hidden="true">
-				<span></span>
-				<svg viewBox="0 0 24 24" fill="none">
-					<path
-						d="M5 12H19M14 7L19 12L14 17"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-			</div>
-
-			<div class="architecture-stage architecture-stage--accent">
-				<span class="stage-number">02</span>
-				<span class="stage-type">Decision layer</span>
-				<strong>Adaptive Runtime</strong>
-			</div>
-
-			<div class="flow-arrow" aria-hidden="true">
-				<span></span>
-				<svg viewBox="0 0 24 24" fill="none">
-					<path
-						d="M5 12H19M14 7L19 12L14 17"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-			</div>
-
-			<div class="architecture-stage">
-				<span class="stage-number">03</span>
-				<span class="stage-type">Resources</span>
-				<strong>Computing Fabric</strong>
-			</div>
-		</div>
-
-		<div class="infrastructure-row" id="fabric">
-			<p>Available computing infrastructure</p>
-
-			<ul>
-				{#each infrastructure as item}
-					<li>
-						<span aria-hidden="true"></span>
-						{item}
-					</li>
-				{/each}
-			</ul>
-		</div>
-	</Container>
-</section>
-
-<section class="runtime" id="runtime" aria-labelledby="runtime-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Softadastra Runtime</span>
-			</div>
-
-			<div>
-				<p class="section-kicker">Where the research becomes executable</p>
-
-				<h2 id="runtime-title">
-					An adaptive runtime between
-					<span>applications and infrastructure.</span>
-				</h2>
-
-				<p class="section-description">
-					The runtime is intended to progressively make infrastructure decisions from
-					application requirements rather than forcing those decisions into application
-					code and deployment configuration.
-				</p>
-			</div>
-		</div>
-
-		<div class="capabilities">
-			{#each runtimeCapabilities as capability}
-				<article class="capability">
-					<span class="capability-number">{capability.number}</span>
-
-					<div>
-						<h3>{capability.title}</h3>
-						<p>{capability.description}</p>
+						<a href="/research">
+							Research →
+						</a>
 					</div>
-				</article>
-			{/each}
-		</div>
+				</div>
+			</div>
 
-		<div class="runtime-principle">
-			<div class="runtime-principle__mark" aria-hidden="true"></div>
+			<div
+				class="core-flow"
+				aria-label="Softadastra computing architecture"
+			>
+				<div class="flow-item">
+					<span>
+						software
+					</span>
 
-			<div>
-				<span>Core principle</span>
-				<p>
-					The developer manages the application.
 					<strong>
-						Softadastra manages the relationship between that application and
-						infrastructure.
+						Intent + State + Constraints
+					</strong>
+				</div>
+
+				<div
+					class="flow-arrow"
+					aria-hidden="true"
+				>
+					→
+				</div>
+
+				<div class="flow-item flow-item--runtime">
+					<span>
+						execution
+					</span>
+
+					<strong>
+						Softadastra Runtime
+					</strong>
+
+					<small>
+						in progress
+					</small>
+				</div>
+
+				<div
+					class="flow-arrow"
+					aria-hidden="true"
+				>
+					→
+				</div>
+
+				<div class="flow-item">
+					<span>
+						resources
+					</span>
+
+					<strong>
+						Computing Fabric
+					</strong>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="architecture-title"
+	>
+		<Container>
+			<div class="section-content">
+				<header class="section-heading">
+					<span>
+						01
+					</span>
+
+					<h2 id="architecture-title">
+						Core architecture
+					</h2>
+				</header>
+
+				<div class="architecture">
+					<article>
+						<span class="architecture-label">
+							Application
+						</span>
+
+						<h3>
+							Describe requirements
+						</h3>
+
+						<p>
+							Application code expresses intent, state requirements and
+							constraints without permanently encoding a complete infrastructure
+							topology.
+						</p>
+
+						<div class="architecture-values">
+							intent · state · constraints
+						</div>
+					</article>
+
+					<div
+						class="architecture-arrow"
+						aria-hidden="true"
+					>
+						→
+					</div>
+
+					<article class="architecture-runtime">
+						<span class="architecture-label">
+							Runtime
+						</span>
+
+						<h3>
+							Make execution decisions
+						</h3>
+
+						<p>
+							The Softadastra Runtime interprets application requirements and
+							progressively decides how computation and state should use
+							available resources.
+						</p>
+
+						<div class="architecture-values">
+							placement · scheduling · state · recovery
+						</div>
+					</article>
+
+					<div
+						class="architecture-arrow"
+						aria-hidden="true"
+					>
+						→
+					</div>
+
+					<article>
+						<span class="architecture-label">
+							Fabric
+						</span>
+
+						<h3>
+							Expose capabilities
+						</h3>
+
+						<p>
+							Local machines, edge systems, cloud infrastructure and hardware
+							accelerators become resources available to the Runtime.
+						</p>
+
+						<div class="architecture-values">
+							local · edge · cloud · CPU · GPU
+						</div>
+					</article>
+				</div>
+
+				<p class="architecture-principle">
+					Software describes the requirement.
+					<strong>
+						The Runtime handles the infrastructure decision.
 					</strong>
 				</p>
 			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
 
-<section class="products" aria-labelledby="products-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Technology Today</span>
-			</div>
+	<section
+		class="section"
+		aria-labelledby="runtime-title"
+	>
+		<Container>
+			<div class="section-content">
+				<header class="section-heading">
+					<span>
+						02
+					</span>
 
-			<div>
-				<h2 id="products-title">
-					Different technologies.
-					<span>One direction.</span>
-				</h2>
+					<h2 id="runtime-title">
+						Softadastra Runtime
+					</h2>
+				</header>
 
-				<p class="section-description">
-					Each technology explores a different part of the same problem:
-					reducing the infrastructure constraints placed on software.
-				</p>
-			</div>
-		</div>
-
-		<div class="technology-list">
-			{#each technologies as technology}
-				<article class="technology-item">
-					<div class="technology-number">{technology.number}</div>
-
-					<div class="technology-main">
-						<p class="technology-type">{technology.type}</p>
-						<h3>{technology.name}</h3>
+				<div class="runtime-intro">
+					<div>
+						<p class="runtime-lead">
+							The adaptive execution layer between software and computing
+							infrastructure.
+						</p>
 					</div>
 
-					<div class="technology-information">
-						<p>{technology.description}</p>
-						<p class="technology-note">{technology.note}</p>
+					<div class="runtime-description">
+						<p>
+							The Runtime is currently
+							<strong>in progress</strong>.
+							It is being developed publicly and individual capabilities are
+							being implemented and validated progressively.
+						</p>
 
 						<a
-							class="technology-link"
-							href={technology.href}
-							target={technology.external ? '_blank' : undefined}
-							rel={technology.external ? 'noopener noreferrer' : undefined}
+							href="https://github.com/softadastra/runtime"
+							target="_blank"
+							rel="noopener noreferrer"
 						>
-							{technology.action}
-
-							<svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
-								<path
-									d="M4 9H14M10 5L14 9L10 13"
-									stroke="currentColor"
-									stroke-width="1.4"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-							</svg>
+							github.com/softadastra/runtime ↗
 						</a>
 					</div>
-				</article>
-			{/each}
-		</div>
-	</Container>
-</section>
+				</div>
 
-<section class="independence" aria-labelledby="independence-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Infrastructure Independence</span>
+				<div class="runtime-table-wrapper">
+					<table class="runtime-table">
+						<thead>
+							<tr>
+								<th scope="col">
+									Runtime area
+								</th>
+
+								<th scope="col">
+									Observes
+								</th>
+
+								<th scope="col">
+									Responsibility
+								</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{#each runtimeResponsibilities as item}
+								<tr>
+									<th scope="row">
+										{item.area}
+									</th>
+
+									<td>
+										{item.observes}
+									</td>
+
+									<td>
+										{item.responsibility}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			</div>
+		</Container>
+	</section>
 
-			<div>
-				<h2 id="independence-title">
-					Cloud is infrastructure.
-					<span>Not the architecture.</span>
-				</h2>
+	<section
+		class="section"
+		id="computing-fabric"
+		aria-labelledby="fabric-title"
+	>
+		<Container>
+			<div class="section-content">
+				<header class="section-heading">
+					<span>
+						03
+					</span>
 
-				<p class="section-description">
-					Softadastra is not trying to move every application into another proprietary
-					cloud. Local machines, edge nodes, cloud resources and future hardware are all
-					potential execution environments.
+					<h2 id="fabric-title">
+						Computing Fabric
+					</h2>
+				</header>
+
+				<div class="fabric-layout">
+					<div class="fabric-copy">
+						<p class="fabric-lead">
+							The Fabric is the set of computing capabilities visible to the
+							Runtime.
+						</p>
+
+						<p>
+							It is not another cloud provider. A resource may be local, remote,
+							temporary or specialized.
+						</p>
+
+						<p>
+							The application should not need to permanently depend on the
+							location or provider of that resource.
+						</p>
+					</div>
+
+					<div class="fabric">
+						<div class="fabric-runtime">
+							<span>
+								control
+							</span>
+
+							<strong>
+								Softadastra Runtime
+							</strong>
+						</div>
+
+						<div
+							class="fabric-line"
+							aria-hidden="true"
+						></div>
+
+						<div class="fabric-resources">
+							<div>
+								<span>
+									local
+								</span>
+
+								<strong>
+									Local machine
+								</strong>
+
+								<small>
+									CPU · memory · storage
+								</small>
+							</div>
+
+							<div>
+								<span>
+									edge
+								</span>
+
+								<strong>
+									Edge resource
+								</strong>
+
+								<small>
+									locality · low latency
+								</small>
+							</div>
+
+							<div>
+								<span>
+									cloud
+								</span>
+
+								<strong>
+									Cloud resource
+								</strong>
+
+								<small>
+									remote capacity
+								</small>
+							</div>
+
+							<div>
+								<span>
+									acceleration
+								</span>
+
+								<strong>
+									GPU / accelerator
+								</strong>
+
+								<small>
+									specialized compute
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="offline-model">
+					<div>
+						<span>
+							connected
+						</span>
+
+						<strong>
+							local + remote resources
+						</strong>
+					</div>
+
+					<span aria-hidden="true">
+						→
+					</span>
+
+					<div>
+						<span>
+							network unavailable
+						</span>
+
+						<strong>
+							eligible local work continues
+						</strong>
+					</div>
+
+					<span aria-hidden="true">
+						→
+					</span>
+
+					<div>
+						<span>
+							reconnected
+						</span>
+
+						<strong>
+							state can be reconciled
+						</strong>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		aria-labelledby="map-title"
+	>
+		<Container>
+			<div class="section-content">
+				<header class="section-heading">
+					<span>
+						04
+					</span>
+
+					<h2 id="map-title">
+						Technology map
+					</h2>
+				</header>
+
+				<div class="technology-list">
+					{#each technologies as technology}
+						<article class="technology-item">
+							<div class="technology-status">
+								<span class:status-maintained={technology.status === 'maintained'}>
+									{technology.status}
+								</span>
+							</div>
+
+							<div class="technology-name">
+								<h3>
+									{technology.name}
+								</h3>
+
+								<p>
+									{technology.role}
+								</p>
+							</div>
+
+							<p class="technology-description">
+								{technology.description}
+							</p>
+
+							<a
+								href={technology.href}
+								target={technology.external ? '_blank' : undefined}
+								rel={technology.external ? 'noopener noreferrer' : undefined}
+							>
+								{technology.external ? 'open ↗' : 'details ↓'}
+							</a>
+						</article>
+					{/each}
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="section"
+		id="softadastra-node"
+		aria-labelledby="node-title"
+	>
+		<Container>
+			<div class="section-content">
+				<header class="section-heading">
+					<span>
+						05
+					</span>
+
+					<h2 id="node-title">
+						Softadastra Node
+						<small>
+							planned
+						</small>
+					</h2>
+				</header>
+
+				<div class="node-intro">
+					<p class="node-lead">
+						Reference hardware for proving the Runtime on a small, ordinary,
+						low-power machine.
+					</p>
+
+					<div>
+						<p>
+							The Node is not required to use Softadastra. It is one future
+							computing resource designed specifically around the Runtime.
+						</p>
+
+						<p>
+							The first target intentionally favors low cost and low power over
+							workstation-class hardware.
+						</p>
+					</div>
+				</div>
+
+				<div class="node-table-wrapper">
+					<table class="node-table">
+						<thead>
+							<tr>
+								<th></th>
+
+								<th>
+									node v1
+									<span>
+										reference target
+									</span>
+								</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{#each nodeTargets as target}
+								<tr>
+									<th scope="row">
+										{target.property}
+									</th>
+
+									<td class:accent-value={target.accent}>
+										{target.value}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+
+				<p class="node-note">
+					Target specification. Final hardware may change as prototypes and the
+					Runtime are validated.
 				</p>
 			</div>
-		</div>
+		</Container>
+	</section>
 
-		<div class="evolution">
-			<div class="evolution-item">
-				<span>01</span>
-				<strong>Physical machines</strong>
+	<section class="end">
+		<Container>
+			<div class="end-content">
+				<p>
+					The architecture is being built progressively.
+				</p>
+
+				<nav aria-label="Technology links">
+					<a
+						href="https://github.com/softadastra/runtime"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Runtime ↗
+					</a>
+
+					<a
+						href="https://vixcpp.com"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Vix.cpp ↗
+					</a>
+
+					<a href="/research">
+						Research →
+					</a>
+				</nav>
 			</div>
-
-			<div class="evolution-arrow" aria-hidden="true">→</div>
-
-			<div class="evolution-item">
-				<span>02</span>
-				<strong>Virtualization</strong>
-			</div>
-
-			<div class="evolution-arrow" aria-hidden="true">→</div>
-
-			<div class="evolution-item">
-				<span>03</span>
-				<strong>Cloud computing</strong>
-			</div>
-
-			<div class="evolution-arrow" aria-hidden="true">→</div>
-
-			<div class="evolution-item">
-				<span>04</span>
-				<strong>Distributed edge</strong>
-			</div>
-
-			<div class="evolution-arrow" aria-hidden="true">→</div>
-
-			<div class="evolution-item evolution-item--accent">
-				<span>05</span>
-				<strong>Infrastructure-independent computing</strong>
-			</div>
-		</div>
-	</Container>
-</section>
-
-<section class="technology-close">
-	<Container narrow>
-		<div class="close-content">
-			<span class="close-mark" aria-hidden="true"></span>
-
-			<p class="close-label">One company. One direction.</p>
-
-			<h2>
-				Every major technology should remove
-				<span>another infrastructure constraint from software.</span>
-			</h2>
-
-			<p>
-				Products and architectures will evolve. The mission remains the same:
-				make computing progressively infrastructure-independent.
-			</p>
-
-			<div class="close-actions">
-				<ButtonLink href="/research" variant="primary">
-					Explore the research
-				</ButtonLink>
-
-				<ButtonLink
-					href="https://github.com/softadastra"
-					variant="secondary"
-					external
-					ariaLabel="Explore Softadastra on GitHub"
-				>
-					Open Source
-				</ButtonLink>
-			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
+</main>
 
 <style>
-	.technology-hero,
-	.architecture,
-	.runtime,
-	.products,
-	.independence,
-	.technology-close {
-		border-bottom: 1px solid var(--color-border);
+	.technology-page {
 		background: var(--color-white);
+		color: var(--color-text);
+
+		font-family: var(--font-mono);
 	}
 
-	.technology-hero :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.hero-layout,
-	.section-heading {
-		display: grid;
-		grid-template-columns: minmax(160px, 0.35fr) minmax(0, 1fr);
-		gap: clamp(48px, 8vw, 120px);
-	}
-
-	.section-label {
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-		padding-top: 10px;
-		color: var(--color-muted);
-		font-size: 0.75rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
-
-	.section-label__line {
-		width: 22px;
-		height: 2px;
-		margin-top: 4px;
-		flex: 0 0 auto;
-		background: var(--color-accent);
-	}
+	/* --------------------------------------------------
+	   Hero
+	-------------------------------------------------- */
 
 	.hero-content {
-		max-width: 940px;
-	}
-
-	.eyebrow,
-	.section-kicker {
-		margin-bottom: var(--space-5);
-		color: var(--color-accent);
-		font-size: 0.78rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
-	}
-
-	h1 {
-		max-width: 950px;
-		color: var(--color-black);
-		font-size: clamp(3rem, 6vw, 6rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.065em;
-		line-height: 0.98;
-		text-wrap: balance;
-	}
-
-	h1 span {
-		display: block;
-		color: var(--color-accent);
-	}
-
-	.hero-description,
-	.section-description {
-		max-width: 690px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.05rem;
-		line-height: 1.75;
-	}
-
-	.hero-description {
-		margin-top: var(--space-7);
-		font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-	}
-
-	.architecture :global(.container),
-	.runtime :global(.container),
-	.products :global(.container),
-	.independence :global(.container) {
-		padding-block: clamp(96px, 12vw, 160px);
-	}
-
-	h2 {
-		max-width: 900px;
-		color: var(--color-black);
-		font-size: clamp(2.3rem, 4.3vw, 4.5rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.055em;
-		line-height: 1.04;
-		text-wrap: balance;
-	}
-
-	h2 span {
-		display: block;
-		color: var(--color-text-secondary);
-	}
-
-	.architecture-flow {
 		display: grid;
 		grid-template-columns:
 			minmax(0, 1fr)
-			80px
-			minmax(0, 1.1fr)
-			80px
-			minmax(0, 1fr);
-		align-items: stretch;
-		margin-top: clamp(72px, 9vw, 112px);
+			minmax(300px, 0.65fr);
+
+		gap: clamp(40px, 8vw, 100px);
+
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+
+		padding-top: clamp(52px, 6vw, 76px);
 	}
 
-	.architecture-stage {
+	.eyebrow {
+		margin: 0;
+
+		color: var(--color-accent);
+
+		font-size: 0.67rem;
+		font-weight: var(--font-weight-semibold);
+
+		line-height: 1.4;
+	}
+
+	.hero h1 {
+		max-width: 700px;
+
+		margin: 9px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.045em;
+		line-height: 1.12;
+	}
+
+	.hero-description {
+		align-self: end;
+	}
+
+	.hero-description > p {
+		max-width: 560px;
+
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.82rem;
+		line-height: 1.65;
+	}
+
+	.hero-links {
 		display: flex;
-		min-height: 180px;
-		flex-direction: column;
-		justify-content: space-between;
-		padding: var(--space-5);
-		border: 1px solid var(--color-border);
+		flex-wrap: wrap;
+
+		gap: 8px 20px;
+
+		margin-top: 14px;
 	}
 
-	.architecture-stage--accent {
-		position: relative;
-		border-color: var(--color-accent);
+	.hero-links a {
+		color: var(--color-accent);
+
+		font-size: 0.68rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
-	.architecture-stage--accent::before {
-		position: absolute;
-		top: -1px;
-		right: -1px;
-		left: -1px;
-		height: 3px;
-		background: var(--color-accent);
-		content: '';
+	/* --------------------------------------------------
+	   Core flow
+	-------------------------------------------------- */
+
+	.core-flow {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr);
+
+		align-items: center;
+
+		gap: clamp(13px, 2.5vw, 28px);
+
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin: clamp(38px, 5vw, 56px) auto 0;
+		padding-bottom: clamp(38px, 5vw, 52px);
 	}
 
-	.stage-number {
-		color: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-	}
-
-	.stage-type {
+	.flow-item span {
 		display: block;
-		margin-top: auto;
-		margin-bottom: 7px;
+
+		margin-bottom: 4px;
+
 		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
+
+		font-size: 0.59rem;
+		line-height: 1.3;
 	}
 
-	.architecture-stage strong {
-		color: var(--color-black);
-		font-size: clamp(1.15rem, 1.7vw, 1.45rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.03em;
-		line-height: 1.25;
+	.flow-item strong {
+		display: block;
+
+		color: var(--color-text);
+
+		font-size: 0.79rem;
+		line-height: 1.4;
 	}
 
-	.architecture-stage--accent strong {
+	.flow-item small {
+		display: block;
+
+		margin-top: 3px;
+
+		color: var(--color-muted);
+
+		font-size: 0.56rem;
+	}
+
+	.flow-item--runtime strong {
 		color: var(--color-accent);
 	}
 
 	.flow-arrow {
+		color: var(--color-border-strong);
+
+		font-size: 0.8rem;
+	}
+
+	/* --------------------------------------------------
+	   Sections
+	-------------------------------------------------- */
+
+	.section {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.section-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(40px, 4.5vw, 56px);
+	}
+
+	.section-heading {
 		display: flex;
-		position: relative;
-		align-items: center;
-		justify-content: center;
+		align-items: baseline;
+
+		gap: 12px;
+
+		margin-bottom: 25px;
+	}
+
+	.section-heading > span {
+		color: var(--color-accent);
+
+		font-size: 0.62rem;
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.section-heading h2 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+		line-height: 1.4;
+	}
+
+	.section-heading h2 small {
+		margin-left: 5px;
+
+		color: var(--color-accent);
+
+		font-size: 0.62em;
+		font-weight: var(--font-weight-normal);
+	}
+
+	/* --------------------------------------------------
+	   Architecture
+	-------------------------------------------------- */
+
+	.architecture {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr);
+
+		gap: 16px;
+
+		align-items: stretch;
+	}
+
+	.architecture article {
+		padding: 18px 0;
+	}
+
+	.architecture-label {
+		display: block;
+
+		margin-bottom: 8px;
+
+		color: var(--color-muted);
+
+		font-size: 0.61rem;
+	}
+
+	.architecture h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.84rem;
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.4;
+	}
+
+	.architecture p {
+		margin: 9px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.72rem;
+		line-height: 1.6;
+	}
+
+	.architecture-values {
+		margin-top: 13px;
+
+		color: var(--color-muted);
+
+		font-size: 0.61rem;
+		line-height: 1.5;
+	}
+
+	.architecture-runtime {
+		border-top: 2px solid var(--color-accent);
+	}
+
+	.architecture-runtime h3 {
+		color: var(--color-accent);
+	}
+
+	.architecture-arrow {
+		align-self: center;
+
 		color: var(--color-border-strong);
 	}
 
-	.flow-arrow span {
-		position: absolute;
-		right: 0;
-		left: 0;
-		height: 1px;
-		background: var(--color-border);
-	}
+	.architecture-principle {
+		margin: 16px 0 0;
 
-	.flow-arrow svg {
-		position: relative;
-		width: 24px;
-		height: 24px;
-		padding: 3px;
-		background: var(--color-white);
-	}
+		color: var(--color-text);
 
-	.infrastructure-row {
-		margin-top: var(--space-7);
-		padding-top: var(--space-6);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.infrastructure-row > p {
-		margin-bottom: var(--space-4);
-		color: var(--color-muted);
 		font-size: 0.7rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+
+		line-height: 1.5;
 	}
 
-	.infrastructure-row ul {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
+	.architecture-principle strong {
+		color: var(--color-accent);
 	}
 
-	.infrastructure-row li {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		padding: 9px 14px;
-		border: 1px solid var(--color-border);
-		border-radius: 999px;
+	/* --------------------------------------------------
+	   Runtime
+	-------------------------------------------------- */
+
+	.runtime-intro {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.9fr)
+			minmax(0, 1.1fr);
+
+		gap: clamp(38px, 8vw, 100px);
+
+		margin-bottom: 25px;
+	}
+
+	.runtime-lead {
+		max-width: 600px;
+
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(0.96rem, 1.4vw, 1.13rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.015em;
+		line-height: 1.55;
+	}
+
+	.runtime-description {
+		max-width: 700px;
+	}
+
+	.runtime-description p {
+		margin: 0;
+
 		color: var(--color-text-secondary);
-		font-size: 0.85rem;
-		font-weight: var(--font-weight-medium);
-	}
 
-	.infrastructure-row li span {
-		width: 5px;
-		height: 5px;
-		border-radius: 50%;
-		background: var(--color-accent);
-	}
-
-	.capabilities {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.capability {
-		display: grid;
-		grid-template-columns: 52px 1fr;
-		gap: var(--space-5);
-		min-height: 170px;
-		padding: var(--space-6);
-		border-right: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.capability:nth-child(even) {
-		border-right: 0;
-	}
-
-	.capability-number,
-	.technology-number {
-		color: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-	}
-
-	.capability h3 {
-		margin-bottom: var(--space-3);
-		color: var(--color-black);
-		font-size: 1.25rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.03em;
-	}
-
-	.capability p {
-		max-width: 460px;
-		color: var(--color-muted);
-		font-size: 0.91rem;
+		font-size: 0.76rem;
 		line-height: 1.65;
 	}
 
-	.runtime-principle {
-		display: grid;
-		grid-template-columns: 4px minmax(0, 760px);
-		gap: var(--space-5);
-		margin-top: clamp(64px, 8vw, 96px);
+	.runtime-description strong {
+		color: var(--color-accent);
 	}
 
-	.runtime-principle__mark {
-		background: var(--color-accent);
-	}
+	.runtime-description a {
+		display: inline-block;
 
-	.runtime-principle span {
-		display: block;
-		margin-bottom: var(--space-3);
-		color: var(--color-muted);
-		font-size: 0.7rem;
+		margin-top: 11px;
+
+		color: var(--color-accent);
+
+		font-size: 0.66rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
-	.runtime-principle p {
+	.runtime-table-wrapper,
+	.node-table-wrapper {
+		width: 100%;
+
+		overflow-x: auto;
+	}
+
+	.runtime-table {
+		width: 100%;
+		min-width: 760px;
+
+		border-collapse: collapse;
+	}
+
+	.runtime-table th,
+	.runtime-table td {
+		padding: 7px 10px;
+
+		border: 1px solid var(--color-border);
+
+		font-size: 0.65rem;
+		line-height: 1.45;
+
+		text-align: left;
+	}
+
+	.runtime-table thead th {
+		color: var(--color-muted);
+
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.runtime-table tbody th {
+		width: 165px;
+
+		color: var(--color-text);
+
+		font-weight: var(--font-weight-bold);
+	}
+
+	.runtime-table tbody td {
 		color: var(--color-text-secondary);
-		font-size: clamp(1.25rem, 2vw, 1.7rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.03em;
+	}
+
+	.runtime-table tbody td:nth-child(2) {
+		width: 320px;
+
+		color: var(--color-muted);
+	}
+
+	.runtime-table tbody tr:hover {
+		background: rgb(244 123 32 / 2%);
+	}
+
+	/* --------------------------------------------------
+	   Fabric
+	-------------------------------------------------- */
+
+	.fabric-layout {
+		display: grid;
+		grid-template-columns:
+			minmax(260px, 0.65fr)
+			minmax(0, 1.35fr);
+
+		gap: clamp(40px, 8vw, 100px);
+	}
+
+	.fabric-copy {
+		max-width: 560px;
+	}
+
+	.fabric-lead {
+		color: var(--color-text) !important;
+
+		font-size: 0.94rem !important;
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.015em;
+	}
+
+	.fabric-copy p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.74rem;
+		line-height: 1.65;
+	}
+
+	.fabric-copy p + p {
+		margin-top: 11px;
+	}
+
+	.fabric {
+		width: 100%;
+	}
+
+	.fabric-runtime {
+		width: fit-content;
+
+		padding-bottom: 9px;
+
+		border-bottom: 2px solid var(--color-accent);
+	}
+
+	.fabric-runtime span,
+	.fabric-resources span {
+		display: block;
+
+		margin-bottom: 4px;
+
+		color: var(--color-muted);
+
+		font-size: 0.57rem;
+	}
+
+	.fabric-runtime strong {
+		color: var(--color-accent);
+
+		font-size: 0.75rem;
+	}
+
+	.fabric-line {
+		width: 1px;
+		height: 20px;
+
+		margin-left: 17px;
+
+		background: var(--color-border-strong);
+	}
+
+	.fabric-resources {
+		display: grid;
+		grid-template-columns:
+			repeat(2, minmax(0, 1fr));
+
+		gap: 8px 28px;
+	}
+
+	.fabric-resources > div {
+		padding-block: 9px;
+
+		border-top: 1px solid var(--color-border);
+	}
+
+	.fabric-resources strong {
+		display: block;
+
+		color: var(--color-text);
+
+		font-size: 0.68rem;
+		line-height: 1.4;
+	}
+
+	.fabric-resources small {
+		display: block;
+
+		margin-top: 3px;
+
+		color: var(--color-muted);
+
+		font-size: 0.57rem;
 		line-height: 1.45;
 	}
 
-	.runtime-principle strong {
-		display: block;
-		margin-top: var(--space-2);
-		color: var(--color-black);
+	.offline-model {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr)
+			auto
+			minmax(0, 1fr);
+
+		gap: 14px;
+
+		align-items: center;
+
+		margin-top: 30px;
+		padding-top: 20px;
+
+		border-top: 1px solid var(--color-border);
 	}
 
+	.offline-model > div > span {
+		display: block;
+
+		color: var(--color-muted);
+
+		font-size: 0.58rem;
+	}
+
+	.offline-model > div > strong {
+		display: block;
+
+		margin-top: 3px;
+
+		color: var(--color-text);
+
+		font-size: 0.67rem;
+		line-height: 1.4;
+	}
+
+	.offline-model > span {
+		color: var(--color-border-strong);
+	}
+
+	/* --------------------------------------------------
+	   Technology map
+	-------------------------------------------------- */
+
 	.technology-list {
-		margin-top: clamp(72px, 9vw, 112px);
 		border-top: 1px solid var(--color-border);
 	}
 
 	.technology-item {
 		display: grid;
-		grid-template-columns: 70px minmax(220px, 0.7fr) minmax(0, 1.3fr);
-		gap: var(--space-6);
-		padding-block: clamp(40px, 5vw, 64px);
+		grid-template-columns:
+			110px
+			minmax(180px, 0.65fr)
+			minmax(0, 1.35fr)
+			70px;
+
+		gap: 24px;
+
+		align-items: center;
+
+		padding-block: 15px;
+
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	.technology-type {
-		margin-bottom: var(--space-3);
+	.technology-status span {
 		color: var(--color-accent);
-		font-size: 0.7rem;
+
+		font-size: 0.61rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
 	}
 
-	.technology-main h3 {
-		color: var(--color-black);
-		font-size: clamp(1.5rem, 2.5vw, 2.1rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.04em;
+	.technology-status .status-maintained {
+		color: var(--color-text);
 	}
 
-	.technology-information > p {
-		max-width: 600px;
-		color: var(--color-text-secondary);
-		font-size: 0.95rem;
-		line-height: 1.7;
+	.technology-name h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.78rem;
+		font-weight: var(--font-weight-bold);
 	}
 
-	.technology-information .technology-note {
-		margin-top: var(--space-4);
+	.technology-name p {
+		margin: 3px 0 0;
+
 		color: var(--color-muted);
-		font-size: 0.86rem;
+
+		font-size: 0.59rem;
 	}
 
-	.technology-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 7px;
-		margin-top: var(--space-5);
-		color: var(--color-black);
-		font-size: 0.85rem;
-		font-weight: var(--font-weight-semibold);
+	.technology-description {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.69rem;
+		line-height: 1.55;
 	}
 
-	.technology-link:hover {
+	.technology-item > a {
 		color: var(--color-accent);
+
+		font-size: 0.62rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-align: right;
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
-	.technology-link svg {
-		width: 18px;
-		height: 18px;
-		transition: transform var(--transition-fast);
-	}
+	/* --------------------------------------------------
+	   Node
+	-------------------------------------------------- */
 
-	.technology-link:hover svg {
-		transform: translateX(3px);
-	}
-
-	.evolution {
+	.node-intro {
 		display: grid;
 		grid-template-columns:
-			minmax(0, 1fr)
-			auto
-			minmax(0, 1fr)
-			auto
-			minmax(0, 1fr)
-			auto
-			minmax(0, 1fr)
-			auto
-			minmax(0, 1.25fr);
-		align-items: stretch;
-		margin-top: clamp(72px, 9vw, 112px);
+			minmax(0, 0.9fr)
+			minmax(0, 1.1fr);
+
+		gap: clamp(38px, 8vw, 100px);
+
+		margin-bottom: 25px;
 	}
 
-	.evolution-item {
-		display: flex;
-		min-height: 150px;
-		flex-direction: column;
-		justify-content: space-between;
-		padding: var(--space-4);
+	.node-lead {
+		max-width: 600px;
+
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(0.96rem, 1.4vw, 1.13rem);
+		font-weight: var(--font-weight-bold);
+
+		line-height: 1.55;
+	}
+
+	.node-intro > div p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.75rem;
+		line-height: 1.65;
+	}
+
+	.node-intro > div p + p {
+		margin-top: 10px;
+	}
+
+	.node-table {
+		width: 100%;
+		max-width: 900px;
+
+		border-collapse: collapse;
+	}
+
+	.node-table th,
+	.node-table td {
+		padding: 7px 10px;
+
 		border: 1px solid var(--color-border);
+
+		font-size: 0.65rem;
+		line-height: 1.45;
 	}
 
-	.evolution-item span {
-		color: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.68rem;
+	.node-table thead th:first-child {
+		width: 210px;
 	}
 
-	.evolution-item strong {
-		font-size: 0.9rem;
-		font-weight: var(--font-weight-semibold);
-		line-height: 1.35;
-	}
-
-	.evolution-item--accent {
-		border-color: var(--color-accent);
-	}
-
-	.evolution-item--accent strong {
+	.node-table thead th:last-child {
 		color: var(--color-accent);
-	}
 
-	.evolution-arrow {
-		display: flex;
-		width: 32px;
-		align-items: center;
-		justify-content: center;
-		color: var(--color-border-strong);
-	}
+		font-weight: var(--font-weight-bold);
 
-	.technology-close :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.close-content {
 		text-align: center;
 	}
 
-	.close-mark {
+	.node-table thead span {
 		display: block;
-		width: 36px;
-		height: 3px;
-		margin: 0 auto var(--space-6);
-		background: var(--color-accent);
+
+		margin-top: 2px;
+
+		color: var(--color-muted);
+
+		font-size: 0.56rem;
+		font-weight: var(--font-weight-normal);
 	}
 
-	.close-label {
-		margin-bottom: var(--space-5);
+	.node-table tbody th {
 		color: var(--color-muted);
+
+		font-weight: var(--font-weight-medium);
+
+		text-align: right;
+	}
+
+	.node-table tbody td {
+		color: var(--color-text);
+
+		text-align: center;
+	}
+
+	.node-table .accent-value {
+		color: var(--color-accent);
+
+		font-weight: var(--font-weight-bold);
+	}
+
+	.node-note {
+		max-width: 900px;
+
+		margin: 10px 0 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.6rem;
+		line-height: 1.5;
+	}
+
+	/* --------------------------------------------------
+	   End
+	-------------------------------------------------- */
+
+	.end {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.end-content {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 30px;
+
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: 26px;
+	}
+
+	.end-content > p {
+		margin: 0;
+
+		color: var(--color-text);
+
 		font-size: 0.72rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
 	}
 
-	.close-content h2 {
-		margin-inline: auto;
-	}
-
-	.close-content h2 span {
-		color: var(--color-accent);
-	}
-
-	.close-content > p:not(.close-label) {
-		max-width: 640px;
-		margin: var(--space-6) auto 0;
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.7;
-	}
-
-	.close-actions {
+	.end-content nav {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
-		gap: var(--space-3);
-		margin-top: var(--space-7);
+
+		gap: 8px 20px;
 	}
 
-	@media (max-width: 960px) {
-		.architecture-flow {
+	.end-content a {
+		color: var(--color-accent);
+
+		font-size: 0.66rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* --------------------------------------------------
+	   Global links
+	-------------------------------------------------- */
+
+	a {
+		transition: color var(--transition-fast);
+	}
+
+	a:hover {
+		color: var(--color-text);
+	}
+
+	/* --------------------------------------------------
+	   Tablet
+	-------------------------------------------------- */
+
+	@media (max-width: 820px) {
+		.hero-content,
+		.runtime-intro,
+		.fabric-layout,
+		.node-intro {
 			grid-template-columns: 1fr;
+
+			gap: 24px;
+		}
+
+		.hero-description {
+			max-width: 680px;
+		}
+
+		.architecture {
+			grid-template-columns: 1fr;
+
+			gap: 6px;
+		}
+
+		.architecture article {
+			padding-block: 13px;
+		}
+
+		.architecture-arrow {
+			width: fit-content;
+
+			transform: rotate(90deg);
+		}
+	}
+
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
+
+	@media (max-width: 640px) {
+		.hero-content {
+			padding-top: 42px;
+		}
+
+		.hero h1 {
+			font-size: 1.65rem;
+		}
+
+		.hero-description > p {
+			font-size: 0.76rem;
+		}
+
+		.core-flow {
+			grid-template-columns: 1fr;
+
+			gap: 6px;
+
+			margin-top: 31px;
 		}
 
 		.flow-arrow {
-			height: 58px;
-		}
+			width: fit-content;
 
-		.flow-arrow span {
-			top: 0;
-			bottom: 0;
-			left: 50%;
-			width: 1px;
-			height: auto;
-		}
-
-		.flow-arrow svg {
 			transform: rotate(90deg);
 		}
 
-		.evolution {
-			grid-template-columns: 1fr;
-			gap: var(--space-3);
+		.section-content {
+			padding-block: 36px;
 		}
 
-		.evolution-arrow {
-			display: none;
-		}
-
-		.evolution-item {
-			min-height: 105px;
-		}
-	}
-
-	@media (max-width: 760px) {
-		.hero-layout,
 		.section-heading {
+			margin-bottom: 21px;
+		}
+
+		.section-heading h2 {
+			font-size: 1rem;
+		}
+
+		.runtime-lead,
+		.node-lead {
+			font-size: 0.91rem;
+		}
+
+		.fabric-lead {
+			font-size: 0.88rem !important;
+		}
+
+		.fabric-resources {
 			grid-template-columns: 1fr;
-			gap: var(--space-7);
 		}
 
-		.section-label {
-			padding-top: 0;
-		}
-
-		.technology-hero :global(.container),
-		.architecture :global(.container),
-		.runtime :global(.container),
-		.products :global(.container),
-		.independence :global(.container) {
-			padding-block: 88px;
-		}
-
-		.capabilities {
+		.offline-model {
 			grid-template-columns: 1fr;
+
+			gap: 7px;
 		}
 
-		.capability,
-		.capability:nth-child(even) {
-			border-right: 0;
+		.offline-model > span {
+			width: fit-content;
+
+			transform: rotate(90deg);
 		}
 
 		.technology-item {
-			grid-template-columns: 44px minmax(0, 1fr);
-		}
-
-		.technology-information {
-			grid-column: 2;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.technology-hero :global(.container),
-		.architecture :global(.container),
-		.runtime :global(.container),
-		.products :global(.container),
-		.independence :global(.container),
-		.technology-close :global(.container) {
-			padding-block: 72px;
-		}
-
-		h1 {
-			font-size: 2.75rem;
-			letter-spacing: -0.055em;
-		}
-
-		h2 {
-			font-size: 2.25rem;
-			letter-spacing: -0.045em;
-		}
-
-		.capability {
-			grid-template-columns: 32px 1fr;
-			padding-inline: 0;
-		}
-
-		.technology-item {
-			grid-template-columns: 32px 1fr;
-			gap: var(--space-4);
-		}
-
-		.close-actions {
-			display: grid;
 			grid-template-columns: 1fr;
+
+			gap: 6px;
+
+			padding-block: 13px;
 		}
 
-		.close-actions :global(.button-link) {
-			width: 100%;
+		.technology-item > a {
+			text-align: left;
+		}
+
+		.node-table {
+			min-width: 620px;
+		}
+
+		.end-content {
+			flex-direction: column;
+
+			gap: 10px;
+
+			padding-block: 22px;
 		}
 	}
 </style>

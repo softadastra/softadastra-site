@@ -1,849 +1,1528 @@
 <script lang="ts">
-	import ButtonLink from '$lib/components/ui/ButtonLink.svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 
-	const principles = [
-		{
-			number: '01',
-			title: 'Inspectable',
-			description:
-				'Important infrastructure should be understandable. Developers and researchers should be able to inspect how the technology works.'
-		},
-		{
-			number: '02',
-			title: 'Experimentable',
-			description:
-				'Open systems make it possible to test ideas, challenge assumptions and explore different approaches to infrastructure-independent computing.'
-		},
-		{
-			number: '03',
-			title: 'Composable',
-			description:
-				'Open technology allows developers to build on top of the work instead of treating the underlying system as an inaccessible black box.'
-		},
-		{
-			number: '04',
-			title: 'Collaborative',
-			description:
-				'Some of the problems Softadastra is investigating are difficult systems problems that benefit from broader technical participation.'
-		}
-	];
+	const cgrideExample = `#include <cgride/project.hpp>
 
-	const projects = [
-		{
-			number: '01',
-			name: 'Vix.cpp',
-			type: 'Open-source developer platform',
-			description:
-				'A C++ developer platform for building modern software and experimenting with simpler developer experiences.',
-			status: 'Open source',
-			href: 'https://github.com/vixcpp/vix'
-		},
-		{
-			number: '02',
-			name: 'Softadastra Research',
-			type: 'Systems research',
-			description:
-				'Research around intent programming, adaptive runtimes, distributed state, placement, reliability and infrastructure independence.',
-			status: 'Evolving',
-			href: '/research'
-		}
-	];
+void cgride_configure(cgride::project::Project &project)
+{
+    auto &app = project.executable("app");
 
-	const contributionAreas = [
-		'C++',
-		'Distributed systems',
-		'Operating systems',
-		'Compilers',
-		'Programming languages',
-		'Runtimes',
-		'Databases',
-		'Networking',
-		'Fault tolerance',
-		'Security',
-		'Edge computing',
-		'Performance engineering'
-	];
+    app.sources("src/main.cpp");
+}`;
+
+	const openSourceSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Softadastra Open Source',
+		url: 'https://softadastra.com/open-source',
+		description:
+			'Open-source developer infrastructure, runtimes and reliability systems built and maintained by Softadastra.',
+		publisher: {
+			'@type': 'Organization',
+			name: 'Softadastra',
+			url: 'https://softadastra.com'
+		},
+		hasPart: [
+			{
+				'@type': 'SoftwareSourceCode',
+				name: 'Vix.cpp',
+				codeRepository: 'https://github.com/vixcpp/vix',
+				url: 'https://vixcpp.com'
+			},
+			{
+				'@type': 'SoftwareSourceCode',
+				name: 'Softadastra Runtime',
+				codeRepository: 'https://github.com/softadastra/runtime'
+			},
+			{
+				'@type': 'SoftwareSourceCode',
+				name: 'Cgride',
+				codeRepository: 'https://github.com/cgride/cgride'
+			},
+			{
+				'@type': 'SoftwareSourceCode',
+				name: 'Kordex',
+				codeRepository: 'https://github.com/softadastra/kordex'
+			},
+			{
+				'@type': 'SoftwareSourceCode',
+				name: 'Ivi.php',
+				codeRepository: 'https://github.com/iviphp/ivi'
+			}
+		]
+	};
 </script>
 
 <svelte:head>
 	<title>Open Source — Softadastra</title>
+
 	<meta
 		name="description"
-		content="Explore Softadastra open-source work and contribute to research and technology around infrastructure-independent computing."
+		content="Softadastra builds open-source developer infrastructure, runtimes and reliability systems including Vix.cpp, Softadastra Runtime, Cgride, Cnerium, Kordex and Ivi.php."
 	/>
+
+	<meta
+		name="keywords"
+		content="Softadastra open source, Vix.cpp, Softadastra Runtime, Cgride, Cnerium, Kordex, Ivi.php, C++, build systems, runtimes, local-first computing, developer infrastructure"
+	/>
+
+	<meta name="author" content="Softadastra" />
+	<meta name="robots" content="index, follow" />
+
+	<link
+		rel="canonical"
+		href="https://softadastra.com/open-source"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Softadastra" />
+
+	<meta
+		property="og:url"
+		content="https://softadastra.com/open-source"
+	/>
+
+	<meta
+		property="og:title"
+		content="Open Source — Softadastra"
+	/>
+
+	<meta
+		property="og:description"
+		content="Open-source developer infrastructure, runtimes and reliability systems built by Softadastra."
+	/>
+
+	<meta
+		name="twitter:card"
+		content="summary_large_image"
+	/>
+
+	<meta
+		name="twitter:title"
+		content="Open Source — Softadastra"
+	/>
+
+	<meta
+		name="twitter:description"
+		content="Open-source systems and developer infrastructure from Softadastra."
+	/>
+
+	<script type="application/ld+json">
+		{JSON.stringify(openSourceSchema)}
+	</script>
 </svelte:head>
 
-<section class="opensource-hero">
-	<Container>
-		<div class="hero-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Open Source</span>
-			</div>
-
+<main class="open-source-page">
+	<section
+		class="hero"
+		aria-labelledby="open-source-title"
+	>
+		<Container>
 			<div class="hero-content">
-				<p class="eyebrow">Build in the open</p>
+				<div class="hero-title">
+					<p>
+						Open Source
+					</p>
 
-				<h1>
-					Important computing infrastructure
-					<span>should be open to inspection.</span>
-				</h1>
+					<h1 id="open-source-title">
+						Software we build
+						<span>in the open.</span>
+					</h1>
+				</div>
 
-				<p class="hero-description">
-					Softadastra develops important parts of its technology in the open so developers
-					and researchers can inspect it, experiment with it, challenge our assumptions
-					and build on top of our work.
-				</p>
+				<div class="hero-copy">
+					<p>
+						Softadastra builds developer infrastructure, runtimes and
+						reliability systems in public.
+					</p>
 
-				<div class="hero-actions">
-					<ButtonLink
+					<p>
+						The projects below are the open-source systems that best represent
+						our current technical direction.
+					</p>
+
+					<a
 						href="https://github.com/softadastra"
-						variant="primary"
-						external
-						ariaLabel="Explore Softadastra on GitHub"
+						target="_blank"
+						rel="noopener noreferrer"
 					>
-						Explore GitHub
-					</ButtonLink>
-
-					<ButtonLink href="/research" variant="secondary">
-						Explore the research
-					</ButtonLink>
+						github.com/softadastra ↗
+					</a>
 				</div>
 			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
 
-<section class="philosophy" aria-labelledby="philosophy-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Why Open Source</span>
-			</div>
+	<section
+		class="core"
+		aria-labelledby="core-title"
+	>
+		<Container>
+			<div class="core-content">
+				<header class="core-heading">
+					<h2 id="core-title">
+						Current core
+					</h2>
 
-			<div>
-				<p class="section-kicker">Our philosophy</p>
+					<p>
+						The developer platform we maintain and the runtime we are building.
+					</p>
+				</header>
 
-				<h2 id="philosophy-title">
-					Research becomes stronger
-					<span>when others can examine it.</span>
-				</h2>
+				<div class="core-projects">
+					<article class="vix">
+						<div class="project-top">
+							<span class="status status--active">
+								maintained
+							</span>
 
-				<p class="section-description">
-					Open source is not a separate business line. It is part of how Softadastra
-					develops developer infrastructure and exposes technical ideas to real scrutiny.
-				</p>
-			</div>
-		</div>
-
-		<div class="principles">
-			{#each principles as principle}
-				<article class="principle">
-					<span class="principle-number">{principle.number}</span>
-
-					<div>
-						<h3>{principle.title}</h3>
-						<p>{principle.description}</p>
-					</div>
-				</article>
-			{/each}
-		</div>
-	</Container>
-</section>
-
-<section class="projects" aria-labelledby="projects-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Open Work</span>
-			</div>
-
-			<div>
-				<h2 id="projects-title">
-					Technology you can
-					<span>inspect and build on.</span>
-				</h2>
-
-				<p class="section-description">
-					Vix.cpp is currently one of the main public foundations of Softadastra’s
-					open-source work. Additional components may become open as the research evolves.
-				</p>
-			</div>
-		</div>
-
-		<div class="project-list">
-			{#each projects as project}
-				<a
-					class="project"
-					href={project.href}
-					target={project.href.startsWith('http') ? '_blank' : undefined}
-					rel={project.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-				>
-					<div class="project-number">{project.number}</div>
-
-					<div class="project-name">
-						<span>{project.type}</span>
-						<h3>{project.name}</h3>
-					</div>
-
-					<div class="project-description">
-						<p>{project.description}</p>
-
-						<div class="project-status">
-							<span class="status-dot" aria-hidden="true"></span>
-							{project.status}
+							<span class="language">
+								C++
+							</span>
 						</div>
+
+						<h3>
+							Vix.cpp
+						</h3>
+
+						<p class="project-role">
+							C++ developer platform
+						</p>
+
+						<p class="project-description">
+							An open-source developer platform and systems foundation for
+							building modern C++ software.
+						</p>
+
+						<div class="project-surface">
+							<span>build</span>
+							<span>run</span>
+							<span>modules</span>
+							<span>packages</span>
+							<span>developer tooling</span>
+						</div>
+
+						<div class="project-actions">
+							<a
+								href="https://vixcpp.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								vixcpp.com ↗
+							</a>
+
+							<a
+								href="https://github.com/vixcpp/vix"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								source ↗
+							</a>
+						</div>
+					</article>
+
+					<div
+						class="core-connector"
+						aria-hidden="true"
+					>
+						<span></span>
+						<strong>→</strong>
 					</div>
 
-					<div class="project-arrow" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none">
-							<path
-								d="M5 12H19M14 7L19 12L14 17"
-								stroke="currentColor"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
+					<article class="runtime">
+						<div class="project-top">
+							<span class="status">
+								in progress
+							</span>
+
+							<span class="language">
+								systems
+							</span>
+						</div>
+
+						<h3>
+							Softadastra Runtime
+						</h3>
+
+						<p class="project-role">
+							Adaptive execution runtime
+						</p>
+
+						<p class="project-description">
+							The execution layer being developed for
+							infrastructure-independent computing.
+						</p>
+
+						<div class="runtime-flow">
+							<span>intent</span>
+							<span aria-hidden="true">→</span>
+							<strong>runtime</strong>
+							<span aria-hidden="true">→</span>
+							<span>infrastructure</span>
+						</div>
+
+						<div class="project-actions">
+							<a
+								href="https://github.com/softadastra/runtime"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								source ↗
+							</a>
+
+							<a href="/technology">
+								architecture →
+							</a>
+						</div>
+					</article>
+				</div>
+			</div>
+		</Container>
+	</section>
+
+	<section
+		class="systems"
+		aria-labelledby="systems-title"
+	>
+		<Container>
+			<div class="systems-content">
+				<div class="systems-intro">
+					<h2 id="systems-title">
+						Systems around the work.
+					</h2>
+
+					<p>
+						Focused projects that solve specific problems around building,
+						executing and operating software.
+					</p>
+				</div>
+
+				<div class="systems-layout">
+					<article class="cgride">
+						<div class="system-header">
+							<span class="status status--active">
+								stable
+							</span>
+
+							<span>
+								C++
+							</span>
+						</div>
+
+						<div class="cgride-name">
+							<h3>
+								Cgride
+							</h3>
+
+							<p>
+								Native build engine
+							</p>
+						</div>
+
+						<p class="cgride-lead">
+							Describe a C++ project
+							<strong>with C++ itself.</strong>
+						</p>
+
+						<p class="system-description">
+							An embeddable native build engine with a small CLI on top.
+							Projects use a real C++ API rather than another configuration
+							language.
+						</p>
+
+<div
+	class="code-sample"
+	aria-label="Cgride project example"
+>
+	<span>
+		cgride.cpp
+	</span>
+
+	<pre><code>{cgrideExample}</code></pre>
+</div>
+
+						<div class="system-footer">
+							<span>
+								build engine · graph · toolchains · cache · executor
+							</span>
+
+							<a
+								href="https://github.com/cgride/cgride"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								source ↗
+							</a>
+						</div>
+					</article>
+
+					<div class="system-side">
+						<article class="system-line cnerium">
+							<div class="system-line-meta">
+								<span class="status status--active">
+									maintained
+								</span>
+
+								<span>
+									C++
+								</span>
+							</div>
+
+							<div class="system-line-main">
+								<div>
+									<h3>
+										Cnerium
+									</h3>
+
+									<p class="system-role">
+										Reliability layer for Vix
+									</p>
+								</div>
+
+								<p>
+									Durable behavior for critical Vix write operations:
+									idempotency, safe retries, replay protection and stored
+									responses.
+								</p>
+							</div>
+
+							<div class="system-line-bottom">
+								<span>
+									Vix + durability
+								</span>
+
+								<div>
+									<a
+										href="https://cnerium.dev"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										cnerium.dev ↗
+									</a>
+
+									<a
+										href="https://docs.cnerium.dev"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										docs ↗
+									</a>
+								</div>
+							</div>
+						</article>
+
+						<article class="system-line kordex">
+							<div class="system-line-meta">
+								<span class="status">
+									early-stage
+								</span>
+
+								<span>
+									JS / TS + C++
+								</span>
+							</div>
+
+							<div class="system-line-main">
+								<div>
+									<h3>
+										Kordex
+									</h3>
+
+									<p class="system-role">
+										Local-first JavaScript runtime
+									</p>
+								</div>
+
+								<p>
+									JavaScript and TypeScript execution for reliable local-first
+									applications with explicit native permissions.
+								</p>
+							</div>
+
+							<div class="permission-line">
+								<span>fs</span>
+								<span>env</span>
+								<span>network</span>
+								<span>process</span>
+								<span>softadastra</span>
+							</div>
+
+							<div class="system-line-bottom">
+								<span>
+									local-first · permission-aware · embeddable
+								</span>
+
+								<a
+									href="https://github.com/softadastra/kordex"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									source ↗
+								</a>
+							</div>
+						</article>
+
+						<article class="system-line ivi">
+							<div class="system-line-meta">
+								<span class="status status--active">
+									maintained
+								</span>
+
+								<span>
+									PHP
+								</span>
+							</div>
+
+							<div class="system-line-main">
+								<div>
+									<h3>
+										Ivi.php
+									</h3>
+
+									<p class="system-role">
+										Application foundation
+									</p>
+								</div>
+
+								<p>
+									A modular foundation for web and console applications with
+									explicit bootstrapping, service providers and a predictable
+									application lifecycle.
+								</p>
+							</div>
+
+							<div class="ivi-flow">
+								<span>bootstrap</span>
+								<span aria-hidden="true">→</span>
+								<span>providers</span>
+								<span aria-hidden="true">→</span>
+								<span>application</span>
+							</div>
+
+							<div class="system-line-bottom">
+								<span>
+									modular · explicit · replaceable services
+								</span>
+
+								<a
+									href="https://github.com/iviphp/ivi"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									source ↗
+								</a>
+							</div>
+						</article>
 					</div>
-				</a>
-			{/each}
-		</div>
-	</Container>
-</section>
-
-<section class="contribute" aria-labelledby="contribute-title">
-	<Container>
-		<div class="section-heading">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>Contribute</span>
-			</div>
-
-			<div>
-				<p class="section-kicker">Systems problems are collaborative</p>
-
-				<h2 id="contribute-title">
-					Help explore problems
-					<span>that do not have simple answers.</span>
-				</h2>
-
-				<p class="section-description">
-					We are interested in contributions from people learning deeply about systems
-					software as well as experienced engineers and researchers.
-				</p>
-			</div>
-		</div>
-
-		<div class="contribution-areas">
-			{#each contributionAreas as area}
-				<div class="contribution-area">
-					<span aria-hidden="true"></span>
-					{area}
-				</div>
-			{/each}
-		</div>
-
-		<div class="contribution-message">
-			<div class="message-mark" aria-hidden="true"></div>
-
-			<div>
-				<span class="message-label">What matters</span>
-
-				<p>
-					You do not need to already know every part of the stack.
-					<strong>
-						Understanding difficult systems problems deeply is more important than
-						collecting technologies.
-					</strong>
-				</p>
-			</div>
-		</div>
-	</Container>
-</section>
-
-<section class="direction" aria-labelledby="direction-title">
-	<Container>
-		<div class="direction-layout">
-			<div class="section-label">
-				<span class="section-label__line" aria-hidden="true"></span>
-				<span>The Direction</span>
-			</div>
-
-			<div class="direction-content">
-				<h2 id="direction-title">
-					Open source serves
-					<span>the mission.</span>
-				</h2>
-
-				<p>
-					Softadastra may create many technologies over time. Open-source projects should
-					not become disconnected experiments. They should contribute to the same long-term
-					direction: removing infrastructure constraints from software.
-				</p>
-
-				<div class="direction-rule">
-					<span>Our test</span>
-
-					<strong>
-						Does this remove another infrastructure constraint from software?
-					</strong>
 				</div>
 			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
 
-<section class="opensource-close">
-	<Container narrow>
-		<div class="close-content">
-			<span class="close-mark" aria-hidden="true"></span>
+	<section
+		class="open-principle"
+		aria-labelledby="principle-title"
+	>
+		<Container>
+			<div class="principle-content">
+				<p class="principle-label">
+					Why open source
+				</p>
 
-			<p class="close-label">Explore the work</p>
+				<h2 id="principle-title">
+					Technical ideas are more useful when
+					<span>the implementation can be inspected.</span>
+				</h2>
 
-			<h2>
-				Inspect it.
-				<span>Challenge it. Build on it.</span>
-			</h2>
+				<div class="principle-bottom">
+					<p>
+						We use open development to turn architecture into software that can
+						be read, built, measured, questioned and improved.
+					</p>
 
-			<p>
-				Our long-term research is difficult by design. Open development gives developers
-				and researchers a way to follow the work as it evolves.
-			</p>
-
-			<div class="close-actions">
-				<ButtonLink
-					href="https://github.com/softadastra"
-					variant="primary"
-					external
-					ariaLabel="Explore Softadastra on GitHub"
-				>
-					Explore GitHub
-				</ButtonLink>
-
-				<ButtonLink href="/research" variant="secondary">
-					Read the research
-				</ButtonLink>
+					<div class="principle-words">
+						<span>read</span>
+						<span aria-hidden="true">→</span>
+						<span>build</span>
+						<span aria-hidden="true">→</span>
+						<span>measure</span>
+						<span aria-hidden="true">→</span>
+						<span>improve</span>
+					</div>
+				</div>
 			</div>
-		</div>
-	</Container>
-</section>
+		</Container>
+	</section>
+
+	<section class="end">
+		<Container>
+			<div class="end-content">
+				<p>
+					Explore the source.
+				</p>
+
+				<nav aria-label="Open source links">
+					<a
+						href="https://github.com/softadastra"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Softadastra ↗
+					</a>
+
+					<a
+						href="https://github.com/vixcpp"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Vix.cpp ↗
+					</a>
+
+					<a
+						href="https://github.com/cgride"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Cgride ↗
+					</a>
+				</nav>
+			</div>
+		</Container>
+	</section>
+</main>
 
 <style>
-	.opensource-hero,
-	.philosophy,
-	.projects,
-	.contribute,
-	.direction,
-	.opensource-close {
-		border-bottom: 1px solid var(--color-border);
+	.open-source-page {
 		background: var(--color-white);
+		color: var(--color-text);
+
+		font-family: var(--font-mono);
 	}
 
-	.opensource-hero :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
-	}
-
-	.hero-layout,
-	.section-heading,
-	.direction-layout {
-		display: grid;
-		grid-template-columns: minmax(160px, 0.35fr) minmax(0, 1fr);
-		gap: clamp(48px, 8vw, 120px);
-	}
-
-	.section-label {
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-		padding-top: 10px;
-		color: var(--color-muted);
-		font-size: 0.75rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
-
-	.section-label__line {
-		width: 22px;
-		height: 2px;
-		margin-top: 4px;
-		flex: 0 0 auto;
-		background: var(--color-accent);
-	}
+	/* --------------------------------------------------
+	   Hero
+	-------------------------------------------------- */
 
 	.hero-content {
-		max-width: 940px;
-	}
-
-	.eyebrow,
-	.section-kicker {
-		margin-bottom: var(--space-5);
-		color: var(--color-accent);
-		font-size: 0.78rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
-	}
-
-	h1 {
-		max-width: 950px;
-		color: var(--color-black);
-		font-size: clamp(3rem, 6vw, 6rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.065em;
-		line-height: 0.98;
-		text-wrap: balance;
-	}
-
-	h1 span {
-		display: block;
-		color: var(--color-accent);
-	}
-
-	.hero-description,
-	.section-description {
-		max-width: 690px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.05rem;
-		line-height: 1.75;
-	}
-
-	.hero-description {
-		margin-top: var(--space-7);
-		font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-	}
-
-	.hero-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
-		margin-top: var(--space-7);
-	}
-
-	.philosophy :global(.container),
-	.projects :global(.container),
-	.contribute :global(.container),
-	.direction :global(.container) {
-		padding-block: clamp(96px, 12vw, 160px);
-	}
-
-	h2 {
-		max-width: 900px;
-		color: var(--color-black);
-		font-size: clamp(2.3rem, 4.3vw, 4.5rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.055em;
-		line-height: 1.04;
-		text-wrap: balance;
-	}
-
-	h2 span {
-		display: block;
-		color: var(--color-text-secondary);
-	}
-
-	.principles {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.principle {
-		display: grid;
-		grid-template-columns: 52px 1fr;
-		gap: var(--space-5);
-		min-height: 190px;
-		padding: var(--space-6);
-		border-right: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.principle:nth-child(even) {
-		border-right: 0;
-	}
-
-	.principle-number,
-	.project-number {
-		color: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-	}
-
-	.principle h3 {
-		margin-bottom: var(--space-3);
-		color: var(--color-black);
-		font-size: 1.3rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.03em;
-	}
-
-	.principle p {
-		max-width: 470px;
-		color: var(--color-muted);
-		font-size: 0.91rem;
-		line-height: 1.65;
-	}
-
-	.project-list {
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.project {
 		display: grid;
 		grid-template-columns:
-			70px
-			minmax(220px, 0.7fr)
-			minmax(0, 1.3fr)
-			48px;
-		align-items: center;
-		gap: var(--space-6);
-		min-height: 190px;
-		padding-block: var(--space-6);
-		border-bottom: 1px solid var(--color-border);
-		color: var(--color-text);
-		transition:
-			background-color var(--transition-fast),
-			border-color var(--transition-fast);
+			minmax(0, 1fr)
+			minmax(300px, 0.65fr);
+
+		gap: clamp(40px, 9vw, 110px);
+
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(52px, 6vw, 72px);
 	}
 
-	.project:hover {
-		border-bottom-color: var(--color-accent);
-		background: rgb(255 153 0 / 3%);
-		color: var(--color-text);
-	}
+	.hero-title > p {
+		margin: 0;
 
-	.project-name > span {
-		display: block;
-		margin-bottom: var(--space-3);
 		color: var(--color-accent);
-		font-size: 0.7rem;
+
+		font-size: 0.66rem;
 		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.07em;
-		text-transform: uppercase;
-	}
 
-	.project-name h3 {
-		color: var(--color-black);
-		font-size: clamp(1.45rem, 2.4vw, 2rem);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: -0.04em;
-	}
-
-	.project-description > p {
-		max-width: 560px;
-		color: var(--color-muted);
-		font-size: 0.93rem;
-		line-height: 1.7;
-	}
-
-	.project-status {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		margin-top: var(--space-4);
-		color: var(--color-text-secondary);
-		font-size: 0.76rem;
-		font-weight: var(--font-weight-medium);
-	}
-
-	.status-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: var(--color-accent);
-	}
-
-	.project-arrow {
-		display: flex;
-		width: 40px;
-		height: 40px;
-		align-items: center;
-		justify-content: center;
-		justify-self: end;
-		border: 1px solid var(--color-border);
-		border-radius: 50%;
-		color: var(--color-text-secondary);
-		transition:
-			background-color var(--transition-fast),
-			border-color var(--transition-fast),
-			color var(--transition-fast),
-			transform var(--transition-fast);
-	}
-
-	.project-arrow svg {
-		width: 18px;
-		height: 18px;
-	}
-
-	.project:hover .project-arrow {
-		border-color: var(--color-accent);
-		background: var(--color-accent);
-		color: var(--color-black);
-		transform: translateX(3px);
-	}
-
-	.contribution-areas {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		margin-top: clamp(72px, 9vw, 112px);
-		border-top: 1px solid var(--color-border);
-		border-left: 1px solid var(--color-border);
-	}
-
-	.contribution-area {
-		display: flex;
-		min-height: 68px;
-		align-items: center;
-		gap: var(--space-3);
-		padding-inline: var(--space-5);
-		border-right: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-		color: var(--color-text-secondary);
-		font-size: 0.88rem;
-		font-weight: var(--font-weight-medium);
-	}
-
-	.contribution-area span {
-		width: 6px;
-		height: 6px;
-		flex: 0 0 auto;
-		border-radius: 50%;
-		background: var(--color-accent);
-	}
-
-	.contribution-message {
-		display: grid;
-		grid-template-columns: 4px minmax(0, 760px);
-		gap: var(--space-5);
-		margin-top: clamp(64px, 8vw, 96px);
-	}
-
-	.message-mark {
-		background: var(--color-accent);
-	}
-
-	.message-label {
-		display: block;
-		margin-bottom: var(--space-3);
-		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.contribution-message p {
-		color: var(--color-text-secondary);
-		font-size: clamp(1.2rem, 2vw, 1.65rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.03em;
-		line-height: 1.45;
-	}
-
-	.contribution-message strong {
-		display: block;
-		margin-top: var(--space-2);
-		color: var(--color-black);
-	}
-
-	.direction-content {
-		max-width: 850px;
-	}
-
-	.direction-content > p {
-		max-width: 660px;
-		margin-top: var(--space-6);
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.7;
-	}
-
-	.direction-rule {
-		margin-top: clamp(56px, 7vw, 80px);
-		padding: var(--space-6) 0 var(--space-6) var(--space-6);
-		border-top: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-		border-left: 3px solid var(--color-accent);
-	}
-
-	.direction-rule span {
-		display: block;
-		margin-bottom: var(--space-3);
-		color: var(--color-muted);
-		font-size: 0.7rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.direction-rule strong {
-		display: block;
-		max-width: 700px;
-		color: var(--color-black);
-		font-size: clamp(1.3rem, 2.3vw, 1.9rem);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: -0.035em;
 		line-height: 1.4;
 	}
 
-	.opensource-close :global(.container) {
-		padding-block: clamp(104px, 13vw, 176px);
+	.hero-title h1 {
+		max-width: 650px;
+
+		margin: 8px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.7rem, 3vw, 2.45rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.04em;
+		line-height: 1.15;
 	}
 
-	.close-content {
-		text-align: center;
-	}
-
-	.close-mark {
-		display: block;
-		width: 36px;
-		height: 3px;
-		margin: 0 auto var(--space-6);
-		background: var(--color-accent);
-	}
-
-	.close-label {
-		margin-bottom: var(--space-5);
-		color: var(--color-muted);
-		font-size: 0.72rem;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.close-content h2 {
-		margin-inline: auto;
-	}
-
-	.close-content h2 span {
+	.hero-title h1 span {
 		color: var(--color-accent);
 	}
 
-	.close-content > p:not(.close-label) {
-		max-width: 640px;
-		margin: var(--space-6) auto 0;
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.7;
+	.hero-copy {
+		align-self: end;
+
+		max-width: 570px;
 	}
 
-	.close-actions {
+	.hero-copy p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.79rem;
+
+		line-height: 1.65;
+	}
+
+	.hero-copy p + p {
+		margin-top: 9px;
+	}
+
+	.hero-copy a {
+		display: inline-block;
+
+		margin-top: 14px;
+
+		color: var(--color-accent);
+
+		font-size: 0.67rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* --------------------------------------------------
+	   Core
+	-------------------------------------------------- */
+
+	.core {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.core-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(40px, 4vw, 52px);
+	}
+
+	.core-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 30px;
+
+		margin-bottom: 28px;
+	}
+
+	.core-heading h2 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 1.15rem;
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+	}
+
+	.core-heading p {
+		max-width: 550px;
+
+		margin: 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.67rem;
+		line-height: 1.5;
+
+		text-align: right;
+	}
+
+	.core-projects {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			56px
+			minmax(0, 1fr);
+
+		align-items: stretch;
+	}
+
+	.vix,
+	.runtime {
+		min-width: 0;
+
+		padding-block: 12px 6px;
+	}
+
+	.vix {
+		padding-right: clamp(25px, 4vw, 50px);
+	}
+
+	.runtime {
+		padding-left: clamp(25px, 4vw, 50px);
+	}
+
+	.project-top,
+	.system-header,
+	.system-line-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		gap: 14px;
+	}
+
+	.status {
+		color: var(--color-accent);
+
+		font-size: 0.59rem;
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.status--active {
+		color: var(--color-text);
+	}
+
+	.language,
+	.system-header > span:last-child,
+	.system-line-meta > span:last-child {
+		color: var(--color-muted);
+
+		font-size: 0.57rem;
+	}
+
+	.vix h3,
+	.runtime h3 {
+		margin: 22px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.45rem, 2.5vw, 2rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.045em;
+		line-height: 1.05;
+	}
+
+	.runtime h3 {
+		color: var(--color-accent);
+	}
+
+	.project-role {
+		margin: 7px 0 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.67rem;
+		line-height: 1.4;
+	}
+
+	.project-description {
+		max-width: 580px;
+
+		margin: 19px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.77rem;
+
+		line-height: 1.65;
+	}
+
+	.project-surface {
 		display: flex;
 		flex-wrap: wrap;
+
+		gap: 5px 0;
+
+		margin-top: 19px;
+
+		color: var(--color-muted);
+
+		font-size: 0.6rem;
+	}
+
+	.project-surface span:not(:last-child)::after {
+		margin-inline: 8px;
+
+		color: var(--color-border-strong);
+
+		content: '·';
+	}
+
+	.runtime-flow {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		gap: 6px 9px;
+
+		margin-top: 19px;
+
+		color: var(--color-muted);
+
+		font-size: 0.62rem;
+	}
+
+	.runtime-flow strong {
+		color: var(--color-accent);
+	}
+
+	.runtime-flow > span:nth-child(even) {
+		color: var(--color-border-strong);
+	}
+
+	.project-actions {
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 8px 18px;
+
+		margin-top: 22px;
+	}
+
+	.project-actions a {
+		color: var(--color-accent);
+
+		font-size: 0.65rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.core-connector {
+		position: relative;
+
+		display: flex;
+		align-items: center;
 		justify-content: center;
-		gap: var(--space-3);
-		margin-top: var(--space-7);
+
+		color: var(--color-border-strong);
 	}
 
-	@media (max-width: 900px) {
-		.contribution-areas {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+	.core-connector span {
+		position: absolute;
+
+		top: 0;
+		bottom: 0;
+		left: 50%;
+
+		width: 1px;
+
+		background: var(--color-border);
 	}
 
-	@media (max-width: 760px) {
-		.hero-layout,
-		.section-heading,
-		.direction-layout {
-			grid-template-columns: 1fr;
-			gap: var(--space-7);
-		}
+	.core-connector strong {
+		position: relative;
 
-		.section-label {
-			padding-top: 0;
-		}
+		padding-block: 5px;
 
-		.opensource-hero :global(.container),
-		.philosophy :global(.container),
-		.projects :global(.container),
-		.contribute :global(.container),
-		.direction :global(.container) {
-			padding-block: 88px;
-		}
+		background: var(--color-white);
 
-		.principles {
-			grid-template-columns: 1fr;
-		}
+		color: var(--color-accent);
 
-		.principle,
-		.principle:nth-child(even) {
-			border-right: 0;
-		}
-
-		.project {
-			grid-template-columns: 44px minmax(0, 1fr) 40px;
-		}
-
-		.project-description {
-			grid-column: 2 / 4;
-		}
-
-		.project-arrow {
-			grid-column: 3;
-			grid-row: 1;
-		}
+		font-size: 0.8rem;
 	}
 
-	@media (max-width: 480px) {
-		.opensource-hero :global(.container),
-		.philosophy :global(.container),
-		.projects :global(.container),
-		.contribute :global(.container),
-		.direction :global(.container),
-		.opensource-close :global(.container) {
-			padding-block: 72px;
+	/* --------------------------------------------------
+	   Systems
+	-------------------------------------------------- */
+
+	.systems {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.systems-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(40px, 4vw, 54px);
+	}
+
+	.systems-intro {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 0.7fr)
+			minmax(0, 1.3fr);
+
+		gap: clamp(40px, 8vw, 100px);
+
+		margin-bottom: 30px;
+	}
+
+	.systems-intro h2 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+	}
+
+	.systems-intro p {
+		max-width: 650px;
+
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.75rem;
+		line-height: 1.65;
+	}
+
+	.systems-layout {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1.08fr)
+			minmax(0, 0.92fr);
+
+		gap: clamp(36px, 6vw, 80px);
+	}
+
+	/* --------------------------------------------------
+	   Cgride feature
+	-------------------------------------------------- */
+
+	.cgride {
+		min-width: 0;
+
+		padding-top: 13px;
+
+		border-top: 2px solid var(--color-accent);
+	}
+
+	.cgride-name {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 20px;
+
+		margin-top: 20px;
+	}
+
+	.cgride h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.55rem, 3vw, 2.3rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.05em;
+		line-height: 1;
+	}
+
+	.cgride-name > p {
+		margin: 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.62rem;
+	}
+
+	.cgride-lead {
+		max-width: 650px;
+
+		margin: 26px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(0.95rem, 1.5vw, 1.14rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+
+		line-height: 1.55;
+	}
+
+	.cgride-lead strong {
+		color: var(--color-accent);
+	}
+
+	.system-description {
+		max-width: 650px;
+
+		margin: 12px 0 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.73rem;
+		line-height: 1.65;
+	}
+
+	.code-sample {
+		margin-top: 25px;
+	}
+
+	.code-sample > span {
+		display: block;
+
+		margin-bottom: 7px;
+
+		color: var(--color-muted);
+
+		font-size: 0.58rem;
+	}
+
+	.code-sample pre {
+		margin: 0;
+		padding: 16px 18px;
+
+		overflow-x: auto;
+
+		border-left: 2px solid var(--color-accent);
+
+		background: rgb(0 0 0 / 1.8%);
+
+		color: var(--color-text);
+
+		font-family: var(--font-mono);
+
+		font-size: 0.65rem;
+		line-height: 1.6;
+	}
+
+	.system-footer {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 20px;
+
+		margin-top: 18px;
+	}
+
+	.system-footer > span {
+		color: var(--color-muted);
+
+		font-size: 0.57rem;
+		line-height: 1.5;
+	}
+
+	.system-footer a {
+		flex: 0 0 auto;
+
+		color: var(--color-accent);
+
+		font-size: 0.63rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* --------------------------------------------------
+	   Side systems
+	-------------------------------------------------- */
+
+	.system-side {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.system-line {
+		padding-block: 16px 18px;
+
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.system-line-main {
+		display: grid;
+		grid-template-columns:
+			minmax(140px, 0.65fr)
+			minmax(0, 1.35fr);
+
+		gap: 22px;
+
+		margin-top: 18px;
+	}
+
+	.system-line h3 {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.92rem;
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.02em;
+		line-height: 1.3;
+	}
+
+	.system-role {
+		margin: 4px 0 0 !important;
+
+		color: var(--color-muted) !important;
+
+		font-size: 0.59rem !important;
+	}
+
+	.system-line-main > p {
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.68rem;
+		line-height: 1.6;
+	}
+
+	.permission-line,
+	.ivi-flow {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		gap: 5px 8px;
+
+		margin-top: 15px;
+
+		color: var(--color-muted);
+
+		font-size: 0.56rem;
+	}
+
+	.permission-line span:not(:last-child)::after {
+		margin-left: 8px;
+
+		color: var(--color-border-strong);
+
+		content: '/';
+	}
+
+	.ivi-flow > span:nth-child(even) {
+		color: var(--color-border-strong);
+	}
+
+	.system-line-bottom {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 20px;
+
+		margin-top: 15px;
+	}
+
+	.system-line-bottom > span {
+		color: var(--color-muted);
+
+		font-size: 0.56rem;
+		line-height: 1.4;
+	}
+
+	.system-line-bottom > div {
+		display: flex;
+
+		gap: 12px;
+	}
+
+	.system-line-bottom a {
+		flex: 0 0 auto;
+
+		color: var(--color-accent);
+
+		font-size: 0.6rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* --------------------------------------------------
+	   Open principle
+	-------------------------------------------------- */
+
+	.open-principle {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.principle-content {
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: clamp(42px, 5vw, 62px);
+	}
+
+	.principle-label {
+		margin: 0;
+
+		color: var(--color-muted);
+
+		font-size: 0.62rem;
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.principle-content h2 {
+		max-width: 1000px;
+
+		margin: 13px 0 0;
+
+		color: var(--color-text);
+
+		font-size: clamp(1.25rem, 2.5vw, 2rem);
+		font-weight: var(--font-weight-bold);
+
+		letter-spacing: -0.035em;
+		line-height: 1.35;
+	}
+
+	.principle-content h2 span {
+		color: var(--color-accent);
+	}
+
+	.principle-bottom {
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1fr)
+			auto;
+
+		gap: 35px;
+
+		align-items: end;
+
+		margin-top: 26px;
+	}
+
+	.principle-bottom > p {
+		max-width: 650px;
+
+		margin: 0;
+
+		color: var(--color-text-secondary);
+
+		font-size: 0.73rem;
+		line-height: 1.65;
+	}
+
+	.principle-words {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+
+		gap: 5px 9px;
+
+		color: var(--color-text);
+
+		font-size: 0.64rem;
+		font-weight: var(--font-weight-semibold);
+	}
+
+	.principle-words > span:nth-child(even) {
+		color: var(--color-accent);
+	}
+
+	/* --------------------------------------------------
+	   End
+	-------------------------------------------------- */
+
+	.end {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.end-content {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+
+		gap: 30px;
+
+		width: 100%;
+		max-width: var(--content-width);
+
+		margin-inline: auto;
+		padding-block: 24px;
+	}
+
+	.end-content > p {
+		margin: 0;
+
+		color: var(--color-text);
+
+		font-size: 0.7rem;
+		font-weight: var(--font-weight-bold);
+	}
+
+	.end nav {
+		display: flex;
+		flex-wrap: wrap;
+
+		gap: 8px 19px;
+	}
+
+	.end nav a {
+		color: var(--color-accent);
+
+		font-size: 0.63rem;
+		font-weight: var(--font-weight-semibold);
+
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	/* --------------------------------------------------
+	   Links
+	-------------------------------------------------- */
+
+	a {
+		transition: color var(--transition-fast);
+	}
+
+	a:hover {
+		color: var(--color-text);
+	}
+
+	/* --------------------------------------------------
+	   Tablet
+	-------------------------------------------------- */
+
+	@media (max-width: 860px) {
+		.hero-content,
+		.systems-intro,
+		.systems-layout {
+			grid-template-columns: 1fr;
+
+			gap: 27px;
 		}
 
-		h1 {
-			font-size: 2.75rem;
-			letter-spacing: -0.055em;
+		.hero-copy {
+			max-width: 700px;
 		}
 
-		h2 {
-			font-size: 2.25rem;
-			letter-spacing: -0.045em;
-		}
-
-		.hero-actions,
-		.close-actions {
-			display: grid;
+		.core-projects {
 			grid-template-columns: 1fr;
 		}
 
-		.hero-actions :global(.button-link),
-		.close-actions :global(.button-link) {
-			width: 100%;
-		}
-
-		.principle {
-			grid-template-columns: 32px 1fr;
+		.vix,
+		.runtime {
 			padding-inline: 0;
 		}
 
-		.project {
-			grid-template-columns: 32px 1fr 36px;
-			gap: var(--space-4);
+		.core-connector {
+			height: 45px;
 		}
 
-		.project-arrow {
-			width: 36px;
-			height: 36px;
+		.core-connector span {
+			top: 0;
+			bottom: 0;
 		}
 
-		.contribution-areas {
+		.core-connector strong {
+			transform: rotate(90deg);
+		}
+
+		.systems-layout {
+			gap: 40px;
+		}
+	}
+
+	/* --------------------------------------------------
+	   Mobile
+	-------------------------------------------------- */
+
+	@media (max-width: 640px) {
+		.hero-content {
+			padding-block: 42px 38px;
+		}
+
+		.hero-title h1 {
+			font-size: 1.62rem;
+		}
+
+		.hero-copy p {
+			font-size: 0.74rem;
+		}
+
+		.core-content,
+		.systems-content {
+			padding-block: 36px;
+		}
+
+		.core-heading {
+			flex-direction: column;
+			align-items: flex-start;
+
+			gap: 6px;
+
+			margin-bottom: 23px;
+		}
+
+		.core-heading p {
+			text-align: left;
+		}
+
+		.vix h3,
+		.runtime h3 {
+			font-size: 1.4rem;
+		}
+
+		.project-description {
+			font-size: 0.72rem;
+		}
+
+		.cgride-name {
+			align-items: flex-start;
+			flex-direction: column;
+
+			gap: 5px;
+		}
+
+		.cgride h3 {
+			font-size: 1.55rem;
+		}
+
+		.cgride-lead {
+			font-size: 0.91rem;
+		}
+
+		.code-sample pre {
+			padding: 13px 14px;
+
+			font-size: 0.59rem;
+		}
+
+		.system-footer {
+			flex-direction: column;
+
+			gap: 8px;
+		}
+
+		.system-line-main {
 			grid-template-columns: 1fr;
+
+			gap: 9px;
 		}
 
-		.direction-rule {
-			padding-left: var(--space-4);
+		.system-line-main > p {
+			font-size: 0.65rem;
+		}
+
+		.system-line-bottom {
+			align-items: flex-start;
+			flex-direction: column;
+
+			gap: 8px;
+		}
+
+		.principle-content {
+			padding-block: 38px;
+		}
+
+		.principle-content h2 {
+			font-size: 1.12rem;
+		}
+
+		.principle-bottom {
+			grid-template-columns: 1fr;
+
+			gap: 19px;
+		}
+
+		.end-content {
+			align-items: flex-start;
+			flex-direction: column;
+
+			gap: 9px;
+
+			padding-block: 21px;
 		}
 	}
 </style>
