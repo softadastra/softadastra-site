@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "Softadastra",
+  "short_name": "Softadastra",
+  "description": "Softadastra is a computing research and technology company working toward infrastructure-independent computing.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
