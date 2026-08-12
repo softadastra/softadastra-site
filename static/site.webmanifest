@@ -2,37 +2,19 @@
   "id": "/",
   "name": "Softadastra",
   "short_name": "Softadastra",
-  "description": "Softadastra builds the tools C++ teams use to create, run, extend, and manage modern applications with Vix.cpp, Rix, and Softadastra Cloud.",
+  "description": "Softadastra is a computing research and technology company working toward infrastructure-independent computing.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#f3f3f3",
-  "theme_color": "#f3f3f3",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png",
-      "sizes": "192x192",
-      "type": "image/png",
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987143/android-chrome-192x192_woo6gl.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987144/android-chrome-512x512_yjmz55.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://res.cloudinary.com/dwjbed2xb/image/upload/v1767987144/android-chrome-512x512_yjmz55.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }

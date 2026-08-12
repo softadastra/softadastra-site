@@ -860,6 +860,28 @@
 			new THREE.Clock();
 
 		let animationFrame = 0;
+		let isIntersecting = true;
+		let shouldRender = !document.hidden;
+
+		const visibilityObserver = new IntersectionObserver(
+			([entry]) => {
+				isIntersecting = entry.isIntersecting;
+				shouldRender = isIntersecting && !document.hidden;
+
+				if (shouldRender && !prefersReducedMotion) animate();
+			},
+			{ threshold: 0 }
+		);
+
+		visibilityObserver.observe(parent);
+
+		function handleVisibilityChange() {
+			shouldRender = isIntersecting && !document.hidden;
+
+			if (shouldRender && !prefersReducedMotion) animate();
+		}
+
+		document.addEventListener('visibilitychange', handleVisibilityChange);
 
 		function animateParticles(
 			time: number
@@ -914,10 +936,9 @@
 		}
 
 		function animate() {
-			animationFrame =
-				requestAnimationFrame(
-					animate
-				);
+			animationFrame = 0;
+
+			if (!shouldRender) return;
 
 			const time =
 				clock.getElapsedTime();
@@ -984,9 +1005,6 @@
 						ring.speed *
 						0.01;
 				}
-
-				structuralGroup.rotation.z +=
-					0.0008;
 
 				nodeGroup.rotation.y +=
 					0.0016;
@@ -1110,6 +1128,10 @@
 				scene,
 				camera
 			);
+
+			if (!prefersReducedMotion) {
+				animationFrame = requestAnimationFrame(animate);
+			}
 		}
 
 		animate();
@@ -1124,6 +1146,8 @@
 			);
 
 			resizeObserver.disconnect();
+			visibilityObserver.disconnect();
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
 
 			canvasEl.removeEventListener(
 				'pointerdown',

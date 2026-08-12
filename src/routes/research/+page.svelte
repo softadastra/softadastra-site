@@ -117,7 +117,7 @@
 </script>
 
 <svelte:head>
-	<title>Research — Softadastra</title>
+	<title>Research: Softadastra</title>
 
 	<meta
 		name="description"
@@ -147,7 +147,7 @@
 
 	<meta
 		property="og:title"
-		content="Research — Softadastra"
+		content="Research: Softadastra"
 	/>
 
 	<meta
@@ -155,24 +155,25 @@
 		content="Research toward separating software from the infrastructure that executes it."
 	/>
 
-	<meta
-		name="twitter:card"
-		content="summary_large_image"
-	/>
+	<meta property="og:image" content="https://softadastra.com/og-logo.png" />
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+	<meta property="og:image:alt" content="Softadastra logo" />
+
+	<meta name="twitter:card" content="summary" />
 
 	<meta
 		name="twitter:title"
-		content="Research — Softadastra"
+		content="Research: Softadastra"
 	/>
 
 	<meta
 		name="twitter:description"
 		content="Research toward infrastructure-independent computing."
 	/>
+	<meta name="twitter:image" content="https://softadastra.com/og-logo.png" />
 
-	<script type="application/ld+json">
-		{JSON.stringify(researchSchema)}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify(researchSchema)}</script>`}
 </svelte:head>
 
 <main class="research-page">

@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Softadastra — Make computing infrastructure-independent.</title>
+	<title>Softadastra: Make computing infrastructure-independent</title>
 
 	<meta
 		name="description"
@@ -28,7 +28,7 @@
 
 	<meta
 		property="og:title"
-		content="Softadastra — Make computing infrastructure-independent."
+		content="Softadastra: Make computing infrastructure-independent"
 	/>
 
 	<meta
@@ -36,17 +36,25 @@
 		content="Research and technology toward software that expresses intent while computing systems determine how infrastructure satisfies it."
 	/>
 
-	<meta name="twitter:card" content="summary_large_image" />
+	<link rel="canonical" href="https://softadastra.com/" />
+	<meta property="og:url" content="https://softadastra.com/" />
+	<meta property="og:image" content="https://softadastra.com/og-logo.png" />
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+	<meta property="og:image:alt" content="Softadastra logo" />
+
+	<meta name="twitter:card" content="summary" />
 
 	<meta
 		name="twitter:title"
-		content="Softadastra — Make computing infrastructure-independent."
+		content="Softadastra: Make computing infrastructure-independent"
 	/>
 
 	<meta
 		name="twitter:description"
 		content="Research and technology toward infrastructure-independent computing."
 	/>
+	<meta name="twitter:image" content="https://softadastra.com/og-logo.png" />
 </svelte:head>
 
 <HeroSection />

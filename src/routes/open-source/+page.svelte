@@ -54,7 +54,7 @@ void cgride_configure(cgride::project::Project &project)
 </script>
 
 <svelte:head>
-	<title>Open Source — Softadastra</title>
+	<title>Open Source: Softadastra</title>
 
 	<meta
 		name="description"
@@ -84,7 +84,7 @@ void cgride_configure(cgride::project::Project &project)
 
 	<meta
 		property="og:title"
-		content="Open Source — Softadastra"
+		content="Open Source: Softadastra"
 	/>
 
 	<meta
@@ -92,24 +92,25 @@ void cgride_configure(cgride::project::Project &project)
 		content="Open-source developer infrastructure, runtimes and reliability systems built by Softadastra."
 	/>
 
-	<meta
-		name="twitter:card"
-		content="summary_large_image"
-	/>
+	<meta property="og:image" content="https://softadastra.com/og-logo.png" />
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+	<meta property="og:image:alt" content="Softadastra logo" />
+
+	<meta name="twitter:card" content="summary" />
 
 	<meta
 		name="twitter:title"
-		content="Open Source — Softadastra"
+		content="Open Source: Softadastra"
 	/>
 
 	<meta
 		name="twitter:description"
 		content="Open-source systems and developer infrastructure from Softadastra."
 	/>
+	<meta name="twitter:image" content="https://softadastra.com/og-logo.png" />
 
-	<script type="application/ld+json">
-		{JSON.stringify(openSourceSchema)}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify(openSourceSchema)}</script>`}
 </svelte:head>
 
 <main class="open-source-page">

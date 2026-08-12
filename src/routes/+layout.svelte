@@ -9,12 +9,16 @@
 	let { children } = $props();
 
 	const isHome = $derived(page.url.pathname === '/');
+	const isOscarService = $derived(page.url.pathname === '/oscar-service');
+	const hasSiteChrome = $derived(!isHome && !isOscarService);
 </script>
 
-{#if !isHome}
+{#if hasSiteChrome}
 	<SiteHeader />
 {/if}
 
 {@render children()}
 
-<SiteFooter />
+{#if !isOscarService}
+	<SiteFooter />
+{/if}

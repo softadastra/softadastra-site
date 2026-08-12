@@ -1,8 +1,29 @@
 <script lang="ts">
+	import { onMount, type Component } from 'svelte';
 	import Container from '$lib/components/ui/Container.svelte';
 
 	import RuntimeTable from './RuntimeTable.svelte';
-	import SoftadastraRuntime3D from './SoftadastraRuntime3D.svelte';
+
+	let runtimeEngine: HTMLDivElement;
+	let RuntimeVisualization: Component | undefined = $state();
+
+	onMount(() => {
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (!entry.isIntersecting) return;
+
+				observer.disconnect();
+				void import('./SoftadastraRuntime3D.svelte').then(({ default: component }) => {
+					RuntimeVisualization = component;
+				});
+			},
+			{ rootMargin: '300px 0px' }
+		);
+
+		observer.observe(runtimeEngine);
+
+		return () => observer.disconnect();
+	});
 </script>
 
 <section
@@ -19,8 +40,10 @@
 				</h2>
 			</header>
 
-			<div class="runtime-engine">
-				<SoftadastraRuntime3D />
+			<div class="runtime-engine" bind:this={runtimeEngine}>
+				{#if RuntimeVisualization}
+					<RuntimeVisualization />
+				{/if}
 			</div>
 
 			<div class="runtime-overview">
@@ -215,8 +238,21 @@
 
 	.runtime-engine {
 		width: 100%;
+		min-height: 420px;
 
 		margin-top: 2px;
+	}
+
+	@media (max-width: 760px) {
+		.runtime-engine {
+			min-height: 390px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.runtime-engine {
+			min-height: 340px;
+		}
 	}
 
 	/* --------------------------------------------------

@@ -200,7 +200,7 @@
 			<a
 				href="https://github.com/softadastra"
 				target="_blank"
-				rel="noreferrer"
+				rel="noopener noreferrer"
 			>
 				github
 			</a>

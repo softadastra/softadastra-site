@@ -149,7 +149,7 @@
 </script>
 
 <svelte:head>
-	<title>Technology — Softadastra</title>
+	<title>Technology: Softadastra</title>
 
 	<meta
 		name="description"
@@ -179,7 +179,7 @@
 
 	<meta
 		property="og:title"
-		content="Technology — Softadastra"
+		content="Technology: Softadastra"
 	/>
 
 	<meta
@@ -187,24 +187,25 @@
 		content="The Runtime and computing architecture behind Softadastra infrastructure-independent computing."
 	/>
 
-	<meta
-		name="twitter:card"
-		content="summary_large_image"
-	/>
+	<meta property="og:image" content="https://softadastra.com/og-logo.png" />
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+	<meta property="og:image:alt" content="Softadastra logo" />
+
+	<meta name="twitter:card" content="summary" />
 
 	<meta
 		name="twitter:title"
-		content="Technology — Softadastra"
+		content="Technology: Softadastra"
 	/>
 
 	<meta
 		name="twitter:description"
 		content="Adaptive runtime technology for infrastructure-independent computing."
 	/>
+	<meta name="twitter:image" content="https://softadastra.com/og-logo.png" />
 
-	<script type="application/ld+json">
-		{JSON.stringify(technologySchema)}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify(technologySchema)}</script>`}
 </svelte:head>
 
 <main class="technology-page">
