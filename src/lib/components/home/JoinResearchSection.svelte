@@ -67,7 +67,7 @@
 				<div class="join-links">
 					<a
 						class="join-link join-link--primary"
-						href="mailto:hello@softadastra.com"
+						href="mailto:softadastra@gmail.com"
 					>
 						<span>Join Softadastra</span>
 
